@@ -7,9 +7,12 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct ContentView: View {
     var body: some View {
+        Text("Hello, World!")
+            .applyFont(font: .heading1)
         Text("Hello, World!")
     }
 }
