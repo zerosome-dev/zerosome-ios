@@ -32,31 +32,33 @@ struct CustomCarouselView<Content: View>: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            let width = geometry.size.width
-            let contentWidth = width - (pageSpacing * 2)
-            
-            HStack(spacing: cardSpacing) {
-                ForEach(0..<pageCount, id: \.self) { index in
-                    self.content(index)
-                        .frame(width: contentWidth)
+        VStack {
+            GeometryReader { geometry in
+                let width = geometry.size.width
+                let contentWidth = width - (pageSpacing * 2)
+                
+                HStack(spacing: cardSpacing) {
+                    ForEach(0..<pageCount, id: \.self) { index in
+                        self.content(index)
+                            .frame(width: contentWidth)
+                    }
                 }
+                .offset(x: -(width - (pageSpacing * 2) + cardSpacing) * CGFloat(currentIndex) + offset)
+                .gesture(
+                    DragGesture()
+                        .updating($offset) { value, state, _ in
+                            state = value.translation.width
+                        }
+                        .onEnded { value in
+                            let offsetX = value.translation.width
+                            let progress = -offsetX / width
+                            let roundIndex = progress.rounded()
+                            currentIndex = max(min(currentIndex + Int(roundIndex), pageCount - 1), 0)
+                        }
+                )
+                .animation(.easeInOut, value: currentIndex)
+                .padding(.horizontal, pageSpacing)
             }
-            .offset(x: -(width - (pageSpacing * 2) + cardSpacing) * CGFloat(currentIndex) + offset)
-            .gesture(
-                DragGesture()
-                    .updating($offset) { value, state, _ in
-                        state = value.translation.width
-                    }
-                    .onEnded { value in
-                        let offsetX = value.translation.width
-                        let progress = -offsetX / width
-                        let roundIndex = progress.rounded()
-                        currentIndex = max(min(currentIndex + Int(roundIndex), pageCount - 1), 0)
-                    }
-            )
-            .animation(.easeInOut, value: currentIndex)
-            .padding(.horizontal, pageSpacing)
         }
     }
 }

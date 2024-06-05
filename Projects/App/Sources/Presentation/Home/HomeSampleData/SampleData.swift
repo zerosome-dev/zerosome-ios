@@ -12,9 +12,11 @@ struct ZeroDrinkSampleData {
     var photo: String
     
     static let data = [
-        ZeroDrinkSampleData(photo: "https://img.hankyung.com/photo/202303/AKR20230313020200003_01_i_P4.jpg")
+        ZeroDrinkSampleData(photo: ZeroDrinkSampleData.url1),
+        ZeroDrinkSampleData(photo: ZeroDrinkSampleData.url2)
     ]
-    
     static let url1 = "https://img.hankyung.com/photo/202303/AKR20230313020200003_01_i_P4.jpg"
     static let url2 = "https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/3hwo/image/QeM1ma7-zuUrwCi1qk4xcX0ODxg.PNG"
+    
+    static let dirnkType = ["탄산수", "탄산음료", "커피음료", "차음료", "어린이음료", "이온음료"]
 }

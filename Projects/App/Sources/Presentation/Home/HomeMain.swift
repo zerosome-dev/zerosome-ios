@@ -7,19 +7,60 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct HomeMain: View {
     var body: some View {
-        VStack {
-            Rectangle()
-                .fill(Color.gray)
-                .frame(maxWidth: .infinity)
-                .frame(height: 200)
+        ScrollView {
+            PagingBannerView(pageCount: 5) {
+                ForEach(0..<5) { index in
+                    Rectangle()
+                        .fill(Color.neutral200)
+                        .overlay {
+                            Text("\(index+1)")
+                        }
+                }
+            }
+            .frame(height: 240)
+            .padding(.bottom, 30)
+
+            VStack(spacing: 0) {
+                HomeSubTitleView(title: "지금 핫한 카페 음료", subTitle: "설명 문구를 입력해주세요.", type: .none)
+                .padding(.bottom, 16)
                 
-            
-            Text("출시 예정 신상품")
-            
-            Text("새롭게 발매된 상품과 발매 예정 상품을 확인해보세요")
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(0..<10) { _ in
+                            NewProductReleasedView()
+                                .frame(maxWidth: 400)
+                        }
+                    }
+                }
+
+                HomeSubTitleView(title: "[생수/음료] 인기 음료 순위", subTitle: "설명 문구를 입력해주세요.", type: .rightButton)
+                    .padding(.init(top: 40, leading: 0, bottom: 16, trailing: 0))
+                
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(0..<10) { i in
+                            NowHotView(rank: i+1)
+                                .frame(maxWidth: 150)
+                        }
+                    }
+                }
+                
+                HomeSubTitleView(title: "[카페음료] 인기 음료 순위", subTitle: "설명 문구를 입력해주세요.", type: .ranking)
+                    .padding(.init(top: 40, leading: 0, bottom: 16, trailing: 0))
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(0..<10) { i in
+                            NowHotView(rank: i+1)
+                                .frame(maxWidth: 150)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal, 22)
         }
     }
 }
