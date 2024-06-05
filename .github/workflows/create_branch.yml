@@ -1,15 +1,15 @@
-name: Create Issue Branch
-on:
-  issues:
-    types: [ assigned ]
+# name: Create Issue Branch
+# on:
+#   issues:
+#     types: [ assigned ]
 
-jobs:
-  create_issue_branch_job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Branch From Issue
-        uses: robvanderleek/create-issue-branch@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Echo branch name
-        run: echo ${{ steps.Create_Issue_Branch.outputs.branchName }}
+# jobs:
+#   create_issue_branch_job:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Create Branch From Issue
+#         uses: robvanderleek/create-issue-branch@main
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Echo branch name
+#         run: echo ${{ steps.Create_Issue_Branch.outputs.branchName }}
