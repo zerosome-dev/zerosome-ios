@@ -10,8 +10,8 @@ import ProjectDescriptionHelpers
 
 let workspace = Workspace(name: "Zerosome", projects: ["Projects/App",
                                                        "Projects/SPM",
-                                                       "Projects/DesignSystem",
-                                                       "Projects/Service",
-                                                       "Projects/Feature",])//, additionalFiles: ["README.md"])
+                                                       "Projects/DesignSystem"])
+//                                                       "Projects/Service",
+//                                                       "Projects/Feature",])//, additionalFiles: ["README.md"])
 
 
