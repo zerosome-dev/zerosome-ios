@@ -15,7 +15,8 @@ public enum ZSFont {
     case subtitle2
     case body1
     case body2
-    case label
+    case label1
+    case label2
     case caption
 }
 
@@ -35,7 +36,9 @@ extension ZSFont {
             return DesignSystemFontFamily.Pretendard.medium.name
         case .body2:
             return DesignSystemFontFamily.Pretendard.medium.name
-        case .label:
+        case .label1:
+            return DesignSystemFontFamily.Pretendard.medium.name
+        case .label2:
             return DesignSystemFontFamily.Pretendard.medium.name
         case .caption:
             return DesignSystemFontFamily.Pretendard.medium.name
@@ -56,8 +59,10 @@ extension ZSFont {
             return 15
         case .body2:
             return 14
-        case .label:
+        case .label1:
             return 13
+        case .label2:
+            return 11
         case .caption:
             return 13
         }
@@ -77,8 +82,10 @@ extension ZSFont {
             return CGFloat(ZSFont.body1.size * 0.140)
         case .body2:
             return CGFloat(ZSFont.body2.size * 0.140)
-        case .label:
-            return CGFloat(ZSFont.label.size * 0.140)
+        case .label1:
+            return CGFloat(ZSFont.label1.size * 0.140)
+        case .label2:
+            return CGFloat(ZSFont.label2.size * 0.140)
         case .caption:
             return CGFloat(ZSFont.caption.size * 0.140)
         }
@@ -98,7 +105,9 @@ extension ZSFont {
             return 0
         case .body2:
             return 0
-        case .label:
+        case .label1:
+            return 0
+        case .label2:
             return 0
         case .caption:
             return 0
