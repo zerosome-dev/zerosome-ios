@@ -12,6 +12,7 @@ import DesignSystem
 struct HomeMain: View {
     var body: some View {
         ScrollView {
+            Spacer().frame(height: 46)
             PagingBannerView(pageCount: 5) {
                 ForEach(0..<5) { index in
                     Rectangle()
@@ -31,7 +32,7 @@ struct HomeMain: View {
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(0..<10) { _ in
-                            NewProductReleasedView()
+                            ReleasedCarouselView()
                                 .frame(maxWidth: 400)
                         }
                     }
@@ -43,7 +44,7 @@ struct HomeMain: View {
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(0..<10) { i in
-                            NowHotView(rank: i+1)
+                            ProductPreviewComponent(rank: i+1, rankLabel: false)
                                 .frame(maxWidth: 150)
                         }
                     }
@@ -54,7 +55,7 @@ struct HomeMain: View {
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(0..<10) { i in
-                            NowHotView(rank: i+1)
+                            ProductPreviewComponent(rank: i+1, rankLabel: true)
                                 .frame(maxWidth: 150)
                         }
                     }

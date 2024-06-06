@@ -9,8 +9,9 @@
 import SwiftUI
 import DesignSystem
 
-struct NowHotView: View {
+struct ProductPreviewComponent: View {
     var rank: Int
+    var rankLabel: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -20,9 +21,11 @@ struct NowHotView: View {
                 .frame(maxWidth: .infinity)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(alignment: .bottomLeading) {
-                    Text("\(rank)")
-                        .font(.custom(DesignSystemFontFamily.Pretendard.bold.name, size: 32))
-                        .padding(.init(top: 0, leading: 12, bottom: 2, trailing: 0))
+                    if rankLabel {
+                        Text("\(rank)")
+                            .font(.custom(DesignSystemFontFamily.Pretendard.bold.name, size: 32))
+                            .padding(.init(top: 0, leading: 12, bottom: 2, trailing: 0))
+                    }
                 }
             
             VStack(alignment: .leading, spacing: 4) {
@@ -46,5 +49,5 @@ struct NowHotView: View {
 }
 
 #Preview {
-    NowHotView(rank: 1)
+    ProductPreviewComponent(rank: 1, rankLabel: false)
 }
