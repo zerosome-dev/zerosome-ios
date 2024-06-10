@@ -17,7 +17,6 @@ struct SimiliarProductView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             // TODO: - component 넣기
-
             CommonButton(title: "작성완료", font: .subtitle2)
         }
     }

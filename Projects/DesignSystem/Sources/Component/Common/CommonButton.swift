@@ -10,7 +10,6 @@ import SwiftUI
 
 public struct CommonButton: View {
     public var title: String
-//    public var leadingImage: Image?
     public var isEnable: Bool = true
     public var height: CGFloat = 52
     public var action: (() -> Void)?
@@ -37,7 +36,7 @@ public struct CommonButton: View {
     }
 }
 
-extension CommonButton {
+public extension CommonButton {
     func enable(_ isEnable: Bool) -> Self {
         var copy = self
         copy.isEnable = isEnable

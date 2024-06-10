@@ -14,7 +14,7 @@ struct ProductDetailView: View {
         ScrollView {
             Rectangle()
                 .fill(Color.neutral500)
-                .frame(width: Size.width, height: Size.width)
+                .scaledToFit()
                 
             Text("브랜드명브랜드명브랜드명")
             Text("[상품명상품명상품명상품명상품명]")

@@ -20,7 +20,8 @@ let spmTarget = Target.makeTarget(
     dependencies: [.SPM.Alamofire,
                    .SPM.Kakao,
                    .SPM.KingFisher,
-                   .SPM.Lottie],
+                   .SPM.Lottie,
+                   .SPM.AutoHeight],
     infoPlistPath: "Support/Info.plist",
     //    scripts: [.swiftLintPath], // -> lint 적용o
     scripts: [], // -> lint 적용x

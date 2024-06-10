@@ -45,8 +45,9 @@ public struct CategoryGridView: View {
                             .frame(width: size, height: size)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         Text(type)
-                            .applyFont(font: .body2)
                             .foregroundStyle(Color.neutral900)
+                            .applyFont(font: .body2)
+                            
                     }
                 }
             }
@@ -57,9 +58,9 @@ public struct CategoryGridView: View {
             EmptyView()
         } else {
             Rectangle()
-                .frame(maxWidth: .infinity)
-                .frame(height: 12)
                 .foregroundStyle(Color.neutral50)
+                .frame(maxWidth: .infinity)
+                .frame(height: 12) 
                 .padding(.vertical, 30)
         }
     }
