@@ -5,7 +5,7 @@
 //  Created by 박서연 on 2024/05/12.
 //  Copyright © 2024 iOS. All rights reserved.
 //
-
+import UIKit
 import SwiftUI
 
 public enum ZSFont {
@@ -15,7 +15,9 @@ public enum ZSFont {
     case subtitle2
     case body1
     case body2
-    case label
+    case body3
+    case label1
+    case label2
     case caption
 }
 
@@ -35,7 +37,11 @@ extension ZSFont {
             return DesignSystemFontFamily.Pretendard.medium.name
         case .body2:
             return DesignSystemFontFamily.Pretendard.medium.name
-        case .label:
+        case .body3:
+            return DesignSystemFontFamily.Pretendard.medium.name
+        case .label1:
+            return DesignSystemFontFamily.Pretendard.medium.name
+        case .label2:
             return DesignSystemFontFamily.Pretendard.medium.name
         case .caption:
             return DesignSystemFontFamily.Pretendard.medium.name
@@ -56,8 +62,12 @@ extension ZSFont {
             return 15
         case .body2:
             return 14
-        case .label:
+        case .body3:
             return 13
+        case .label1:
+            return 12
+        case .label2:
+            return 11
         case .caption:
             return 13
         }
@@ -77,8 +87,12 @@ extension ZSFont {
             return CGFloat(ZSFont.body1.size * 0.140)
         case .body2:
             return CGFloat(ZSFont.body2.size * 0.140)
-        case .label:
-            return CGFloat(ZSFont.label.size * 0.140)
+        case .body3:
+            return CGFloat(ZSFont.body2.size * 0.140)
+        case .label1:
+            return CGFloat(ZSFont.label1.size * 0.140)
+        case .label2:
+            return CGFloat(ZSFont.label2.size * 0.140)
         case .caption:
             return CGFloat(ZSFont.caption.size * 0.140)
         }
@@ -98,12 +112,21 @@ extension ZSFont {
             return 0
         case .body2:
             return 0
-        case .label:
+        case .body3:
+            return 0
+        case .label1:
+            return 0
+        case .label2:
             return 0
         case .caption:
             return 0
         }
     }
+    
+    public var toUIFont: UIFont {
+        return UIFont(name: self.name, size: self.size) ?? UIFont.systemFont(ofSize: self.size)
+    }
+    
 }
 
 public struct FontModifier: ViewModifier {

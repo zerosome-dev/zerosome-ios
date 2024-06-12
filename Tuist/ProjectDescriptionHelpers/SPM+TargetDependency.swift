@@ -16,4 +16,5 @@ public extension TargetDependency.SPM {
     static let Alamofire = TargetDependency.external(name: "Alamofire")
     static let Kakao = TargetDependency.external(name: "KakaoSDK")
     static let Lottie = TargetDependency.external(name: "Lottie")
+    static let AutoHeight = TargetDependency.external(name: "AutoHeightEditor")
 }

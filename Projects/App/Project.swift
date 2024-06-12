@@ -18,12 +18,11 @@ let appTarget = Target.makeTarget(
                            devices: [.iphone],
                            supportsMacDesignedForIOS: false),
     dependencies: [.project(target: "SPM", path: .relativeToRoot("Projects/SPM")),
-                   .project(target: "Service", path: .relativeToRoot("Projects/Service")),
-                   .project(target: "Feature", path: .relativeToRoot("Projects/Feature")),
+//                   .project(target: "Service", path: .relativeToRoot("Projects/Service")),
+//                   .project(target: "Feature", path: .relativeToRoot("Projects/Feature")),
                    .project(target: "DesignSystem", path: .relativeToRoot("Projects/DesignSystem"))],
     infoPlistPath: "Support/Info.plist",
-    //    scripts: [.swiftLintPath], // -> lint 적용o
-    scripts: [], // -> lint 적용x
+    scripts: [],
     isResources: true,
     hasTest: true)
 
