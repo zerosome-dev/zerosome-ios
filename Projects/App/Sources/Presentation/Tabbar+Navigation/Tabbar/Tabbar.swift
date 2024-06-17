@@ -15,11 +15,17 @@ enum Tabbar: CaseIterable {
     var view: some View {
         switch self {
         case .home:
-            HomeView()
+            RouterView {
+                HomeView()
+            }
         case .category:
-            CategoryView()
+            RouterView {
+                CategoryView()
+            }
         case .mypage:
-            MypageView()
+            RouterView {
+                MypageView()
+            }
         }
     }
     
@@ -34,25 +40,14 @@ enum Tabbar: CaseIterable {
         }
     }
     
-//    var image: Image {
-//        switch self {
-//        case .home:
-//            <#code#>
-//        case .category:
-//            <#code#>
-//        case .mypage:
-//            <#code#>
-//        }
-//    }
-    
-//    var image_fill: Image {
-//        switch self {
-//        case .home:
-//            <#code#>
-//        case .category:
-//            <#code#>
-//        case .mypage:
-//            <#code#>
-//        }
-//    }
+    var image: String {
+        switch self {
+        case .home:
+            "house"
+        case .category:
+            "star.fill"
+        case .mypage:
+            "heart.fill"
+        }
+    }
 }
