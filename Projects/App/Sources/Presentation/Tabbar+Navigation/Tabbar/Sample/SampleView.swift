@@ -13,10 +13,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-//            Color.red
-//                .ignoresSafeArea()
             Text("GO TO ANOTHERVIEW")
-//                .foregroundStyle(.white)
                 .font(.largeTitle)
                 .onTapGesture {
                     router.navigateTo(.categoryFilter)
