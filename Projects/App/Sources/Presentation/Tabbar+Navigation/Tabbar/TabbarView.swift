@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct TabbarView: View {
     @ObservedObject var viewModel: TabbarViewModel
@@ -23,11 +24,11 @@ struct TabbarView: View {
                 HStack {
                     ForEach(Tabbar.allCases, id: \.self) { item in
                         VStack(spacing: 5) {
-                            Image(systemName: item.image)
+                            (viewModel.selected == item ? item.image_fill : item.image_default)
                                 .frame(width: 24, height: 24)
                             Text(item.title)
                                 .applyFont(font: .label1)
-                                .foregroundStyle(Color.neutral400)
+                                .foregroundStyle(viewModel.selected == item ? Color.primaryFF6972 : Color.neutral400)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         .contentShape(Rectangle())

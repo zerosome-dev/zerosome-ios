@@ -5,7 +5,6 @@
 //  Created by 박서연 on 2024/05/12.
 //  Copyright © 2024 iOS. All rights reserved.
 //
-import UIKit
 import SwiftUI
 
 public enum ZSFont {
@@ -16,6 +15,7 @@ public enum ZSFont {
     case body1
     case body2
     case body3
+    case body4
     case label1
     case label2
     case caption
@@ -38,6 +38,8 @@ extension ZSFont {
         case .body2:
             return DesignSystemFontFamily.Pretendard.medium.name
         case .body3:
+            return DesignSystemFontFamily.Pretendard.medium.name
+        case .body4:
             return DesignSystemFontFamily.Pretendard.medium.name
         case .label1:
             return DesignSystemFontFamily.Pretendard.medium.name
@@ -64,8 +66,10 @@ extension ZSFont {
             return 14
         case .body3:
             return 13
-        case .label1:
+        case .body4:
             return 12
+        case .label1:
+            return 13
         case .label2:
             return 11
         case .caption:
@@ -88,6 +92,8 @@ extension ZSFont {
         case .body2:
             return CGFloat(ZSFont.body2.size * 0.140)
         case .body3:
+            return CGFloat(ZSFont.body2.size * 0.140)
+        case .body4:
             return CGFloat(ZSFont.body2.size * 0.140)
         case .label1:
             return CGFloat(ZSFont.label1.size * 0.140)
@@ -114,6 +120,8 @@ extension ZSFont {
             return 0
         case .body3:
             return 0
+        case .body4:
+            return 0
         case .label1:
             return 0
         case .label2:
@@ -126,7 +134,6 @@ extension ZSFont {
     public var toUIFont: UIFont {
         return UIFont(name: self.name, size: self.size) ?? UIFont.systemFont(ofSize: self.size)
     }
-    
 }
 
 public struct FontModifier: ViewModifier {
