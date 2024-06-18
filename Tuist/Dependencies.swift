@@ -20,7 +20,9 @@ let dependencies = Dependencies(
             .remote(url: "https://github.com/kakao/kakao-ios-sdk",
                     requirement: .upToNextMajor(from: "2.0.0")),
             .remote(url: "https://github.com/airbnb/lottie-ios",
-                    requirement: .upToNextMajor(from: "4.4.3"))
+                    requirement: .upToNextMajor(from: "4.4.3")),
+            .remote(url: "https://github.com/wontaeyoung/AutoHeightEditor",
+                    requirement: .upToNextMajor(from: "1.0.0"))
         ]
     ),
 
