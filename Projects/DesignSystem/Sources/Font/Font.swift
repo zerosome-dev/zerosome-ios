@@ -130,6 +130,10 @@ extension ZSFont {
             return 0
         }
     }
+    
+    public var toUIFont: UIFont {
+        return UIFont(name: self.name, size: self.size) ?? UIFont.systemFont(ofSize: self.size)
+    }
 }
 
 public struct FontModifier: ViewModifier {
