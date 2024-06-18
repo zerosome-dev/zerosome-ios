@@ -14,5 +14,5 @@ public enum ZerosomeTab {
     public static let ic_category = DesignSystemAsset.Assets.icCategoryEmpty.swiftUIImage
     public static let ic_category_fill = DesignSystemAsset.Assets.icCategoryFill.swiftUIImage
     public static let ic_mypage = DesignSystemAsset.Assets.icMypageEmpty.swiftUIImage
-    public static let ic_mpyage_fi = DesignSystemAsset.Assets.icMypageFill.swiftUIImage
+    public static let ic_mpyage_fill = DesignSystemAsset.Assets.icMypageFill.swiftUIImage
 }

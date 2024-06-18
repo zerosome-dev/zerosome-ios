@@ -24,15 +24,8 @@ struct RouterView<Content: View>: View {
             .navigationDestination(for: Router.Route.self) { route in
                 router.view(for: route)
             }
-            .onAppear {
-                router.navigateTo(.tabView)
-            }
             .navigationBarTitle("", displayMode: .inline)
         }
         .environmentObject(router)
     }
 }
-
-//#Preview {
-//    RouterView()
-//}

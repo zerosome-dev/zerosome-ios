@@ -9,53 +9,42 @@
 import Foundation
 import SwiftUI
 
-public class Router: ObservableObject {
-    public enum Route: Hashable, Identifiable {
-        public var id: Self { self }
-        
-        case tabView
-        case login
-        case home
-        case category
-        case mypage
-        case review
-        case setting
+final class Router: ObservableObject {
+    enum Route: Hashable, Identifiable {
+        var id: Self { self }
+
+        case productDetail
+        case productReview
+        case categoryFilter
     }
     
-    @Published public var path: NavigationPath = NavigationPath()
+    @Published var path: NavigationPath = NavigationPath()
+    @Published var defaultView: Tabbar = .home
     
-    @ViewBuilder public func view(for route: Route) -> some View {
+    @ViewBuilder func view(for route: Route) -> some View {
         switch route {
-        case .tabView:
-            TabbarMainView()
-        case .login:
-            Text("login")
-        case .home:
-            HomeView()
-        case .category:
-            CategoryView()
-        case .mypage:
-            MypageView()
-        case .review:
-            AnotherView()
-        case .setting:
-            Text("setting")
+        case .productDetail:
+            Text("제품 상세뷰")
+        case .productReview:
+            Text("제품 리뷰뷰")
+        case .categoryFilter:
+            Text("카테고리 선택뷰")
         }
     }
     
-    public func navigateTo(_ page: Route) {
+    func navigateTo(_ page: Route) {
         path.append(page)
     }
     
-    public func navigateBack() {
+    func navigateBack() {
         path.removeLast()
     }
     
-    public func popToRoot() {
+    func popToRoot() {
         path.removeLast(path.count)
     }
     
-    public func replaceNavigationStack(_ page: Route) {
+    func replaceNavigationStack(_ page: Route) {
         path.removeLast(path.count)
         path.append(page)
     }

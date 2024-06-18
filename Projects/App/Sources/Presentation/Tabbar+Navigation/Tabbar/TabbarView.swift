@@ -7,31 +7,44 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct TabbarView: View {
     @ObservedObject var viewModel: TabbarViewModel
+    @EnvironmentObject var router: Router
     
     var body: some View {
-        HStack {
-            ForEach(Tabbar.allCases, id: \.self) { item in
-                Button {
-                    viewModel.selected = item
-                } label: {
-                    VStack(spacing: 0) {
-                        Image(systemName: "house")
-                            .frame(width: 39, height: 39)
-                        Text(item.title)
-                            .applyFont(font: .label1)
-                            .foregroundStyle(Color.neutral400)
+        Rectangle()
+            .fill(Color.white)
+            .shadow(color: .black.opacity(0.01), radius: 1, y: -2.0)
+            .blur(radius: 8)
+            .shadow(radius: 10)
+            .frame(height: 66)
+            .overlay {
+                HStack {
+                    ForEach(Tabbar.allCases, id: \.self) { item in
+                        VStack(spacing: 5) {
+                            (viewModel.selected == item ? item.image_fill : item.image_default)
+                                .frame(width: 24, height: 24)
+                            Text(item.title)
+                                .applyFont(font: .label1)
+                                .foregroundStyle(viewModel.selected == item ? Color.primaryFF6972 : Color.neutral400)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .contentShape(Rectangle())
+                        .padding(.bottom, 10)
+                        .onTapGesture {
+                            viewModel.selected = item
+                        }
+//                        .simultaneousGesture(TapGesture(count: 2).onEnded {
+//                            router.popToRoot()
+//                        })
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.bottom, 10)
-                .onTapGesture {
-                    viewModel.selected = item
-                }
+                .padding(.top, 10)
+                .background(.white)
             }
-        }
+        
     }
 }
 
