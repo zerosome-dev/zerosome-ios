@@ -27,4 +27,6 @@ extension Color {
     public static let caution = Color(asset: DesignSystemAsset.Assets.caution)
     public static let negative = Color(asset: DesignSystemAsset.Assets.negative)
     public static let information = Color(asset: DesignSystemAsset.Assets.information)
+    
+    public static let kakao = Color(asset: DesignSystemAsset.Assets.kakao)
 }

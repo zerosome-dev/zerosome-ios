@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 public extension View {
     func navigationBackButton(_ action: @escaping () -> Void) -> some View {
@@ -16,7 +17,7 @@ public extension View {
                     Button(action: action, label: {
                         // TODO: - 백버튼 이미지 수정
 
-                        Image("arrowBack")
+                        ZerosomeAsset.ic_back_button
                             .resizable()
                             .frame(width: 24, height: 24)
                     })
