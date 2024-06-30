@@ -134,7 +134,7 @@ extension ZSFont {
     public var toUIFont: UIFont {
         return UIFont(name: self.name, size: self.size) ?? UIFont.systemFont(ofSize: self.size)
     }
-    
+  
     public var toFont: Font {
         return Font.custom(self.name, size: self.size)
     }
