@@ -10,32 +10,28 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var router: Router
-    @EnvironmentObject var viewModel: TabbarViewModel
     
     var body: some View {
         ZStack {
-            Color.red
-                .ignoresSafeArea()
-            Text("Go TO CATEGORY VIEW")
+            Text("GO TO ANOTHERVIEW")
+                .font(.largeTitle)
                 .onTapGesture {
-                    viewModel.selected = .category
+                    router.navigateTo(.categoryFilter)
                 }
-                .foregroundStyle(.white)
         }
     }
 }
 
 struct CategoryView: View {
     @EnvironmentObject var router: Router
-    @EnvironmentObject var viewModel: TabbarViewModel
     
     var body: some View {
         ZStack {
             Color.yellow
                 .ignoresSafeArea()
-            Text("GO TO MYPAGEVIEW")
+            Text("GO TO ANOTHERVIEW")
                 .onTapGesture {
-                    viewModel.selected = .mypage
+                    router.navigateTo(.productDetail)
                 }
         }
     }
@@ -43,15 +39,14 @@ struct CategoryView: View {
 
 struct MypageView: View {
     @EnvironmentObject var router: Router
-    @EnvironmentObject var viewModel: TabbarViewModel
     
     var body: some View {
         ZStack {
             Color.green
                 .ignoresSafeArea()
-            Text("GO TO Another View")
+            Text("GO TO PRODUCTDETAIL")
                 .onTapGesture {
-                    router.replaceNavigationStack(.review)
+                    router.replaceNavigationStack(.productDetail)
                 }
         }
     }

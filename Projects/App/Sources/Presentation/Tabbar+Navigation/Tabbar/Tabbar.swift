@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 enum Tabbar: CaseIterable {
     case home, category, mypage
@@ -15,11 +16,17 @@ enum Tabbar: CaseIterable {
     var view: some View {
         switch self {
         case .home:
-            HomeView()
+            RouterView {
+                HomeView()
+            }
         case .category:
-            CategoryView()
+            RouterView {
+                CategoryView()
+            }
         case .mypage:
-            MypageView()
+            RouterView {
+                MypageView()
+            }
         }
     }
     
@@ -34,25 +41,25 @@ enum Tabbar: CaseIterable {
         }
     }
     
-//    var image: Image {
-//        switch self {
-//        case .home:
-//            <#code#>
-//        case .category:
-//            <#code#>
-//        case .mypage:
-//            <#code#>
-//        }
-//    }
+    var image_default: Image {
+        switch self {
+        case .home:
+            ZerosomeTab.ic_home
+        case .category:
+            ZerosomeTab.ic_category
+        case .mypage:
+            ZerosomeTab.ic_mypage
+        }
+    }
     
-//    var image_fill: Image {
-//        switch self {
-//        case .home:
-//            <#code#>
-//        case .category:
-//            <#code#>
-//        case .mypage:
-//            <#code#>
-//        }
-//    }
+    var image_fill: Image {
+        switch self {
+        case .home:
+            ZerosomeTab.ic_home_fill
+        case .category:
+            ZerosomeTab.ic_category_fill
+        case .mypage:
+            ZerosomeTab.ic_mpyage_fill
+        }
+    }
 }
