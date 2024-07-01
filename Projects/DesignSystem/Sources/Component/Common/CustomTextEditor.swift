@@ -45,13 +45,17 @@ public struct DynamicHeightTextEditor: View {
             UITextViewWrapper(text: $text,
                               dynamicHeight: $dynamicHeight,
                               font: .body2,
-                              backgroundColor: UIColor(Color.neutral50),
-                              fontColor: UIColor(Color.neutral700),
+                              backgroundColor: UIColor(backgroundColor),
+                              fontColor: UIColor(fontColor),
                               placeholder: "제품에 대한 의견을 자유롭게 남겨주세요.",
-                              placeholderColor: UIColor(Color.neutral500))
+                              placeholderColor: UIColor(placeholderColor))
                 .frame(minHeight: initialHeight, maxHeight: dynamicHeight)
                 .cornerRadius(8)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(text.isEmpty ? Color.neutral100 : Color.neutral300)
+                }
             
             Text("\(text.count)/1000")
                 .frame(maxWidth: .infinity, alignment: .trailing)
