@@ -7,32 +7,26 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct ProductDetailView: View {
-    private let storeSample = ["네이버 쇼핑", "쿠팡", "판매처명"]
+    private let storeSample = ["네이버", "쿠팡", "판매처", "티몬"]
+    let rating: Int = 3 //Rating
+    
     var body: some View {
         ScrollView {
             Rectangle()
-                .fill(Color.neutral500)
+                .fill(Color.neutral50)
                 .scaledToFit()
                 
-            Text("브랜드명브랜드명브랜드명")
-            Text("[상품명상품명상품명상품명상품명]")
-            
-            ForEach(0..<5) { index in
-                HStack{
-                    Text("영양성분명1")
-                    Spacer()
-                    Text("영양성분")
-                }
-                .padding(.vertical, 14)
-                
-                Rectangle()
-                    .fill(Color.neutral100)
-                    .frame(maxWidth: .infinity, maxHeight: 1)
-                    .opacity(index == 4 ? 0 : 1)
-            }
-            
+            ProductInfoView(rating: rating, reviewCnt: rating)
+            DivideRectangle(height: 12, color: Color.neutral50)
+                .padding(.init(top: 30, leading: 0, bottom: 16, trailing: 0))
+
+            // 영양성분
+            NutrientsView()
+                .padding(.horizontal, 22)
+
             Text("영양 성분 모두 보기")
                 .padding(.init(top: 8, leading: 24, bottom: 8, trailing: 24))
                 .applyFont(font: .body2)
@@ -42,22 +36,99 @@ struct ProductDetailView: View {
                         .stroke(Color.neutral400, lineWidth: 1)
                 }
             
-            Text("오프라인 판매처")
+            DivideRectangle(height: 12, color: Color.neutral50)
+                .padding(.init(top: 16, leading: 0, bottom: 30, trailing: 0))
             
-            Text("온라인 판매처")
-            LazyVStack(spacing: 10) {
-                ForEach(storeSample, id: \.self){ store in
-                    Text(store)
-                        .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 16))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.neutral50)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-            }
+            OffLineStoreView()
+            OnlineStoreView()
             
             Spacer().frame(height: 30)
             
             
+        }
+    }
+}
+
+struct ProductInfoView: View {
+    let rating: Int
+    let reviewCnt: Int
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("[브랜드명브랜드명브랜드명]")
+                .applyFont(font: .body2)
+                .foregroundStyle(Color.neutral500)
+            Text("상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명")
+                .applyFont(font: .subtitle1)
+                .foregroundStyle(Color.neutral900)
+                .lineLimit(1)
+            
+            DivideRectangle(height: 1, color: Color.neutral100)
+            
+            HStack(spacing: 6) {
+                HStack(spacing: 0) {
+                    ForEach(0..<5, id: \.self) { index in
+                        (index < rating ? ZerosomeAsset.ic_star_fill : ZerosomeAsset.ic_star_empty)
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                    }
+                }
+                
+                Text("(rating)")
+                    .applyFont(font: .subtitle2)
+                    .foregroundStyle(Color.neutral900)
+                
+                Rectangle()
+                    .frame(width: 10,height: 1)
+                    .rotationEffect(.degrees(90))
+                    .foregroundStyle(Color.neutral300)
+                
+                Text("(reviewCnt)개의 리뷰")
+                    .applyFont(font: .body2)
+                    .foregroundStyle(Color.neutral500)
+            }
+        }
+        .padding(.horizontal, 22)
+    }
+}
+
+struct OffLineStoreView: View {
+    let data = ["네이버", "쿠팡", "판매처", "티몬"]
+    var body: some View {
+        CommonTitle(title: "오프라인 판매처")
+        OfflineStoreComponent(offlineStore: data)
+            .padding(.init(top: 0, leading: 22, bottom: 0, trailing: 47))
+        
+    }
+}
+
+struct OnlineStoreView: View {
+    let data = ["네이버", "쿠팡", "판매처", "티몬"]
+    var body: some View {
+        CommonTitle(title: "온라인 판매처")
+        
+        LazyVStack(spacing: 10) {
+            ForEach(data, id: \.self){ store in
+                HStack {
+                    Text(store)
+                        .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 0))
+                        .applyFont(font: .body2)
+                        .foregroundStyle(Color.neutral600)
+                    Spacer()
+                    
+                    Text("바로가기")
+                        .applyFont(font: .body2)
+                        .foregroundStyle(Color.neutral400)
+                        .padding(.init(top: 10, leading: 0, bottom: 10, trailing: 16))
+                        .onTapGesture {
+                            print("온라인 판매처 바로가기")
+                        }
+                    
+                }
+                .background(Color.neutral50)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            
+            }
         }
     }
 }
