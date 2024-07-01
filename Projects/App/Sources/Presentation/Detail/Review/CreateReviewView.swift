@@ -20,24 +20,24 @@ struct SampleProduct {
 
 struct CreateReviewView: View {
     let data = SampleProduct.sampleProduct
-    @State var finish = false
-    @State var test = false
     @State var text: String = ""
     @State var dynamicHeight: CGFloat = 100
+    @State var starCounting: Int = 0
     
     var body: some View {
         ScrollView {
             VStack(spacing: 30) {
-                Image(systemName: "heart")
+                Image(systemName: "heart.fill")
                     .resizable()
                     .scaledToFit()
+                    .frame(width: 240, height: 240)
                 
                 VStack(spacing: 6) {
                     Text("[\(data.brand)]")
                         .applyFont(font: .body2)
-                        .foregroundStyle(Color.neutral700)
+                        .foregroundStyle(Color.neutral500)
                     Text(data.name)
-                        .applyFont(font: .subtitle2)
+                        .applyFont(font: .subtitle1)
                         .foregroundStyle(Color.neutral900)
                         .lineLimit(1)
                 }
@@ -49,21 +49,25 @@ struct CreateReviewView: View {
                     Text("상품은 어떠셨나요?")
                         .applyFont(font: .subtitle1)
                         .frame(maxWidth: .infinity, alignment: .center)
-                    HStack(spacing: 2){
-                        ForEach(0..<5) { _ in
-                            Image(systemName: "star")
-                                .font(.system(size: 36))
-                                .foregroundStyle(Color.neutral200)
+                    
+                    HStack(spacing: 2) {
+                        ForEach(1...5, id: \.self) { index in
+                            (index <= starCounting ? ZerosomeAsset.ic_star_fill : ZerosomeAsset.ic_star_empty)
+                                .resizable()
+                                .frame(width: 36, height: 36)
+                                .onTapGesture {
+                                    starCounting = index
+                                }
                         }
                     }
                 }
                 
                 DynamicHeightTextEditor(text: $text, dynamicHeight: $dynamicHeight,
                                         initialHeight: 100, radius: 10,
-                                        font: .body2, backgroundColor: Color.neutral50,
+                                        font: .body2, backgroundColor: Color.white,
                                         fontColor: Color.neutral700,
                                         placeholder: "리뷰를 남겨주세요",
-                                        placeholderColor: Color.neutral500)   .padding(.horizontal, 22)
+                                        placeholderColor: Color.neutral300).padding(.horizontal, 22)
                 
                         
                 CommonButton(title: "작성 완료", font: .subtitle1)

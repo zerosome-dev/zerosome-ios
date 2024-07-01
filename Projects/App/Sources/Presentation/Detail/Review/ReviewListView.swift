@@ -11,16 +11,16 @@ import DesignSystem
 
 struct ReviewListView: View {
     @State var plus: Bool = false
-    let data = ReviewSampleData.reivewSample
+    @State var data = ReviewSampleData.reivewSample
     
     var body: some View {
         ScrollView {
             ReviewScoreComponent(background: Color.neutral50,
-                                 heightPadding: 38, radius: 8, review: "4.3")
-            .padding(.init(top: 10, leading: 0, bottom: 30, trailing: 0))
+                                 heightPadding: 38, radius: 8, review: "4.3", font: .review)
+            .padding(.init(top: 10, leading: 22, bottom: 30, trailing: 22))
             
-            LazyVStack {
-                ForEach(data, id: \.id) { index in
+            LazyVStack(spacing: 0) {
+                ForEach($data, id: \.id) { $index in
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
                             Text(index.user)
@@ -29,11 +29,11 @@ struct ReviewListView: View {
                             Spacer()
                             Text(index.date)
                                 .foregroundStyle(Color.neutral400)
-                                .applyFont(font: .label1)
+                                .applyFont(font: .body4)
                         }
                         
                         HStack(spacing: 4) {
-                            Image(systemName: index.star)
+                            StarComponent(rating: 4)
                             Text(index.score)
                                 .applyFont(font: .label1)
                         }
@@ -41,15 +41,15 @@ struct ReviewListView: View {
                         Text(index.content)
                             .foregroundStyle(Color.neutral700)
                             .applyFont(font: .body2)
-                            .lineLimit(plus ? nil : 3)
+                            .lineLimit(index.more ? nil : 3)
                             .padding(.vertical, 12)
                         
-                        Text("더보기")
+                        Text(index.more ? "접기" : "더보기")
                             .foregroundStyle(Color.neutral600)
                             .applyFont(font: .body3)
                             .onTapGesture {
                                 print("더보기")
-                                plus.toggle()
+                                index.more.toggle()
                             }
                             .frame(maxWidth: .infinity, alignment: .trailing)
                         
@@ -57,14 +57,17 @@ struct ReviewListView: View {
                             .applyFont(font: .body3)
                             .foregroundStyle(Color.neutral300)
                             .onTapGesture {
-                                print("더보기")
+                                print("신고")
                             }
                     }
+                    .padding(.horizontal, 22)
+                    
                     DivideRectangle(height: 1, color: Color.neutral50)
                         .opacity(index.id == data.last?.id ? 0 : 1)
+                        .padding(.top, 20)
+                        .padding(.bottom, 30)
                 }
             }
-            .padding(.horizontal, 22)
         }
     }
 }
@@ -80,6 +83,7 @@ struct ReviewSampleData {
     let score: String = "4.7"
     let date: String = "2023.07.25"
     let content: String = "리뷰입니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는리뷰입니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는세줄까지노출합니다리뷰는"
+    var more: Bool = false
     
     static let reivewSample = [
         ReviewSampleData(user: "user1"),
