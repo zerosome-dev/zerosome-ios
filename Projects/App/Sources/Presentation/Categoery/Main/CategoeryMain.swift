@@ -14,11 +14,11 @@ struct CategoryMain: View {
     var body: some View {
         ScrollView {
             Text("카테고리")
-            CategoryGridView(data: ZeroDrinkSampleData.dirnkType, type: "카페 음료",
+            CategoryGridComponent(data: ZeroDrinkSampleData.dirnkType, type: "카페 음료",
                              last: false, pageSpacing: 22, gridSpacing: 17)
-            CategoryGridView(data: ZeroDrinkSampleData.cafeType, type: "과자/아이스크림",
+            CategoryGridComponent(data: ZeroDrinkSampleData.cafeType, type: "과자/아이스크림",
                              last: false, pageSpacing: 22, gridSpacing: 17)
-            CategoryGridView(data: ZeroDrinkSampleData.snackType, type: "과자/아이스크림",
+            CategoryGridComponent(data: ZeroDrinkSampleData.snackType, type: "과자/아이스크림",
                              last: false, pageSpacing: 22, gridSpacing: 17)
             
             

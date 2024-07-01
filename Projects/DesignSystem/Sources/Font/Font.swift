@@ -5,6 +5,7 @@
 //  Created by 박서연 on 2024/05/12.
 //  Copyright © 2024 iOS. All rights reserved.
 //
+import UIKit
 import SwiftUI
 
 public enum ZSFont {

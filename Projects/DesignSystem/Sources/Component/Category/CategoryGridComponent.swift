@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct CategoryGridView: View {
+public struct CategoryGridComponent: View {
     
     public let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     public let data: [String]
@@ -67,5 +67,5 @@ public struct CategoryGridView: View {
 }
 
 #Preview {
-    CategoryGridView(data: ["11", "22"], type: "카페", last: false, pageSpacing: 22, gridSpacing: 17)
+    CategoryGridComponent(data: ["11", "22"], type: "카페", last: false, pageSpacing: 22, gridSpacing: 17)
 }

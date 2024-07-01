@@ -12,17 +12,7 @@ import DesignSystem
 struct HomeMain: View {
     var body: some View {
         ScrollView {
-            Spacer().frame(height: 46)
-            PagingBannerView(pageCount: 5) {
-                ForEach(0..<5) { index in
-                    Rectangle()
-                        .fill(Color.neutral200)
-                        .overlay {
-                            Text("\(index+1)")
-                        }
-                }
-            }
-            .frame(height: 240)
+            CustomInfiniteBanner(height: 240)
             .padding(.bottom, 30)
 
             VStack(spacing: 0) {
