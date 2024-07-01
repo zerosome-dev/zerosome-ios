@@ -1,5 +1,5 @@
-branchName: short
-branches: 
-  - label: '*'
-    prefix: feature/
-autoCloseIssue: true
+# branchName: short
+# branches: 
+#   - label: '*'
+#     prefix: feature/
+# autoCloseIssue: true

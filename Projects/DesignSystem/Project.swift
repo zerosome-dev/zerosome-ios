@@ -26,5 +26,5 @@ let designSystemTarget = Target.makeTarget(
 let designSystemProject = Project.makeProject(
     name: "DesignSystem",
     targets: designSystemTarget,
-    isXconfigSet: true)
+    isXconfigSet: false)
 
