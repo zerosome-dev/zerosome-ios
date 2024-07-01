@@ -25,10 +25,10 @@ public extension View {
             }
     }
     
-    func navigationTitle(with text: Text) -> some View {
+    func ZSnavigationTitle(_ text: String) -> some View {
         VStack(spacing: 31) {
             HStack(spacing: 0) {
-                text
+                Text(text)
                     .applyFont(font: .heading1)
                     .frame(height: 47)
                     .frame(maxWidth: .infinity, alignment: .leading)
