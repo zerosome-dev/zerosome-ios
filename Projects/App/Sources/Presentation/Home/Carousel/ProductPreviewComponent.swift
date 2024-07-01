@@ -29,12 +29,14 @@ struct ProductPreviewComponent: View {
                 }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("[브랜드명브랜드명브랜...]")
+                Text("[브랜드명브랜드명브랜브랜드명브랜드명브랜]")
                     .lineLimit(1)
+                    .applyFont(font: .body3)
                     .foregroundStyle(Color.neutral500)
                 
                 Text("상품명입니다 상품명입니다 상품명입니다  상품명입니다 상품명")
                     .lineLimit(2)
+                    .applyFont(font: .subtitle2)
                     .foregroundStyle(Color.neutral900)
                 
                 HStack(spacing: 2) {
@@ -44,6 +46,7 @@ struct ProductPreviewComponent: View {
                     Text("0")
                     Text("(0)")
                 }
+                .applyFont(font: .body3)
                 .foregroundStyle(Color.neutral400)
             }
         }

@@ -39,12 +39,16 @@ struct ProductDetailView: View {
             DivideRectangle(height: 12, color: Color.neutral50)
                 .padding(.init(top: 16, leading: 0, bottom: 30, trailing: 0))
             
-            OffLineStoreView()
-            OnlineStoreView()
-            
-            Spacer().frame(height: 30)
-            
-            
+            VStack(spacing: 30) {
+                OffLineStoreView()
+                OnlineStoreView()
+                NoneZeroView()
+                DetailReviewView()
+                DivideRectangle(height: 12, color: Color.neutral50)
+                SimiliarProductView()
+                CommonButton(title: "리뷰 작성", font: .subtitle2)
+                    .padding(.horizontal, 22)
+            }
         }
     }
 }
@@ -66,13 +70,7 @@ struct ProductInfoView: View {
             DivideRectangle(height: 1, color: Color.neutral100)
             
             HStack(spacing: 6) {
-                HStack(spacing: 0) {
-                    ForEach(0..<5, id: \.self) { index in
-                        (index < rating ? ZerosomeAsset.ic_star_fill : ZerosomeAsset.ic_star_empty)
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                    }
-                }
+                StarComponent(rating: rating)
                 
                 Text("(rating)")
                     .applyFont(font: .subtitle2)
@@ -94,8 +92,12 @@ struct ProductInfoView: View {
 
 struct OffLineStoreView: View {
     let data = ["네이버", "쿠팡", "판매처", "티몬"]
+    
     var body: some View {
         CommonTitle(title: "오프라인 판매처")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 22)
+        
         OfflineStoreComponent(offlineStore: data)
             .padding(.init(top: 0, leading: 22, bottom: 0, trailing: 47))
         
@@ -104,32 +106,37 @@ struct OffLineStoreView: View {
 
 struct OnlineStoreView: View {
     let data = ["네이버", "쿠팡", "판매처", "티몬"]
+    
     var body: some View {
-        CommonTitle(title: "온라인 판매처")
-        
-        LazyVStack(spacing: 10) {
-            ForEach(data, id: \.self){ store in
-                HStack {
-                    Text(store)
-                        .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 0))
-                        .applyFont(font: .body2)
-                        .foregroundStyle(Color.neutral600)
-                    Spacer()
-                    
-                    Text("바로가기")
-                        .applyFont(font: .body2)
-                        .foregroundStyle(Color.neutral400)
-                        .padding(.init(top: 10, leading: 0, bottom: 10, trailing: 16))
-                        .onTapGesture {
-                            print("온라인 판매처 바로가기")
-                        }
-                    
-                }
-                .background(Color.neutral50)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+        VStack {
+            CommonTitle(title: "온라인 판매처")
+                .frame(maxWidth: .infinity, alignment: .leading)
             
+            LazyVStack(spacing: 10) {
+                ForEach(data, id: \.self){ store in
+                    HStack {
+                        Text(store)
+                            .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 0))
+                            .applyFont(font: .body2)
+                            .foregroundStyle(Color.neutral600)
+                        Spacer()
+                        
+                        Text("바로가기")
+                            .applyFont(font: .body2)
+                            .foregroundStyle(Color.neutral400)
+                            .padding(.init(top: 10, leading: 0, bottom: 10, trailing: 16))
+                            .onTapGesture {
+                                print("온라인 판매처 바로가기")
+                            }
+                        
+                    }
+                    .background(Color.neutral50)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                
+                }
             }
         }
+        .padding(.horizontal, 22)
     }
 }
 

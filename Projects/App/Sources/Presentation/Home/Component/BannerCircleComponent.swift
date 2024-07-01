@@ -18,9 +18,6 @@ struct BannerCircleComponent: View {
                 Circle()
                     .fill(index == abs(currentIndex) ? Color.primaryFF6972 : Color.neutral300)
                     .frame(width: 6, height: 6)
-//                    .onTapGesture {
-//                        currentIndex = index
-//                    }
             }
         }
     }

@@ -16,7 +16,7 @@ struct ReviewListView: View {
     var body: some View {
         ScrollView {
             ReviewScoreComponent(background: Color.neutral50,
-                                 heightPadding: 38, radius: 8)
+                                 heightPadding: 38, radius: 8, review: "4.3")
             .padding(.init(top: 10, leading: 0, bottom: 30, trailing: 0))
             
             LazyVStack {
