@@ -35,6 +35,7 @@ struct DetailReviewView: View {
             
             ReviewScoreComponent(background: Color.neutral50,
                                  heightPadding: 18, radius: 8, review: "4.3", font: .heading2)
+
                 .padding(.bottom, 20)
             
             // TODO: - Carousel, component수정
@@ -76,6 +77,7 @@ struct ReviewScoreComponent: View {
         VStack(spacing:2) {
             Text(review)
                 .applyFont(font: font)
+
             StarComponent(rating: 4)
         }
         .padding(.vertical, heightPadding)
