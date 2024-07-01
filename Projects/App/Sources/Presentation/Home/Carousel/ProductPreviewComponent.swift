@@ -35,14 +35,16 @@ struct ProductPreviewComponent: View {
                 
                 Text("상품명입니다 상품명입니다 상품명입니다  상품명입니다 상품명")
                     .lineLimit(2)
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(Color.neutral900)
                 
                 HStack(spacing: 2) {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(Color.yellow)
-                    Text("0 (0)")
-                        .foregroundStyle(Color.neutral400)
+                    ZerosomeAsset.ic_star_fill
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                    Text("0")
+                    Text("(0)")
                 }
+                .foregroundStyle(Color.neutral400)
             }
         }
     }
