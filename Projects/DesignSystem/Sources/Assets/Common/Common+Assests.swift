@@ -15,7 +15,7 @@ public struct ZerosomeAsset {
     public static let ic_arrow_bottom = DesignSystemAsset.Assets.icArrowBottom.swiftUIImage
     public static let ic_arrow_back = DesignSystemAsset.Assets.icArrowBack.swiftUIImage
     public static let ic_arrow_after = DesignSystemAsset.Assets.icArrowAfter.swiftUIImage
-    public static let ic_xmark = DesignSystemAsset.Assets.icXmark
+    public static let ic_xmark = DesignSystemAsset.Assets.icXmark.swiftUIImage
     public static let ic_kakako = DesignSystemAsset.Assets.icKakao.swiftUIImage
     public static let ic_apple = DesignSystemAsset.Assets.icApple.swiftUIImage
     public static let ic_check_circle_gray = DesignSystemAsset.Assets.icCircleCheckGray.swiftUIImage

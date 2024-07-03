@@ -12,7 +12,7 @@ import DesignSystem
 struct SimiliarProductView: View {
     var body: some View {
         VStack(spacing: 16) {
-            CommonTitle(title: "이 상품과 비슷한 상품이에요")
+            CommonTitle(title: "이 상품과 비슷한 상품이에요", type: .solo)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             ScrollView(.horizontal) {
