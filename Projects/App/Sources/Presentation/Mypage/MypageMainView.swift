@@ -1,5 +1,5 @@
 //
-//  MypageMain.swift
+//  MypageMainView.swift
 //  App
 //
 //  Created by 박서연 on 2024/07/02.
@@ -9,11 +9,13 @@
 import SwiftUI
 import DesignSystem
 
-struct MypageMain: View {
+struct MypageMainView: View {
     var body: some View {
-        VStack {
+        ScrollView {
             UserInfoView()
                 .padding(.bottom, 30)
+                .padding(.top, 20)
+            
             DivideRectangle(height: 12, color: Color.neutral50)
             
             MypageInfoView()
@@ -27,7 +29,6 @@ struct MypageMain: View {
             .padding(.horizontal, 22)
             
             Spacer()
-            
         }
         .ZSnavigationTitle("마이페이지")
     }
@@ -146,5 +147,5 @@ enum MypageCenter: String, CaseIterable {
 }
 
 #Preview {
-    MypageMain()
+    MypageMainView()
 }

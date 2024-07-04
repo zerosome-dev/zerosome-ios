@@ -68,7 +68,6 @@ public struct CommonTitle: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .onTapGesture {
-                        print("tapped???")
                         imageAction?()
                     }    
             }

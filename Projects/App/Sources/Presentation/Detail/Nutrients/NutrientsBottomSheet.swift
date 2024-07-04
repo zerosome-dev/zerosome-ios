@@ -1,23 +1,24 @@
 //
 //  NutrientsBottomSheet.swift
-//  DesignSystem
+//  App
 //
 //  Created by 박서연 on 2024/07/04.
 //  Copyright © 2024 iOS. All rights reserved.
 //
 
 import SwiftUI
+import DesignSystem
 
 public struct NutrientsBottomSheet: View {
     
-    public init() { }
+    @ObservedObject var viewModel: DetailMainViewModel
     
     public var body: some View {
         VStack {
             CommonTitle(title: "제품 영양 정보",
                         type: .image,
                         imageTitle: ZerosomeAsset.ic_xmark) {
-                print("제품 영양 정보 bottom sheet pop")
+                viewModel.isNutrients = false
             }
             .padding(.bottom, 20)
             .padding(.top, 30)
@@ -57,5 +58,5 @@ public struct NutrientsBottomSheet: View {
 }
 
 #Preview {
-    NutrientsBottomSheet()
+    NutrientsBottomSheet(viewModel: DetailMainViewModel())
 }

@@ -9,11 +9,16 @@
 import SwiftUI
 import DesignSystem
 
+class DetailMainViewModel: ObservableObject {
+    @Published var isNutrients: Bool = false
+    
+}
+
 struct DetailMainView: View {
     private let storeSample = ["네이버", "쿠팡", "판매처", "티몬"]
     let rating: Int = 3 //Rating
-    @State private var isPresented: Bool = false
     
+    @StateObject private var viewModel = DetailMainViewModel()
     var body: some View {
         ScrollView {
             Rectangle()
@@ -39,11 +44,11 @@ struct DetailMainView: View {
                 DivideRectangle(height: 12, color: Color.neutral50)
                 
                 CommonTitle(title: "제품 영양 정보", type: .image, imageTitle: ZerosomeAsset.ic_arrow_after) {
-                    isPresented.toggle()
+                    viewModel.isNutrients = true
                 }
                 .padding(.horizontal, 22)
-                .sheet(isPresented: $isPresented) {
-                    NutrientsBottomSheet()
+                .sheet(isPresented: $viewModel.isNutrients) {
+                    NutrientsBottomSheet(viewModel: viewModel)
                 }
                 
                 DivideRectangle(height: 12, color: Color.neutral50)
@@ -52,7 +57,7 @@ struct DetailMainView: View {
                 
                 DivideRectangle(height: 12, color: Color.neutral50)
                 
-                DetailReviewView(reviewCounting: 0)
+                DetailReviewView(reviewCounting: 5)
                 
                 DivideRectangle(height: 12, color: Color.neutral50)
                 
