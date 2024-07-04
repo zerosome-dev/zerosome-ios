@@ -74,7 +74,6 @@ struct DetailReviewView: View {
                         .stroke(Color.neutral100, lineWidth: 1)
                 }
             }
-            
         }
         .padding(.horizontal, 22)
     }
