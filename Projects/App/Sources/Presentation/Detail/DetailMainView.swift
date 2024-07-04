@@ -9,42 +9,58 @@
 import SwiftUI
 import DesignSystem
 
-struct ProductDetailView: View {
+class DetailMainViewModel: ObservableObject {
+    @Published var isNutrients: Bool = false
+    
+}
+
+struct DetailMainView: View {
     private let storeSample = ["네이버", "쿠팡", "판매처", "티몬"]
     let rating: Int = 3 //Rating
     
+    @StateObject private var viewModel = DetailMainViewModel()
     var body: some View {
         ScrollView {
             Rectangle()
                 .fill(Color.neutral50)
                 .scaledToFit()
-                
-            ProductInfoView(rating: rating, reviewCnt: rating)
-            DivideRectangle(height: 12, color: Color.neutral50)
-                .padding(.init(top: 30, leading: 0, bottom: 16, trailing: 0))
 
-            // 영양성분
-            NutrientsView()
-                .padding(.horizontal, 22)
+//            // 영양성분
+//            NutrientsView()
+//                .padding(.horizontal, 22)
+//
+//            Text("영양 성분 모두 보기")
+//                .padding(.init(top: 8, leading: 24, bottom: 8, trailing: 24))
+//                .applyFont(font: .body2)
+//                .foregroundStyle(Color.neutral400)
+//                .overlay {
+//                    RoundedRectangle(cornerRadius: 50)
+//                        .stroke(Color.neutral400, lineWidth: 1)
+//                }
 
-            Text("영양 성분 모두 보기")
-                .padding(.init(top: 8, leading: 24, bottom: 8, trailing: 24))
-                .applyFont(font: .body2)
-                .foregroundStyle(Color.neutral400)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 50)
-                        .stroke(Color.neutral400, lineWidth: 1)
-                }
-            
-            DivideRectangle(height: 12, color: Color.neutral50)
-                .padding(.init(top: 16, leading: 0, bottom: 30, trailing: 0))
-            
             VStack(spacing: 30) {
+                ProductInfoView(rating: rating, reviewCnt: rating)
+                
+                DivideRectangle(height: 12, color: Color.neutral50)
+                
+                CommonTitle(title: "제품 영양 정보", type: .image, imageTitle: ZerosomeAsset.ic_arrow_after) {
+                    viewModel.isNutrients = true
+                }
+                .padding(.horizontal, 22)
+                .sheet(isPresented: $viewModel.isNutrients) {
+                    NutrientsBottomSheet(viewModel: viewModel)
+                }
+                
+                DivideRectangle(height: 12, color: Color.neutral50)
                 OffLineStoreView()
                 OnlineStoreView()
-                NoneZeroView()
-                DetailReviewView()
+                
                 DivideRectangle(height: 12, color: Color.neutral50)
+                
+                DetailReviewView(reviewCounting: 5)
+                
+                DivideRectangle(height: 12, color: Color.neutral50)
+                
                 SimiliarProductView()
                 CommonButton(title: "리뷰 작성", font: .subtitle2)
                     .padding(.horizontal, 22)
@@ -94,7 +110,7 @@ struct OffLineStoreView: View {
     let data = ["네이버", "쿠팡", "판매처", "티몬"]
     
     var body: some View {
-        CommonTitle(title: "오프라인 판매처")
+        CommonTitle(title: "오프라인 판매처", type: .solo)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 22)
         
@@ -109,7 +125,7 @@ struct OnlineStoreView: View {
     
     var body: some View {
         VStack {
-            CommonTitle(title: "온라인 판매처")
+            CommonTitle(title: "온라인 판매처", type: .solo)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             LazyVStack(spacing: 10) {
@@ -141,5 +157,5 @@ struct OnlineStoreView: View {
 }
 
 #Preview {
-    ProductDetailView()
+    DetailMainView()
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 import DesignSystem
 
-struct HomeMain: View {
+struct HomeMainView: View {
     var body: some View {
         ScrollView {
             CustomInfiniteBanner(height: 240)
@@ -57,5 +57,5 @@ struct HomeMain: View {
 }
 
 #Preview {
-    HomeMain()
+    HomeMainView()
 }

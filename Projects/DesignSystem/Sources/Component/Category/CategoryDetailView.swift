@@ -22,7 +22,10 @@ public struct CategoryDetailView: View {
                 ForEach(data, id: \.self) { type in
                     HStack(spacing: 2) {
                         Text(type)
-                        Image(systemName: "chevron.down")
+                            .applyFont(font: .label1)
+                        ZerosomeAsset.ic_arrow_bottom
+                            .resizable()
+                            .frame(width: 16, height: 16)
                     }
                     .padding(.init(top: 6, leading: 12, bottom: 6, trailing: 12))
                     .background(Color.neutral50)
@@ -34,5 +37,5 @@ public struct CategoryDetailView: View {
 }
 
 #Preview {
-    CategoryDetailView(data: ["태그1", "태그2", "태그3"])
+    CategoryDetailView(data: ["태그1", "태그2", "태그3", "태그4", "태그5", "태그6"])
 }

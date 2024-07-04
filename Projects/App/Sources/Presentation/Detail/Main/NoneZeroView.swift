@@ -14,7 +14,7 @@ struct NoneZeroView: View {
     
     var body: some View {
         VStack {
-            CommonTitle(title: "제로가 아닌 상품을 먹었다면?")
+            CommonTitle(title: "제로가 아닌 상품을 먹었다면?", type: .solo)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Rectangle()

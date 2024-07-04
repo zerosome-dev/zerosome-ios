@@ -9,24 +9,42 @@
 import DesignSystem
 import SwiftUI
 
-struct CategoryMain: View {
-
+struct CategoryMainView: View {
+    @State private var test: Bool = false
+    
     var body: some View {
         ScrollView {
-            Text("카테고리")
-            CategoryGridComponent(data: ZeroDrinkSampleData.dirnkType, type: "카페 음료",
-                             last: false, pageSpacing: 22, gridSpacing: 17)
-            CategoryGridComponent(data: ZeroDrinkSampleData.cafeType, type: "과자/아이스크림",
-                             last: false, pageSpacing: 22, gridSpacing: 17)
-            CategoryGridComponent(data: ZeroDrinkSampleData.snackType, type: "과자/아이스크림",
-                             last: false, pageSpacing: 22, gridSpacing: 17)
+//            CategoryDetailView(data: ZeroDrinkSampleData.categoryDetail)
+//                .padding(.horizontal, 22)
+//                .onTapGesture {
+//                    test.toggle()
+//                }
+                
+            CategoryGridComponent(data: ZeroDrinkSampleData.dirnkType,
+                                  type: "카페 음료",
+                                  last: false,
+                                  pageSpacing: 22,
+                                  gridSpacing: 17,
+                                  duplicated: false).padding(.top, 20)
             
+            CategoryGridComponent(data: ZeroDrinkSampleData.cafeType,
+                                  type: "과자/아이스크림",
+                                  last: false,
+                                  pageSpacing: 22,
+                                  gridSpacing: 17,
+                                  duplicated: false)
             
-            CategoryDetailView(data: ZeroDrinkSampleData.categoryDetail)
+            CategoryGridComponent(data: ZeroDrinkSampleData.snackType,
+                                  type: "과자/아이스크림",
+                                  last: false,
+                                  pageSpacing: 22,
+                                  gridSpacing: 17,
+                                  duplicated: false)
         }
+        .ZSnavigationTitle("카테고리")
     }
 }
 
 #Preview {
-    CategoryMain()
+    CategoryMainView()
 }
