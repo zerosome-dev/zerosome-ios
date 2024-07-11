@@ -21,4 +21,5 @@ public struct ZerosomeAsset {
     public static let ic_check_circle_gray = DesignSystemAsset.Assets.icCircleCheckGray.swiftUIImage
     public static let ic_check_circle_primary = DesignSystemAsset.Assets.icCircleCheckPrimary.swiftUIImage
     public static let ic_back_button = DesignSystemAsset.Assets.icArrowBack.swiftUIImage
+    public static let ic_check_black = DesignSystemAsset.Assets.icCheckBlack.swiftUIImage
 }

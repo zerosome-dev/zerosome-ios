@@ -11,6 +11,7 @@ import SwiftUI
 
 class CategoryViewModel: ObservableObject {
     @Published var category: String = ""
+    @Published var update: Update = .latest
 }
 
 struct CategoryMainView: View {
