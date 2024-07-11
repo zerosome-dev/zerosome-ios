@@ -14,32 +14,25 @@ struct CategoryMainView: View {
     
     var body: some View {
         ScrollView {
-//            CategoryDetailView(data: ZeroDrinkSampleData.categoryDetail)
-//                .padding(.horizontal, 22)
-//                .onTapGesture {
-//                    test.toggle()
-//                }
                 
             CategoryGridComponent(data: ZeroDrinkSampleData.drinkType,
-                                  type: "카페 음료",
+                                  title: "카페 음료",
                                   last: false,
-                                  pageSpacing: 22,
-                                  gridSpacing: 17,
-                                  duplicated: false).padding(.top, 20)
+                                  duplicated: false,
+                                  total: true)
+            .padding(.top, 20)
             
             CategoryGridComponent(data: ZeroDrinkSampleData.cafeType,
-                                  type: "과자/아이스크림",
+                                  title: "과자/아이스크림",
                                   last: false,
-                                  pageSpacing: 22,
-                                  gridSpacing: 17,
-                                  duplicated: false)
+                                  duplicated: false,
+                                  total: true)
             
             CategoryGridComponent(data: ZeroDrinkSampleData.snackType,
-                                  type: "과자/아이스크림",
-                                  last: false,
-                                  pageSpacing: 22,
-                                  gridSpacing: 17,
-                                  duplicated: false)
+                                  title: "과자/아이스크림",
+                                  last: true, 
+                                  duplicated: false,
+                                  total: false)
         }
         .ZSnavigationTitle("카테고리")
     }

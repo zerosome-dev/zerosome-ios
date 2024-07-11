@@ -12,34 +12,31 @@ public struct CategoryGridComponent: View {
     
     public let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     public let data: [String]
-    public let type: String
+    public let title: String
     public let last: Bool
-    public let pageSpacing: CGFloat
-    public let gridSpacing: CGFloat
     public let duplicated: Bool
+    public let total: Bool?
     
     public init(data: [String],
-                type: String,
-                last: Bool,
-                pageSpacing: CGFloat,
-                gridSpacing: CGFloat,
-                duplicated: Bool
+         title: String,
+         last: Bool,
+         duplicated: Bool,
+         total: Bool? = true
     ) {
         self.data = data
-        self.type = type
+        self.title = title
         self.last = last
-        self.pageSpacing = pageSpacing
-        self.gridSpacing = gridSpacing
         self.duplicated = duplicated
+        self.total = total
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            let size = (UIScreen.main.bounds.width - (pageSpacing * 2) - (gridSpacing * 3)) / 4
+        VStack(spacing: 12) {
+            let size = (UIScreen.main.bounds.width - (17 * 3) - 44) / 4
  
             if duplicated {
                 HStack {
-                    Text(type)
+                    Text(title)
                         .foregroundStyle(Color.neutral900)
                         .applyFont(font: .heading2)
                     Spacer()
@@ -48,8 +45,9 @@ public struct CategoryGridComponent: View {
                         .applyFont(font: .body3)
                 }
             } else {
-                Text(type)
+                Text(title)
                     .applyFont(font: .heading2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             
             LazyVGrid(columns: columns, spacing: 20) {
@@ -65,6 +63,16 @@ public struct CategoryGridComponent: View {
                             
                     }
                 }
+            }
+            
+            if total ?? true {
+                Text("전체 보기")
+                    .padding(.init(top: 6, leading: 10, bottom: 6, trailing: 10))
+                    .background(Color.neutral50)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    .padding(.top, 18)
+            } else {
+                EmptyView()
             }
         }
         .padding(.horizontal, 22)
@@ -83,9 +91,8 @@ public struct CategoryGridComponent: View {
 
 #Preview {
     CategoryGridComponent(data: ["11", "22"],
-                          type: "카페",
+                          title: "카페",
                           last: false,
-                          pageSpacing: 22,
-                          gridSpacing: 17,
-                          duplicated: true)
+                          duplicated: true,
+                          total: true)
 }
