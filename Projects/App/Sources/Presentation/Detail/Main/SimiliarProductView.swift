@@ -18,7 +18,7 @@ struct SimiliarProductView: View {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(0..<10) { i in
-                        ProductPreviewComponent(rank: i+1, rankLabel: false)
+                        ProductPreviewComponent()
                             .frame(maxWidth: 150)
                     }
                 }

@@ -20,7 +20,7 @@ struct CategoryMainView: View {
 //                    test.toggle()
 //                }
                 
-            CategoryGridComponent(data: ZeroDrinkSampleData.dirnkType,
+            CategoryGridComponent(data: ZeroDrinkSampleData.drinkType,
                                   type: "카페 음료",
                                   last: false,
                                   pageSpacing: 22,

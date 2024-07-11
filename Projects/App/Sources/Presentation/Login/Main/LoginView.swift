@@ -10,8 +10,6 @@ import SwiftUI
 import Kingfisher
 import DesignSystem
 
-
-
 struct LoginView: View {
     var body: some View {
         ZStack {
