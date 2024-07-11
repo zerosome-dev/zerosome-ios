@@ -8,7 +8,28 @@
 
 import SwiftUI
 
-public struct CategoryDetailView: View {
+public enum CategoryDetail: String, CaseIterable {
+    case category = "전체" // Defalut를 전체로 설정
+    case brand = "브랜드"
+    case update = "최신 등록순"
+    case zeroTag = "제로태그"
+    
+    @ViewBuilder
+    var view: some View {
+        switch self {
+        case .category:
+            EmptyView()
+        case .brand:
+            EmptyView()
+        case .update:
+            EmptyView()
+        case .zeroTag:
+            EmptyView()
+        }
+    }
+}
+
+public struct CategoryChoiceComponent: View {
     public let rows = Array(repeating: GridItem(.flexible()), count: 1)
     public let data: [String]
     
@@ -37,5 +58,5 @@ public struct CategoryDetailView: View {
 }
 
 #Preview {
-    CategoryDetailView(data: ["태그1", "태그2", "태그3", "태그4", "태그5", "태그6"])
+    CategoryChoiceComponent(data: ["태그1", "태그2", "태그3", "태그4", "태그5", "태그6"])
 }

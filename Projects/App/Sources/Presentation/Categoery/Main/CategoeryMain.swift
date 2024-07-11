@@ -9,7 +9,12 @@
 import DesignSystem
 import SwiftUI
 
+class CategoryViewModel: ObservableObject {
+    @Published var category: String = ""
+}
+
 struct CategoryMainView: View {
+    @StateObject private var viewModel = CategoryViewModel()
     @State private var test: Bool = false
     
     var body: some View {

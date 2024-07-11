@@ -8,6 +8,34 @@
 
 import SwiftUI
 
+public struct CategoryGridView: View {
+    
+    public let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
+    public let size = (UIScreen.main.bounds.width - (17 * 3) - 44) / 4
+    public let data: [String]
+    
+    public init(data: [String]) {
+        self.data = data
+    }
+    
+    public var body: some View {
+        LazyVGrid(columns: columns, spacing: 20) {
+            ForEach(data, id: \.self) { type in
+                VStack(spacing: 6) {
+                    Rectangle()
+                        .fill(Color.neutral50)
+                        .frame(width: size, height: size)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    Text(type)
+                        .foregroundStyle(Color.neutral900)
+                        .applyFont(font: .body2)
+                        
+                }
+            }
+        }
+    }
+}
+
 public struct CategoryGridComponent: View {
     
     public let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
@@ -80,10 +108,7 @@ public struct CategoryGridComponent: View {
         if last {
             EmptyView()
         } else {
-            Rectangle()
-                .foregroundStyle(Color.neutral50)
-                .frame(maxWidth: .infinity)
-                .frame(height: 12) 
+            DivideRectangle(height: 12, color: Color.neutral50)
                 .padding(.vertical, 30)
         }
     }
