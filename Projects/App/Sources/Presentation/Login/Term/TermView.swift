@@ -122,14 +122,12 @@ struct TermView: View {
                 }
         }
         .padding(.horizontal, 22)
-        .navigationBackButton {
-            
+        .ZSnavigationBackButton {
+            print("back")
         }
     }
 }
 
 #Preview {
-    NavigationStack {
-        TermView()
-    }
+    TermView()
 }

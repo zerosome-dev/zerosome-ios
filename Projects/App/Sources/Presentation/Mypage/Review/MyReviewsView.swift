@@ -67,7 +67,5 @@ struct MyReviewsView: View {
 }
 
 #Preview {
-    NavigationStack {
         MyReviewsView()
-    }
 }

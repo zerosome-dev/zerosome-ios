@@ -64,7 +64,5 @@ struct ChangeNicknameView: View {
 }
 
 #Preview {
-    NavigationStack {
-        ChangeNicknameView()
-    }
+    ChangeNicknameView()
 }

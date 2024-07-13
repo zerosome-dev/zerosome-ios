@@ -37,7 +37,5 @@ struct HomeCategoryDetailView: View {
 }
 
 #Preview {
-    NavigationStack {
-        HomeCategoryDetailView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구")
-    }
+    HomeCategoryDetailView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구")
 }

@@ -10,7 +10,7 @@ import SwiftUI
 import DesignSystem
 
 public extension View {
-    func navigationBackButton(_ action: @escaping () -> Void) -> some View {
+    func ZSnavigationBackButton(_ action: @escaping () -> Void) -> some View {
         VStack {
             ZerosomeAsset.ic_arrow_back
                 .resizable()
