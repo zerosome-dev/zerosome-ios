@@ -12,19 +12,34 @@ struct TabbarMainView: View {
     @StateObject public var viewModel = TabbarViewModel()
     
     var body: some View {
-        TabView(selection: $viewModel.selected) {
-            ForEach(Tabbar.allCases, id: \.self) { tab in
-                tab.view
+//        ZStack(alignment: .bottom) {
+//            TabView(selection: $viewModel.selected) {
+//                ForEach(Tabbar.allCases, id: \.self) { tab in
+//                    tab.view
+//                }
+//                .toolbarBackground(.hidden, for: .tabBar)
+//            }
+//            
+//            TabbarView(viewModel: viewModel)
+//                .edgesIgnoringSafeArea(.bottom)
+//        }
+        VStack(spacing: 0) {
+            TabView(selection: $viewModel.selected) {
+                ForEach(Tabbar.allCases, id: \.self) { tab in
+                    tab.view
+                }
+                .toolbarBackground(.hidden, for: .tabBar)
             }
-            .toolbarBackground(.hidden, for: .tabBar)
+            TabbarView(viewModel: viewModel)
+//                .edgesIgnoringSafeArea(.bottom)
         }
-        .overlay {
-            VStack {
-                Spacer()
-                TabbarView(viewModel: viewModel)
-                    .edgesIgnoringSafeArea(.bottom)
-            }
-        }
+//        .overlay {
+//            VStack {
+//                Spacer()
+//                TabbarView(viewModel: viewModel)
+//                    .edgesIgnoringSafeArea(.bottom)
+//            }
+//        }
     }
 }
 

@@ -30,8 +30,8 @@ struct HomeCategoryDetailView: View {
             }
             .padding(.horizontal, 22)
         }
-        .navigationBackButton {
-            print("tapped back")
+        .ZSNavigationBackButtonTitle("생수 / 음료") {
+            print("dd")
         }
     }
 }

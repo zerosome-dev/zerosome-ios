@@ -60,7 +60,7 @@ struct MyReviewsView: View {
                 }
             } .padding(.horizontal, 22)
         }
-        .navigationTitleBackButton(title: "내가 작성한 리뷰") {
+        .ZSNavigationBackButtonTitle("내가 작성한 리뷰") {
             print("리뷰 창 나가기")
         }
     }

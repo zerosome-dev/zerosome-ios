@@ -32,6 +32,7 @@ struct TabbarView: View {
                     }
                 }
             }
+            .padding(.top, 10)
         }
         .frame(height: 66)
         .background(Color.white)
