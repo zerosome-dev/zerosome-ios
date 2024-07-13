@@ -10,9 +10,13 @@ import SwiftUI
 
 // 홈 화면 -> 더보기 탭시 이동 뷰
 struct HomeCategoryDetailView: View {
+    
+    @EnvironmentObject var router: Router
     let title: String
     let subTitle: String
-    let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
+    let columns: [GridItem] = Array(repeating: .init(.flexible(),
+                                                     spacing: 11,
+                                                     alignment: .center), count: 2)
 
     var body: some View {
         ScrollView {
@@ -30,12 +34,14 @@ struct HomeCategoryDetailView: View {
             }
             .padding(.horizontal, 22)
         }
-        .ZSNavigationBackButtonTitle("생수 / 음료") {
-            print("dd")
+        .ZSnavigationBackButton {
+            router.navigateBack()
         }
     }
 }
 
 #Preview {
-    HomeCategoryDetailView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구")
+    NavigationStack {
+        HomeCategoryDetailView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구")
+    }
 }

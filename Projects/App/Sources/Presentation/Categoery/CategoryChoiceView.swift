@@ -55,6 +55,7 @@ struct CategoryChoiceView: View {
                 }
             }
         }
+        .scrollIndicators(.hidden)
     }
 }
 

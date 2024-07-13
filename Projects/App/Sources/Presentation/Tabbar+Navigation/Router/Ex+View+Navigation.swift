@@ -10,17 +10,38 @@ import SwiftUI
 import DesignSystem
 
 public extension View {
+    
+    func navigationBackTest(_ action: @escaping () -> Void) -> some View {
+        self
+            .navigationBarBackButtonHidden()
+//            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    ZerosomeAsset.ic_arrow_back
+                        .resizable()
+                        .frame(width: 24, height: 24)
+//                        .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
+                        .onTapGesture {
+                            action()
+                        }
+                }
+            }
+    }
+    
     func ZSnavigationBackButton(_ action: @escaping () -> Void) -> some View {
         VStack {
-            ZerosomeAsset.ic_arrow_back
-                .resizable()
-                .frame(width: 24, height: 24)
-                .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
-                .onTapGesture {
-                    action()
-                }
+            HStack(spacing: 0) {
+                ZerosomeAsset.ic_arrow_back
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
+                    .onTapGesture {
+                        action()
+                    }
+                Spacer()
+            }
             
-            self
+            self.navigationBarBackButtonHidden()
         }
     }
     
@@ -39,7 +60,7 @@ public extension View {
                 }
                 .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
             
-            self
+            self.navigationBarBackButtonHidden()
         }
     }
     
@@ -49,7 +70,7 @@ public extension View {
                 .applyFont(font: .heading1)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.init(top: 10,leading: 22,bottom: 10,trailing: 22))
-            self
+            self.navigationBarBackButtonHidden()
         }
     }
 }

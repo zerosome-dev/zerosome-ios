@@ -29,7 +29,6 @@ public struct CategoryGridView: View {
                     Text(type)
                         .foregroundStyle(Color.neutral900)
                         .applyFont(font: .body2)
-                        
                 }
             }
         }
@@ -42,35 +41,41 @@ public struct CategoryGridComponent: View {
     public let data: [String]
     public let title: String
     public let last: Bool
-    public let duplicated: Bool
-    public let total: Bool?
+    public let after: Bool
+    public var action: (() -> Void)?
+    public var pageAction: (() -> Void)?
     
     public init(data: [String],
-         title: String,
-         last: Bool,
-         duplicated: Bool,
-         total: Bool? = true
+                title: String,
+                last: Bool,
+                after: Bool,
+                action: (() -> Void)? = nil,
+                pageAction: (() -> Void)? = nil
     ) {
         self.data = data
         self.title = title
         self.last = last
-        self.duplicated = duplicated
-        self.total = total
+        self.after = after
+        self.action = action
+        self.pageAction = pageAction
     }
     
     public var body: some View {
         VStack(spacing: 12) {
             let size = (UIScreen.main.bounds.width - (17 * 3) - 44) / 4
  
-            if duplicated {
+            if after {
                 HStack {
                     Text(title)
                         .foregroundStyle(Color.neutral900)
                         .applyFont(font: .heading2)
                     Spacer()
-                    Text("중복 선택 불가")
-                        .foregroundStyle(Color.neutral500)
-                        .applyFont(font: .body3)
+                    ZerosomeAsset.ic_arrow_after
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                }
+                .onTapGesture {
+                    pageAction?()
                 }
             } else {
                 Text(title)
@@ -90,10 +95,13 @@ public struct CategoryGridComponent: View {
                             .applyFont(font: .body2)
                             
                     }
+                    .onTapGesture {
+                        action?()
+                    }
                 }
             }
             
-            if total ?? true {
+            if data.count > 8 { // 8개 이상일 때만 전체 보기 
                 Text("전체 보기")
                     .padding(.init(top: 6, leading: 10, bottom: 6, trailing: 10))
                     .background(Color.neutral50)
@@ -114,10 +122,23 @@ public struct CategoryGridComponent: View {
     }
 }
 
+public extension CategoryGridComponent {
+    func tapPageAction(_ pageAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.pageAction = pageAction
+        return copy
+    }
+    
+    func tapAction(_ action: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.action = action
+        return copy
+    }
+}
+
 #Preview {
     CategoryGridComponent(data: ["11", "22"],
                           title: "카페",
                           last: false,
-                          duplicated: true,
-                          total: true)
+                          after: true)
 }

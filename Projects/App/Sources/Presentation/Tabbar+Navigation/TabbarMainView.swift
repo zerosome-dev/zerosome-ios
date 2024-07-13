@@ -9,20 +9,9 @@
 import SwiftUI
 
 struct TabbarMainView: View {
-    @StateObject public var viewModel = TabbarViewModel()
+    @StateObject var viewModel = TabbarViewModel()
     
     var body: some View {
-//        ZStack(alignment: .bottom) {
-//            TabView(selection: $viewModel.selected) {
-//                ForEach(Tabbar.allCases, id: \.self) { tab in
-//                    tab.view
-//                }
-//                .toolbarBackground(.hidden, for: .tabBar)
-//            }
-//            
-//            TabbarView(viewModel: viewModel)
-//                .edgesIgnoringSafeArea(.bottom)
-//        }
         VStack(spacing: 0) {
             TabView(selection: $viewModel.selected) {
                 ForEach(Tabbar.allCases, id: \.self) { tab in
@@ -31,15 +20,7 @@ struct TabbarMainView: View {
                 .toolbarBackground(.hidden, for: .tabBar)
             }
             TabbarView(viewModel: viewModel)
-//                .edgesIgnoringSafeArea(.bottom)
         }
-//        .overlay {
-//            VStack {
-//                Spacer()
-//                TabbarView(viewModel: viewModel)
-//                    .edgesIgnoringSafeArea(.bottom)
-//            }
-//        }
     }
 }
 

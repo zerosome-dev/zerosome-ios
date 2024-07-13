@@ -13,8 +13,9 @@ final class Router: ObservableObject {
     enum Route: Hashable, Identifiable {
         var id: Self { self }
 
-        case productDetail
-        case productReview
+        case tabView
+        case homeSecondDepth(String, String) // 홈 > 종류별 더보기
+        case CategorySecondDepth(String)
         case categoryFilter
     }
     
@@ -23,10 +24,12 @@ final class Router: ObservableObject {
     
     @ViewBuilder func view(for route: Route) -> some View {
         switch route {
-        case .productDetail:
-            Text("제품 상세뷰")
-        case .productReview:
-            Text("제품 리뷰뷰")
+        case .tabView:
+            TabbarMainView()
+        case .homeSecondDepth(let title, let subTitle):
+            HomeCategoryDetailView(title: title, subTitle: subTitle)
+        case .CategorySecondDepth(let type):
+            CategoryFilteredView(type: type)
         case .categoryFilter:
             Text("카테고리 선택뷰")
         }

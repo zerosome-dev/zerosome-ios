@@ -16,30 +16,30 @@ class CategoryViewModel: ObservableObject {
 }
 
 struct CategoryMainView: View {
+    @EnvironmentObject var router: Router
     @StateObject private var viewModel = CategoryViewModel()
-    @State private var test: Bool = false
     
     var body: some View {
         ScrollView {
                 
-            CategoryGridComponent(data: ZeroDrinkSampleData.drinkType,
-                                  title: "카페 음료",
-                                  last: false,
-                                  duplicated: false,
-                                  total: true)
+            CategoryGridComponent(data: ZeroDrinkSampleData.drinkType, title: "생수/음료", last: false, after: true)
+                .tapPageAction {
+                    router.navigateTo(.CategorySecondDepth("생수/음료"))
+                }
+                .tapAction {
+                    
+                }
             .padding(.top, 20)
             
             CategoryGridComponent(data: ZeroDrinkSampleData.cafeType,
-                                  title: "과자/아이스크림",
+                                  title: "카페음료",
                                   last: false,
-                                  duplicated: false,
-                                  total: true)
+                                  after: true)
             
             CategoryGridComponent(data: ZeroDrinkSampleData.snackType,
                                   title: "과자/아이스크림",
                                   last: true, 
-                                  duplicated: false,
-                                  total: false)
+                                  after: true)
         }
         .ZSnavigationTitle("카테고리")
     }
