@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "ic_home_fill.svg",
-      "idiom" : "universal"
+      "filename" : "ic_home_fill.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ic_home_fill@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ic_home_fill@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

@@ -29,6 +29,8 @@ struct UpdateBottomSheet: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                         .opacity(viewModel.update == value ? 1 : 0)
+                    
+                    Spacer()
                 }
                 .onTapGesture {
                     viewModel.update = value

@@ -56,7 +56,7 @@ public struct ToastViewModifier: ViewModifier {
                 ToastView(type: type, desc: desc)
                     .padding(.horizontal, 24)
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             withAnimation {
                                 isShowing = false
                             }

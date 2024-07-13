@@ -14,7 +14,9 @@ import KakaoSDKAuth
 struct ZerosomeApp: App {
     var body: some Scene {
         WindowGroup {
-            TabbarMainView()
+            RouterView {
+                TabbarMainView()
+            }
         }
     }
 }

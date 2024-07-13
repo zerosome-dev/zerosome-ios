@@ -22,6 +22,7 @@ struct TabbarMainView: View {
             VStack {
                 Spacer()
                 TabbarView(viewModel: viewModel)
+                    .edgesIgnoringSafeArea(.bottom)
             }
         }
     }
