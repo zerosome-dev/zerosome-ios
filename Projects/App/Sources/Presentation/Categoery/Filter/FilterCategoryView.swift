@@ -18,8 +18,8 @@ struct FilterCategoryView: View {
     
     var body: some View {
         VStack {            
-            CategoryGridComponent(data: ZeroDrinkSampleData.dirnkType, type: "카페 음료",
-                                  last: true, pageSpacing: 22, gridSpacing: 17, duplicated: true)
+//            CategoryGridComponent(data: ZeroDrinkSampleData.drinkType, title: "카페 음료",
+//                                  last: true, pageSpacing: 22, duplicated: true)
             
             HStack {
                 

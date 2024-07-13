@@ -9,16 +9,28 @@
 import SwiftUI
 
 public struct ZerosomeAsset {
-    public static let zero_progress = DesignSystemAsset.Assets.progressGray.swiftUIImage
+    // start
     public static let ic_star_fill = DesignSystemAsset.Assets.icStarFill.swiftUIImage
     public static let ic_star_empty = DesignSystemAsset.Assets.icStarEmpty.swiftUIImage
+    
+    // progress
+    public static let zero_progress = DesignSystemAsset.Assets.progressGray.swiftUIImage
+    
+    // arrow
     public static let ic_arrow_bottom = DesignSystemAsset.Assets.icArrowBottom.swiftUIImage
     public static let ic_arrow_back = DesignSystemAsset.Assets.icArrowBack.swiftUIImage
     public static let ic_arrow_after = DesignSystemAsset.Assets.icArrowAfter.swiftUIImage
+    public static let ic_back_button = DesignSystemAsset.Assets.icArrowBack.swiftUIImage
+    
+    // common
     public static let ic_xmark = DesignSystemAsset.Assets.icXmark.swiftUIImage
-    public static let ic_kakako = DesignSystemAsset.Assets.icKakao.swiftUIImage
-    public static let ic_apple = DesignSystemAsset.Assets.icApple.swiftUIImage
     public static let ic_check_circle_gray = DesignSystemAsset.Assets.icCircleCheckGray.swiftUIImage
     public static let ic_check_circle_primary = DesignSystemAsset.Assets.icCircleCheckPrimary.swiftUIImage
-    public static let ic_back_button = DesignSystemAsset.Assets.icArrowBack.swiftUIImage
+    public static let ic_check_black = DesignSystemAsset.Assets.icCheckBlack.swiftUIImage
+    public static let ic_check_circle_green = DesignSystemAsset.Assets.icCheckCircleGreen.swiftUIImage
+    public static let ic_warning_circle_caption = DesignSystemAsset.Assets.icCheckWarningCaption.swiftUIImage
+    
+    // login
+    public static let ic_kakako = DesignSystemAsset.Assets.icKakao.swiftUIImage
+    public static let ic_apple = DesignSystemAsset.Assets.icApple.swiftUIImage
 }

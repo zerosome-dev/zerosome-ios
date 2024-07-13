@@ -9,37 +9,37 @@
 import DesignSystem
 import SwiftUI
 
+class CategoryViewModel: ObservableObject {
+    @Published var category: String = ""
+    @Published var update: Update = .latest
+    @Published var zeroTag: [String] = []
+}
+
 struct CategoryMainView: View {
+    @StateObject private var viewModel = CategoryViewModel()
     @State private var test: Bool = false
     
     var body: some View {
         ScrollView {
-//            CategoryDetailView(data: ZeroDrinkSampleData.categoryDetail)
-//                .padding(.horizontal, 22)
-//                .onTapGesture {
-//                    test.toggle()
-//                }
                 
-            CategoryGridComponent(data: ZeroDrinkSampleData.dirnkType,
-                                  type: "카페 음료",
+            CategoryGridComponent(data: ZeroDrinkSampleData.drinkType,
+                                  title: "카페 음료",
                                   last: false,
-                                  pageSpacing: 22,
-                                  gridSpacing: 17,
-                                  duplicated: false).padding(.top, 20)
+                                  duplicated: false,
+                                  total: true)
+            .padding(.top, 20)
             
             CategoryGridComponent(data: ZeroDrinkSampleData.cafeType,
-                                  type: "과자/아이스크림",
+                                  title: "과자/아이스크림",
                                   last: false,
-                                  pageSpacing: 22,
-                                  gridSpacing: 17,
-                                  duplicated: false)
+                                  duplicated: false,
+                                  total: true)
             
             CategoryGridComponent(data: ZeroDrinkSampleData.snackType,
-                                  type: "과자/아이스크림",
-                                  last: false,
-                                  pageSpacing: 22,
-                                  gridSpacing: 17,
-                                  duplicated: false)
+                                  title: "과자/아이스크림",
+                                  last: true, 
+                                  duplicated: false,
+                                  total: false)
         }
         .ZSnavigationTitle("카테고리")
     }

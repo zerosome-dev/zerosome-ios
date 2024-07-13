@@ -15,43 +15,24 @@ struct HomeMainView: View {
             CustomInfiniteBanner(height: 240)
             .padding(.bottom, 30)
 
-            VStack(spacing: 0) {
-                HomeSubTitleView(title: "지금 핫한 카페 음료", subTitle: "설명 문구를 입력해주세요.", type: .none)
-                .padding(.bottom, 16)
-                
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(0..<10) { _ in
-                            ReleasedCarouselView()
-                                .frame(maxWidth: 400)
-                        }
-                    }
-                }
-
-                HomeSubTitleView(title: "[생수/음료] 인기 음료 순위", subTitle: "설명 문구를 입력해주세요.", type: .rightButton)
-                    .padding(.init(top: 40, leading: 0, bottom: 16, trailing: 0))
-                
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(0..<10) { i in
-                            ProductPreviewComponent(rank: i+1, rankLabel: false)
-                                .frame(maxWidth: 150)
-                        }
-                    }
+            VStack(spacing: 30) {
+                HomeCategoryTitleView(title: "생수/음료",
+                                      subTitle: "제로로 걱정 없이 즐기는 상쾌한 한 모금",
+                                      type: .moreButton,
+                                      paddingType: true,
+                                      data: ZeroDrinkSampleData.drinkType) {
+                    print("페이지 이동")
                 }
                 
-                HomeSubTitleView(title: "[카페음료] 인기 음료 순위", subTitle: "설명 문구를 입력해주세요.", type: .ranking)
-                    .padding(.init(top: 40, leading: 0, bottom: 16, trailing: 0))
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(0..<10) { i in
-                            ProductPreviewComponent(rank: i+1, rankLabel: true)
-                                .frame(maxWidth: 150)
-                        }
-                    }
-                }
+                DivideRectangle(height: 12, color: Color.neutral50)
+                
+                HomeCategoryTitleView(title: "카페음료",
+                                      subTitle: "카페에서 즐기는 제로",
+                                      type: .moreButton,
+                                      paddingType: true,
+                                      data: ZeroDrinkSampleData.snackType)
+                
             }
-            .padding(.horizontal, 22)
         }
     }
 }
