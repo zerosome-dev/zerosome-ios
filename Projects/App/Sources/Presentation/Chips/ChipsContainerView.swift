@@ -43,21 +43,20 @@ public struct ChipsContainerView: View {
     @State var totalHeight: CGFloat
     let verticalSpacing: CGFloat
     let horizontalSpacing: CGFloat
-    let items: [ChipsType]
-    var sortedItems: [ChipsType] {
-        items.sorted(by: { $0.priority < $1.priority })
+    let types: [ZeroDrinkSampleData]
+    var sortedTypes: [ZeroDrinkSampleData] {
+        types.sorted(by: { $0.name < $1.name })
     }
-    
     public init(
         totalHeight: CGFloat = .zero,
         verticalSpacing: CGFloat = 10,
         horizontalSpacing: CGFloat = 10,
-        items: [ChipsType]
+        types: [ZeroDrinkSampleData]
     ) {
         self.totalHeight = totalHeight
         self.verticalSpacing = verticalSpacing
         self.horizontalSpacing = horizontalSpacing
-        self.items = items
+        self.types = types
     }
     
     public var body: some View {
@@ -66,13 +65,13 @@ public struct ChipsContainerView: View {
         
         GeometryReader { geomety in
             ZStack(alignment: .topLeading) {
-                ForEach(self.sortedItems, id: \.title) { item in
-                    ChipsView(title: item.title, viewModel: viewModel)
+                ForEach(sortedTypes, id: \.id) { type in
+                    ChipsView(title: type.name, viewModel: viewModel)
                         .onTapGesture {
-                            toggleSelection(of: item.title)
+                            toggleSelection(of: type.name)
                         }
-                        .id(item.title)
                         .alignmentGuide(.leading) { view in
+                            guard let last = sortedTypes.last else { return 0 }
                             if abs(width - view.width) > geomety.size.width {
                                 width = 0
                                 height -= view.height
@@ -80,19 +79,21 @@ public struct ChipsContainerView: View {
                             }
                             let result = width
                             
-                            if item == sortedItems.last {
+                            if type == last {
                                 width = 0
                             } else {
                                 width -= view.width
                                 width -= horizontalSpacing
                             }
-                            
+//                            
                             return result
                         }
                         .alignmentGuide(.top) { _ in
+                            guard let last = sortedTypes.last else { return 0 }
+                            
                             let result = height
                             
-                            if item == sortedItems.last {
+                            if type == last {
                                 height = 0
                             }
                             return result
@@ -121,15 +122,5 @@ public struct ChipsContainerView: View {
 }
 
 #Preview {
-    ChipsContainerView( items: [
-        .init(title: "첫번째"),
-        .init(title: "두번째", priority: 1),
-        .init(title: "세번째", priority: 2),
-        .init(title: "네번째", priority: 3),
-        .init(title: "서른마흔다섯번째", priority: 4),
-        .init(title: "여섯번째", priority: 5),
-        .init(title: "일곱번째", priority: 6),
-        .init(title: "여덟번째", priority: 7),
-        .init(title: "아홉번째", priority: 8),
-    ])
+    ChipsContainerView(types: ZeroDrinkSampleData.data)
 }

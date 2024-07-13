@@ -13,3 +13,13 @@ struct Size {
     static let width = UIScreen.main.bounds.width
     static let height = UIScreen.main.bounds.height
 }
+
+extension View {
+    func screenWidth() -> UIScreen? {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return self.screenWidth()
+        }
+        
+        return window.screen
+    }
+}

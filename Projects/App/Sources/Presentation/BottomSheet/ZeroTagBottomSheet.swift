@@ -17,25 +17,16 @@ struct ZeroTagBottomSheet: View {
                 .applyFont(font: .heading2)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.bottom, 20)
-            ChipsContainerView( items: [
-                .init(title: "첫번째"),
-                .init(title: "두번째", priority: 1),
-                .init(title: "세번째", priority: 2),
-                .init(title: "네번째", priority: 3),
-                .init(title: "서른마흔다섯번째", priority: 4),
-                .init(title: "여섯번째", priority: 5),
-                .init(title: "일곱번째", priority: 6),
-                .init(title: "여덟번째", priority: 7),
-                .init(title: "아홉번째", priority: 8),
-            ])
+            ChipsContainerView(types: ZeroDrinkSampleData.data)
             
             Spacer()
-            BottomSheetButton {
-                // 초기화
-                viewModel.zeroTag = []
-            } applyAction: {
-                print("적용")
-            }
+            BottomSheetButton()
+                .tapResetAction {
+                    viewModel.zeroTag = []
+                }
+                .tapApplyAction {
+                    print("적용")
+                }
         }
         .padding(.horizontal, 24)
     }
@@ -47,9 +38,8 @@ struct ZeroTagBottomSheet: View {
 
 
 struct BottomSheetButton: View {
-    var resetAction: (() -> Void)
-    var applyAction: (() -> Void)
-    
+    var resetAction: (() -> Void)?
+    var applyAction: (() -> Void)?
     var body: some View {
         let width = UIScreen.main.bounds.width / 3
         
@@ -62,13 +52,13 @@ struct BottomSheetButton: View {
                 .foregroundStyle(Color.neutral300)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .onTapGesture {
-                    resetAction()
+                    resetAction?()
                 }
             
             CommonButton(title: "적용", font: .subtitle1)
                 .frame(maxWidth: width * 2)
                 .onTapGesture {
-                    applyAction()
+                    applyAction?()
                 }
         }
     }
