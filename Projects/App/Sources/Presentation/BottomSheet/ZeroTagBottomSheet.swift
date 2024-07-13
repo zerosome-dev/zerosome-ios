@@ -40,6 +40,7 @@ struct ZeroTagBottomSheet: View {
 struct BottomSheetButton: View {
     var resetAction: (() -> Void)?
     var applyAction: (() -> Void)?
+    
     var body: some View {
         let width = UIScreen.main.bounds.width / 3
         
