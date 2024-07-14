@@ -9,20 +9,17 @@
 import SwiftUI
 
 struct TabbarMainView: View {
-    @StateObject public var viewModel = TabbarViewModel()
+    @StateObject var viewModel = TabbarViewModel()
     
     var body: some View {
-        TabView(selection: $viewModel.selected) {
-            ForEach(Tabbar.allCases, id: \.self) { tab in
-                tab.view
+        VStack(spacing: 0) {
+            TabView(selection: $viewModel.selected) {
+                ForEach(Tabbar.allCases, id: \.self) { tab in
+                    tab.view
+                }
+                .toolbarBackground(.hidden, for: .tabBar)
             }
-            .toolbarBackground(.hidden, for: .tabBar)
-        }
-        .overlay {
-            VStack {
-                Spacer()
-                TabbarView(viewModel: viewModel)
-            }
+            TabbarView(viewModel: viewModel)
         }
     }
 }

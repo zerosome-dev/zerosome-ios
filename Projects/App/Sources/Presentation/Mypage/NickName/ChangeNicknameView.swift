@@ -57,14 +57,12 @@ struct ChangeNicknameView: View {
                 .enable(!viewModel.nickname.isEmpty)
         }
         .padding(.horizontal, 22)
-        .navigationTitleBackButton(title: "닉네임 변경") {
+        .ZSNavigationBackButtonTitle("닉네임 변경") {
             print("닉네임 변경 취소")
         }
     }
 }
 
 #Preview {
-    NavigationStack {
-        ChangeNicknameView()
-    }
+    ChangeNicknameView()
 }

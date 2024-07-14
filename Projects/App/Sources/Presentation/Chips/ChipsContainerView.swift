@@ -9,37 +9,39 @@
 import SwiftUI
 
 public struct ChipsView: View {
-
-    @ObservedObject var viewModel: CategoryViewModel
-    var title: String
+    
+    let checkList: [String]
+    let check: Bool
+    let title: String
     
     init(
-        title: String,
-        viewModel: CategoryViewModel
+        checkList: [String],
+        check: Bool,
+        title: String
     ) {
+        self.checkList = checkList
+        self.check = check
         self.title = title
-        self.viewModel = viewModel
     }
     
-    public var body: some View {
-        let result = viewModel.zeroTag.contains(title)
-        
+    public var body: some View {        
         Text(title)
             .applyFont(font: .body2)
             .padding(.init(top: 6, leading: 12, bottom: 6, trailing: 12))
-            .background(result ? Color.primaryFF6972 : .white)
-            .foregroundStyle(result ? .white : .black)
+            .background(check ? Color.primaryFF6972 : .white)
+            .foregroundStyle(check ? .white : .black)
             .cornerRadius(6)
             .overlay(
                 RoundedRectangle(cornerRadius: 6)
-                    .stroke(result ? Color.primaryFF6972
+                    .stroke(check ? Color.primaryFF6972
                             : Color.neutral200, lineWidth: 1)
             )
     }
 }
 
 public struct ChipsContainerView: View {
-    @ObservedObject private var viewModel = CategoryViewModel()
+
+    @Binding var array: [String]
     @State var totalHeight: CGFloat
     let verticalSpacing: CGFloat
     let horizontalSpacing: CGFloat
@@ -47,12 +49,15 @@ public struct ChipsContainerView: View {
     var sortedTypes: [ZeroDrinkSampleData] {
         types.sorted(by: { $0.name < $1.name })
     }
+    
     public init(
+        array: Binding<[String]>,
         totalHeight: CGFloat = .zero,
         verticalSpacing: CGFloat = 10,
         horizontalSpacing: CGFloat = 10,
         types: [ZeroDrinkSampleData]
     ) {
+        self._array = array
         self.totalHeight = totalHeight
         self.verticalSpacing = verticalSpacing
         self.horizontalSpacing = horizontalSpacing
@@ -66,7 +71,7 @@ public struct ChipsContainerView: View {
         GeometryReader { geomety in
             ZStack(alignment: .topLeading) {
                 ForEach(sortedTypes, id: \.id) { type in
-                    ChipsView(title: type.name, viewModel: viewModel)
+                    ChipsView(checkList: array, check: returnResult(of: type.name), title: type.name)
                         .onTapGesture {
                             toggleSelection(of: type.name)
                         }
@@ -85,7 +90,7 @@ public struct ChipsContainerView: View {
                                 width -= view.width
                                 width -= horizontalSpacing
                             }
-//                            
+                            
                             return result
                         }
                         .alignmentGuide(.top) { _ in
@@ -113,14 +118,19 @@ public struct ChipsContainerView: View {
     }
     
     private func toggleSelection(of index: String) {
-        if let existingIndex = viewModel.zeroTag.firstIndex(of: index) {
-            viewModel.zeroTag.remove(at: existingIndex)
+        if let existingIndex = array.firstIndex(of: index) {
+            array.remove(at: existingIndex)
         } else {
-            viewModel.zeroTag.append(index)
+            array.append(index)
         }
+    }
+    
+    private func returnResult(of index: String) -> Bool {
+        return array.contains(index) ? true : false
     }
 }
 
-#Preview {
-    ChipsContainerView(types: ZeroDrinkSampleData.data)
-}
+//#Preview {
+////    ChipsContainerView(types: ZeroDrinkSampleData.data)
+//    ChipsContainerView(array: <#T##[String]#>, result: <#T##Bool#>, totalHeight: <#T##CGFloat#>, verticalSpacing: <#T##CGFloat#>, horizontalSpacing: <#T##CGFloat#>, types: <#T##[ZeroDrinkSampleData]#>)
+//}

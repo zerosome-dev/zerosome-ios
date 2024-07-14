@@ -10,6 +10,8 @@ import SwiftUI
 import DesignSystem
 
 struct HomeMainView: View {
+    @EnvironmentObject var router: Router
+
     var body: some View {
         ScrollView {
             CustomInfiniteBanner(height: 240)
@@ -21,7 +23,8 @@ struct HomeMainView: View {
                                       type: .moreButton,
                                       paddingType: true,
                                       data: ZeroDrinkSampleData.drinkType) {
-                    print("페이지 이동")
+                    router.navigateTo(.homeSecondDepth("생수/음료",
+                                                       "제로로 걱정없이 즐기는 상쾌한 한모금"))
                 }
                 
                 DivideRectangle(height: 12, color: Color.neutral50)

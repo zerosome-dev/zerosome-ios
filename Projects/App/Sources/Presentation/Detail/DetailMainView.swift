@@ -15,10 +15,12 @@ class DetailMainViewModel: ObservableObject {
 }
 
 struct DetailMainView: View {
+    @EnvironmentObject var router: Router
+    @StateObject private var viewModel = DetailMainViewModel()
+    
     private let storeSample = ["네이버", "쿠팡", "판매처", "티몬"]
     let rating: Int = 3 //Rating
     
-    @StateObject private var viewModel = DetailMainViewModel()
     var body: some View {
         ScrollView {
             Rectangle()
@@ -65,6 +67,9 @@ struct DetailMainView: View {
                 CommonButton(title: "리뷰 작성", font: .subtitle2)
                     .padding(.horizontal, 22)
             }
+        }
+        .ZSNavigationBackButtonTitle("제품명") {
+            router.navigateBack()
         }
     }
 }
