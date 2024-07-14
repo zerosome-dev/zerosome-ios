@@ -10,8 +10,6 @@ import SwiftUI
 import DesignSystem
 
 struct ProductPreviewComponent: View {
-//    var rank: Int
-//    var rankLabel: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -20,14 +18,7 @@ struct ProductPreviewComponent: View {
                 .frame(height: 150)
                 .frame(maxWidth: .infinity)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-//                .overlay(alignment: .bottomLeading) {
-//                    if rankLabel {
-//                        Text("\(rank)")
-//                            .font(.custom(DesignSystemFontFamily.Pretendard.bold.name, size: 32))
-//                            .padding(.init(top: 0, leading: 12, bottom: 2, trailing: 0))
-//                    }
-//                }
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text("[브랜드명브랜드명브랜브랜드명브랜드명브랜]")
                     .lineLimit(1)

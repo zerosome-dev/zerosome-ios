@@ -10,9 +10,7 @@ import DesignSystem
 import SwiftUI
 
 class CategoryViewModel: ObservableObject {
-    @Published var category: String = ""
-    @Published var update: Update = .latest
-    @Published var zeroTag: [String] = []
+
 }
 
 struct CategoryMainView: View {
@@ -21,15 +19,14 @@ struct CategoryMainView: View {
     
     var body: some View {
         ScrollView {
-                
             CategoryGridComponent(data: ZeroDrinkSampleData.drinkType, title: "생수/음료", last: false, after: true)
                 .tapPageAction {
-                    router.navigateTo(.CategorySecondDepth("생수/음료"))
+                    router.navigateTo(.categorySecondDepth("생수/음료"))
                 }
                 .tapAction {
-                    
+                    router.navigateTo(.detailMainView)
                 }
-            .padding(.top, 20)
+                .padding(.top, 20)
             
             CategoryGridComponent(data: ZeroDrinkSampleData.cafeType,
                                   title: "카페음료",
@@ -42,6 +39,7 @@ struct CategoryMainView: View {
                                   after: true)
         }
         .ZSnavigationTitle("카테고리")
+        .scrollIndicators(.hidden)
     }
 }
 

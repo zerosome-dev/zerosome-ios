@@ -15,8 +15,9 @@ final class Router: ObservableObject {
 
         case tabView
         case homeSecondDepth(String, String) // 홈 > 종류별 더보기
-        case CategorySecondDepth(String)
+        case categorySecondDepth(String)
         case categoryFilter
+        case detailMainView
     }
     
     @Published var path: NavigationPath = NavigationPath()
@@ -28,10 +29,13 @@ final class Router: ObservableObject {
             TabbarMainView()
         case .homeSecondDepth(let title, let subTitle):
             HomeCategoryDetailView(title: title, subTitle: subTitle)
-        case .CategorySecondDepth(let type):
+        case .categorySecondDepth(let type):
             CategoryFilteredView(type: type)
         case .categoryFilter:
             Text("카테고리 선택뷰")
+        case .detailMainView:
+//            @StateObject var viewModel = DetailMainViewModel()
+            DetailMainView()
         }
     }
     
