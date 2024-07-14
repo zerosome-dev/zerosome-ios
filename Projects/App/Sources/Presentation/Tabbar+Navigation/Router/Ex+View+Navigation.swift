@@ -10,32 +10,69 @@ import SwiftUI
 import DesignSystem
 
 public extension View {
-    func navigationBackButton(_ action: @escaping () -> Void) -> some View {
-        self.navigationBarBackButtonHidden()
+    
+    func navigationBackTest(_ action: @escaping () -> Void) -> some View {
+        self
+            .navigationBarBackButtonHidden()
+//            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: action, label: {
-                        // TODO: - 백버튼 이미지 수정
-
-                        ZerosomeAsset.ic_back_button
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                    })
+                    ZerosomeAsset.ic_arrow_back
+                        .resizable()
+                        .frame(width: 24, height: 24)
+//                        .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
+                        .onTapGesture {
+                            action()
+                        }
                 }
             }
     }
     
-    func navigationTitle(with text: Text) -> some View {
-        VStack(spacing: 31) {
+    func ZSnavigationBackButton(_ action: @escaping () -> Void) -> some View {
+        VStack {
             HStack(spacing: 0) {
-                text
-                    .applyFont(font: .heading1)
-                    .frame(height: 47)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.init(top: 10, leading: 22, bottom: 10, trailing: 0))
+                ZerosomeAsset.ic_arrow_back
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
+                    .onTapGesture {
+                        action()
+                    }
                 Spacer()
             }
-            self
+            
+            self.navigationBarBackButtonHidden()
+        }
+    }
+    
+    func ZSNavigationBackButtonTitle(_ text: String, _ action: @escaping () -> Void) -> some View {
+        VStack {
+            Text(text)
+                .applyFont(font: .heading1)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .overlay(alignment: .topLeading) {
+                    ZerosomeAsset.ic_arrow_back
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .onTapGesture {
+                            action()
+                        }
+                }
+                .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
+            
+            self.navigationBarBackButtonHidden()
+        }
+    }
+    
+    func ZSnavigationTitle(_ text: String) -> some View {
+        VStack {
+            Text(text)
+                .applyFont(font: .heading1)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.init(top: 10,leading: 22,bottom: 10,trailing: 22))
+            self.navigationBarBackButtonHidden()
         }
     }
 }
+
+

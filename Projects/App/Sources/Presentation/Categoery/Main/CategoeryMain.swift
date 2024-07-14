@@ -9,24 +9,40 @@
 import DesignSystem
 import SwiftUI
 
-struct CategoryMain: View {
+class CategoryViewModel: ObservableObject {
 
+}
+
+struct CategoryMainView: View {
+    @EnvironmentObject var router: Router
+    @StateObject private var viewModel = CategoryViewModel()
+    
     var body: some View {
         ScrollView {
-            Text("카테고리")
-            CategoryGridView(data: ZeroDrinkSampleData.dirnkType, type: "카페 음료",
-                             last: false, pageSpacing: 22, gridSpacing: 17)
-            CategoryGridView(data: ZeroDrinkSampleData.cafeType, type: "과자/아이스크림",
-                             last: false, pageSpacing: 22, gridSpacing: 17)
-            CategoryGridView(data: ZeroDrinkSampleData.snackType, type: "과자/아이스크림",
-                             last: false, pageSpacing: 22, gridSpacing: 17)
+            CategoryGridComponent(data: ZeroDrinkSampleData.drinkType, title: "생수/음료", last: false, after: true)
+                .tapPageAction {
+                    router.navigateTo(.categorySecondDepth("생수/음료"))
+                }
+                .tapAction {
+                    router.navigateTo(.detailMainView)
+                }
+                .padding(.top, 20)
             
+            CategoryGridComponent(data: ZeroDrinkSampleData.cafeType,
+                                  title: "카페음료",
+                                  last: false,
+                                  after: true)
             
-            CategoryDetailView(data: ZeroDrinkSampleData.categoryDetail)
+            CategoryGridComponent(data: ZeroDrinkSampleData.snackType,
+                                  title: "과자/아이스크림",
+                                  last: true, 
+                                  after: true)
         }
+        .ZSnavigationTitle("카테고리")
+        .scrollIndicators(.hidden)
     }
 }
 
 #Preview {
-    CategoryMain()
+    CategoryMainView()
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import DesignSystem
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,6 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        DesignSystemFontFamily.registerAllCustomFonts()
+        
+//        for family in UIFont.familyNames {
+//            let sName: String = family as String
+//            print("DONG family: \(sName)")
+//                    
+//            for name in UIFont.fontNames(forFamilyName: sName) {
+//                print("DONG name: \(name as String)")
+//            }
+//        }
         return true
     }
 

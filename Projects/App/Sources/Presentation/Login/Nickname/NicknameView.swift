@@ -58,14 +58,12 @@ struct NicknameView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 22)
-        .navigationBackButton {
-            // TODO: - router 추가
+        .ZSnavigationBackButton {
+            print("back")
         }
     }
 }
 
 #Preview {
-    NavigationStack {
-        NicknameView()
-    }
+    NicknameView()
 }

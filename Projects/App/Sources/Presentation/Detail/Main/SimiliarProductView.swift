@@ -11,14 +11,20 @@ import DesignSystem
 
 struct SimiliarProductView: View {
     var body: some View {
-        VStack {
-            Text("이 상품과 비슷한 상품이에요")
-                .applyFont(font: .heading2)
+        VStack(spacing: 16) {
+            CommonTitle(title: "이 상품과 비슷한 상품이에요", type: .solo)
                 .frame(maxWidth: .infinity, alignment: .leading)
-
-            // TODO: - component 넣기
-            CommonButton(title: "작성완료", font: .subtitle2)
+            
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(0..<10) { i in
+                        ProductPreviewComponent()
+                            .frame(maxWidth: 150)
+                    }
+                }
+            }
         }
+        .padding(.horizontal, 22)
     }
 }
 

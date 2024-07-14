@@ -16,17 +16,11 @@ enum Tabbar: CaseIterable {
     var view: some View {
         switch self {
         case .home:
-            RouterView {
-                HomeView()
-            }
+            HomeMainView()
         case .category:
-            RouterView {
-                CategoryView()
-            }
+            CategoryMainView()
         case .mypage:
-            RouterView {
-                MypageView()
-            }
+            MypageMainView()
         }
     }
     
