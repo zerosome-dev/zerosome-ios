@@ -34,6 +34,7 @@ struct HomeCategoryDetailView: View {
             }
             .padding(.horizontal, 22)
         }
+        .scrollIndicators(.hidden)
         .ZSnavigationBackButton {
             router.navigateBack()
         }

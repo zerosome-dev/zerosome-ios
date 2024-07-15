@@ -21,7 +21,7 @@ struct ZeroTagBottomSheet: View {
             ScrollView {
                 ChipsContainerView(array: $viewModel.zeroTag, types: ZeroDrinkSampleData.data)
             }
-            
+            .scrollIndicators(.hidden)
             Spacer()
             BottomSheetButton(enable: !viewModel.zeroTag.isEmpty)
                 .tapResetAction {

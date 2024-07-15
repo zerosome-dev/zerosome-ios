@@ -20,25 +20,12 @@ struct DetailMainView: View {
     
     private let storeSample = ["네이버", "쿠팡", "판매처", "티몬"]
     let rating: Int = 3 //Rating
-    
+    @State private var array: [String] = []
     var body: some View {
         ScrollView {
             Rectangle()
                 .fill(Color.neutral50)
                 .scaledToFit()
-
-//            // 영양성분
-//            NutrientsView()
-//                .padding(.horizontal, 22)
-//
-//            Text("영양 성분 모두 보기")
-//                .padding(.init(top: 8, leading: 24, bottom: 8, trailing: 24))
-//                .applyFont(font: .body2)
-//                .foregroundStyle(Color.neutral400)
-//                .overlay {
-//                    RoundedRectangle(cornerRadius: 50)
-//                        .stroke(Color.neutral400, lineWidth: 1)
-//                }
 
             VStack(spacing: 30) {
                 ProductInfoView(rating: rating, reviewCnt: rating)
@@ -51,10 +38,13 @@ struct DetailMainView: View {
                 .padding(.horizontal, 22)
                 .sheet(isPresented: $viewModel.isNutrients) {
                     NutrientsBottomSheet(viewModel: viewModel)
+                        .presentationDetents([.height(710)])
                 }
                 
                 DivideRectangle(height: 12, color: Color.neutral50)
-                OffLineStoreView()
+
+                ChipsContainerView(array: $array, types: ZeroDrinkSampleData.data)
+                    .padding(.horizontal, 22)
                 OnlineStoreView()
                 
                 DivideRectangle(height: 12, color: Color.neutral50)
@@ -70,7 +60,7 @@ struct DetailMainView: View {
         }
         .ZSNavigationBackButtonTitle("제품명") {
             router.navigateBack()
-        }
+        }.scrollIndicators(.hidden)
     }
 }
 

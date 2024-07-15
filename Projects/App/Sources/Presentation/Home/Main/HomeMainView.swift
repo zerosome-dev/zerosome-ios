@@ -29,7 +29,7 @@ struct HomeMainView: View {
                                       subTitle: "출시 예정 및 최신 상품을 확인해 보세요",
                                       type: .noneData) {
                     router.navigateTo(.homeSecondDepth("출시 예정 신상품", "신상품!!"))
-                }
+                }.padding(.top, 20)   
                 
                 HomeCarouselView()
                     .frame(height: 327)
@@ -51,6 +51,7 @@ struct HomeMainView: View {
                 
             }
         }
+        .scrollIndicators(.hidden)
         .ZSmainNaviTitle("Zerosome")
     }
 }

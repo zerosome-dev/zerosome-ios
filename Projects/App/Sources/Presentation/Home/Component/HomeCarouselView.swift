@@ -15,7 +15,9 @@ class CarouselViewModel: ObservableObject {
 }
 
 struct HomeCarouselView: View {
+    
     @StateObject private var vm = CarouselViewModel()
+    @EnvironmentObject var router: Router
     private let sampleList = ["출시예정", "온라인", "오프라인"]
     private let tagList = ["생수/음료","탄산음료"]
     
@@ -74,7 +76,7 @@ struct HomeCarouselView: View {
                 launchImage()
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
                     .onTapGesture {
-                        print("페이지 이동!!!!")
+                        router.navigateTo(.homeSecondDepth("출시 예정 신상품", "신상품!!"))
                     }
             }
            

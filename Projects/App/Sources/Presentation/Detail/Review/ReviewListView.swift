@@ -68,7 +68,7 @@ struct ReviewListView: View {
                         .padding(.bottom, 30)
                 }
             }
-        }
+        }.scrollIndicators(.hidden)
     }
 }
 

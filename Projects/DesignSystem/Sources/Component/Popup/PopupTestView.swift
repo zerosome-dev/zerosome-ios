@@ -31,6 +31,7 @@ struct PopupTestView: View {
                     .font(.headline)
             }
         }
+        .scrollIndicators(.hidden)
         .ZAlert(isShowing: $isShowing,
                 type: .firstButton(title: "안녕하세요", button: "취소"),
                 confirmButton: {
