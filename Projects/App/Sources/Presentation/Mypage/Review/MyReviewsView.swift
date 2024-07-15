@@ -63,6 +63,7 @@ struct MyReviewsView: View {
         .ZSNavigationBackButtonTitle("내가 작성한 리뷰") {
             print("리뷰 창 나가기")
         }
+        .scrollIndicators(.hidden)
     }
 }
 

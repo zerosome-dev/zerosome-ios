@@ -23,6 +23,7 @@ struct SimiliarProductView: View {
                     }
                 }
             }
+            .scrollIndicators(.hidden)
         }
         .padding(.horizontal, 22)
     }

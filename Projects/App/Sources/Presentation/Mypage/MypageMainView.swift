@@ -31,6 +31,7 @@ struct MypageMainView: View {
             Spacer()
         }
         .ZSnavigationTitle("마이페이지")
+        .scrollIndicators(.hidden)
     }
 }
 

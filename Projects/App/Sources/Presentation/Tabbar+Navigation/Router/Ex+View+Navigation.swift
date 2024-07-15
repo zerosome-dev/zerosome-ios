@@ -65,10 +65,31 @@ public extension View {
     }
     
     func ZSnavigationTitle(_ text: String) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             Text(text)
                 .applyFont(font: .heading1)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.init(top: 10,leading: 22,bottom: 10,trailing: 22))
+            self.navigationBarBackButtonHidden()
+        }
+    }
+    
+    func ZSmainNaviTitle(_ text: String) -> some View {
+        VStack(spacing: 0) {
+            Text(text)
+                .applyFont(font: .heading1)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.init(top: 10,leading: 22,bottom: 10,trailing: 22))
+                .foregroundStyle(Color.primaryFF6972)
+            self.navigationBarBackButtonHidden()
+        }
+    }
+    
+    func ZSnavigationImage(_ image: Image) -> some View {
+        VStack(spacing: 0) {
+            image
+                .resizable()
+                .frame(width: 117, height: 28)
                 .padding(.init(top: 10,leading: 22,bottom: 10,trailing: 22))
             self.navigationBarBackButtonHidden()
         }

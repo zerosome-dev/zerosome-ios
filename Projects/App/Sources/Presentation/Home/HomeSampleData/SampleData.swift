@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ZeroDrinkSampleData {
+public struct ZeroDrinkSampleData: Identifiable {
     public var id = UUID().uuidString
     public var photo: String
     public var name: String

@@ -28,6 +28,7 @@ struct ToastTestView: View {
             }
             
         }
+        .scrollIndicators(.hidden)
         .ZToast($vm.isShowing,
                 .success,
                 "성공 토스트입니다.")

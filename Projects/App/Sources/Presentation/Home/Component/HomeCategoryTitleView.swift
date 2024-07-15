@@ -12,22 +12,24 @@ import DesignSystem
 struct HomeCategoryTitleView: View {
     enum TitleType {
         case none
+        case noneData
         case moreButton
     }
     
     let title: String
     let subTitle: String
     let type: TitleType
-    let paddingType: Bool
+    let paddingType: Bool?
     let data: [String]?
     let action: (() -> Void)?
     let columns: [GridItem] = [.init(.flexible(), spacing: 10, alignment: .center)]
+    
     @State private var categoryList: [String] = [] // 유저가 선택하는 카테고리
     
     init(title: String,
          subTitle: String,
          type: TitleType,
-         paddingType: Bool,
+         paddingType: Bool? = true,
          data: [String]? = nil,
          action: (() -> Void)? = nil)
     {
@@ -41,6 +43,7 @@ struct HomeCategoryTitleView: View {
 
     var body: some View {
         VStack(spacing: 12) {
+            
             titleView
             
             if type == .moreButton {
@@ -56,9 +59,8 @@ struct HomeCategoryTitleView: View {
                 }
                 .scrollIndicators(.hidden)
             }
-            
         }
-        .padding(.horizontal, paddingType ? 22 : 0)
+        .padding(.horizontal, paddingType! ? 22 : 0)
     }
 
     @ViewBuilder
@@ -68,7 +70,7 @@ struct HomeCategoryTitleView: View {
                 Text(title)
                     .applyFont(font: .heading1)
                 Spacer()
-                if type == .moreButton {
+                if type == .moreButton || type == .noneData {
                     moreButton
                 }
             }

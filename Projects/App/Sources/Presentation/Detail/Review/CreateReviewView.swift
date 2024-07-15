@@ -78,7 +78,7 @@ struct CreateReviewView: View {
                     .padding(.horizontal, 22)
                     .padding(.top, -2)
             }
-        }
+        }.scrollIndicators(.hidden)
     }
 }
 

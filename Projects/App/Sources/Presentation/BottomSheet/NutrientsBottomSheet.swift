@@ -35,23 +35,24 @@ public struct NutrientsBottomSheet: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding(.bottom, 6)
             
-            ForEach(0..<5) { index in
-                HStack{
-                    Text("영양성분명1")
-                    Spacer()
-                    Text("영양성분")
+            ScrollView {
+                ForEach(0..<20) { index in
+                    HStack{
+                        Text("영양성분명1")
+                        Spacer()
+                        Text("영양성분")
+                    }
+                    .applyFont(font: .body2)
+                    .foregroundStyle(Color.neutral600)
+                    .padding(.vertical, 14)
+//                    
+                    Rectangle()
+                        .fill(Color.neutral100)
+                        .frame(maxWidth: .infinity, maxHeight: 1)
+                        .opacity(index == 20 ? 0 : 1)
                 }
-                .applyFont(font: .body2)
-                .foregroundStyle(Color.neutral600)
-                .padding(.vertical, 14)
-                
-                Rectangle()
-                    .fill(Color.neutral100)
-                    .frame(maxWidth: .infinity, maxHeight: 1)
-                    .opacity(index == 4 ? 0 : 1)
             }
-            
-            Spacer()
+            .scrollIndicators(.hidden)
         }
         .padding(.horizontal, 24)
     }

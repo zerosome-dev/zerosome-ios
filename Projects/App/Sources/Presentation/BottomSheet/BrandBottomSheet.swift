@@ -21,6 +21,7 @@ struct BrandBottomSheet: View {
             ScrollView {
                 ChipsContainerView(array: $viewModel.brand, types: ZeroDrinkSampleData.data)
             }
+            .scrollIndicators(.hidden)
             
             Spacer()
             BottomSheetButton(enable: !viewModel.brand.isEmpty)
