@@ -9,19 +9,34 @@
 import SwiftUI
 import DesignSystem
 
+class HomeMainViewModel: ObservableObject {
+    @Published var bannerResult: Bool = false
+}
+
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
-
+    @StateObject private var viewModel = HomeMainViewModel()
+    
     var body: some View {
         ScrollView {
-            CustomInfiniteBanner(height: 240)
-            .padding(.bottom, 30)
+            if viewModel.bannerResult {
+                CustomInfiniteBanner(height: 240)
+                    .padding(.bottom, 20)
+            }
 
             VStack(spacing: 30) {
+                HomeCategoryTitleView(title: "출시 예정 신상품",
+                                      subTitle: "출시 예정 및 최신 상품을 확인해 보세요",
+                                      type: .noneData) {
+                    router.navigateTo(.homeSecondDepth("출시 예정 신상품", "신상품!!"))
+                }
+                
+                HomeCarouselView()
+                    .frame(height: 327)
+                
                 HomeCategoryTitleView(title: "생수/음료",
                                       subTitle: "제로로 걱정 없이 즐기는 상쾌한 한 모금",
                                       type: .moreButton,
-                                      paddingType: true,
                                       data: ZeroDrinkSampleData.drinkType) {
                     router.navigateTo(.homeSecondDepth("생수/음료",
                                                        "제로로 걱정없이 즐기는 상쾌한 한모금"))
@@ -32,11 +47,11 @@ struct HomeMainView: View {
                 HomeCategoryTitleView(title: "카페음료",
                                       subTitle: "카페에서 즐기는 제로",
                                       type: .moreButton,
-                                      paddingType: true,
                                       data: ZeroDrinkSampleData.snackType)
                 
             }
         }
+        .ZSmainNaviTitle("Zerosome")
     }
 }
 

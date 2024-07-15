@@ -33,4 +33,7 @@ public struct ZerosomeAsset {
     // login
     public static let ic_kakako = DesignSystemAsset.Assets.icKakao.swiftUIImage
     public static let ic_apple = DesignSystemAsset.Assets.icApple.swiftUIImage
+    
+    // item
+    public static let card_launch_more = DesignSystemAsset.Assets.cardLaunchMore.swiftUIImage
 }
