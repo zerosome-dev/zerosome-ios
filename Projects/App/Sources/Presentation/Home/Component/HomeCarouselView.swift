@@ -23,13 +23,14 @@ struct HomeCarouselView: View {
     
     var body: some View {
         VStack {
-            CarouselSecondView(width: $vm.width,
-                               data: ZeroDrinkSampleData.data,
-                               edgeSpacing: 23.5,
-                               contentSpacing: 14,
-                               totalSpacing: 22,
-                               contentHeight: 327) { value in
-                Rectangle()
+            CarouselNextView(width: $vm.width,
+                             data: ZeroDrinkSampleData.data,
+                             edgeSpacing: 24,
+                             contentSpacing: 14,
+                             totalSpacing: 22,
+                             contentHeight: 327)
+            { data in
+                RoundedRectangle(cornerRadius: 12)
                     .fill(.white)
                     .overlay {
                         VStack {
@@ -37,35 +38,19 @@ struct HomeCarouselView: View {
                                 .fill(Color.neutral50)
                                 .frame(height: 216)
                                 .overlay {
-                                    KFImage(URL(string: value.photo))
+                                    KFImage(URL(string: data.photo))
                                         .resizable()
                                         .scaledToFit()
                                 }
                             
                             Spacer()
                             VStack(spacing: 6) {
-                                HStack(spacing: 8) {
-                                    ForEach(tagList, id: \.self) { tag in
-                                        Text(tag)
-                                            .applyFont(font: .label1)
-                                            .foregroundStyle(Color.neutral500)
-                                    }
-                                }
-                                
-                                Text(value.name)
+                                tagView()
+                                Text(data.name)
                                     .applyFont(font: .subtitle1)
                                     .foregroundStyle(.black)
                                     .padding(.bottom, 9)
-                                
-                                HStack(spacing: 6) {
-                                    ForEach(sampleList, id: \.self) { tag in
-                                        Text(tag)
-                                            .applyFont(font: .label2)
-                                            .foregroundStyle(Color.neutral700)
-                                            .padding(.init(top: 3, leading: 6, bottom: 3, trailing: 6))
-                                            .background(Color.neutral50)
-                                    }
-                                }
+                                storeView()
                             }
                             .padding(.bottom, 16)
                         }
@@ -74,74 +59,44 @@ struct HomeCarouselView: View {
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
             } lastContent: {
                 launchImage()
-                    .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
                     .onTapGesture {
                         router.navigateTo(.homeSecondDepth("출시 예정 신상품", "신상품!!"))
                     }
             }
-           
         }
+        .padding(.horizontal, 22)
     }
     
     @ViewBuilder func launchImage() -> some View {
         ZerosomeAsset.card_launch_more
             .resizable()
-            .frame(width: vm.width)
-            .scaledToFill()
-    }
-}
-
-
-struct TTView: View {
-    private let sampleList = ["출시예정", "온라인", "오프라인"]
-    private let tagList = ["생수/음료","탄산음료"]
-    
-    var body: some View {
-        Rectangle()
-            .fill(.white)
-            .overlay {
-                VStack {
-                    Rectangle()
-                        .fill(Color.neutral50)
-                        .frame(height: 216)
-                        .overlay {
-                            KFImage(URL(string: ""))
-                                .resizable()
-                                .scaledToFit()
-                        }
-                    
-                    Spacer()
-                    VStack(spacing: 6) {
-                        HStack(spacing: 8) {
-                            ForEach(tagList, id: \.self) { tag in
-                                Text(tag)
-                                    .applyFont(font: .label1)
-                                    .foregroundStyle(Color.neutral500)
-                            }
-                        }
-                        
-                        Text("name")
-                            .applyFont(font: .subtitle1)
-                            .foregroundStyle(.black)
-                            .padding(.bottom, 9)
-                        
-                        HStack(spacing: 6) {
-                            ForEach(sampleList, id: \.self) { tag in
-                                Text(tag)
-                                    .applyFont(font: .label2)
-                                    .foregroundStyle(Color.neutral700)
-                                    .padding(.init(top: 3, leading: 6, bottom: 3, trailing: 6))
-                                    .background(Color.neutral50)
-                            }
-                        }
-                    }
-                    .padding(.bottom, 16)
-                }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(width: vm.width, height: 327)
             .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
     }
+    
+    @ViewBuilder func tagView() -> some View {
+        HStack(spacing: 8) {
+            ForEach(tagList, id: \.self) { tag in
+                Text(tag)
+                    .applyFont(font: .label1)
+                    .foregroundStyle(Color.neutral500)
+            }
+        }
+    }
+    
+    @ViewBuilder func storeView() -> some View {
+        HStack(spacing: 6) {
+            ForEach(sampleList, id: \.self) { tag in
+                Text(tag)
+                    .applyFont(font: .label2)
+                    .foregroundStyle(Color.neutral700)
+                    .padding(.init(top: 3, leading: 6, bottom: 3, trailing: 6))
+                    .background(Color.neutral50)
+            }
+        }
+    }
 }
+
 #Preview {
     HomeCarouselView()
 }
