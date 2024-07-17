@@ -15,20 +15,16 @@ struct ProductPreviewComponent: View {
         VStack(alignment: .leading, spacing: 8) {
             Rectangle()
                 .fill(Color.neutral50)
-                .frame(height: 150)
                 .frame(maxWidth: .infinity)
+                .frame(height: 160)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("[브랜드명브랜드명브랜브랜드명브랜드명브랜]")
+                ZSText("브랜드브랜드", fontType: .body3, color: Color.neutral500)
                     .lineLimit(1)
-                    .applyFont(font: .body3)
-                    .foregroundStyle(Color.neutral500)
                 
-                Text("상품명입니다 상품명입니다 상품명입니다  상품명입니다 상품명")
+                ZSText("상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명", fontType: .subtitle2, color: Color.neutral900)
                     .lineLimit(2)
-                    .applyFont(font: .subtitle2)
-                    .foregroundStyle(Color.neutral900)
                 
                 HStack(spacing: 2) {
                     ZerosomeAsset.ic_star_fill

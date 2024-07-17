@@ -25,7 +25,7 @@ public struct AlertModifier: ViewModifier {
 struct FirstButtonView: View {
     let title: String
     let button: String
-    var confirmButton: (() -> Void)?
+    var leftAction: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 32) {
@@ -41,7 +41,7 @@ struct FirstButtonView: View {
                 )
                 .applyFont(font: .subtitle1)
                 .onTapGesture {
-                    confirmButton?()
+                    leftAction?()
                 }
         }
         .padding(.init(top: 32, leading: 16, bottom: 16, trailing: 16))
@@ -54,8 +54,8 @@ struct DoubleButtonView: View {
     let title: String
     let LButton: String
     let RButton: String
-    var confirmButton: (() -> Void)?
-    var cancelButton: (() -> Void)?
+    var leftAction: (() -> Void)?
+    var rightAction: (() -> Void)?
 
     var body: some View {
         VStack(spacing: 32) {
@@ -71,7 +71,7 @@ struct DoubleButtonView: View {
                         foregroundColor: Color.neutral500)
                     )
                     .onTapGesture {
-                        cancelButton?()
+                        leftAction?()
                     }
                 
                 Text(RButton)
@@ -81,7 +81,7 @@ struct DoubleButtonView: View {
                         foregroundColor: Color.white)
                     )
                     .onTapGesture {
-                        confirmButton?()
+                        rightAction?()
                     }
             }
             .applyFont(font: .subtitle1)

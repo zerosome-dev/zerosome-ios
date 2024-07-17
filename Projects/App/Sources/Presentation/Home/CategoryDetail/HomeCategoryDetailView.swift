@@ -26,7 +26,7 @@ struct HomeCategoryDetailView: View {
                                       type: .none,
                                       paddingType: false).padding(.top, 12)
                 
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(0..<10, id: \.self) { index in
                         ProductPreviewComponent()
                     }
@@ -42,7 +42,5 @@ struct HomeCategoryDetailView: View {
 }
 
 #Preview {
-    NavigationStack {
-        HomeCategoryDetailView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구")
-    }
+    HomeCategoryDetailView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구")
 }

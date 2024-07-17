@@ -18,6 +18,11 @@ final class Router: ObservableObject {
         case categorySecondDepth(String)
         case categoryFilter
         case detailMainView
+        case reviewList
+        case creatReview
+        case userReivewList
+        case myReivew
+        case mypgaeNickname
     }
     
     @Published var path: NavigationPath = NavigationPath()
@@ -36,6 +41,16 @@ final class Router: ObservableObject {
         case .detailMainView:
 //            @StateObject var viewModel = DetailMainViewModel()
             DetailMainView()
+        case .reviewList:
+            ReviewListView()
+        case .creatReview:
+            CreateReviewView()
+        case .userReivewList:
+            MyReviewsListView()
+        case .myReivew:
+            CreateReviewView()
+        case .mypgaeNickname:
+            ChangeNicknameView()
         }
     }
     

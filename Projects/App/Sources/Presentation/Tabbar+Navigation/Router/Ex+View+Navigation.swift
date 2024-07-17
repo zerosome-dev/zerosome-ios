@@ -11,25 +11,8 @@ import DesignSystem
 
 public extension View {
     
-    func navigationBackTest(_ action: @escaping () -> Void) -> some View {
-        self
-            .navigationBarBackButtonHidden()
-//            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    ZerosomeAsset.ic_arrow_back
-                        .resizable()
-                        .frame(width: 24, height: 24)
-//                        .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
-                        .onTapGesture {
-                            action()
-                        }
-                }
-            }
-    }
-    
     func ZSnavigationBackButton(_ action: @escaping () -> Void) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack(spacing: 0) {
                 ZerosomeAsset.ic_arrow_back
                     .resizable()
@@ -46,9 +29,9 @@ public extension View {
     }
     
     func ZSNavigationBackButtonTitle(_ text: String, _ action: @escaping () -> Void) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             Text(text)
-                .applyFont(font: .heading1)
+                .applyFont(font: .heading2)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .overlay(alignment: .topLeading) {
                     ZerosomeAsset.ic_arrow_back
@@ -62,6 +45,34 @@ public extension View {
             
             self.navigationBarBackButtonHidden()
         }
+    }
+    
+    func ZSNavigationDoubleButton(_ text: String, _ leftAction: @escaping () -> Void, rightAction: @escaping () -> Void) -> some View {
+        VStack(spacing: 0) {
+            Text(text)
+                .applyFont(font: .heading2)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .overlay(alignment: .topLeading) {
+                    ZerosomeAsset.ic_arrow_back
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .onTapGesture {
+                            leftAction()
+                        }
+                }
+                .overlay(alignment: .topTrailing) {
+                    ZerosomeAsset.ic_arrow_after
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .onTapGesture {
+                            rightAction()
+                        }
+                }
+                .padding(.init(top: 10,leading: 18,bottom: 10,trailing: 18))
+            
+            self.navigationBarBackButtonHidden()
+        }
+
     }
     
     func ZSnavigationTitle(_ text: String) -> some View {
