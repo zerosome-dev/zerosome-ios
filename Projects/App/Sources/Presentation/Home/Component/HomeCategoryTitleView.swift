@@ -60,7 +60,7 @@ struct HomeCategoryTitleView: View {
                 .scrollIndicators(.hidden)
             }
         }
-        .padding(.horizontal, paddingType! ? 22 : 0)
+        .padding(.horizontal, (paddingType ?? true) ? 22 : 0)
     }
 
     @ViewBuilder

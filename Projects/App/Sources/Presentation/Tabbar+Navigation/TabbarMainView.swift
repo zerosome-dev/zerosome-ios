@@ -19,8 +19,9 @@ struct TabbarMainView: View {
                 }
                 .toolbarBackground(.hidden, for: .tabBar)
             }
-            Spacer()
-            TabbarView(viewModel: viewModel)
+            .overlay(alignment: .bottom) {
+                TabbarView(viewModel: viewModel)
+            }
         }
     }
 }

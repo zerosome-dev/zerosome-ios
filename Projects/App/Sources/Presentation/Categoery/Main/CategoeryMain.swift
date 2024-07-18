@@ -21,7 +21,7 @@ struct CategoryMainView: View {
         ScrollView {
             CategoryGridComponent(data: ZeroDrinkSampleData.drinkType, title: "생수/음료", last: false, after: true)
                 .tapPageAction {
-                    router.navigateTo(.categorySecondDepth("생수/음료"))
+                    router.navigateTo(.categoryFilter("생수/음료"))
                 }
                 .tapAction {
                     router.navigateTo(.detailMainView)

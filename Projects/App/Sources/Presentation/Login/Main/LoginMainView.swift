@@ -10,18 +10,16 @@ import SwiftUI
 import Kingfisher
 import DesignSystem
 
-struct LoginView: View {
+struct LoginMainView: View {
     var body: some View {
         ZStack {
             Color.primaryFF6972
                 .ignoresSafeArea()
             
             VStack {
-                ZerosomeAsset.zero_progress
-                    .frame(width: 240, height: 240)
-                    .clipShape(RoundedRectangle(cornerRadius: 40))
-                
-                Spacer().frame(height: 123)
+                ZerosomeAsset.splash_logo
+                    .frame(width: 150, height: 150)
+                Spacer().frame(height: 150)
                 
                 VStack(spacing: 12) {
                     ForEach(Login.allCases, id:\.self) { type in
@@ -54,5 +52,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginMainView()
 }

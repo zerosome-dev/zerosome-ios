@@ -48,7 +48,7 @@ struct DetailMainView: View {
                 DivideRectangle(height: 12, color: Color.neutral50)
                 DetailReviewView(reviewCounting: 5)
                     .tap {
-                        router.navigateTo(.categoryFilter)
+                        router.navigateTo(.reviewList)
                     }
                 DivideRectangle(height: 12, color: Color.neutral50)
                 SimiliarProductView()
