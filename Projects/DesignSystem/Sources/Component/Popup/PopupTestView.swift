@@ -34,16 +34,16 @@ struct PopupTestView: View {
         .scrollIndicators(.hidden)
         .ZAlert(isShowing: $isShowing,
                 type: .firstButton(title: "안녕하세요", button: "취소"),
-                confirmButton: {
+                leftAction: {
             isShowing.toggle()
         })
         
-        .ZAlert(isShowing: $isShowingD, type: .doubleButotn(title: "안녕하세요",
+        .ZAlert(isShowing: $isShowingD, type: .doubleButton(title: "안녕하세요",
                                                             LButton: "왼쪽",
                                                             RButton: "오른쪽")) {
             print("왼쪽 버튼 tapped!")
             isShowingD.toggle()
-        } cancelButton: {
+        } rightAction: {
             print("오른쪽 버튼 tapped!")
             isShowingD.toggle()
         }

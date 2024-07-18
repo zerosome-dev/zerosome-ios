@@ -24,12 +24,9 @@ struct ChangeNicknameView: View {
     
     var body: some View {
         VStack {
-            Text("최소 2자 ~ 12자 이내의 닉네임을 입력해 주세요\n한글/영문/숫자/특수문자 모두 가능해요")
-                .foregroundStyle(Color.neutral500)
-                .applyFont(font: .body2)
+            ZSText("최소 2자 ~ 12자 이내의 닉네임을 입력해 주세요\n한글/영문/숫자/특수문자 모두 가능해요", fontType: .body2, color: Color.neutral500)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, 30)
-                .padding(.bottom, 43)
+                .padding(.init(top: 30,leading: 0,bottom: 43,trailing: 0))
             
             TextInput(text: $viewModel.nickname)
                 .placeholder("닉네임을 입력해 주세요")
@@ -37,19 +34,20 @@ struct ChangeNicknameView: View {
                 .setError(
                     viewModel.isValid
                 )
+                .overlay(alignment: .trailing) {
+                    // TODO: - 이미지 변경
+                    Text("..")
+                        .offset(x: -22)
+                }
                 .padding(.bottom, 4)
             
             if viewModel.isValid {
-                Text("사용 가능한 닉네임입니다.")
+                ZSText("사용 가능한 닉네임입니다.", fontType: .body4, color: Color.positive)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .applyFont(font: .body4)
-                    .foregroundStyle(Color.positive)
                     .padding(.leading, 12)
             } else {
-                Text("이미 사용중인 닉네임입니다.")
+                ZSText("이미 사용중인 닉네임입니다.", fontType: .body4, color: Color.negative)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .applyFont(font: .body4)
-                    .foregroundStyle(Color.negative)
                     .padding(.leading, 12)
             }
             Spacer()

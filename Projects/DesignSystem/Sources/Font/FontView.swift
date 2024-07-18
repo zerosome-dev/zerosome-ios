@@ -20,7 +20,7 @@ struct FontView: View {
             Text("Pretendard Heading2")
                 .applyFont(font: .heading2)
             
-            YText("Pretendard Heading2", fontType: .heading2)
+            ZSText("Pretendard Heading2", fontType: .heading2, color: .negative)
         }
     }
 }

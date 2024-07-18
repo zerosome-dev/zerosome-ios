@@ -30,7 +30,7 @@ struct CategoryFilteredView: View {
                 DivideRectangle(height: 1, color: Color.neutral100)
                 
                 HStack {
-                    Text("(32)개의 상품")
+                    ZSText("(32)개의 상품", fontType: .body3, color: Color.neutral900)
                     Spacer()
                     HStack(spacing: 2) {
                         Text("\(viewModel.update.rawValue)")

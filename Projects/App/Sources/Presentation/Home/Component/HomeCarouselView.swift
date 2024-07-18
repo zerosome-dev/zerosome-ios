@@ -46,9 +46,7 @@ struct HomeCarouselView: View {
                             Spacer()
                             VStack(spacing: 6) {
                                 tagView()
-                                Text(data.name)
-                                    .applyFont(font: .subtitle1)
-                                    .foregroundStyle(.black)
+                                ZSText(data.name, fontType: .subtitle1, color: .black)
                                     .padding(.bottom, 9)
                                 storeView()
                             }
@@ -57,6 +55,9 @@ struct HomeCarouselView: View {
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
+                    .onTapGesture {
+                        router.navigateTo(.detailMainView)
+                    }
             } lastContent: {
                 launchImage()
                     .onTapGesture {
@@ -70,16 +71,13 @@ struct HomeCarouselView: View {
     @ViewBuilder func launchImage() -> some View {
         ZerosomeAsset.card_launch_more
             .resizable()
-            .frame(width: vm.width, height: 327)
             .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
     }
     
     @ViewBuilder func tagView() -> some View {
         HStack(spacing: 8) {
             ForEach(tagList, id: \.self) { tag in
-                Text(tag)
-                    .applyFont(font: .label1)
-                    .foregroundStyle(Color.neutral500)
+                ZSText(tag, fontType: .label1, color: Color.neutral500)
             }
         }
     }
@@ -87,11 +85,10 @@ struct HomeCarouselView: View {
     @ViewBuilder func storeView() -> some View {
         HStack(spacing: 6) {
             ForEach(sampleList, id: \.self) { tag in
-                Text(tag)
-                    .applyFont(font: .label2)
-                    .foregroundStyle(Color.neutral700)
+                ZSText(tag, fontType: .label2, color: Color.neutral700)
                     .padding(.init(top: 3, leading: 6, bottom: 3, trailing: 6))
                     .background(Color.neutral50)
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
             }
         }
     }

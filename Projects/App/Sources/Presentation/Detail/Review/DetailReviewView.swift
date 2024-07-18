@@ -13,13 +13,19 @@ struct DetailReviewView: View {
     
     let data = [2 : ["content1", "content2", "content3"]]
     let reviewCounting: Int?
+    var action: (() -> Void)?
     
-    init(reviewCounting: Int?) {
+    init(
+        reviewCounting: Int?,
+        action: (() -> Void)? = nil
+    
+    ) {
         self.reviewCounting = reviewCounting
+        self.action = action
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             if reviewCounting == 0 {
                 CommonTitle(title: "아직 리뷰가 없어요", type: .solo)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -28,22 +34,20 @@ struct DetailReviewView: View {
                     .padding(.bottom, 83)
             } else {
                 HStack {
-                    Text("리뷰 (reviewCounting)")
-                        .applyFont(font: .heading2)
+                    ZSText("리뷰 (reviewCounting)", fontType: .heading2)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                    
                     HStack(spacing: 0) {
-                        Text("더보기")
-                            .applyFont(font: .caption)
-                            .foregroundStyle(Color.neutral700)
+                        ZSText("더보기", fontType: .caption, color: Color.neutral700)
                         ZerosomeAsset.ic_arrow_after
                             .resizable()
                             .frame(width: 16, height: 16)
                     }
-                    .onTapGesture {
-                        print("리뷰 더보기 tapped")
-                    }
                 }
                 .padding(.bottom, 12)
+                .onTapGesture {
+                    action?()
+                }
                 
                 ReviewScoreComponent(background: Color.neutral50,
                                      heightPadding: 18, radius: 8, review: "4.3", font: .heading2)
@@ -54,18 +58,12 @@ struct DetailReviewView: View {
                 VStack(spacing: 16) {
                     HStack{
                         StarComponent(rating: 4)
-                        Text("4.7")
-                            .applyFont(font: .subtitle2)
-                            .foregroundStyle(Color.neutral700)
+                        ZSText("4.7", fontType: .subtitle2, color: Color.neutral700)
                         Spacer()
-                        Text("2024.06.05")
-                            .foregroundStyle(Color.neutral400)
-                            .applyFont(font: .body4)
+                        ZSText("2024.06.05", fontType: .body4, color: Color.neutral400)
                     }
                     
-                    Text("리뷰입니다리뷰는두줄까지노출합니다리뷰는두줄까지노출합니다리뷰는두줄까지노출합니다리뷰...")
-                        .foregroundStyle(Color.neutral700)
-                        .applyFont(font: .body2)
+                    ZSText("리뷰입니다리뷰는두줄까지노출합니다리뷰는두줄까지노출합니다리뷰는두줄까지노출합니다리뷰...", fontType: .body2, color: Color.neutral700)
                         .lineLimit(2)
                 }
                 .padding(14)
@@ -101,5 +99,13 @@ struct ReviewScoreComponent: View {
 }
 
 #Preview {
-    DetailReviewView(reviewCounting: 0)
+    DetailReviewView(reviewCounting: 1)
+}
+
+extension DetailReviewView {
+    func tap(_ action: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.action = action
+        return copy
+    }
 }

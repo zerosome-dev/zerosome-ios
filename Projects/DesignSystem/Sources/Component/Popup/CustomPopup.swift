@@ -10,26 +10,26 @@ import SwiftUI
 
 public enum AlertType {
     case firstButton(title: String, button: String)
-    case doubleButotn(title: String, LButton: String, RButton: String)
+    case doubleButton(title: String, LButton: String, RButton: String)
 }
 
 public struct ZeroAlertViewModifier: ViewModifier {
     @Binding var isShowing: Bool
     public let type: AlertType
-    public let confirmButton: (() -> Void)?
-    public let cancelButton: (() -> Void)?
+    public let leftAction: (() -> Void)?
+    public let rightAction: (() -> Void)?
     
     init
     (
         isShowing: Binding<Bool>,
         type: AlertType,
-         confirmButton: (() -> Void)? = nil,
-         cancelButton: (() -> Void)? = nil
+        leftAction: (() -> Void)? = nil,
+        rightAction: (() -> Void)? = nil
     ) {
         self._isShowing = isShowing
         self.type = type
-        self.confirmButton = confirmButton
-        self.cancelButton = cancelButton
+        self.leftAction = leftAction
+        self.rightAction = rightAction
     }
     
     public func body(content: Content) -> some View {
@@ -44,15 +44,15 @@ public struct ZeroAlertViewModifier: ViewModifier {
                 case .firstButton(let title, let button):
                     FirstButtonView(title: title,
                                     button: button,
-                                    confirmButton: confirmButton)
+                                    leftAction: leftAction)
                         .padding(.horizontal, 37)
                         
-                case .doubleButotn(let title, let LButton, let RButton):
+                case .doubleButton(let title, let LButton, let RButton):
                     DoubleButtonView(title: title,
                                      LButton: LButton,
                                      RButton: RButton,
-                                     confirmButton: confirmButton,
-                                     cancelButton: cancelButton)
+                                     leftAction: leftAction,
+                                     rightAction: rightAction)
                         .padding(.horizontal, 37)
                 }
             }
@@ -65,14 +65,14 @@ public struct ZeroAlertViewModifier: ViewModifier {
 public extension View {
     func ZAlert(isShowing: Binding<Bool>,
                 type: AlertType,
-                confirmButton: (() -> Void)? = nil,
-                cancelButton: (() -> Void)? = nil
+                leftAction: (() -> Void)? = nil,
+                rightAction: (() -> Void)? = nil
     ) -> some View {
         self.modifier(ZeroAlertViewModifier(
             isShowing: isShowing,
             type: type,
-            confirmButton: confirmButton,
-            cancelButton: cancelButton)
+            leftAction: leftAction,
+            rightAction: rightAction)
         )
     }
 }

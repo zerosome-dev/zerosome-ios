@@ -172,20 +172,29 @@ extension View {
 }
 
 // MARK: - 구조체 단위
-public struct YText: View {
+public struct ZSText: View {
     let title: String
     let fontType: ZSFont
+    let color: Color? 
 
-    public init(_ title: String, fontType: ZSFont) {
+    public init(
+        _ title: String,
+        fontType: ZSFont,
+        color: Color? = Color.neutral900
+    ) {
         self.title = title
         self.fontType = fontType
+        self.color = color
     }
 
     public var body: some View {
         Text(title)
-            .font(.custom(fontType.name, size: fontType.size))
-            .padding(.vertical, fontType.lineHeight)
-            .lineSpacing(fontType.lineSpacing)
-            .applyFont(font: fontType == .heading1 ? .heading1 : .heading2)
+            .applyFont(font: fontType)
+            .foregroundStyle(color ?? Color.neutral900)
+        /*
+         //            .font(.custom(fontType.name, size: fontType.size))
+         //            .padding(.vertical, fontType.lineHeight)
+         //            .lineSpacing(fontType.lineSpacing)
+         */
     }
 }
