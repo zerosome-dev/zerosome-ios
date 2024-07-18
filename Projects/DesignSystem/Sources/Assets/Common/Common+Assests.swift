@@ -13,8 +13,9 @@ public struct ZerosomeAsset {
     public static let ic_star_fill = DesignSystemAsset.Assets.icStarFill.swiftUIImage
     public static let ic_star_empty = DesignSystemAsset.Assets.icStarEmpty.swiftUIImage
     
-    // progress
+    // system
     public static let zero_progress = DesignSystemAsset.Assets.progressGray.swiftUIImage
+    public static let splash_logo = DesignSystemAsset.Assets.splashLogo.swiftUIImage
     
     // arrow
     public static let ic_arrow_bottom = DesignSystemAsset.Assets.icArrowBottom.swiftUIImage
@@ -30,6 +31,7 @@ public struct ZerosomeAsset {
     public static let ic_check_circle_green = DesignSystemAsset.Assets.icCheckCircleGreen.swiftUIImage
     public static let ic_warning_circle_caption = DesignSystemAsset.Assets.icCheckWarningCaption.swiftUIImage
     public static let ic_info_black = DesignSystemAsset.Assets.icInfoBlack.swiftUIImage
+    public static let ic_tf_delete = DesignSystemAsset.Assets.icTextfieldDelete.swiftUIImage
     
     // login
     public static let ic_kakako = DesignSystemAsset.Assets.icKakao.swiftUIImage

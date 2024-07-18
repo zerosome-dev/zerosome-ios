@@ -14,15 +14,15 @@ final class Router: ObservableObject {
         var id: Self { self }
 
         case tabView
-        case homeSecondDepth(String, String) // 홈 > 종류별 더보기
-        case categorySecondDepth(String)
-        case categoryFilter
+        case tobeReleasedProduct(String, String) // 홈 > 종류별 더보기
+        case categoryFilter(String)
         case detailMainView
         case reviewList
         case creatReview
         case mypageReviewList
         case myReivew
         case mypgaeNickname
+        case report
     }
     
     @Published var path: NavigationPath = NavigationPath()
@@ -32,12 +32,10 @@ final class Router: ObservableObject {
         switch route {
         case .tabView:
             TabbarMainView()
-        case .homeSecondDepth(let title, let subTitle):
-            HomeCategoryDetailView(title: title, subTitle: subTitle)
-        case .categorySecondDepth(let type):
+        case .tobeReleasedProduct(let title, let subTitle):
+            TobeReleasedProductView(title: title, subTitle: subTitle)
+        case .categoryFilter(let type):
             CategoryFilteredView(type: type)
-        case .categoryFilter:
-            Text("카테고리 선택뷰")
         case .detailMainView:
 //            @StateObject var viewModel = DetailMainViewModel()
             DetailMainView()
@@ -51,6 +49,8 @@ final class Router: ObservableObject {
             MyReivewView()
         case .mypgaeNickname:
             ChangeNicknameView()
+        case .report:
+            ReportMainView()
         }
     }
     

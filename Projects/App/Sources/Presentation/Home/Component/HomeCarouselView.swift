@@ -61,7 +61,7 @@ struct HomeCarouselView: View {
             } lastContent: {
                 launchImage()
                     .onTapGesture {
-                        router.navigateTo(.homeSecondDepth("출시 예정 신상품", "신상품!!"))
+                        router.navigateTo(.tobeReleasedProduct("출시 예정 신상품", "신상품!!"))
                     }
             }
         }

@@ -12,8 +12,9 @@ import DesignSystem
 struct ReviewListView: View {
     
     @EnvironmentObject var router: Router
-    @State var plus: Bool = false
-    @State var data = ReviewSampleData.reivewSample
+    @State private var plus: Bool = false
+    @State private var data = ReviewSampleData.reivewSample
+    @State private var isAlert: Bool = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -56,7 +57,7 @@ struct ReviewListView: View {
                             
                             ZSText("신고", fontType: .body3, color: Color.neutral300)
                                 .onTapGesture {
-                                    print("신고")
+                                    isAlert = true
                                 }
                         }
                         .padding(.horizontal, 22)
@@ -72,6 +73,12 @@ struct ReviewListView: View {
         .scrollIndicators(.hidden)
         .ZSNavigationBackButtonTitle("상품 리뷰") {
             router.navigateBack()
+        }
+        .ZAlert(isShowing: $isAlert,
+                type: .doubleButton(title: "신고할까요?", LButton: "닫기", RButton: "신고하기")) {
+            isAlert = false
+        } rightAction: {
+            router.navigateTo(.report)
         }
     }
 }

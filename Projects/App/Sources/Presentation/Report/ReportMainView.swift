@@ -60,6 +60,9 @@ struct ReportMainView: View {
             Spacer()
             CommonButton(title: "신고하기", font: .subtitle1)
                 .enable(!content.isEmpty)
+                .tap {
+                    router.navigateBack()
+                }
         }
         .padding(.horizontal, 22)
         .ZSNavigationBackButtonTitle("신고하기") {
