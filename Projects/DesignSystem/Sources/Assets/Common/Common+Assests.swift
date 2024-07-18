@@ -29,6 +29,7 @@ public struct ZerosomeAsset {
     public static let ic_check_black = DesignSystemAsset.Assets.icCheckBlack.swiftUIImage
     public static let ic_check_circle_green = DesignSystemAsset.Assets.icCheckCircleGreen.swiftUIImage
     public static let ic_warning_circle_caption = DesignSystemAsset.Assets.icCheckWarningCaption.swiftUIImage
+    public static let ic_info_black = DesignSystemAsset.Assets.icInfoBlack.swiftUIImage
     
     // login
     public static let ic_kakako = DesignSystemAsset.Assets.icKakao.swiftUIImage

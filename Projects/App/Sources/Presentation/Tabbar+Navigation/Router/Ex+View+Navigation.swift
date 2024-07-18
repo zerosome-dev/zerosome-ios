@@ -61,7 +61,7 @@ public extension View {
                         }
                 }
                 .overlay(alignment: .topTrailing) {
-                    ZerosomeAsset.ic_arrow_after
+                    ZerosomeAsset.ic_info_black
                         .resizable()
                         .frame(width: 24, height: 24)
                         .onTapGesture {

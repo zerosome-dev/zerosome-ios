@@ -20,7 +20,7 @@ final class Router: ObservableObject {
         case detailMainView
         case reviewList
         case creatReview
-        case userReivewList
+        case mypageReviewList
         case myReivew
         case mypgaeNickname
     }
@@ -45,10 +45,10 @@ final class Router: ObservableObject {
             ReviewListView()
         case .creatReview:
             CreateReviewView()
-        case .userReivewList:
+        case .mypageReviewList:
             MyReviewsListView()
         case .myReivew:
-            CreateReviewView()
+            MyReivewView()
         case .mypgaeNickname:
             ChangeNicknameView()
         }

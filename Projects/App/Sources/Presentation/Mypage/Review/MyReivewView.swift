@@ -77,8 +77,8 @@ struct MyReivewView: View {
                 leftAction: {
             isAlert = false
         }, rightAction: {
-            print("삭제완료")
             isAlert = false
+            router.replaceNavigationStack(.mypageReviewList)
         })
     }
     
@@ -92,7 +92,7 @@ struct MyReivewView: View {
             .tapUpdate {
                 print("리뷰 수정")
                 isPresented = false
-                router.navigateTo(.userReivewList)
+                router.navigateTo(.mypageReviewList)
             }
             .opacity(isPresented ? 1 : 0)
             .offset(x: -22)

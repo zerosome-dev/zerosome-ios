@@ -16,7 +16,7 @@ struct MypageMainView: View {
         ScrollView {
             UserInfoView()
                 .tapAction {
-                    router.navigateTo(.reviewList)
+                    router.navigateTo(.mypageReviewList)
                 }
                 .tapNickname {
                     router.navigateTo(.mypgaeNickname)
