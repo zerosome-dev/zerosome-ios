@@ -11,6 +11,8 @@ import Kingfisher
 import DesignSystem
 
 struct LoginMainView: View {
+    @EnvironmentObject var router: Router
+    
     var body: some View {
         ZStack {
             Color.primaryFF6972
@@ -28,8 +30,10 @@ struct LoginMainView: View {
                                 switch type {
                                 case .apple:
                                     print("apple Login")
+                                    router.navigateTo(.term)
                                 case .kakao:
                                     print("kakao Login")
+                                    router.navigateTo(.term)
                                 }
                             }
                     }
