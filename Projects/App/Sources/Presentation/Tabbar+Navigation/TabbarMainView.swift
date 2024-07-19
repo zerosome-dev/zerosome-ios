@@ -16,6 +16,7 @@ struct TabbarMainView: View {
             TabView(selection: $viewModel.selected) {
                 ForEach(Tabbar.allCases, id: \.self) { tab in
                     tab.view
+                        .padding(.bottom, 35)
                 }
                 .toolbarBackground(.hidden, for: .tabBar)
             }

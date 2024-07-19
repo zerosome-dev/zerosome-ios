@@ -34,7 +34,7 @@ struct TabbarView: View {
             }
             .padding(.top, 10)
         }
-        .frame(height: 66)
+        .frame(height: 66) // 30
         .background(Color.white)
         .shadow(color: .black.opacity(0.03), radius: 1, y: -2.0)
     }

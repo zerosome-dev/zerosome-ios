@@ -60,8 +60,8 @@ struct HomeCategoryTitleView: View {
                         ForEach(0..<10) { i in
                             ProductPreviewComponent()
                                 .tap {
-                                    subAction?()
                                     tapData = i.description
+                                    subAction?()
                                 }
                                 .frame(maxWidth: 150)
                         }
