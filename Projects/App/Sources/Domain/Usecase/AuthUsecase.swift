@@ -1,5 +1,5 @@
 //
-//  Usecase.swift
+//  AuthUseCase.swift
 //  App
 //
 //  Created by 박서연 on 2024/06/20.
