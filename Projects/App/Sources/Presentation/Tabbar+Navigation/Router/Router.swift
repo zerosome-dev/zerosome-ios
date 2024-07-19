@@ -16,7 +16,7 @@ final class Router: ObservableObject {
         case tabView
         case tobeReleasedProduct(String, String) // 홈 > 종류별 더보기
         case categoryFilter(String)
-        case detailMainView
+        case detailMainView(String)
         case reviewList
         case creatReview
         case mypageReviewList
@@ -36,9 +36,9 @@ final class Router: ObservableObject {
             TobeReleasedProductView(title: title, subTitle: subTitle)
         case .categoryFilter(let type):
             CategoryFilteredView(type: type)
-        case .detailMainView:
+        case .detailMainView(let product):
 //            @StateObject var viewModel = DetailMainViewModel()
-            DetailMainView()
+            DetailMainView(product: product)
         case .reviewList:
             ReviewListView()
         case .creatReview:

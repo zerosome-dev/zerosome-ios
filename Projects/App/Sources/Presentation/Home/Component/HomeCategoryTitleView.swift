@@ -16,31 +16,37 @@ struct HomeCategoryTitleView: View {
         case moreButton
     }
     
+    @State private var categoryList: [String] = [] // 유저가 선택하는 카테고리
+    @Binding var tapData: String
     let title: String
     let subTitle: String
     let type: TitleType
     let paddingType: Bool?
     let data: [String]?
-    let action: (() -> Void)?
+    var action: (() -> Void)?
+    var subAction: (() -> Void)?
     let columns: [GridItem] = [.init(.flexible(), spacing: 10, alignment: .center)]
-    
-    @State private var categoryList: [String] = [] // 유저가 선택하는 카테고리
-    
-    init(title: String,
-         subTitle: String,
-         type: TitleType,
-         paddingType: Bool? = true,
-         data: [String]? = nil,
-         action: (() -> Void)? = nil)
-    {
+
+    init (
+        tapData: Binding<String>,
+        title: String,
+        subTitle: String,
+        type: TitleType,
+        paddingType: Bool? = true,
+        data: [String]? = nil,
+        action: (() -> Void)? = nil,
+        subAction: (() -> Void)? = nil
+    ) {
+        self._tapData = tapData
         self.title = title
         self.subTitle = subTitle
         self.type = type
         self.paddingType = paddingType
         self.data = data
         self.action = action
+        self.subAction = subAction
     }
-
+    
     var body: some View {
         VStack(spacing: 12) {
             
@@ -53,6 +59,10 @@ struct HomeCategoryTitleView: View {
                     HStack {
                         ForEach(0..<10) { i in
                             ProductPreviewComponent()
+                                .tap {
+                                    subAction?()
+                                    tapData = i.description
+                                }
                                 .frame(maxWidth: 150)
                         }
                     }
@@ -62,7 +72,7 @@ struct HomeCategoryTitleView: View {
         }
         .padding(.horizontal, (paddingType ?? true) ? 22 : 0)
     }
-
+    
     @ViewBuilder
     private var titleView: some View {
         VStack(spacing: 2) {
@@ -128,13 +138,26 @@ struct HomeCategoryTitleView: View {
     }
 }
 
-
+extension HomeCategoryTitleView {
+    func tap(_ action: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.action = action
+        return copy
+    }
+    
+    func tapSub(_ subAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.subAction = subAction
+        return copy
+    }
+}
 
 #Preview {
-    HomeCategoryTitleView(title: "제목입니다.",
+    HomeCategoryTitleView(tapData: .constant("상품명"),
+                          title: "제목입니다.",
                           subTitle: "서브타이틀입니다.",
                           type: .moreButton,
                           paddingType: true,
                           data: ZeroDrinkSampleData.drinkType)
 }
-    
+

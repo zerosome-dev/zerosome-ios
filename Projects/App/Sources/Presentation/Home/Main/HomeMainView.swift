@@ -11,6 +11,7 @@ import DesignSystem
 
 class HomeMainViewModel: ObservableObject {
     @Published var bannerResult: Bool = false
+    @Published var tapData: String = ""
 }
 
 struct HomeMainView: View {
@@ -25,31 +26,40 @@ struct HomeMainView: View {
             }
 
             VStack(spacing: 30) {
-                HomeCategoryTitleView(title: "출시 예정 신상품",
-                                      subTitle: "출시 예정 및 최신 상품을 확인해 보세요",
-                                      type: .noneData) {
-                    router.navigateTo(.tobeReleasedProduct("출시 예정 신상품", "신상품!!"))
-                }.padding(.top, 20)   
+                HomeCategoryTitleView(
+                    tapData: $viewModel.tapData,
+                    title: "출시 예정 신상품",
+                    subTitle: "출시 예정 및 최신 상품을 확인해 보세요",
+                    type: .noneData
+                )
+                .tap { router.navigateTo(.tobeReleasedProduct("출시 예정 신상품", "신상품!!")) }
+                .padding(.top, 20)
                 
                 HomeCarouselView()
                     .frame(height: 327)
                 
-                HomeCategoryTitleView(title: "생수/음료",
-                                      subTitle: "제로로 걱정 없이 즐기는 상쾌한 한 모금",
-                                      type: .moreButton,
-                                      data: ZeroDrinkSampleData.drinkType) {
-                    router.navigateTo(.categoryFilter("생수/음료"))
-                }
+                HomeCategoryTitleView(
+                    tapData: $viewModel.tapData,
+                    title: "생수/음료",
+                    subTitle: "제로로 걱정 없이 즐기는 상쾌한 한 모금",
+                    type: .moreButton,
+                    data: ZeroDrinkSampleData.drinkType
+                )
+                .tap { router.navigateTo(.categoryFilter("생수/음료")) }
+                .tapSub { router.navigateTo(.detailMainView(viewModel.tapData)) }
+                
                 
                 DivideRectangle(height: 12, color: Color.neutral50)
                 
-                HomeCategoryTitleView(title: "카페음료",
-                                      subTitle: "카페에서 즐기는 제로",
-                                      type: .moreButton,
-                                      data: ZeroDrinkSampleData.snackType) {
-                    router.navigateTo(.categoryFilter("카페음료"))
-                }
-                
+                HomeCategoryTitleView(
+                    tapData: $viewModel.tapData,
+                    title: "카페음료",
+                    subTitle: "카페에서 즐기는 제로",
+                    type: .moreButton,
+                    data: ZeroDrinkSampleData.snackType
+                )
+                .tap { router.navigateTo(.categoryFilter("카페음료")) }
+                .tapSub { router.navigateTo(.detailMainView(viewModel.tapData)) }
             }
         }
         .scrollIndicators(.hidden)

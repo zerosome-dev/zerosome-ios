@@ -10,8 +10,8 @@ import SwiftUI
 
 public struct CategoryGridView: View {
     
-    public let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
-    public let size = (UIScreen.main.bounds.width - (17 * 3) - 44) / 4
+    private let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
+    private let size = (UIScreen.main.bounds.width - (17 * 3) - 44) / 4
     public let data: [String]
     
     public init(data: [String]) {
@@ -44,13 +44,15 @@ public struct CategoryGridComponent: View {
     public let after: Bool
     public var action: (() -> Void)?
     public var pageAction: (() -> Void)?
+    @Binding public var tapData: String
     
     public init(data: [String],
                 title: String,
                 last: Bool,
                 after: Bool,
                 action: (() -> Void)? = nil,
-                pageAction: (() -> Void)? = nil
+                pageAction: (() -> Void)? = nil,
+                tapData: Binding<String>
     ) {
         self.data = data
         self.title = title
@@ -58,6 +60,7 @@ public struct CategoryGridComponent: View {
         self.after = after
         self.action = action
         self.pageAction = pageAction
+        self._tapData = tapData
     }
     
     public var body: some View {
@@ -97,6 +100,7 @@ public struct CategoryGridComponent: View {
                     }
                     .onTapGesture {
                         action?()
+                        tapData = type
                     }
                 }
             }
@@ -140,5 +144,6 @@ public extension CategoryGridComponent {
     CategoryGridComponent(data: ["11", "22"],
                           title: "카페",
                           last: false,
-                          after: true)
+                          after: true,
+                          tapData: .constant("data"))
 }
