@@ -8,6 +8,20 @@
 import UIKit
 import SwiftUI
 
+extension Font {
+    static func bold(_ size: CGFloat) -> Font {
+        return DesignSystemFontFamily.Pretendard.bold.swiftUIFont(size: size)
+    }
+    
+    static func semiBold(_ size: CGFloat) -> Font {
+        return DesignSystemFontFamily.Pretendard.semiBold.swiftUIFont(size: size)
+    }
+    
+    static func medium(_ size: CGFloat) -> Font {
+        return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: size)
+    }
+}
+
 public enum ZSFont {
     case heading1
     case heading2
@@ -141,6 +155,35 @@ extension ZSFont {
         }
     }
     
+    public var ZFont: Font {
+            switch self {
+            case .heading1:
+                return .bold(self.size)
+            case .heading2:
+                return .bold(self.size)
+            case .subtitle1:
+                return .semiBold(self.size)
+            case .subtitle2:
+                return .semiBold(self.size)
+            case .body1:
+                return .medium(self.size)
+            case .body2:
+                return .medium(self.size)
+            case .body3:
+                return .medium(self.size)
+            case .body4:
+                return .medium(self.size)
+            case .label1:
+                return .medium(self.size)
+            case .label2:
+                return .medium(self.size)
+            case .caption:
+                return .medium(self.size)
+            case .review:
+                return .bold(self.size)
+            }
+    }
+    
     public var toUIFont: UIFont {
         return UIFont(name: self.name, size: self.size) ?? UIFont.systemFont(ofSize: self.size)
     }
@@ -159,7 +202,7 @@ public struct FontModifier: ViewModifier {
     
     public func body(content: Content) -> some View {
         content
-            .font(.custom(font.name, size: font.size))
+            .font(font.ZFont)
             .lineSpacing(font.lineSpacing)
             .padding(.vertical, font.lineHeight)
     }
@@ -191,10 +234,12 @@ public struct ZSText: View {
         Text(title)
             .applyFont(font: fontType)
             .foregroundStyle(color ?? Color.neutral900)
-        /*
-         //            .font(.custom(fontType.name, size: fontType.size))
-         //            .padding(.vertical, fontType.lineHeight)
-         //            .lineSpacing(fontType.lineSpacing)
-         */
+    }
+}
+
+
+extension Font {
+    static func bold(_ font: ZSFont) -> Font {
+        return font.toFont
     }
 }
