@@ -9,9 +9,9 @@
 import Foundation
 
 struct AuthUseCase {
-    let authRepositoryProtocol: AuthRepositoryProtocol
+    let authRepoInterface: AuthRepositoryRepoInterface
     
     func kakaoLogin(_ token: String) async -> Result<String, NetworkError> {
-        return await authRepositoryProtocol.kakaoLogin(token)
+        return await authRepoInterface.kakaoLogin(token)
     }
 }

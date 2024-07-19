@@ -14,4 +14,6 @@ enum NetworkError: Error {
     case decode
     case apiError
     case urlError
+    case statusError
+    case queryError
 }

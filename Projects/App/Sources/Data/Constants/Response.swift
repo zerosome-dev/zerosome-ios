@@ -1,5 +1,5 @@
 //
-//  NetworkResult.swift
+//  Response.swift
 //  App
 //
 //  Created by 박서연 on 2024/07/19.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct NetworkResult<DTO: Decodable>: Decodable {
+struct Response<T: Decodable>: Decodable {
     let code: String
     let status: Bool
-    let data: DTO?
+    let data: T?
 }
