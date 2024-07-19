@@ -10,6 +10,13 @@ import SwiftUI
 import DesignSystem
 
 struct ProductPreviewComponent: View {
+    var action: (() -> Void)?
+    
+    init (
+        action: (() -> Void)? = nil
+    ) {
+        self.action = action
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -37,6 +44,17 @@ struct ProductPreviewComponent: View {
                 .foregroundStyle(Color.neutral400)
             }
         }
+        .onTapGesture {
+            action?()
+        }
+    }
+}
+
+extension ProductPreviewComponent {
+    func tap(_ action: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.action = action
+        return copy
     }
 }
 

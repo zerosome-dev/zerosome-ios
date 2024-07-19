@@ -56,7 +56,7 @@ struct HomeCarouselView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
                     .onTapGesture {
-                        router.navigateTo(.detailMainView)
+                        router.navigateTo(.detailMainView(data.name))
                     }
             } lastContent: {
                 launchImage()

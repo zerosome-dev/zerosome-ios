@@ -8,13 +8,11 @@
 
 import Foundation
 
-class AuthRepository: AuthRepositoryProtocol {
+class AuthRepository: AuthRepositoryRepoInterface {
     
     let apiService = ApiService()
     
     func kakaoLogin(_ token: String) async -> Result<String, NetworkError> {
-        // TODO: - Implement Kakao Login
-        
         return .success("success")
     }
 }

@@ -17,10 +17,16 @@ class DetailMainViewModel: ObservableObject {
 struct DetailMainView: View {
     @EnvironmentObject var router: Router
     @StateObject private var viewModel = DetailMainViewModel()
+    @State private var array: [String] = []
     
     private let storeSample = ["네이버", "쿠팡", "판매처", "티몬"]
+    let product: String
     let rating: Int = 3 //Rating
-    @State private var array: [String] = []
+    
+    init(product: String) {
+        self.product = product
+    }
+    
     var body: some View {
         ScrollView {
             Rectangle()
@@ -56,12 +62,12 @@ struct DetailMainView: View {
                     .padding(.horizontal, 22)
             }
         }
-        .ZSNavigationBackButtonTitle("제품명") {
+        .ZSNavigationBackButtonTitle(product) {
             router.navigateBack()
         }.scrollIndicators(.hidden)
     }
 }
 
 #Preview {
-    DetailMainView()
+    DetailMainView(product: "제품명")
 }

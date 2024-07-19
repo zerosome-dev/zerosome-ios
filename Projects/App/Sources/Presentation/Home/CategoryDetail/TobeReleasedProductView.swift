@@ -22,10 +22,12 @@ struct TobeReleasedProductView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                HomeCategoryTitleView(title: title,
-                                      subTitle: subTitle,
-                                      type: .none,
-                                      paddingType: false).padding(.top, 10)
+                VStack(spacing: 2) {
+                    ZSText("출시 예정 신상품", fontType: .heading1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    ZSText("새롭게 발매된 상품과 발매 예정 상품을 확인해보세요", fontType: .body2, color: Color.neutral500)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(0..<10, id: \.self) { index in
