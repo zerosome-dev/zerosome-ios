@@ -236,10 +236,3 @@ public struct ZSText: View {
             .foregroundStyle(color ?? Color.neutral900)
     }
 }
-
-
-extension Font {
-    static func bold(_ font: ZSFont) -> Font {
-        return font.toFont
-    }
-}

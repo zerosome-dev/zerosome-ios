@@ -20,10 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        for family in UIFont.familyNames {
 //            let sName: String = family as String
-//            print("DONG family: \(sName)")
+//            print("Font family: \(sName)")
 //                    
 //            for name in UIFont.fontNames(forFamilyName: sName) {
-//                print("DONG name: \(name as String)")
+//                print("Font name: \(name as String)")
 //            }
 //        }
         return true
