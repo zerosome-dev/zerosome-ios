@@ -20,6 +20,10 @@ extension Font {
     static func medium(_ size: CGFloat) -> Font {
         return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: size)
     }
+    
+    static func regular(_ size: CGFloat) -> Font {
+        return DesignSystemFontFamily.Jalnan2.regular.swiftUIFont(size: size)
+    }
 }
 
 public enum ZSFont {
@@ -35,6 +39,7 @@ public enum ZSFont {
     case label2
     case caption
     case review
+    case jalnan
 }
 
 extension ZSFont {
@@ -65,6 +70,8 @@ extension ZSFont {
             return DesignSystemFontFamily.Pretendard.medium.name
         case .review:
             return DesignSystemFontFamily.Pretendard.bold.name
+        case .jalnan:
+            return DesignSystemFontFamily.Jalnan2.regular.name
         }
     }
     
@@ -94,6 +101,8 @@ extension ZSFont {
             return 13
         case .review:
             return 24
+        case .jalnan:
+            return 20
         }
     }
     
@@ -123,6 +132,8 @@ extension ZSFont {
             return CGFloat(ZSFont.caption.size * 0.140)
         case .review:
             return CGFloat(ZSFont.caption.size * 0.135)
+        case .jalnan:
+            return CGFloat(ZSFont.jalnan.size * 0.140)
         }
     }
     
@@ -151,6 +162,8 @@ extension ZSFont {
         case .caption:
             return 0
         case .review:
+            return 0
+        case .jalnan:
             return 0
         }
     }
@@ -181,6 +194,8 @@ extension ZSFont {
                 return .medium(self.size)
             case .review:
                 return .bold(self.size)
+            case .jalnan:
+                return .regular(self.size)
             }
     }
     
