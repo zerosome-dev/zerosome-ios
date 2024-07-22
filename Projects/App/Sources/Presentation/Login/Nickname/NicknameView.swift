@@ -17,6 +17,7 @@ class NicknameViewModel: ObservableObject {
 }
 
 struct NicknameView: View {
+    @EnvironmentObject var router: Router
     @StateObject var viewModel = NicknameViewModel()
     @State private var text: String = ""
     
@@ -55,6 +56,9 @@ struct NicknameView: View {
             
             CommonButton(title: "회원가입 완료", font: .subtitle1)
                 .enable(viewModel.isValid)
+                .tap {
+                    router.navigateTo(.tabView)
+                }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 22)

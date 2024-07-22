@@ -88,7 +88,7 @@ public extension View {
     func ZSmainNaviTitle(_ text: String) -> some View {
         VStack(spacing: 0) {
             Text(text)
-                .applyFont(font: .heading1)
+                .applyFont(font: .jalnan)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.init(top: 10,leading: 22,bottom: 10,trailing: 22))
                 .foregroundStyle(Color.primaryFF6972)

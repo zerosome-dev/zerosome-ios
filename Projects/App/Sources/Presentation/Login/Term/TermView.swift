@@ -57,6 +57,7 @@ final class TermViewModel: ObservableObject {
 }
 
 struct TermView: View {
+    @EnvironmentObject var router: Router
     @StateObject var viewModel = TermViewModel()
     @State private var isTermChecked: Bool = false
     
@@ -118,7 +119,7 @@ struct TermView: View {
             CommonButton(title: "다음", font: .subtitle1)
                 .enable(viewModel.isAllChecked)
                 .tap {
-                    print("button tapped..")
+                    router.navigateTo(.nickname)
                 }
         }
         .padding(.horizontal, 22)

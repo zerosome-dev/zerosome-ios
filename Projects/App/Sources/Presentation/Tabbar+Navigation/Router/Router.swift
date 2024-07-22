@@ -14,6 +14,9 @@ final class Router: ObservableObject {
         var id: Self { self }
 
         case tabView
+        case login
+        case term
+        case nickname
         case tobeReleasedProduct(String, String) // 홈 > 종류별 더보기
         case categoryFilter(String)
         case detailMainView(String)
@@ -32,6 +35,12 @@ final class Router: ObservableObject {
         switch route {
         case .tabView:
             TabbarMainView()
+        case .login:
+            LoginMainView()
+        case .term:
+            TermView()
+        case .nickname:
+            NicknameView()
         case .tobeReleasedProduct(let title, let subTitle):
             TobeReleasedProductView(title: title, subTitle: subTitle)
         case .categoryFilter(let type):

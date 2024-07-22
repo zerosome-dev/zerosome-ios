@@ -63,7 +63,7 @@ struct HomeMainView: View {
             }
         }
         .scrollIndicators(.hidden)
-        .ZSmainNaviTitle("Zerosome")
+        .ZSmainNaviTitle("ZEROSOME")
     }
 }
 
