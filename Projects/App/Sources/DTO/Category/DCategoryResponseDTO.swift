@@ -11,7 +11,7 @@ import Foundation
 struct D1CategoryResponseDTO: Decodable {
     var d1CategoryCode: String?
     var d1CategoryName: String?
-    var d2Category: [D2CategoryResponse]?
+    var d2Category: [D2CategoryResponseDTO]?
 }
 
 struct D2CategoryResponseDTO: Decodable {

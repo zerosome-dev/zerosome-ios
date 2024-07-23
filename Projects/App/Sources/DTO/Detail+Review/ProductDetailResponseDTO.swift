@@ -13,13 +13,13 @@ struct ProductDetailResponseDTO: Decodable {
     var image: String?
     var brandName: String?
     var productName: String?
-    var nutrientList: [NutrientByPdt]?
-    var offlineStoreList: [OfflineStore]?
-    var onlineStoreList: [OnlineStore]?
+    var nutrientList: [NutrientByPdtDTO]?
+    var offlineStoreList: [OfflineStoreDTO]?
+    var onlineStoreList: [OnlineStoreDTO]?
     var rating: Double?
     var reviewCnt: Int?
-    var reviewThumbnailList: [ReviewThumbnail]?
-    var similarProductList: [SimilarProduct]?
+    var reviewThumbnailList: [ReviewThumbnailDTO]?
+    var similarProductList: [SimilarProductDTO]?
 }
 
 struct NutrientByPdtDTO: Decodable {

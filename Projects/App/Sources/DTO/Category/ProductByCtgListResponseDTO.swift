@@ -15,7 +15,7 @@ struct ProductByCtgListResponseDTO: Decodable {
 }
 
 struct OffsetPageResponseDTO: Decodable {
-    var content: [ProductByCtgResponse]?
+    var content: [ProductByCtgResponseDTO]?
     var limit: Int?
     var offset: Int?
 }
