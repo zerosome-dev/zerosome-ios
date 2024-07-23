@@ -14,5 +14,5 @@ struct HomeRolloutResponseDTO: Decodable {
     var d1Category : String?
     var d2Category : String?
     var name : String?
-    var salesStore : [String?]
+    var salesStore : [String]?
 }
