@@ -18,7 +18,7 @@ final class Router: ObservableObject {
         case term
         case nickname
         case tobeReleasedProduct(String, String) // 홈 > 종류별 더보기
-        case categoryFilter(String)
+        case categoryFilter(String, String?) //
         case detailMainView(String)
         case reviewList
         case creatReview
@@ -43,10 +43,13 @@ final class Router: ObservableObject {
             NicknameView()
         case .tobeReleasedProduct(let title, let subTitle):
             TobeReleasedProductView(title: title, subTitle: subTitle)
-        case .categoryFilter(let type):
-            CategoryFilteredView(type: type)
+        case .categoryFilter(let type, let tag):
+            if let tag = tag {
+                CategoryFilteredView(type: type, tag: tag)
+            } else {
+                CategoryFilteredView(type: type)
+            }
         case .detailMainView(let product):
-//            @StateObject var viewModel = DetailMainViewModel()
             DetailMainView(product: product)
         case .reviewList:
             ReviewListView()

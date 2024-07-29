@@ -45,7 +45,8 @@ struct HomeMainView: View {
                     type: .moreButton,
                     data: ZeroDrinkSampleData.drinkType
                 )
-                .tap { router.navigateTo(.categoryFilter("생수/음료")) }
+                .tap { router.navigateTo(.categoryFilter("생수/음료", nil))}
+//                .tap { router.navigateTo(.categoryFilter("생수/음료")) }
                 .tapSub { router.navigateTo(.detailMainView(viewModel.tapData)) }
                 
                 
@@ -58,7 +59,7 @@ struct HomeMainView: View {
                     type: .moreButton,
                     data: ZeroDrinkSampleData.snackType
                 )
-                .tap { router.navigateTo(.categoryFilter("카페음료")) }
+                .tap { router.navigateTo(.categoryFilter("카페음료", nil)) }
                 .tapSub { router.navigateTo(.detailMainView(viewModel.tapData)) }
             }
         }

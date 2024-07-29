@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct APIEndPoint {
-    static let baseURL = "http://"
+    static let baseURL = "http://15.164.6.36:8080"
     
     enum Auth: String {
         case login = "/api/v1/auth"

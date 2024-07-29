@@ -12,13 +12,19 @@ import DesignSystem
 struct CategoryFilteredView: View {
     
     @EnvironmentObject var router: Router
-    @StateObject private var viewModel = CategoryFilteredViewModel()
+    @StateObject private var viewModel: CategoryFilteredViewModel
     
     let type: String
+    let tag: String?
     let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
     
-    init(type: String) {
+    init(
+        type: String,
+        tag: String? = nil
+    ) {
         self.type = type
+        self.tag = tag
+        _viewModel = StateObject(wrappedValue: CategoryFilteredViewModel(category: tag ?? ""))
     }
     
     var body: some View {
@@ -58,13 +64,17 @@ struct CategoryFilteredView: View {
                 .presentationDetents([.height(294)])
         }
         .ZSNavigationBackButtonTitle("생수/음료") {
-            // TODO: - navititle 고치기
+            // TODO: - navititle 여기에 type 예정
             router.navigateBack()
         }
         .scrollIndicators(.hidden)
+        .onAppear {
+            guard let catergoryTag = tag else { return }
+            viewModel.category = catergoryTag
+        }
     }
 }
 
 #Preview {
-    CategoryFilteredView(type: "생수/음료")
+    CategoryFilteredView(type: "생수/음료", tag: "탄산수")
 }

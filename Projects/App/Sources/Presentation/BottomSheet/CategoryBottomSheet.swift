@@ -48,7 +48,7 @@ struct CategoryBottomSheet: View {
             }
             
             Spacer()
-            BottomSheetButton(enable: !viewModel.category.isEmpty)
+            BottomSheetButton(enable: ((viewModel.category?.isEmpty) != nil))
                 .tapApplyAction {
                     viewModel.sheetToggle = nil
                 }
