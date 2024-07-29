@@ -45,7 +45,7 @@ struct CategoryMainView: View {
                 after: true,
                 tapData: $viewModel.category
             )
-            .tapPageAction { router.navigateTo(.categoryFilter("생수/음료")) }
+            .tapPageAction { router.navigateTo(.categoryFilter("생수/음료", viewModel.category)) }
             .padding(.top, 20)
             
             CategoryGridComponent(
@@ -55,7 +55,7 @@ struct CategoryMainView: View {
                 after: true,
                 tapData: $viewModel.category
             )
-            .tapPageAction { router.navigateTo(.categoryFilter("카페음료")) }
+            .tapPageAction { router.navigateTo(.categoryFilter("카페음료", viewModel.category)) }
             
             CategoryGridComponent(
                 data: ZeroDrinkSampleData.snackType,
@@ -63,7 +63,7 @@ struct CategoryMainView: View {
                 last: true,
                 after: true,
                 tapData: $viewModel.category)
-            .tapPageAction { router.navigateTo(.categoryFilter("과자/아이스크림")) }
+            .tapPageAction { router.navigateTo(.categoryFilter("과자/아이스크림", viewModel.category)) }
         }
         .ZSnavigationTitle("카테고리")
         .scrollIndicators(.hidden)

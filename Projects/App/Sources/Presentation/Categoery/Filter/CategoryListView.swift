@@ -76,7 +76,7 @@ struct CategoryListView: View {
         case .category:
 //            let title = viewModel.tapData.isEmpty ? "전체" : viewModel.tapData
             let title = viewModel.category.isEmpty ? "전체" : viewModel.category
-            return viewModel.category
+            return title
         case .brand:
             let count = viewModel.brand.count
             let brand = viewModel.brand
