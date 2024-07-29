@@ -8,14 +8,32 @@
 
 import DesignSystem
 import SwiftUI
+import Combine
 
 class CategoryViewModel: ObservableObject {
-
+    @Published var isNutrients: Bool = false
+    @Published var updateToggle: Bool = false
+    @Published var update: Update = .latest
+    
+    @Published var category: String = "전체"
+    @Published var zeroTag: [String] = []
+    @Published var brand: [String] = []
+    
+    @Published var sheetToggle: CategoryDetail? = nil
+    @Published var tapData: String = ""
+    
+    var valuePublisher = PassthroughSubject<String, Never>()
+    
+    func updateSharedValue(newValue: String) {
+        category = newValue
+        valuePublisher.send(newValue)
+    }
 }
 
 struct CategoryMainView: View {
     @EnvironmentObject var router: Router
     @StateObject private var viewModel = CategoryViewModel()
+    
     @State private var tapData: String = ""
     
     var body: some View {
@@ -25,10 +43,9 @@ struct CategoryMainView: View {
                 title: "생수/음료",
                 last: false,
                 after: true,
-                tapData: $tapData
+                tapData: $viewModel.category
             )
             .tapPageAction { router.navigateTo(.categoryFilter("생수/음료")) }
-            .tapAction { router.navigateTo(.detailMainView(tapData)) }
             .padding(.top, 20)
             
             CategoryGridComponent(
@@ -36,19 +53,17 @@ struct CategoryMainView: View {
                 title: "카페음료",
                 last: false,
                 after: true,
-                tapData: $tapData
+                tapData: $viewModel.category
             )
-            .tapAction { router.navigateTo(.categoryFilter("카페음료")) }
-            .tapAction { router.navigateTo(.detailMainView(tapData)) }
+            .tapPageAction { router.navigateTo(.categoryFilter("카페음료")) }
             
             CategoryGridComponent(
                 data: ZeroDrinkSampleData.snackType,
                 title: "과자/아이스크림",
                 last: true,
                 after: true,
-                tapData: $tapData)
-            .tapAction { router.navigateTo(.categoryFilter("과자/아이스크림")) }
-            .tapAction { router.navigateTo(.detailMainView(tapData)) }
+                tapData: $viewModel.category)
+            .tapPageAction { router.navigateTo(.categoryFilter("과자/아이스크림")) }
         }
         .ZSnavigationTitle("카테고리")
         .scrollIndicators(.hidden)

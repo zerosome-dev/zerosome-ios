@@ -36,8 +36,9 @@ struct CategoryListView: View {
             LazyHGrid(rows: rows, spacing: 6) {
                 ForEach(CategoryDetail.allCases, id: \.self) { type in
                     HStack(spacing: 2) {
-                        Text(type.rawValue)
+                        Text(getTagTitle(type))
                             .applyFont(font: .label1)
+                        
                         ZerosomeAsset.ic_arrow_bottom
                             .resizable()
                             .frame(width: 16, height: 16)
@@ -65,6 +66,33 @@ struct CategoryListView: View {
             }
         }
         .scrollIndicators(.hidden)
+        .onAppear {
+            print("SY!!!! List vm.category \(viewModel.category)")
+        }
+    }
+    
+    private func getTagTitle(_ tag: CategoryDetail) -> String {
+        switch tag {
+        case .category:
+//            let title = viewModel.tapData.isEmpty ? "전체" : viewModel.tapData
+            let title = viewModel.category.isEmpty ? "전체" : viewModel.category
+            return viewModel.category
+        case .brand:
+            let count = viewModel.brand.count
+            let brand = viewModel.brand
+            let title = viewModel.brand.isEmpty ? "브랜드"
+            : count == 1 ? brand[0] : "\(brand[0]) 외 \(count)"
+            
+            return title
+        case .zeroTag:
+            let count = viewModel.zeroTag.count
+            let zeroTag = viewModel.zeroTag
+            
+            let title = viewModel.zeroTag.isEmpty ? "제로태그"
+            : count == 1 ? zeroTag[0] : "\(zeroTag[0]) 외 \(count)"
+            
+            return title
+        }
     }
 }
 

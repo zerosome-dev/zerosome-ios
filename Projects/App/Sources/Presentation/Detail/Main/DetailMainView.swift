@@ -9,14 +9,9 @@
 import SwiftUI
 import DesignSystem
 
-class DetailMainViewModel: ObservableObject {
-    @Published var isNutrients: Bool = false
-    
-}
-
 struct DetailMainView: View {
     @EnvironmentObject var router: Router
-    @StateObject private var viewModel = DetailMainViewModel()
+    @StateObject private var viewModel = CategoryViewModel()
     @State private var array: [String] = []
     
     private let storeSample = ["네이버", "쿠팡", "판매처", "티몬"]

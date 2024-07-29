@@ -11,7 +11,7 @@ import DesignSystem
 
 public struct NutrientsBottomSheet: View {
     
-    @ObservedObject var viewModel: DetailMainViewModel
+    @ObservedObject var viewModel: CategoryViewModel
     
     public var body: some View {
         VStack {
@@ -59,5 +59,5 @@ public struct NutrientsBottomSheet: View {
 }
 
 #Preview {
-    NutrientsBottomSheet(viewModel: DetailMainViewModel())
+    NutrientsBottomSheet(viewModel: CategoryViewModel())
 }
