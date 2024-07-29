@@ -12,7 +12,7 @@ import DesignSystem
 struct CategoryFilteredView: View {
     
     @EnvironmentObject var router: Router
-    @StateObject private var viewModel = CategoryFilteredViewModel()
+    @StateObject private var viewModel: CategoryFilteredViewModel
     
     let type: String
     let tag: String?
@@ -24,6 +24,7 @@ struct CategoryFilteredView: View {
     ) {
         self.type = type
         self.tag = tag
+        _viewModel = StateObject(wrappedValue: CategoryFilteredViewModel(category: tag ?? ""))
     }
     
     var body: some View {

@@ -66,16 +66,12 @@ struct CategoryListView: View {
             }
         }
         .scrollIndicators(.hidden)
-        .onAppear {
-            print("SY!!!! List vm.category \(viewModel.category)")
-        }
     }
     
     private func getTagTitle(_ tag: CategoryDetail) -> String {
         switch tag {
         case .category:
-//            let title = viewModel.tapData.isEmpty ? "전체" : viewModel.tapData
-            let title = viewModel.category.isEmpty ? "전체" : viewModel.category
+            guard let title = viewModel.category else { return "전체" }
             return title
         case .brand:
             let count = viewModel.brand.count
@@ -97,5 +93,5 @@ struct CategoryListView: View {
 }
 
 #Preview {
-    CategoryListView(viewModel: CategoryFilteredViewModel())
+    CategoryListView(viewModel: CategoryFilteredViewModel(category: ""))
 }

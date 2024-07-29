@@ -12,9 +12,13 @@ class CategoryFilteredViewModel: ObservableObject {
     @Published var updateToggle: Bool = false
     @Published var update: Update = .latest
     
-    @Published var category: String = ""
+    @Published var category: String?
     @Published var zeroTag: [String] = []
     @Published var brand: [String] = []
     
     @Published var sheetToggle: CategoryDetail? = nil
+    
+    init(category: String? = nil) {
+        self.category = category
+    }
 }
