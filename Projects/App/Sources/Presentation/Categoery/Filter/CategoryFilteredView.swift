@@ -24,7 +24,7 @@ struct CategoryFilteredView: View {
     ) {
         self.type = type
         self.tag = tag
-        _viewModel = StateObject(wrappedValue: CategoryFilteredViewModel(category: tag ?? ""))
+        _viewModel = StateObject(wrappedValue: CategoryFilteredViewModel(category: tag ?? "전체"))
     }
     
     var body: some View {
