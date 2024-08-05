@@ -22,9 +22,11 @@ final class ApiService {
     
     func request<T: Decodable> (
         httpMethod: ApiMethod,
-        _ endPoint: String,
-        queryParameter: [String : String]? = nil,
-        needToken: Bool
+        endPoint: String,
+        queryParameter: Encodable? = nil,
+        body: Encodable? = nil,
+//        needToken: Bool = false,
+        header: String? = nil
     ) async -> Result<T, NetworkError> {
         
         guard var url = URL(string: endPoint) else {
@@ -44,10 +46,32 @@ final class ApiService {
             
             url.append(queryItems: queryItems)
         }
+        print("⚙️⚙️ url!!! \(url)")
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
-        urlRequest.allHTTPHeaderFields = createHeaders(needToken: needToken)
+        
+//        if needToken {
+//            guard let token = header else { return .failure(.apiError)}
+//            urlRequest.allHTTPHeaderFields = createHeaders(header: token)
+//            print("⚙️⚙️ headeresss!!! \(String(describing: urlRequest.allHTTPHeaderFields) )")
+//        }
+        
+        if let header = header {
+            urlRequest.allHTTPHeaderFields = createHeaders(token: header)
+            print("⚙️⚙️ headeresss!!! \(String(describing: urlRequest.allHTTPHeaderFields) )")
+        }
+        
+        if let body = body {
+            guard let httpBody = try? JSONEncoder().encode(body) else {
+                return .failure(NetworkError.encode)
+            }
+            
+            urlRequest.httpBody = httpBody
+            print("🚨🚨 <<<HTTP BODY>>> \(body) 🚨🚨")
+            print("🚨🚨 <<<HTTP HTTPBODY>>> \(httpBody) 🚨🚨")
+            print("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
+        }
         
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
@@ -56,6 +80,7 @@ final class ApiService {
                 return .failure(NetworkError.response)
             }
             
+            print("😈😈 STATUS CODE \(statusCode) 😈😈")
             let range = 200..<300
             guard range.contains(statusCode) else {
                 return .failure(NetworkError.statusError)
@@ -79,56 +104,65 @@ final class ApiService {
             return .failure(NetworkError.apiError)
         }
     }
-    
-    func upload(
-        _ url: String,
-        httpMethod: ApiMethod,
-        data: Data,
-        needToken: Bool = false
-    ) async throws -> Bool {
-        
-        guard let url = URL(string: url) else {
-            throw NetworkError.urlError
-        }
-        
-        debugPrint("🥦 Request Start")
-        debugPrint("🥦 url: \(url)")
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = httpMethod.rawValue
-        request.allHTTPHeaderFields = createHeaders(needToken: needToken)
-        
-        let (responsData, response) = try await URLSession.shared.upload(for: request, from: data)
-        
-        guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-            throw NetworkError.statusError
-        }
-        
-        return true
-    }
 }
 
 extension ApiService {
     
-    // ?? 미정
-    var token: String? {
-        if let token = KeychainManager.shared.load(key: "accessToken") {
-            return token.description
-        } else {
-            return ""
+    var accessToken: String? {
+        get {
+            guard let value = KeychainManager.shared.load(key: "accessToken"),
+                  !value.isEmpty,
+                  let token = String(data: value, encoding: .utf8) else {
+                return nil
+            }
+            
+            return token
+        }
+        set {
+            if let value = newValue, let data = value.data(using: .utf8) {
+                KeychainManager.shared.save(key: "accessToken", data: data)
+            } else {
+                KeychainManager.shared.delete(key: "accessToken")
+            }
         }
     }
     
-    private func createHeaders(needToken: Bool) -> [String : String] {
-        var headers = [
-            "Content-Type": "application/json",
-            "Accept": "application/json"
+    private func createHeaders(token: String) -> [String : String] {
+//        let kakaoAccessToken: String = AccountStorage.shared.kakaoAccessToken ?? ""
+        
+        return [
+            "Authorization": "Bearer \(token)",
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept-Charset": "UTF-8"
         ]
-        
-        if needToken, let token = AccountStorage.shared.accessToken {
-            headers["Authorization"] = "Bearer \(token)"
-        }
-        
-        return headers
     }
 }
+
+/*
+ func upload(
+     _ url: String,
+     httpMethod: ApiMethod,
+     data: Data,
+     needToken: Bool = false
+ ) async throws -> Bool {
+     
+     guard let url = URL(string: url) else {
+         throw NetworkError.urlError
+     }
+     
+     debugPrint("🥦 Request Start")
+     debugPrint("🥦 url: \(url)")
+     
+     var request = URLRequest(url: url)
+     request.httpMethod = httpMethod.rawValue
+     request.allHTTPHeaderFields = createHeaders(needToken: needToken)
+     
+     let (responsData, response) = try await URLSession.shared.upload(for: request, from: data)
+     
+     guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
+         throw NetworkError.statusError
+     }
+     
+     return true
+ }
+ */

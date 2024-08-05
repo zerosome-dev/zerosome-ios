@@ -12,7 +12,7 @@ import Security
 protocol KeychainManagerProtocol {
     func save(key: String, data: Data) -> OSStatus
     func load(key: String) -> Data?
-    func delete(key: String) -> Result<Void, Error>
+    func delete(key: String)
 }
 
 final class KeychainManager: KeychainManagerProtocol {
@@ -53,17 +53,12 @@ final class KeychainManager: KeychainManagerProtocol {
         }
     }
     
-    func delete(key: String) -> Result<Void, Error> {
+    func delete(key: String) {
         let query = [
-            kSecClass as String: kSecClassGenericPassword,
+            kSecClass as String: kSecClassGenericPassword as String,
             kSecAttrAccount as String: key
-        ] as [String: Any]
+        ]
 
-        let status = SecItemDelete(query as CFDictionary)
-        if status == errSecSuccess {
-            return .success(())
-        }
-        
-        return .failure((KeychainError.noData))
+        SecItemDelete(query as CFDictionary)
     }
 }

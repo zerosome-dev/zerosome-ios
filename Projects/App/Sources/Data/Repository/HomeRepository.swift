@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HomeRepository: HomeRepositoryRepoInterface {
+class HomeRepository: HomeRepositoryProtocol {
     private let apiService: ApiService
     
     init(apiService: ApiService) {
@@ -18,8 +18,7 @@ class HomeRepository: HomeRepositoryRepoInterface {
     func getBannerList() async -> Result<[HomeBannerResonseDTO], NetworkError> {
         let response: Result<[HomeBannerResonseDTO], NetworkError> = await apiService.request(
             httpMethod: .get,
-            APIEndPoint.url(for: .banner),
-            needToken: false
+            endPoint: APIEndPoint.url(for: .banner) 
         )
         
         switch response {

@@ -13,7 +13,7 @@ struct APIEndPoint {
     static let baseURL = "http://15.164.6.36:8080"
     
     enum Auth: String {
-        case login = "/api/v1/auth"
+        case signIn = "/api/v1/auth"
         case checkNickname = "/api/v1/auth/nickname"
         case join = "/api/v1/auth/join"
         case refreshToken = "/api/v1/auth/refresh"
@@ -31,15 +31,33 @@ struct APIEndPoint {
         case list = "/api/app/v1/category/list"
     }
     
-    static func url(for endPoint: Auth) -> String {
-        return baseURL + endPoint.rawValue
+    static func url(for endPoint: Auth, with parameters: [String : Any]? = nil) -> String {
+        let base = baseURL + endPoint.rawValue
+        return build(url: base, parameters: parameters)
     }
     
-    static func url(for endPoint: Home) -> String {
-        return baseURL + endPoint.rawValue
+    static func url(for endPoint: Home, with parameters: [String: Any]? = nil) -> String {
+        let base = baseURL + endPoint.rawValue
+        return build(url: base, parameters: parameters)
     }
     
-    static func url(for endPoint: Category) -> String {
-        return baseURL + endPoint.rawValue
+    static func url(for endPoint: Category, with parameters: [String: Any]? = nil) -> String {
+        let base = baseURL + endPoint.rawValue
+        return build(url: base, parameters: parameters)
+    }
+}
+
+extension APIEndPoint {
+    private static func build(url: String, parameters: [String: Any]?) -> String {
+        guard let parameters = parameters, !parameters.isEmpty else {
+            return url
+        }
+        
+        var urlComponents = URLComponents(string: url)
+        urlComponents?.queryItems = parameters.map { key, value in
+            URLQueryItem(name: key, value: "\(value)")
+        }
+        
+        return urlComponents?.url?.absoluteString ?? url
     }
 }

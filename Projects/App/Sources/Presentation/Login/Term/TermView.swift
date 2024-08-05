@@ -57,8 +57,8 @@ final class TermViewModel: ObservableObject {
 }
 
 struct TermView: View {
-    @EnvironmentObject var router: Router
     @StateObject var viewModel = TermViewModel()
+    @ObservedObject var authViewModel: AuthViewModel
     @State private var isTermChecked: Bool = false
     
     var body: some View {
@@ -98,19 +98,19 @@ struct TermView: View {
                 SingleTermView(
                     isChecked: $viewModel.isTermChecked,
                     term: .term) { term in
-                    print("이용약관 check")
+                    print("🎉 이용약관 check")
                 }
                 
                 SingleTermView(
                     isChecked: $viewModel.isPersonalChecked,
                     term: .personalInfo) { term in
-                    print("개인정보 check")
+                    print("🎉 개인정보 check")
                 }
                 
                 SingleTermView(
                     isChecked: $viewModel.isMarketingChecked,
                     term: .marketing) { term in
-                    print("마케팅 check")
+                    print("🎉 마케팅 check")
                 }
             }
             
@@ -119,7 +119,7 @@ struct TermView: View {
             CommonButton(title: "다음", font: .subtitle1)
                 .enable(viewModel.isAllChecked)
                 .tap {
-                    router.navigateTo(.nickname)
+                    authViewModel.authenticationState = .nickname
                 }
         }
         .padding(.horizontal, 22)
@@ -129,6 +129,6 @@ struct TermView: View {
     }
 }
 
-#Preview {
-    TermView()
-}
+//#Preview {
+//    TermView(authViewModel: AuthViewModel(authUseCase: SignInUseCase(signInRepoProtocol: SignInRepository())))
+//}

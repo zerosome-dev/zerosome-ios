@@ -14,9 +14,9 @@ final class Router: ObservableObject {
         var id: Self { self }
 
         case tabView
-        case login
-        case term
-        case nickname
+//        case login
+//        case term
+//        case nickname
         case tobeReleasedProduct(String, String) // 홈 > 종류별 더보기
         case categoryFilter(String, String?) //
         case detailMainView(String)
@@ -35,32 +35,48 @@ final class Router: ObservableObject {
         switch route {
         case .tabView:
             TabbarMainView()
-        case .login:
-            LoginMainView()
-        case .term:
-            TermView()
-        case .nickname:
-            NicknameView()
+//        case .login:
+//            @StateObject var viewModel = AuthViewModel(
+//                authUseCase: SignInUseCase(
+//                    signInRepoProtocol: SignInRepository()
+//                )
+//            )
+//            LoginMainView(viewModel: viewModel)
+//            
+//        case .term:
+//            TermView()
+            
+//        case .nickname:
+//            NicknameView()
+            
         case .tobeReleasedProduct(let title, let subTitle):
             TobeReleasedProductView(title: title, subTitle: subTitle)
+            
         case .categoryFilter(let type, let tag):
             if let tag = tag {
                 CategoryFilteredView(type: type, tag: tag)
             } else {
                 CategoryFilteredView(type: type)
             }
+            
         case .detailMainView(let product):
             DetailMainView(product: product)
+        
         case .reviewList:
             ReviewListView()
+        
         case .creatReview:
             CreateReviewView()
+        
         case .mypageReviewList:
             MyReviewsListView()
+        
         case .myReivew:
             MyReivewView()
+        
         case .mypgaeNickname:
             ChangeNicknameView()
+        
         case .report:
             ReportMainView()
         }
