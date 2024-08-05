@@ -17,8 +17,10 @@ struct SocialUsecase {
         
         switch repository {
         case .success(let success):
+            print("🍀🍀🍀 카카오 토큰 가져와짐 \(success)")
             return .success(success)
         case .failure(let failure):
+            debugPrint("카카오 토큰 가져오기 실패 \(failure.localizedDescription)")
             return .failure(NetworkError.badRequest)
         }
     }

@@ -29,6 +29,17 @@ final class SocialRepository: SocialRepositoryProtocol {
         
         return .success(result)
     }
+    
+    @MainActor
+    func appleSignIn() async -> Result<LoginResponseDTO, NetworkError> {
+        do {
+            let result = try await AppleLoginManager().login()
+//            return .success(result)
+        } catch {
+            
+        }
+        return .failure(.unknown)
+    }
 }
 
 
@@ -43,6 +54,7 @@ extension SocialRepository {
                         if let error = error {
                             continuation.resume(throwing: error)
                         } else if let oauthToken = oautoken {
+                            print("🍀 카카오 토큰 \(oauthToken)")
                             continuation.resume(returning: oauthToken.accessToken)
                         }
                     }

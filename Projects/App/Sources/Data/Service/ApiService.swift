@@ -34,7 +34,7 @@ final class ApiService {
         }
               
         if let parameters = queryParameter {
-            guard let queryDictionary = try? queryParameter?.toDictionary() else {
+            guard let queryDictionary = try? parameters.toDictionary() else {
                 return .failure(NetworkError.queryError)
             }
             
@@ -46,20 +46,14 @@ final class ApiService {
             
             url.append(queryItems: queryItems)
         }
-        print("⚙️⚙️ url!!! \(url)")
+        print("⚙️⚙️ URL \(url) ⚙️⚙️")
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
         
-//        if needToken {
-//            guard let token = header else { return .failure(.apiError)}
-//            urlRequest.allHTTPHeaderFields = createHeaders(header: token)
-//            print("⚙️⚙️ headeresss!!! \(String(describing: urlRequest.allHTTPHeaderFields) )")
-//        }
-        
         if let header = header {
             urlRequest.allHTTPHeaderFields = createHeaders(token: header)
-            print("⚙️⚙️ headeresss!!! \(String(describing: urlRequest.allHTTPHeaderFields) )")
+            print("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
         }
         
         if let body = body {
@@ -108,27 +102,7 @@ final class ApiService {
 
 extension ApiService {
     
-    var accessToken: String? {
-        get {
-            guard let value = KeychainManager.shared.load(key: "accessToken"),
-                  !value.isEmpty,
-                  let token = String(data: value, encoding: .utf8) else {
-                return nil
-            }
-            
-            return token
-        }
-        set {
-            if let value = newValue, let data = value.data(using: .utf8) {
-                KeychainManager.shared.save(key: "accessToken", data: data)
-            } else {
-                KeychainManager.shared.delete(key: "accessToken")
-            }
-        }
-    }
-    
     private func createHeaders(token: String) -> [String : String] {
-//        let kakaoAccessToken: String = AccountStorage.shared.kakaoAccessToken ?? ""
         
         return [
             "Authorization": "Bearer \(token)",

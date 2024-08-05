@@ -46,17 +46,14 @@ class AuthViewModel: ObservableObject {
         case .kakaoSignIn:
             Task {
                 let result = await socialUseCase.kakaoLogin()
-                
+                print("result ㅋㅋ 🐛 \(result)")
                 switch result {
                 case .success(let token):
-                    print("🟡 카카오에서 토큰 값 가져오기 성공 🟡")
+                    print("🟡 카카오에서 토큰 값 가져오기 성공 \(token) 🟡")
                     let kakaoSignIn = await accountUseCase.signIn(token: token, socialType: "KAKAO")
                     
                     switch kakaoSignIn {
-                    case .success(let success):
-                        AccountStorage.shared.accessToken = success.token?.accessToken
-                        AccountStorage.shared.refreshToken = success.token?.refreshToken
-                        
+                    case .success(let success):   
                         guard let isMember = success.isMember else { return }
                         if isMember {
                             print("🟡 이미 회원가입 한 유저임, 로그인 성공! 🟡")
