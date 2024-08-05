@@ -20,8 +20,7 @@ final class AccountRepository: AccountRepositoryProtocol {
     }
     
     func postSignIn(token: String, socialType: String) async -> Result<LoginResponseDTO, NetworkError> {
-        var parameters: [String : String] = [:]
-        parameters["socialType"] = socialType
+        var parameters: [String : String] = ["socialType" : socialType]
         let endPoint = APIEndPoint.url(for: .signIn)
         
         let response: Result<LoginResponseDTO, NetworkError> = await apiService.request(
@@ -40,7 +39,6 @@ final class AccountRepository: AccountRepositoryProtocol {
             if !isMember {
                 print("🟢🔴 로그인 실패, 회원가입 진행 🟢🔴")
                 return .success(data)
-//                return .failure(.response)
             } else {
                 print("🟢 로그인 성공 \(data) 🟢")
                 return .success(data)

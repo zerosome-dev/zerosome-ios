@@ -12,13 +12,7 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 final class SocialRepository: SocialRepositoryProtocol {
-    
-    private let apiService: ApiService
-    
-    init(apiService: ApiService) {
-        self.apiService = apiService
-    }
-    
+
     @MainActor
     func kakaoSignIn() async -> Result<String, NetworkError> {
         let result = await trySignInWithKakoa()
@@ -30,18 +24,19 @@ final class SocialRepository: SocialRepositoryProtocol {
         return .success(result)
     }
     
-    @MainActor
-    func appleSignIn() async -> Result<LoginResponseDTO, NetworkError> {
+    func appleSignIn() async -> (String, String) {
+        let loginManager = AppleLoginManager()
+        
         do {
-            let result = try await AppleLoginManager().login()
-//            return .success(result)
-        } catch {
-            
+            let result = try await loginManager.login()
+            return result
+        } catch(let error) {
+            print(error.localizedDescription)
         }
-        return .failure(.unknown)
+        
+        return ("", "")
     }
 }
-
 
 extension SocialRepository {
     

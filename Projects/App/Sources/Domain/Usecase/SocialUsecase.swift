@@ -25,7 +25,7 @@ struct SocialUsecase {
         }
     }
     
-    func appleLogin() {
-        
+    func appleLogin() async -> (String, String) {
+        return await socialRepoProtocol.appleSignIn()
     }
 }

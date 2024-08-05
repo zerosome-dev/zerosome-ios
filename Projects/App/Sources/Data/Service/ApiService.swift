@@ -32,7 +32,7 @@ final class ApiService {
         guard var url = URL(string: endPoint) else {
             return .failure(NetworkError.urlError)
         }
-              
+        
         if let parameters = queryParameter {
             guard let queryDictionary = try? parameters.toDictionary() else {
                 return .failure(NetworkError.queryError)

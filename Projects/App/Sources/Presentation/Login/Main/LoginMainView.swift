@@ -73,20 +73,28 @@ class AuthViewModel: ObservableObject {
                 }
             }
             
-//            Task {
-//                let result = await accountUseCase.kakaoLogin()
-//                switch result {
-//                case .success(let success):
-//                    print("🟡🟡 KAKAO LOGIN SUCCESSFUL: \(success) 🟡🟡")
-//                    self.authenticationState = .nickname
-//                case .failure(let failure):
-//                    print("🟡🟡 ERROR OCCURRED: \(failure.localizedDescription) 🟡🟡")
-//                }
-//            }
-            
         case .appleSignIn:
             print("appleLogin")
-            
+            Task {
+                let result = await socialUseCase.appleLogin().0 // authorizationcode만 뽑아쓰기
+                let appleSignIn = await accountUseCase.signIn(token: result, socialType: "APPLE")
+                print("🍎🍎 apple auth code \(result)")
+                switch appleSignIn {
+                case .success(let success):
+                    guard let isMember = success.isMember else { return }
+                    
+                    if isMember {
+                        print("🍏 이미 회원가입 한 유저임, 로그인 성공! 🍏")
+                        self.authenticationState = .signIn
+                    } else {
+                        print("🍏🍎 새로운 유저 > JWT 회원가입 필요함 > nickname으로 이동 🍏🍎")
+                        self.authenticationState = .term
+                    }
+                case .failure(let failure):
+                    print("🍏🍎 애플 로그인 완전 실패 \(failure.localizedDescription) 🍏🍎")
+                    self.authenticationState = .initial
+                }
+            }
         case .kakaoSignUp:
             print("카카오 사인업")
             
@@ -127,6 +135,7 @@ struct LoginMainView: View {
                                     switch type {
                                     case .apple:
                                         print("🍎🍎 APPLE LOGIN TAPPED!! 🍎🍎")
+                                        authViewModel.send(action: .appleSignIn)
                                     case .kakao:
                                         print("🟡🟡 KAKAO LOGIN TAPPED!! 🟡🟡")
                                         authViewModel.send(action: .kakaoSignIn)
@@ -165,7 +174,7 @@ struct LoginMainView: View {
         ),
         socialUseCase: SocialUsecase(
             socialRepoProtocol: SocialRepository(
-                apiService: ApiService())
+               ) //presentationAnchor
         )
     ))
 }

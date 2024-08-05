@@ -35,8 +35,7 @@ struct AuthenticationView: View {
                 apiService: ApiService())
         ),
         socialUseCase: SocialUsecase(
-            socialRepoProtocol: SocialRepository(
-                apiService: ApiService())
+            socialRepoProtocol: SocialRepository()
         )
     )
     

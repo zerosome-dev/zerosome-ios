@@ -46,6 +46,7 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         debugPrint("Apple Login Error: \(error.localizedDescription)")
+        completion?("", "")
     }
 }
 
