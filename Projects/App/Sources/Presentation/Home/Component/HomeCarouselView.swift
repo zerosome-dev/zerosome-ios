@@ -18,13 +18,19 @@ struct HomeCarouselView: View {
     
     @StateObject private var vm = CarouselViewModel()
     @EnvironmentObject var router: Router
+    let data: [HomeRolloutResponseDTO]
+    
+    init(data: [HomeRolloutResponseDTO]) {
+        self.data = data
+    }
+    
     private let sampleList = ["출시예정", "온라인", "오프라인"]
     private let tagList = ["생수/음료","탄산음료"]
     
     var body: some View {
         VStack {
             CarouselNextView(width: $vm.width,
-                             data: ZeroDrinkSampleData.data,
+                             data: Array(data.prefix(10)),
                              edgeSpacing: 24,
                              contentSpacing: 14,
                              totalSpacing: 22,
@@ -38,17 +44,33 @@ struct HomeCarouselView: View {
                                 .fill(Color.neutral50)
                                 .frame(height: 216)
                                 .overlay {
-                                    KFImage(URL(string: data.photo))
+                                    KFImage(URL(string: data.image ?? ""))
+                                        .placeholder {
+                                            ProgressView()
+                                                .tint(Color.primaryFF6972)
+                                        }
                                         .resizable()
                                         .scaledToFit()
                                 }
                             
                             Spacer()
                             VStack(spacing: 6) {
-                                tagView()
-                                ZSText(data.name, fontType: .subtitle1, color: .black)
+                                HStack(spacing: 8) {
+                                    ZSText(data.d1Category ?? "", fontType: .label1, color: Color.neutral500)
+                                    ZSText(data.d2Category ?? "", fontType: .label1, color: Color.neutral500)
+                                }
+                                
+                                ZSText(data.name ?? "", fontType: .subtitle1, color: .black)
                                     .padding(.bottom, 9)
-                                storeView()
+                                
+                                HStack(spacing: 6) {
+                                    ForEach(data.salesStore ?? [], id: \.self) { store in
+                                        ZSText(store ?? "", fontType: .label2, color: Color.neutral700)
+                                            .padding(.init(top: 3, leading: 6, bottom: 3, trailing: 6))
+                                            .background(Color.neutral50)
+                                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                                    }
+                                }
                             }
                             .padding(.bottom, 16)
                         }
@@ -56,12 +78,14 @@ struct HomeCarouselView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
                     .onTapGesture {
-                        router.navigateTo(.detailMainView(data.name))
+                        router.navigateTo(.detailMainView(data.name ?? ""))
                     }
             } lastContent: {
                 launchImage()
                     .onTapGesture {
-                        router.navigateTo(.tobeReleasedProduct("출시 예정 신상품", "신상품!!"))
+                        router.navigateTo(.tobeReleasedProduct(
+                            "출시 예정 신상품", "새롭게 발매된 상품과 발매 예정 상품을 확인해보세요"
+                        ))
                     }
             }
         }
@@ -74,18 +98,10 @@ struct HomeCarouselView: View {
             .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
     }
     
-    @ViewBuilder func tagView() -> some View {
-        HStack(spacing: 8) {
-            ForEach(tagList, id: \.self) { tag in
-                ZSText(tag, fontType: .label1, color: Color.neutral500)
-            }
-        }
-    }
-    
-    @ViewBuilder func storeView() -> some View {
+    @ViewBuilder func storeView(data: HomeRolloutResponseDTO) -> some View {
         HStack(spacing: 6) {
-            ForEach(sampleList, id: \.self) { tag in
-                ZSText(tag, fontType: .label2, color: Color.neutral700)
+            ForEach(data.salesStore ?? [], id: \.self) { store in
+                ZSText(store ?? "", fontType: .label2, color: Color.neutral700)
                     .padding(.init(top: 3, leading: 6, bottom: 3, trailing: 6))
                     .background(Color.neutral50)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
@@ -95,5 +111,5 @@ struct HomeCarouselView: View {
 }
 
 #Preview {
-    HomeCarouselView()
+    HomeCarouselView(data: .init())
 }

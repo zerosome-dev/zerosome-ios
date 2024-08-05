@@ -37,7 +37,7 @@ struct HomeCategoryTitleView: View {
     
     let title: String
     let subTitle: String
-    let productType: HScrollProductType
+    let productType: HScrollProductType?
     let type: TitleType
     let paddingType: Bool?
     let d2Category: [String]?
@@ -46,7 +46,7 @@ struct HomeCategoryTitleView: View {
 
     init (
         tapData: Binding<String>,
-        productType: HScrollProductType,
+        productType: HScrollProductType? = nil,
         title: String,
         subTitle: String,
         type: TitleType,
@@ -78,19 +78,25 @@ struct HomeCategoryTitleView: View {
                     HStack {
                         switch productType {
                         case .tobeReleased(let data):
-                            let items: [HomeRolloutResponseDTO] = productType.getItems()
-                            let count = data.count
-   
-                        case .homeCafe(let data):
-                            let items: [HomeCafeResponseDTO] = productType.getItems()
-
-                            ForEach(data.prefix(10), id: \.id) { data in
-                                ProductPreviewComponent(data: data)
-                                    .tap {
-                                        tapData = data.name ?? ""
-                                        subAction?()
-                                    }
+                            if let type = productType {
+                                let items: [HomeRolloutResponseDTO] = type.getItems()
+                                let count = data.count
                             }
+                            
+                        case .homeCafe(let data):
+                            if let type = productType {
+                                let items: [HomeCafeResponseDTO] = type.getItems()
+
+                                ForEach(data.prefix(10), id: \.id) { data in
+                                    ProductPreviewComponent(data: data)
+                                        .tap {
+                                            tapData = data.name ?? ""
+                                            subAction?()
+                                        }
+                                }
+                            }
+                        case .none:
+                            EmptyView()
                         }
                     }
                 }
@@ -136,7 +142,6 @@ struct HomeCategoryTitleView: View {
     
     @ViewBuilder
     private var categoryView: some View {
-        Text("카테코리뷰")
         ScrollView(.horizontal) {
             LazyHGrid(rows: columns) {
                 ForEach(d2Category ?? [], id: \.self) { index in

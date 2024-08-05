@@ -25,7 +25,6 @@ struct HomeMainView: View {
             VStack(spacing: 30) {
                 HomeCategoryTitleView(
                     tapData: $viewModel.tapData,
-                    productType: .tobeReleased(viewModel.tobeReleased),
                     title: "출시 예정 신상품",
                     subTitle: "출시 예정 및 최신 상품을 확인해 보세요",
                     type: .noneData
@@ -33,7 +32,7 @@ struct HomeMainView: View {
                 .tap { router.navigateTo(.tobeReleasedProduct("출시 예정 신상품", "신상품!!")) }
                 .padding(.top, 20)
                 
-                HomeCarouselView()
+                HomeCarouselView(data: viewModel.tobeReleased)
                     .frame(height: 327)
                 
                 HomeCategoryTitleView(
@@ -63,8 +62,8 @@ struct HomeMainView: View {
         .scrollIndicators(.hidden)
         .ZSmainNaviTitle("ZEROSOME")
         .onAppear {
-            viewModel.send(action: .cafe)
-//            viewModel.send(action: .tobeReleased)
+//            viewModel.send(action: .cafe)
+            viewModel.send(action: .tobeReleased)
         }
     }
 }
