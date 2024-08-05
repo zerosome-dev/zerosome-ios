@@ -12,6 +12,15 @@ import DesignSystem
 enum HScrollProductType {
     case tobeReleased([HomeRolloutResponseDTO])
     case homeCafe([HomeCafeResponseDTO])
+    
+    func getItems<T: Decodable>() -> [T] {
+        switch self {
+        case .tobeReleased(let items):
+            return items as? [T] ?? []
+        case .homeCafe(let items):
+            return items as? [T] ?? []
+        }
+    }
 }
 
 struct HomeCategoryTitleView: View {
@@ -68,27 +77,19 @@ struct HomeCategoryTitleView: View {
                 ScrollView(.horizontal) {
                     HStack {
                         switch productType {
-                        case .tobeReleased(let tobeReleased):
-                            let count = tobeReleased.count
-                            
-                            ForEach(0..<count, id: \.self) { data in
-                                ProductPreviewComponent(data: .tobeReleased(tobeReleased))
+                        case .tobeReleased(let data):
+                            let items: [HomeRolloutResponseDTO] = productType.getItems()
+                            let count = data.count
+   
+                        case .homeCafe(let data):
+                            let items: [HomeCafeResponseDTO] = productType.getItems()
+
+                            ForEach(data.prefix(10), id: \.id) { data in
+                                ProductPreviewComponent(data: data)
                                     .tap {
-                                        tapData = tobeReleased[data].name ?? ""
+                                        tapData = data.name ?? ""
                                         subAction?()
                                     }
-                                    .frame(maxWidth: 150)
-                            }
-                        case .homeCafe(let homeCafe):
-                            let count = homeCafe.count
-                            
-                            ForEach(0..<count, id: \.self) { data in
-                                ProductPreviewComponent(data: .homeCafe(homeCafe))
-                                    .tap {
-                                        tapData = homeCafe[data].name ?? ""
-                                        subAction?()
-                                    }
-                                    .frame(maxWidth: 150)
                             }
                         }
                     }
@@ -135,6 +136,7 @@ struct HomeCategoryTitleView: View {
     
     @ViewBuilder
     private var categoryView: some View {
+        Text("카테코리뷰")
         ScrollView(.horizontal) {
             LazyHGrid(rows: columns) {
                 ForEach(d2Category ?? [], id: \.self) { index in
@@ -183,7 +185,7 @@ extension HomeCategoryTitleView {
                           productType: .homeCafe([]),
                           title: "제목입니다.",
                           subTitle: "서브타이틀입니다.",
-                          type: .moreButton,
+                          type: .noneData,
                           paddingType: true
 //                          data: ZeroDrinkSampleData.drinkType
     )

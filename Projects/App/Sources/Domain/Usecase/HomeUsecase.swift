@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 
 struct HomeUsecase {
     let homeRepoProtocol: HomeRepositoryProtocol
@@ -15,11 +16,11 @@ struct HomeUsecase {
         return await homeRepoProtocol.getBannerList()
     }
     
-    func tobeReleaseProduct() async -> Result<[HomeRolloutResponseDTO], NetworkError> {
+    func tobeReleaseProduct() async -> Future<[HomeRolloutResponseDTO], NetworkError> {
         return await homeRepoProtocol.tobeReleaseProduct()
     }
     
-    func homeCafe() async -> Result<[HomeCafeResponseDTO], NetworkError> {
+    func homeCafe() async -> Future<[HomeCafeResponseDTO], NetworkError> {
         return await homeRepoProtocol.homeCafe()
     }
 }

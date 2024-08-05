@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class HomeMainViewModel: ObservableObject {
     
@@ -15,39 +16,52 @@ class HomeMainViewModel: ObservableObject {
         case cafe
     }
     
-    @Published var bannerResult: Bool = false
     @Published var tapData: String = ""
     @Published var tobeReleased: [HomeRolloutResponseDTO] = []
     @Published var homeCafe: [HomeCafeResponseDTO] = []
+    
     private let homeUsecase: HomeUsecase
+    private var cancellables = Set<AnyCancellable>()
     
     init(homeUsecase: HomeUsecase) {
         self.homeUsecase = homeUsecase
     }
     
+//    @MainActor
     func send(action: Action) {
         switch action {
         case .tobeReleased:
             Task {
-                let result = await homeUsecase.tobeReleaseProduct()
-                switch result {
-                case .success(let success):
-                    self.tobeReleased = success
-                case .failure(let failure):
-                    debugPrint("🧪 신상품 실패 \(failure.localizedDescription)")
-                }
+                await homeUsecase.tobeReleaseProduct()
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .finished:
+                            break
+                        case .failure(let error):
+                            debugPrint("🧪 신상품 실패 \(error.localizedDescription)")
+                        }
+                    }, receiveValue: { data in
+                        self.tobeReleased = data
+                    })
+                    .store(in: &cancellables)
             }
             
         case .cafe:
             Task {
-                let result = await homeUsecase.homeCafe()
-                
-                switch result {
-                case .success(let success):
-                    self.homeCafe = success
-                case .failure(let failure):
-                    debugPrint("🧪 홈카페 실패 \(failure.localizedDescription)")
-                }
+                await homeUsecase.homeCafe()
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .finished:
+                            break
+                        case .failure(let error):
+                            debugPrint("🧪 홈카페 실패 \(error.localizedDescription)")
+                        }
+                    }, receiveValue: { data in
+                        self.homeCafe = data
+                    })
+                    .store(in: &cancellables)
             }
         }
     }

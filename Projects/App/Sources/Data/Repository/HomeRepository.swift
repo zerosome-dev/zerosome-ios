@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 
 class HomeRepository: HomeRepositoryProtocol {
     private let apiService: ApiService
@@ -30,33 +31,40 @@ class HomeRepository: HomeRepositoryProtocol {
         }
     }
     
-    func tobeReleaseProduct() async -> Result<[HomeRolloutResponseDTO], NetworkError> {
-        let response: Result<[HomeRolloutResponseDTO], NetworkError> = await apiService.request(
-            httpMethod: .get,
-            endPoint: APIEndPoint.url(for: .tobeReleased)
-        )
-        
-        switch response {
-        case .success(let success):
-            return .success(success)
-        case .failure(let failure):
-            debugPrint("🏠🔴 tobeReleaseProduct failure \(failure.localizedDescription)  🏠🔴")
-            return .failure(NetworkError.response)
+    func tobeReleaseProduct() -> Future<[HomeRolloutResponseDTO], NetworkError> {
+        return Future { promise in
+            Task {
+                let response: Result<[HomeRolloutResponseDTO], NetworkError> = await self.apiService.request(
+                    httpMethod: .get,
+                    endPoint: APIEndPoint.url(for: .tobeReleased)
+                )
+                switch response {
+                case .success(let data):
+                    promise(.success(data))
+                case .failure(let error):
+                    debugPrint("🏠🔴 tobeReleaseProduct failure \(error.localizedDescription)  🏠🔴")
+                    promise(.failure(NetworkError.response))
+                }
+            }
         }
     }
     
-    func homeCafe() async -> Result<[HomeCafeResponseDTO], NetworkError> {
-        let response: Result<[HomeCafeResponseDTO], NetworkError> = await apiService.request(
-            httpMethod: .get,
-            endPoint: APIEndPoint.url(for: .homeCafe)
-        )
-        
-        switch response {
-        case .success(let success):
-            return .success(success)
-        case .failure(let failure):
-            debugPrint("🏠🔴 homeCafe failure \(failure.localizedDescription) 🏠🔴")
-            return .failure(NetworkError.response)
+    func homeCafe() async -> Future<[HomeCafeResponseDTO], NetworkError> {
+        return Future { promise in
+            Task {
+                let response: Result<[HomeCafeResponseDTO], NetworkError> = await self.apiService.request(
+                    httpMethod: .get,
+                    endPoint: APIEndPoint.url(for: .homeCafe)
+                )
+                
+                switch response {
+                case .success(let data):
+                    promise(.success(data))
+                case .failure(let error):
+                    debugPrint("🏠🔴 homeCafe failure \(error.localizedDescription) 🏠🔴")
+                    promise(.failure(NetworkError.response))
+                }
+            }
         }
     }
 }

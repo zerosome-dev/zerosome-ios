@@ -23,7 +23,8 @@ struct ZerosomeApp: App {
     var body: some Scene {
         WindowGroup {
             RouterView {
-                AuthenticationView()
+//                AuthenticationView()
+                TabbarMainView()
             }
             .onOpenURL(perform: { url in
                 if AuthApi.isKakaoTalkLoginUrl(url) {

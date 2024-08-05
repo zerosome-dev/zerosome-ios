@@ -21,11 +21,7 @@ struct HomeMainView: View {
     
     var body: some View {
         ScrollView {
-            if viewModel.bannerResult {
-                CustomInfiniteBanner(height: 240)
-                    .padding(.bottom, 20)
-            }
-
+            
             VStack(spacing: 30) {
                 HomeCategoryTitleView(
                     tapData: $viewModel.tapData,
@@ -67,7 +63,7 @@ struct HomeMainView: View {
         .scrollIndicators(.hidden)
         .ZSmainNaviTitle("ZEROSOME")
         .onAppear {
-//            viewModel.send(action: .cafe)
+            viewModel.send(action: .cafe)
 //            viewModel.send(action: .tobeReleased)
         }
     }
