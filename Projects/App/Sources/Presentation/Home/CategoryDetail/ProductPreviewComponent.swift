@@ -8,14 +8,18 @@
 
 import SwiftUI
 import DesignSystem
+import Kingfisher
 
 struct ProductPreviewComponent: View {
     var action: (() -> Void)?
+    let data: HScrollProductType
     
     init (
-        action: (() -> Void)? = nil
+        action: (() -> Void)? = nil,
+        data: HScrollProductType
     ) {
         self.action = action
+        self.data = data
     }
     
     var body: some View {
@@ -27,26 +31,50 @@ struct ProductPreviewComponent: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {
-                ZSText("브랜드브랜드", fontType: .body3, color: Color.neutral500)
-                    .lineLimit(1)
-                
-                ZSText("상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명", fontType: .subtitle2, color: Color.neutral900)
-                    .lineLimit(2)
-                
-                HStack(spacing: 2) {
-                    ZerosomeAsset.ic_star_fill
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                    Text("0")
-                    Text("(0)")
+                switch data {
+                case .tobeReleased(let tobeReleased):
+                    let data = tobeReleased.map { data in
+                        infoView(
+                            name: data.name ?? "",
+                            brand: data.d2Category ?? "",
+                            image: data.image ?? ""
+                        )
+                    }
+                case .homeCafe(let homeCafe):
+                    let data = homeCafe.map { data in
+                        infoView(name: data.name ?? "",
+                                 brand: data.brand ?? "",
+                                 image: data.image ?? ""
+                        )
+                    }
                 }
-                .applyFont(font: .body3)
-                .foregroundStyle(Color.neutral400)
             }
         }
         .onTapGesture {
             action?()
         }
+    }
+    
+    @ViewBuilder
+    func infoView(name: String, brand: String, image: String) -> some View {
+        ZSText(name, fontType: .body3, color: Color.neutral500)
+            .lineLimit(1)
+        
+        ZSText(brand, fontType: .subtitle2, color: Color.neutral900)
+            .lineLimit(2)
+        
+        HStack(spacing: 2) {
+            KFImage(URL(string: image))
+                .resizable()
+                .frame(width: 16, height: 16)
+//            ZerosomeAsset.ic_star_fill
+//                .resizable()
+//                .frame(width: 16, height: 16)
+            Text("0")
+            Text("(0)")
+        }
+        .applyFont(font: .body3)
+        .foregroundStyle(Color.neutral400)
     }
 }
 
@@ -56,8 +84,4 @@ extension ProductPreviewComponent {
         copy.action = action
         return copy
     }
-}
-
-#Preview {
-    ProductPreviewComponent()
 }

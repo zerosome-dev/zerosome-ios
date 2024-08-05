@@ -29,7 +29,7 @@ public extension Target {
         
         if isProductApp {
             /// entitlements 추가 시 해당 주석 지우고 generate 해주세요.
-//              entitlements = "zerosome.entitlements"
+              entitlements = "\(name).entitlements"
             // 빌드 세팅 (xcconfig 있을경우)
             setting = Settings.settings(configurations: [
                 .debug(name: "Debug", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),

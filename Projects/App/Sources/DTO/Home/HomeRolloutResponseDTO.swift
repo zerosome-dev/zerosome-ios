@@ -9,10 +9,10 @@
 import Foundation
 
 struct HomeRolloutResponseDTO: Decodable {
-    var id : Int?
-    var image : String?
-    var d1Category : String?
-    var d2Category : String?
-    var name : String?
-    var salesStore : [String]?
+    var id: Int?
+    var image: String?
+    var d1Category: String?
+    var d2Category: String?
+    var name: String?
+    var salesStore: [String?]?
 }

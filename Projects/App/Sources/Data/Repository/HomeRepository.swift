@@ -31,10 +31,32 @@ class HomeRepository: HomeRepositoryProtocol {
     }
     
     func tobeReleaseProduct() async -> Result<[HomeRolloutResponseDTO], NetworkError> {
-        return .success([])
+        let response: Result<[HomeRolloutResponseDTO], NetworkError> = await apiService.request(
+            httpMethod: .get,
+            endPoint: APIEndPoint.url(for: .tobeReleased)
+        )
+        
+        switch response {
+        case .success(let success):
+            return .success(success)
+        case .failure(let failure):
+            debugPrint("🏠🔴 tobeReleaseProduct failure \(failure.localizedDescription)  🏠🔴")
+            return .failure(NetworkError.response)
+        }
     }
     
     func homeCafe() async -> Result<[HomeCafeResponseDTO], NetworkError> {
-        return .success([])
+        let response: Result<[HomeCafeResponseDTO], NetworkError> = await apiService.request(
+            httpMethod: .get,
+            endPoint: APIEndPoint.url(for: .homeCafe)
+        )
+        
+        switch response {
+        case .success(let success):
+            return .success(success)
+        case .failure(let failure):
+            debugPrint("🏠🔴 homeCafe failure \(failure.localizedDescription) 🏠🔴")
+            return .failure(NetworkError.response)
+        }
     }
 }

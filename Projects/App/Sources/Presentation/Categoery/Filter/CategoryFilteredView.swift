@@ -51,12 +51,12 @@ struct CategoryFilteredView: View {
                 .applyFont(font: .body3)
                 .padding(.horizontal, 22)
                 
-                LazyVGrid(columns: columns) {
-                    ForEach(0..<10, id: \.self) { index in
-                        ProductPreviewComponent()
-                    }
-                }
-                .padding(.horizontal, 22)
+//                LazyVGrid(columns: columns) {
+//                    ForEach(0..<10, id: \.self) { index in
+//                        ProductPreviewComponent()
+//                    }
+//                }
+//                .padding(.horizontal, 22)
             }
         }
         .sheet(isPresented: $viewModel.updateToggle){

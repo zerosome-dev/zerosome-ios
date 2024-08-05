@@ -9,40 +9,50 @@
 import SwiftUI
 import DesignSystem
 
+enum HScrollProductType {
+    case tobeReleased([HomeRolloutResponseDTO])
+    case homeCafe([HomeCafeResponseDTO])
+}
+
 struct HomeCategoryTitleView: View {
+    @State private var categoryList: [String] = [] // 유저가 선택하는 카테고리
+    @Binding var tapData: String
+    
+    let columns: [GridItem] = [.init(.flexible(), spacing: 10, alignment: .center)]
+    
     enum TitleType {
         case none
         case noneData
         case moreButton
     }
     
-    @State private var categoryList: [String] = [] // 유저가 선택하는 카테고리
-    @Binding var tapData: String
     let title: String
     let subTitle: String
+    let productType: HScrollProductType
     let type: TitleType
     let paddingType: Bool?
-    let data: [String]?
+    let d2Category: [String]?
     var action: (() -> Void)?
     var subAction: (() -> Void)?
-    let columns: [GridItem] = [.init(.flexible(), spacing: 10, alignment: .center)]
 
     init (
         tapData: Binding<String>,
+        productType: HScrollProductType,
         title: String,
         subTitle: String,
         type: TitleType,
         paddingType: Bool? = true,
-        data: [String]? = nil,
+        d2Category: [String]? = nil,
         action: (() -> Void)? = nil,
         subAction: (() -> Void)? = nil
     ) {
         self._tapData = tapData
+        self.productType = productType
         self.title = title
         self.subTitle = subTitle
         self.type = type
         self.paddingType = paddingType
-        self.data = data
+        self.d2Category = d2Category
         self.action = action
         self.subAction = subAction
     }
@@ -57,13 +67,29 @@ struct HomeCategoryTitleView: View {
                     .padding(.bottom, 8)
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(0..<10) { i in
-                            ProductPreviewComponent()
-                                .tap {
-                                    tapData = i.description
-                                    subAction?()
-                                }
-                                .frame(maxWidth: 150)
+                        switch productType {
+                        case .tobeReleased(let tobeReleased):
+                            let count = tobeReleased.count
+                            
+                            ForEach(0..<count, id: \.self) { data in
+                                ProductPreviewComponent(data: .tobeReleased(tobeReleased))
+                                    .tap {
+                                        tapData = tobeReleased[data].name ?? ""
+                                        subAction?()
+                                    }
+                                    .frame(maxWidth: 150)
+                            }
+                        case .homeCafe(let homeCafe):
+                            let count = homeCafe.count
+                            
+                            ForEach(0..<count, id: \.self) { data in
+                                ProductPreviewComponent(data: .homeCafe(homeCafe))
+                                    .tap {
+                                        tapData = homeCafe[data].name ?? ""
+                                        subAction?()
+                                    }
+                                    .frame(maxWidth: 150)
+                            }
                         }
                     }
                 }
@@ -111,7 +137,7 @@ struct HomeCategoryTitleView: View {
     private var categoryView: some View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: columns) {
-                ForEach(data ?? [], id: \.self) { index in
+                ForEach(d2Category ?? [], id: \.self) { index in
                     Text(index)
                         .padding(.init(top: 6, leading: 12, bottom: 6, trailing: 12))
                         .applyFont(font: .label1)
@@ -154,10 +180,12 @@ extension HomeCategoryTitleView {
 
 #Preview {
     HomeCategoryTitleView(tapData: .constant("상품명"),
+                          productType: .homeCafe([]),
                           title: "제목입니다.",
                           subTitle: "서브타이틀입니다.",
                           type: .moreButton,
-                          paddingType: true,
-                          data: ZeroDrinkSampleData.drinkType)
+                          paddingType: true
+//                          data: ZeroDrinkSampleData.drinkType
+    )
 }
 
