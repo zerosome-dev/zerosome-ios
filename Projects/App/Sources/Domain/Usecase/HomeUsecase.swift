@@ -7,19 +7,20 @@
 //
 
 import Foundation
+import Combine
 
 struct HomeUsecase {
-    let homeRepoInterface: HomeRepositoryRepoInterface
+    let homeRepoProtocol: HomeRepositoryProtocol
     
     func getBannerList() async  -> Result<[HomeBannerResonseDTO], NetworkError> {
-        return await homeRepoInterface.getBannerList()
+        return await homeRepoProtocol.getBannerList()
     }
     
-    func tobeReleaseProduct() async -> Result<[HomeRolloutResponseDTO], NetworkError> {
-        return await homeRepoInterface.tobeReleaseProduct()
+    func tobeReleaseProduct() async -> Future<[HomeRolloutResponseDTO], NetworkError> {
+        return await homeRepoProtocol.tobeReleaseProduct()
     }
     
-    func homeCafe() async -> Result<[HomeCafeResponseDTO], NetworkError> {
-        return await homeRepoInterface.homeCafe()
+    func homeCafe() async -> Future<[HomeCafeResponseDTO], NetworkError> {
+        return await homeRepoProtocol.homeCafe()
     }
 }

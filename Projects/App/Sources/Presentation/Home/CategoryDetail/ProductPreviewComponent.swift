@@ -8,29 +8,63 @@
 
 import SwiftUI
 import DesignSystem
+import Kingfisher
 
-struct ProductPreviewComponent: View {
+struct ProductPreviewComponent<T: Decodable>: View {
     var action: (() -> Void)?
+    let data: T
     
     init (
-        action: (() -> Void)? = nil
+        action: (() -> Void)? = nil,
+        data: T
     ) {
         self.action = action
+        self.data = data
     }
     
     var body: some View {
+        Group {
+            if let data = data as? HomeRolloutResponseDTO {
+                infoView(
+                    image: data.image ?? "",
+                    name: data.name ?? "",
+                    brand: data.d2Category ?? ""
+                )
+            } else if let data = data as? HomeCafeResponseDTO {
+                infoView(
+                    image: data.image ?? "",
+                    name: data.name ?? "",
+                    brand: data.brand ?? ""
+                )
+            }
+        }
+        .onTapGesture {
+            action?()
+        }
+        .onAppear {
+            
+        }
+    }
+    
+    @ViewBuilder
+    func infoView(image: String, name: String, brand: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Rectangle()
-                .fill(Color.neutral50)
-                .frame(maxWidth: .infinity)
-                .frame(height: 160)
+            KFImage(URL(string: image))
+                .placeholder {
+                    ProgressView()
+                        .tint(Color.primaryFF6972)
+                }
+                .resizable()
+                .frame(width: 150, height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-
+            
             VStack(alignment: .leading, spacing: 4) {
-                ZSText("브랜드브랜드", fontType: .body3, color: Color.neutral500)
+                ZSText(name, fontType: .body3, color: Color.neutral500)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(1)
                 
-                ZSText("상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명", fontType: .subtitle2, color: Color.neutral900)
+                ZSText(brand, fontType: .subtitle2, color: Color.neutral900)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(2)
                 
                 HStack(spacing: 2) {
@@ -44,9 +78,6 @@ struct ProductPreviewComponent: View {
                 .foregroundStyle(Color.neutral400)
             }
         }
-        .onTapGesture {
-            action?()
-        }
     }
 }
 
@@ -56,8 +87,4 @@ extension ProductPreviewComponent {
         copy.action = action
         return copy
     }
-}
-
-#Preview {
-    ProductPreviewComponent()
 }

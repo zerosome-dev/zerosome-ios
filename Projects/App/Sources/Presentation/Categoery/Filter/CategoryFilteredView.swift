@@ -24,7 +24,7 @@ struct CategoryFilteredView: View {
     ) {
         self.type = type
         self.tag = tag
-        _viewModel = StateObject(wrappedValue: CategoryFilteredViewModel(category: tag ?? ""))
+        _viewModel = StateObject(wrappedValue: CategoryFilteredViewModel(category: tag ?? "전체"))
     }
     
     var body: some View {
@@ -51,12 +51,12 @@ struct CategoryFilteredView: View {
                 .applyFont(font: .body3)
                 .padding(.horizontal, 22)
                 
-                LazyVGrid(columns: columns) {
-                    ForEach(0..<10, id: \.self) { index in
-                        ProductPreviewComponent()
-                    }
-                }
-                .padding(.horizontal, 22)
+//                LazyVGrid(columns: columns) {
+//                    ForEach(0..<10, id: \.self) { index in
+//                        ProductPreviewComponent()
+//                    }
+//                }
+//                .padding(.horizontal, 22)
             }
         }
         .sheet(isPresented: $viewModel.updateToggle){

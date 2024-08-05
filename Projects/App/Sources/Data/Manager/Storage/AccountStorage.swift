@@ -34,6 +34,7 @@ final class AccountStorage {
             }
         }
     }
+    
     var refreshToken: String? {
         get {
             guard let value = KeychainManager.shared.load(key: "refreshToken"),
@@ -51,6 +52,27 @@ final class AccountStorage {
             } else {
                 KeychainManager.shared.delete(key: "refreshToken")
                 debugPrint("🔮 delete refreshToken")
+            }
+        }
+    }
+    
+    var kakaoAccessToken: String? {
+        get {
+            guard let value = KeychainManager.shared.load(key: "kakaoAccessToken"),
+                  !value.isEmpty,
+                  let token = String(data: value, encoding: String.Encoding.utf8) else {
+                return nil
+            }
+            debugPrint("🔮 get kakaoAccessToken : \(token)")
+            return token
+        }
+        set {
+            if let value = newValue, let data = value.data(using: .utf8) {
+                KeychainManager.shared.save(key: "kakaoAccessToken", data: data)
+                debugPrint("🔮 save kakaoAccessToken : \(value)")
+            } else {
+                KeychainManager.shared.delete(key: "kakaoAccessToken")
+                debugPrint("🔮 delete kakaoAccessToken")
             }
         }
     }

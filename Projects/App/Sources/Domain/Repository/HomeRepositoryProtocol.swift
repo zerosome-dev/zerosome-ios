@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import Combine
 
-protocol HomeRepositoryRepoInterface {
+protocol HomeRepositoryProtocol {
     func getBannerList() async -> Result<[HomeBannerResonseDTO], NetworkError>
-    func tobeReleaseProduct() async -> Result<[HomeRolloutResponseDTO], NetworkError>
-    func homeCafe() async -> Result<[HomeCafeResponseDTO], NetworkError>
+    func tobeReleaseProduct() async -> Future<[HomeRolloutResponseDTO], NetworkError>
+    func homeCafe() async -> Future<[HomeCafeResponseDTO], NetworkError>
 }

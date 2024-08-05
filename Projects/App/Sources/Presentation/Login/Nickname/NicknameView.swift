@@ -19,6 +19,7 @@ class NicknameViewModel: ObservableObject {
 struct NicknameView: View {
     @EnvironmentObject var router: Router
     @StateObject var viewModel = NicknameViewModel()
+    @ObservedObject var authViewModel: AuthViewModel
     @State private var text: String = ""
     
     var body: some View {
@@ -68,6 +69,10 @@ struct NicknameView: View {
     }
 }
 
-#Preview {
-    NicknameView()
-}
+//#Preview {
+//    NicknameView(authViewModel: AuthViewModel(
+//        authUseCase: SignInUseCase(
+//            signInRepoProtocol: SignInRepository()
+//        ))
+//    )
+//}

@@ -16,4 +16,7 @@ enum NetworkError: Error {
     case urlError
     case statusError
     case queryError
+    case encode
+    case badRequest
+    case unknown
 }

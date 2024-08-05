@@ -9,6 +9,11 @@
 import Foundation
 
 struct LoginResponseDTO: Decodable {
+    var isMember: Bool?
+    var token: TokenResponseDTO
+}
+
+struct TokenResponseDTO: Decodable {
     var accessToken: String?
     var refreshToken: String?
 }
