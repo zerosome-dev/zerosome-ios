@@ -30,7 +30,7 @@ struct DetailReviewView: View {
                 CommonTitle(title: "아직 리뷰가 없어요", type: .solo)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 62)
-                NoneReviewView()
+                NoneReviewView(action: action)
                     .padding(.bottom, 83)
             } else {
                 HStack {
@@ -49,8 +49,13 @@ struct DetailReviewView: View {
                     action?()
                 }
                 
-                ReviewScoreComponent(background: Color.neutral50,
-                                     heightPadding: 18, radius: 8, review: "4.3", font: .heading2)
+                ReviewScoreComponent(
+                    background: Color.neutral50,
+                    heightPadding: 18,
+                    radius: 8,
+                    review: "4.3",
+                    font: .heading2
+                )
 
                     .padding(.bottom, 20)
                 
