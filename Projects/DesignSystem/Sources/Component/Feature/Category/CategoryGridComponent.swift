@@ -99,7 +99,6 @@ public struct CategoryGridComponent: View {
                             
                     }
                     .onTapGesture {
-                        print("SY!!!! -> \(type)")
                         tapData = type
                         pageAction?()
                     }

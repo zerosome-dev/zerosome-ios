@@ -28,13 +28,25 @@ struct ProductPreviewComponent<T: Decodable>: View {
                 infoView(
                     image: data.image ?? "",
                     name: data.name ?? "",
-                    brand: data.d2Category ?? ""
+                    brand: data.d2Category ?? "",
+                    star: 0,
+                    reviewCnt: 0
                 )
             } else if let data = data as? HomeCafeResponseDTO {
                 infoView(
                     image: data.image ?? "",
                     name: data.name ?? "",
-                    brand: data.brand ?? ""
+                    brand: data.brand ?? "",
+                    star: data.review ?? 0,
+                    reviewCnt: data.reviewCnt ?? 0
+                )
+            } else if let data = data as? SimilarProductDTO {
+                infoView(
+                    image: data.image ?? "",
+                    name: data.productName ?? "",
+                    brand: "",
+                    star: Int(round(data.rating ?? 0.0)),
+                    reviewCnt: data.reviewCnt ?? 0
                 )
             }
         }
@@ -47,7 +59,7 @@ struct ProductPreviewComponent<T: Decodable>: View {
     }
     
     @ViewBuilder
-    func infoView(image: String, name: String, brand: String) -> some View {
+    func infoView(image: String, name: String, brand: String, star: Int, reviewCnt: Int) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             KFImage(URL(string: image))
                 .placeholder {
@@ -71,8 +83,8 @@ struct ProductPreviewComponent<T: Decodable>: View {
                     ZerosomeAsset.ic_star_fill
                         .resizable()
                         .frame(width: 16, height: 16)
-                    Text("0")
-                    Text("(0)")
+                    Text("\(star)")
+                    Text("(\(reviewCnt))")
                 }
                 .applyFont(font: .body3)
                 .foregroundStyle(Color.neutral400)

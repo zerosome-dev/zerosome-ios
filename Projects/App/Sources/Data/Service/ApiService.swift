@@ -23,17 +23,27 @@ final class ApiService {
     func request<T: Decodable> (
         httpMethod: ApiMethod,
         endPoint: String,
-        queryParameter: Encodable? = nil,
+        queryParameters: Encodable? = nil,
+        pathParameters: String? = nil,
         body: Encodable? = nil,
-//        needToken: Bool = false,
         header: String? = nil
     ) async -> Result<T, NetworkError> {
         
-        guard var url = URL(string: endPoint) else {
-            return .failure(NetworkError.urlError)
+        var modifiedEndPoint = endPoint
+        
+        if let pathParameter = pathParameters {
+            print("⚙️ path 파라미터? ⚙️")
+            
+            modifiedEndPoint = modifiedEndPoint + "/\(pathParameter)"
+            print("⚙️⚙️ modifiedEndPoint \(modifiedEndPoint) ⚙️⚙️")
         }
         
-        if let parameters = queryParameter {
+        guard var url = URL(string: modifiedEndPoint) else {
+            return .failure(NetworkError.urlError)
+        }
+        print("⚙️⚙️ URL \(modifiedEndPoint) ⚙️⚙️")
+        
+        if let parameters = queryParameters {
             guard let queryDictionary = try? parameters.toDictionary() else {
                 return .failure(NetworkError.queryError)
             }
@@ -46,7 +56,6 @@ final class ApiService {
             
             url.append(queryItems: queryItems)
         }
-        print("⚙️⚙️ URL \(url) ⚙️⚙️")
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue

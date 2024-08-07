@@ -14,23 +14,27 @@ struct TobeReleasedProductView: View {
     @EnvironmentObject var router: Router
     let title: String
     let subTitle: String
-    let columns: [GridItem] = Array(repeating: .init(.flexible(),
-                                                     spacing: 11,
-                                                     alignment: .center), count: 2)
+    let data: [HomeRolloutResponseDTO]
+    let columns: [GridItem] = Array(
+        repeating: .init(.flexible(),
+                         spacing: 11,
+                         alignment: .center), count: 2
+    )
+    
     let platform: [String] = ["출시예정", "온라인", "오프라인"]
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
                 VStack(spacing: 2) {
-                    ZSText("출시 예정 신상품", fontType: .heading1)
+                    ZSText(title, fontType: .heading1)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    ZSText("새롭게 발매된 상품과 발매 예정 상품을 확인해보세요", fontType: .body2, color: Color.neutral500)
+                    ZSText(subTitle, fontType: .body2, color: Color.neutral500)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(0..<10, id: \.self) { index in
+                    ForEach(data, id: \.id) { data in
                         VStack(alignment: .leading, spacing: 8) {
                             Rectangle()
                                 .fill(Color.neutral50)
@@ -39,10 +43,10 @@ struct TobeReleasedProductView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
                             VStack(alignment: .leading, spacing: 4) {
-                                ZSText("브랜드브랜드", fontType: .body3, color: Color.neutral500)
+                                ZSText(data.d2Category ?? "", fontType: .body3, color: Color.neutral500)
                                     .lineLimit(1)
                                 
-                                ZSText("상품명상품명상품명상품명상품명상품명", fontType: .subtitle2, color: Color.neutral900)
+                                ZSText(data.name ?? "", fontType: .subtitle2, color: Color.neutral900)
                                     .lineLimit(2)
                                 
                                 HStack {
@@ -68,5 +72,5 @@ struct TobeReleasedProductView: View {
 }
 
 #Preview {
-    TobeReleasedProductView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구")
+    TobeReleasedProductView(title: "출시 예정 신상품", subTitle: "새롭게 발매된 어쩌구", data: [])
 }

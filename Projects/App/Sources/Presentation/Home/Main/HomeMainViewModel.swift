@@ -16,18 +16,19 @@ class HomeMainViewModel: ObservableObject {
         case cafe
     }
     
-    @Published var tapData: String = ""
+    @Published var tapData: Int = 0
     @Published var tobeReleased: [HomeRolloutResponseDTO] = []
     @Published var homeCafe: [HomeCafeResponseDTO] = []
     
     private let homeUsecase: HomeUsecase
     private var cancellables = Set<AnyCancellable>()
     
-    init(homeUsecase: HomeUsecase) {
+    init(
+        homeUsecase: HomeUsecase
+    ) {
         self.homeUsecase = homeUsecase
     }
     
-//    @MainActor
     func send(action: Action) {
         switch action {
         case .tobeReleased:
@@ -39,7 +40,7 @@ class HomeMainViewModel: ObservableObject {
                         case .finished:
                             break
                         case .failure(let error):
-                            debugPrint("🧪 신상품 실패 \(error.localizedDescription)")
+                            debugPrint("🧪 \(error.localizedDescription)")
                         }
                     }, receiveValue: { data in
                         self.tobeReleased = data
@@ -56,7 +57,7 @@ class HomeMainViewModel: ObservableObject {
                         case .finished:
                             break
                         case .failure(let error):
-                            debugPrint("🧪 홈카페 실패 \(error.localizedDescription)")
+                            debugPrint("🧪🧪 \(error.localizedDescription)")
                         }
                     }, receiveValue: { data in
                         self.homeCafe = data

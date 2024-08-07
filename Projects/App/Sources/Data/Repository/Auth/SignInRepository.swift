@@ -26,7 +26,7 @@ final class AccountRepository: AccountRepositoryProtocol {
         let response: Result<LoginResponseDTO, NetworkError> = await apiService.request(
             httpMethod: .post,
             endPoint: endPoint,
-            queryParameter: parameters,
+            queryParameters: parameters,
             header: token
         )
         
