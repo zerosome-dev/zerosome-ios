@@ -44,7 +44,7 @@ struct ProductPreviewComponent<T: Decodable>: View {
                 infoView(
                     image: data.image ?? "",
                     name: data.productName ?? "",
-                    brand: "",
+                    brand: data.brandName ?? "",
                     star: Int(round(data.rating ?? 0.0)),
                     reviewCnt: data.reviewCnt ?? 0
                 )
@@ -52,9 +52,6 @@ struct ProductPreviewComponent<T: Decodable>: View {
         }
         .onTapGesture {
             action?()
-        }
-        .onAppear {
-            
         }
     }
     
@@ -71,11 +68,11 @@ struct ProductPreviewComponent<T: Decodable>: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             
             VStack(alignment: .leading, spacing: 4) {
-                ZSText(name, fontType: .body3, color: Color.neutral500)
+                ZSText(brand, fontType: .body3, color: Color.neutral500)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(1)
                 
-                ZSText(brand, fontType: .subtitle2, color: Color.neutral900)
+                ZSText(name, fontType: .subtitle2, color: Color.neutral900)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(2)
                 

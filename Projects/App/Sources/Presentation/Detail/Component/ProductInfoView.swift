@@ -24,7 +24,7 @@ struct ProductInfoView: View {
             DivideRectangle(height: 1, color: Color.neutral100)
             
             HStack(spacing: 6) {
-                StarComponent(rating: rating)
+                StarComponent(rating: rating, size: 16)
                 
                 ZSText("\(rating)", fontType: .subtitle1, color: Color.neutral900)
                 

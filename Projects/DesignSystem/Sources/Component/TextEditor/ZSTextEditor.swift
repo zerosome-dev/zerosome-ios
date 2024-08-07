@@ -47,6 +47,7 @@ public struct ZSTextEditor: View {
                 ZSText("\(content.count)/\(maxCount)", fontType: .body4)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding(.trailing, 2)
+                    .foregroundStyle(Color.neutral400)
             }
         }
     }

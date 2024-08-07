@@ -21,7 +21,7 @@ final class Router: ObservableObject {
         case categoryFilter(String, String?) //
         case detailMainView(Int)
         case reviewList
-        case creatReview
+        case creatReview(ReviewEntity) // proudct it, name, brand
         case mypageReviewList
         case myReivew
         case mypgaeNickname
@@ -66,8 +66,8 @@ final class Router: ObservableObject {
         case .reviewList:
             ReviewListView()
         
-        case .creatReview:
-            CreateReviewView()
+        case .creatReview(let data):
+            CreateReviewView(data: data)
         
         case .mypageReviewList:
             MyReviewsListView()

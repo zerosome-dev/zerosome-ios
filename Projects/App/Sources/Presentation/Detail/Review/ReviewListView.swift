@@ -41,7 +41,7 @@ struct ReviewListView: View {
                             }
                             
                             HStack(spacing: 4) {
-                                StarComponent(rating: 4)
+                                StarComponent(rating: 4, size: 16)
                                 ZSText(index.score, fontType: .label1)
                             }
                         

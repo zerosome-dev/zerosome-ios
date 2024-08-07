@@ -41,7 +41,7 @@ struct MyReviewsListView: View {
                             Spacer()
                             
                             HStack(spacing: 4) {
-                                StarComponent(rating: 3)
+                                StarComponent(rating: 3, size: 16)
                                 ZSText("3.7", fontType: .label1, color: Color.neutral700)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }

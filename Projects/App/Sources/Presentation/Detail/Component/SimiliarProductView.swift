@@ -11,6 +11,7 @@ import DesignSystem
 
 struct SimiliarProductView: View {
     @ObservedObject var viewModel: DetailMainViewModel
+    @EnvironmentObject var router: Router
     
     var body: some View {
         VStack(spacing: 16) {
@@ -21,6 +22,9 @@ struct SimiliarProductView: View {
                 HStack {
                     ForEach(viewModel.dataInfo?.similarProductList ?? [], id: \.productId) { datum in
                         ProductPreviewComponent(data: datum)
+                            .tap {
+                                router.navigateTo(.detailMainView(datum.productId ?? 0))
+                            }
                             .frame(maxWidth: 150)
                     }
                 }

@@ -57,7 +57,7 @@ struct DetailReviewView: View {
                 // TODO: - Carousel, component수정
                 VStack(spacing: 16) {
                     HStack{
-                        StarComponent(rating: 4)
+                        StarComponent(rating: 4, size: 16)
                         ZSText("4.7", fontType: .subtitle2, color: Color.neutral700)
                         Spacer()
                         ZSText("2024.06.05", fontType: .body4, color: Color.neutral400)
@@ -89,7 +89,7 @@ struct ReviewScoreComponent: View {
             Text(review)
                 .applyFont(font: font)
 
-            StarComponent(rating: 4)
+            StarComponent(rating: 4, size: 16)
         }
         .padding(.vertical, heightPadding)
         .frame(maxWidth: .infinity)
