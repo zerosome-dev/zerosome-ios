@@ -10,7 +10,7 @@ import SwiftUI
 import DesignSystem
 
 struct OnlineStoreView: View {
-    let data = ["네이버", "쿠팡", "판매처", "티몬"]
+    let onlineStore: [OnlineStoreDTO]
     
     var body: some View {
         VStack {
@@ -18,9 +18,9 @@ struct OnlineStoreView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             LazyVStack(spacing: 10) {
-                ForEach(data, id: \.self){ store in
+                ForEach(onlineStore, id: \.storeCode) { store in
                     HStack {
-                        ZSText(store, fontType: .body2, color: Color.neutral600)
+                        ZSText(store.storeName ?? "", fontType: .body2, color: Color.neutral600)
                             .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 0))
                             
                         Spacer()
@@ -30,11 +30,9 @@ struct OnlineStoreView: View {
                             .onTapGesture {
                                 print("온라인 판매처 바로가기")
                             }
-                        
                     }
                     .background(Color.neutral50)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
-                
                 }
             }
         }
@@ -43,19 +41,31 @@ struct OnlineStoreView: View {
 }
 
 struct OffLineStoreView: View {
-    let data = ["네이버", "쿠팡", "판매처", "티몬"]
+    let offlineStore: [OfflineStoreDTO]
+    private let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     
     var body: some View {
         CommonTitle(title: "오프라인 판매처", type: .solo)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 22)
         
-        OfflineStoreComponent(offlineStore: data)
-            .padding(.init(top: 0, leading: 22, bottom: 0, trailing: 47))
-        
+        LazyVGrid(columns: columns, spacing: 10) {
+            
+            ForEach(offlineStore, id: \.storeCode) { value in
+                Text(value.storeName ?? "")
+                    .applyFont(font: .body2)
+                    .padding(.init(top: 8, leading: 16, bottom: 8, trailing: 16))
+                    .foregroundStyle(Color.neutral600)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.neutral100)
+                    }
+            }
+        }
+        .padding(.init(top: 0, leading: 22, bottom: 0, trailing: 47))
     }
 }
 
 #Preview {
-    OnlineStoreView()
+    OnlineStoreView(onlineStore: [OnlineStoreDTO(storeCode: "123", storeName: "쿠팡", url: "dd")])
 }

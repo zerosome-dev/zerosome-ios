@@ -52,6 +52,7 @@ struct SimilarProductDTO: Decodable {
     var productId: Int?
     var image: String?
     var productName: String?
+    var brandName: String?
     var rating: Double?
     var reviewCnt: Int?
 }

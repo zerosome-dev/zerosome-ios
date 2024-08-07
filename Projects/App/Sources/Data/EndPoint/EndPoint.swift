@@ -31,6 +31,10 @@ struct APIEndPoint {
         case list = "/api/app/v1/category/list"
     }
     
+    enum Detail: String {
+        case detail = "/api/app/v1/product/detail"
+    }
+    
     static func url(for endPoint: Auth, with parameters: [String : Any]? = nil) -> String {
         let base = baseURL + endPoint.rawValue
         return build(url: base, parameters: parameters)
@@ -42,6 +46,11 @@ struct APIEndPoint {
     }
     
     static func url(for endPoint: Category, with parameters: [String: Any]? = nil) -> String {
+        let base = baseURL + endPoint.rawValue
+        return build(url: base, parameters: parameters)
+    }
+    
+    static func url(for endPoint: Detail, with parameters: [String: Any]? = nil) -> String {
         let base = baseURL + endPoint.rawValue
         return build(url: base, parameters: parameters)
     }

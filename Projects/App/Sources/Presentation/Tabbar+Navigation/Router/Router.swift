@@ -17,11 +17,11 @@ final class Router: ObservableObject {
 //        case login
 //        case term
 //        case nickname
-        case tobeReleasedProduct(String, String) // 홈 > 종류별 더보기
+        case tobeReleasedProduct([HomeRolloutResponseDTO], String, String) // 홈 > 종류별 더보기
         case categoryFilter(String, String?) //
-        case detailMainView(String)
+        case detailMainView(Int)
         case reviewList
-        case creatReview
+        case creatReview(ReviewEntity) // proudct it, name, brand
         case mypageReviewList
         case myReivew
         case mypgaeNickname
@@ -49,8 +49,8 @@ final class Router: ObservableObject {
 //        case .nickname:
 //            NicknameView()
             
-        case .tobeReleasedProduct(let title, let subTitle):
-            TobeReleasedProductView(title: title, subTitle: subTitle)
+        case .tobeReleasedProduct(let releasedArray, let title, let subTitle):
+            TobeReleasedProductView(title: title, subTitle: subTitle, data: releasedArray)
             
         case .categoryFilter(let type, let tag):
             if let tag = tag {
@@ -59,14 +59,15 @@ final class Router: ObservableObject {
                 CategoryFilteredView(type: type)
             }
             
-        case .detailMainView(let product):
-            DetailMainView(product: product)
+        case .detailMainView(let productId):
+            
+            DetailMainView(productId: productId)
         
         case .reviewList:
             ReviewListView()
         
-        case .creatReview:
-            CreateReviewView()
+        case .creatReview(let data):
+            CreateReviewView(data: data)
         
         case .mypageReviewList:
             MyReviewsListView()

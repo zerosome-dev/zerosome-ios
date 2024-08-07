@@ -28,26 +28,35 @@ struct ProductPreviewComponent<T: Decodable>: View {
                 infoView(
                     image: data.image ?? "",
                     name: data.name ?? "",
-                    brand: data.d2Category ?? ""
+                    brand: data.d2Category ?? "",
+                    star: 0,
+                    reviewCnt: 0
                 )
             } else if let data = data as? HomeCafeResponseDTO {
                 infoView(
                     image: data.image ?? "",
                     name: data.name ?? "",
-                    brand: data.brand ?? ""
+                    brand: data.brand ?? "",
+                    star: data.review ?? 0,
+                    reviewCnt: data.reviewCnt ?? 0
+                )
+            } else if let data = data as? SimilarProductDTO {
+                infoView(
+                    image: data.image ?? "",
+                    name: data.productName ?? "",
+                    brand: data.brandName ?? "",
+                    star: Int(round(data.rating ?? 0.0)),
+                    reviewCnt: data.reviewCnt ?? 0
                 )
             }
         }
         .onTapGesture {
             action?()
         }
-        .onAppear {
-            
-        }
     }
     
     @ViewBuilder
-    func infoView(image: String, name: String, brand: String) -> some View {
+    func infoView(image: String, name: String, brand: String, star: Int, reviewCnt: Int) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             KFImage(URL(string: image))
                 .placeholder {
@@ -59,11 +68,11 @@ struct ProductPreviewComponent<T: Decodable>: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             
             VStack(alignment: .leading, spacing: 4) {
-                ZSText(name, fontType: .body3, color: Color.neutral500)
+                ZSText(brand, fontType: .body3, color: Color.neutral500)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(1)
                 
-                ZSText(brand, fontType: .subtitle2, color: Color.neutral900)
+                ZSText(name, fontType: .subtitle2, color: Color.neutral900)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(2)
                 
@@ -71,8 +80,8 @@ struct ProductPreviewComponent<T: Decodable>: View {
                     ZerosomeAsset.ic_star_fill
                         .resizable()
                         .frame(width: 16, height: 16)
-                    Text("0")
-                    Text("(0)")
+                    Text("\(star)")
+                    Text("(\(reviewCnt))")
                 }
                 .applyFont(font: .body3)
                 .foregroundStyle(Color.neutral400)

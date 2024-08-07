@@ -29,10 +29,18 @@ struct HomeMainView: View {
                     subTitle: "출시 예정 및 최신 상품을 확인해 보세요",
                     type: .noneData
                 )
-                .tap { router.navigateTo(.tobeReleasedProduct("출시 예정 신상품", "신상품!!")) }
+                .tap {
+                    router.navigateTo(
+                        .tobeReleasedProduct(
+                            viewModel.tobeReleased,
+                            "출시 예정 신상품",
+                            "새롭게 발매된 상품과 발매 예정 상품을 확인해보세요"
+                        )
+                    )
+                }
                 .padding(.top, 20)
                 
-                HomeCarouselView(data: viewModel.tobeReleased)
+                HomeCarouselView(data: viewModel.tobeReleased, viewModel: viewModel)
                     .frame(height: 327)
                 
                 HomeCategoryTitleView(
@@ -44,7 +52,6 @@ struct HomeMainView: View {
                 )
                 .tap { router.navigateTo(.categoryFilter("생수/음료", nil))}
                 .tapSub { router.navigateTo(.detailMainView(viewModel.tapData)) }
-                
                 
                 DivideRectangle(height: 12, color: Color.neutral50)
                 
@@ -62,7 +69,7 @@ struct HomeMainView: View {
         .scrollIndicators(.hidden)
         .ZSmainNaviTitle("ZEROSOME")
         .onAppear {
-//            viewModel.send(action: .cafe)
+            viewModel.send(action: .cafe)
             viewModel.send(action: .tobeReleased)
         }
     }

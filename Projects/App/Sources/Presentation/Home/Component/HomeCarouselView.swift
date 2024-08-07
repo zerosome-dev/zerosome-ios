@@ -17,11 +17,16 @@ class CarouselViewModel: ObservableObject {
 struct HomeCarouselView: View {
     
     @StateObject private var vm = CarouselViewModel()
+    @ObservedObject private var viewModel: HomeMainViewModel
     @EnvironmentObject var router: Router
     let data: [HomeRolloutResponseDTO]
     
-    init(data: [HomeRolloutResponseDTO]) {
+    init(
+        data: [HomeRolloutResponseDTO],
+        viewModel: HomeMainViewModel
+    ) {
         self.data = data
+        self.viewModel = viewModel
     }
     
     private let sampleList = ["출시예정", "온라인", "오프라인"]
@@ -78,14 +83,16 @@ struct HomeCarouselView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
                     .onTapGesture {
-                        router.navigateTo(.detailMainView(data.name ?? ""))
+                        router.navigateTo(.detailMainView(data.id ?? 0))
                     }
             } lastContent: {
                 launchImage()
                     .onTapGesture {
                         router.navigateTo(.tobeReleasedProduct(
-                            "출시 예정 신상품", "새롭게 발매된 상품과 발매 예정 상품을 확인해보세요"
-                        ))
+                            viewModel.tobeReleased,
+                            "출시 예정 신상품",
+                            "새롭게 발매된 상품과 발매 예정 상품을 확인해보세요")
+                        )
                     }
             }
         }
@@ -110,6 +117,6 @@ struct HomeCarouselView: View {
     }
 }
 
-#Preview {
-    HomeCarouselView(data: .init())
-}
+//#Preview {
+//    HomeCarouselView(data: .init(), viewModel = HomeMainViewModel())
+//}

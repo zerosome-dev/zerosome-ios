@@ -25,7 +25,7 @@ enum HScrollProductType {
 
 struct HomeCategoryTitleView: View {
     @State private var categoryList: [String] = [] // 유저가 선택하는 카테고리
-    @Binding var tapData: String
+    @Binding var tapData: Int
     
     let columns: [GridItem] = [.init(.flexible(), spacing: 10, alignment: .center)]
     
@@ -45,7 +45,7 @@ struct HomeCategoryTitleView: View {
     var subAction: (() -> Void)?
 
     init (
-        tapData: Binding<String>,
+        tapData: Binding<Int>,
         productType: HScrollProductType? = nil,
         title: String,
         subTitle: String,
@@ -90,7 +90,7 @@ struct HomeCategoryTitleView: View {
                                 ForEach(data.prefix(10), id: \.id) { data in
                                     ProductPreviewComponent(data: data)
                                         .tap {
-                                            tapData = data.name ?? ""
+                                            tapData = data.id ?? 0
                                             subAction?()
                                         }
                                 }
@@ -186,7 +186,7 @@ extension HomeCategoryTitleView {
 }
 
 #Preview {
-    HomeCategoryTitleView(tapData: .constant("상품명"),
+    HomeCategoryTitleView(tapData: .constant(1),
                           productType: .homeCafe([]),
                           title: "제목입니다.",
                           subTitle: "서브타이틀입니다.",

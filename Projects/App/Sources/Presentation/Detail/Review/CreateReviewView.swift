@@ -8,7 +8,7 @@
 
 import SwiftUI
 import DesignSystem
-import AutoHeightEditor
+import Kingfisher
 
 struct SampleProduct {
     let name: String
@@ -19,10 +19,11 @@ struct SampleProduct {
 }
 
 struct CreateReviewView: View {
-    let data = SampleProduct.sampleProduct
+
+    let data: ReviewEntity
     @State private var text: String = ""
-    @State var dynamicHeight: CGFloat = 100
     @State var starCounting: Int = 0
+    @EnvironmentObject var router: Router
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -31,15 +32,25 @@ struct CreateReviewView: View {
                     // TODO: -  Button 조건 수정
                     !text.isEmpty
                 )
+                .tap {
+                    router.navigateBack()
+                    // TODO: - 서버로 리뷰 전송
+                }
                 .padding(.horizontal, 22)
                 .padding(.top, -2)
+                .zIndex(1)
             
             ScrollView {
                 VStack(spacing: 30) {
-                    Image(systemName: "heart.fill")
+                    KFImage(URL(string: data.image))
+                        .placeholder {
+                            ProgressView()
+                                .tint(Color.primaryFF6972)
+                        }
                         .resizable()
                         .scaledToFit()
                         .frame(width: 240, height: 240)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     
                     VStack(spacing: 6) {
                         ZSText("[\(data.brand)]", fontType: .body2, color: Color.neutral500)
@@ -66,21 +77,22 @@ struct CreateReviewView: View {
                         }
                     }
                     
-                    DynamicHeightTextEditor(text: $text, dynamicHeight: $dynamicHeight,
-                                            initialHeight: 100, radius: 10,
-                                            font: .body2, backgroundColor: Color.white,
-                                            fontColor: Color.neutral700,
-                                            placeholder: "리뷰를 남겨주세요",
-                                            placeholderColor: Color.neutral300).padding(.horizontal, 22)
-                    
-                            
-                   
+                    ZSTextEditor(
+                        content: $text,
+                        placeholder: "제품에 대한 의견을 자유롭게 남겨주세요",
+                        maxCount: 1000
+                    )
+                    .padding(22)
                 }
-            }.scrollIndicators(.hidden)
+            }
+            .scrollIndicators(.hidden)
+        }
+        .ZSnavigationBackButton {
+            router.navigateBack()
         }
     }
 }
 
 #Preview {
-    CreateReviewView()
+    CreateReviewView(data: ReviewEntity(name: "name", brand: "brand", productId: 12, image: ""))
 }

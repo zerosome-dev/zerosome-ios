@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct HomeRolloutResponseDTO: Decodable, Identifiable {
+struct HomeRolloutResponseDTO: Decodable, Identifiable, Hashable {
     var id: Int?
     var image: String?
     var d1Category: String?
