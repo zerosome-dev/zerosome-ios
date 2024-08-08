@@ -18,9 +18,9 @@ public struct CommonTitle: View {
     public let title: String
     public let type: Title
     public let buttonTitle: String?
-    public let buttonAction: (() -> Void)?
+    public var buttonAction: (() -> Void)?
     public let imageTitle: Image?
-    public let imageAction: (() -> Void)?
+    public var imageAction: (() -> Void)?
     
     public init(title: String,
                 type: Title,
@@ -58,6 +58,7 @@ public struct CommonTitle: View {
 //                        buttonAction?()
 //                    }
             }
+            .contentShape(Rectangle())
         case .image:
             HStack {
                 Text(title)
@@ -67,13 +68,29 @@ public struct CommonTitle: View {
                 imageTitle?
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .onTapGesture {
-                        imageAction?()
-                    }    
             }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                imageAction?()
+            }  
         }
     }
 }
+
+public extension CommonTitle {
+    func buttonAction(action: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.buttonAction = action
+        return copy
+    }
+    
+    func imageAction (action: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.imageAction = action
+        return copy
+    }
+}
+
 
 #Preview {
     CommonTitle(title: "title", type: .solo, buttonTitle: nil)

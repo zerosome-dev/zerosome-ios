@@ -10,36 +10,29 @@ import SwiftUI
 import DesignSystem
 
 struct ProductInfoView: View {
-    let name: String
-    let brand: String
-    let rating: Double
-    let reviewCnt: Int
+    @ObservedObject var viewModel: DetailMainViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            ZSText(brand, fontType: .body2, color: Color.neutral500)
-            ZSText(name, fontType: .subtitle1, color: Color.neutral900)
+            ZSText(viewModel.dataInfo?.brandName ?? "", fontType: .body2, color: Color.neutral500)
+            ZSText(viewModel.dataInfo?.productName ?? "", fontType: .subtitle1, color: Color.neutral900)
                 .lineLimit(1)
             
             DivideRectangle(height: 1, color: Color.neutral100)
             
             HStack(spacing: 6) {
-                StarComponent(rating: rating, size: 16)
+                StarComponent(rating: viewModel.dataInfo?.rating ?? 0.0, size: 16)
                 
-                ZSText("\(rating)", fontType: .subtitle1, color: Color.neutral900)
+                ZSText("\(viewModel.dataInfo?.rating ?? 0.0)", fontType: .subtitle1, color: Color.neutral900)
                 
                 Rectangle()
                     .frame(width: 10,height: 1)
                     .rotationEffect(.degrees(90))
                     .foregroundStyle(Color.neutral300)
                 
-                ZSText("\(reviewCnt)개 리뷰", fontType: .body2, color: Color.neutral500)
+                ZSText("\(viewModel.dataInfo?.reviewCnt ?? 0)개 리뷰", fontType: .body2, color: Color.neutral500)
             }
         }
         .padding(.horizontal, 22)
     }
-}
-
-#Preview {
-    ProductInfoView(name: "name", brand: "brand", rating: 1, reviewCnt: 1)
 }

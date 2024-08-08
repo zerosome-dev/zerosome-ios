@@ -22,7 +22,7 @@ struct ProductDetailResponseDTO: Decodable {
     var similarProductList: [SimilarProductDTO]?
 }
 
-struct NutrientByPdtDTO: Decodable {
+struct NutrientByPdtDTO: Decodable, Hashable {
     var nutrientName: String?
     var servings: Double?
     var amount: Double?
@@ -41,7 +41,7 @@ struct OnlineStoreDTO: Decodable {
     var url: String?
 }
 
-struct ReviewThumbnailDTO: Decodable {
+struct ReviewThumbnailDTO: Decodable, Hashable {
     var reviewId: Int?
     var rating: Double?
     var reviewContents: String?

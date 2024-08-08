@@ -15,44 +15,56 @@ public struct NutrientsBottomSheet: View {
     
     public var body: some View {
         VStack {
-            CommonTitle(title: "제품 영양 정보",
-                        type: .image,
-                        imageTitle: ZerosomeAsset.ic_xmark) {
-                viewModel.isNutrients = false
-            }
-            .padding(.bottom, 20)
-            .padding(.top, 30)
+            CommonTitle(
+                title: "제품 영양 정보",
+                type: .image,
+                imageTitle: ZerosomeAsset.ic_xmark
+            )
+            .imageAction { viewModel.isNutrients = false }
+            .padding(.vertical, 24)
             
-            HStack {
-                Text("100ml 당")
+            if viewModel.nutrientEnity.isEmpty {
+                VStack {
+                    ProgressView()
+                        .tint(.primaryFF6972)
+                        .frame(width: 30, height: 30)
+                    ZSText("준비중입니다", fontType: .subtitle1)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
                 Spacer()
-                Text("(어쩌구저쩌구)kcal")
-            }
-            .foregroundStyle(Color.neutral600)
-            .applyFont(font: .body2)
-            .padding(14)
-            .background(Color.neutral50)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-            .padding(.bottom, 6)
-            
-            ScrollView {
-                ForEach(0..<20) { index in
-                    HStack{
-                        Text("영양성분명1")
+            } else {
+                VStack(spacing: 6) {
+                    HStack {
+                        ZSText("100ml당", fontType: .body2, color: .neutral600)
                         Spacer()
-                        Text("영양성분")
+                        ZSText("(어쩌구저쩌구)kcal", fontType: .body2, color: .neutral600)
                     }
-                    .applyFont(font: .body2)
-                    .foregroundStyle(Color.neutral600)
-                    .padding(.vertical, 14)
-//                    
-                    Rectangle()
-                        .fill(Color.neutral100)
-                        .frame(maxWidth: .infinity, maxHeight: 1)
-                        .opacity(index == 20 ? 0 : 1)
+                    .padding(14)
+                    .background(Color.neutral50)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    
+                    ScrollView {
+                        let count = viewModel.nutrientEnity.count
+                        
+                        ForEach(0..<count, id: \.self) { index in
+                            HStack{
+                                Text(viewModel.nutrientEnity[index].nutrientName)
+                                Spacer()
+                                Text("\(viewModel.nutrientEnity[index].amountStandard)g \(viewModel.nutrientEnity[index].servingsStandard)kcal")
+                            }
+                            .applyFont(font: .body2)
+                            .foregroundStyle(Color.neutral600)
+                            .padding(.vertical, 14)
+                            
+                            Rectangle()
+                                .fill(Color.neutral100)
+                                .frame(maxWidth: .infinity, maxHeight: 1)
+                                .opacity(count-1 == index ? 0 : 1)
+                        }
+                    }
+                    .scrollIndicators(.hidden)
                 }
             }
-            .scrollIndicators(.hidden)
         }
         .padding(.horizontal, 24)
     }
