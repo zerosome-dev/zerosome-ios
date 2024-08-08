@@ -21,10 +21,11 @@ struct RouterView<Content: View>: View {
             VStack {
                 content
             }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarBackButtonHidden()
             .navigationDestination(for: Router.Route.self) { route in
                 router.view(for: route)
             }
-            .navigationBarTitle("", displayMode: .inline)
         }
         .environmentObject(router)
     }

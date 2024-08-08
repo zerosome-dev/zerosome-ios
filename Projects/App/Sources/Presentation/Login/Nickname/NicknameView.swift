@@ -18,8 +18,9 @@ class NicknameViewModel: ObservableObject {
 
 struct NicknameView: View {
     @EnvironmentObject var router: Router
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     @StateObject var viewModel = NicknameViewModel()
-    @ObservedObject var authViewModel: AuthViewModel
     @State private var text: String = ""
     
     var body: some View {
@@ -58,13 +59,13 @@ struct NicknameView: View {
             CommonButton(title: "회원가입 완료", font: .subtitle1)
                 .enable(viewModel.isValid)
                 .tap {
-                    router.navigateTo(.tabView)
+                    authViewModel.authenticationState = .signIn
                 }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 22)
         .ZSnavigationBackButton {
-            print("back")
+            authViewModel.authenticationState = .term
         }
     }
 }

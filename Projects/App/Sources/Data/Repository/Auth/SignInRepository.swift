@@ -32,17 +32,16 @@ final class AccountRepository: AccountRepositoryProtocol {
         
         switch response {
         case .success(let data):
-            AccountStorage.shared.accessToken = data.token.accessToken
-            AccountStorage.shared.refreshToken = data.token.refreshToken
-            guard let isMember = data.isMember else { return .failure(.badRequest) }
+            AccountStorage.shared.accessToken = data.token?.accessToken
+            AccountStorage.shared.refreshToken = data.token?.refreshToken
             
-            if !isMember {
-                print("🟢🔴 로그인 실패, 회원가입 진행 🟢🔴")
-                return .success(data)
-            } else {
-                print("🟢 로그인 성공 \(data) 🟢")
-                return .success(data)
-            }
+//            guard let isMember = data.isMember else {
+//                print("🟢🔴 로그인 실패, 회원가입 진행 🟢🔴")
+//                return .success(data)
+//            }
+            print("🟢 로그인 성공 \(data) 🟢")
+            return .success(data)
+            
         case .failure(let failure):
             print("🔴 Failure postSignIn > 로그인 실패 \(failure.localizedDescription)🔴")
             return .failure(failure)
