@@ -79,13 +79,12 @@ struct HomeCategoryTitleView: View {
                         switch productType {
                         case .tobeReleased(let data):
                             if let type = productType {
-                                let items: [HomeRolloutResponseDTO] = type.getItems()
-                                let count = data.count
+                                let _: [HomeRolloutResponseDTO] = type.getItems()
                             }
                             
                         case .homeCafe(let data):
                             if let type = productType {
-                                let items: [HomeCafeResponseDTO] = type.getItems()
+                                let _: [HomeCafeResponseDTO] = type.getItems()
 
                                 ForEach(data.prefix(10), id: \.id) { data in
                                     ProductPreviewComponent(data: data)
@@ -123,6 +122,10 @@ struct HomeCategoryTitleView: View {
                 .foregroundStyle(Color.neutral500)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            action?()
+        }
     }
     
     @ViewBuilder
@@ -135,9 +138,6 @@ struct HomeCategoryTitleView: View {
         }
         .applyFont(font: .caption)
         .foregroundStyle(Color.neutral700)
-        .onTapGesture {
-            action?()
-        }
     }
     
     @ViewBuilder
@@ -192,7 +192,6 @@ extension HomeCategoryTitleView {
                           subTitle: "서브타이틀입니다.",
                           type: .noneData,
                           paddingType: true
-//                          data: ZeroDrinkSampleData.drinkType
     )
 }
 
