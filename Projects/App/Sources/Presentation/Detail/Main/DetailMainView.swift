@@ -136,22 +136,24 @@ struct DetailMainView: View {
                         OnlineStoreView(onlineStore: viewModel.dataInfo?.onlineStoreList ?? [])
                         
                         DivideRectangle(height: 12, color: Color.neutral50)
-                        DetailReviewView(reviewCounting: viewModel.dataInfo?.reviewCnt ?? 0)
+                        DetailReviewView(viewModel: viewModel)
                             .tap {
+                                // 리뷰 작성하러 가기 버튼
                                 viewModel.send(action: .fetchReviewData)
                                 guard let reviewEntity = viewModel.reviewEntity else { return }
                                 router.navigateTo(.creatReview(reviewEntity))
                             }
                         DivideRectangle(height: 12, color: Color.neutral50)
-                        
+                            .opacity(viewModel.dataInfo?.reviewThumbnailList == nil ? 0 : 1)
                         SimiliarProductView(viewModel: viewModel)
+                            .opacity(viewModel.dataInfo?.reviewThumbnailList == nil ? 0 : 1)
                     }
                 }
             }
         }
         .onAppear {
-            viewModel.productId = productId
-            viewModel.send(action: .fetchData)
+//            viewModel.productId = productId
+//            viewModel.send(action: .fetchData)
         }
         .ZSNavigationBackButtonTitle(viewModel.dataInfo?.productName ?? "") {
             router.navigateBack()

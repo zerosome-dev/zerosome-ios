@@ -30,7 +30,7 @@ class AuthViewModel: ObservableObject {
     
     private let accountUseCase: AccountUseCase
     private let socialUseCase: SocialUsecase
-    @Published var authenticationState: AuthenticationState = .initial
+    @Published var authenticationState: AuthenticationState = .signIn
     @Published var loginAlert: Bool = false
     @EnvironmentObject var router: Router
     
@@ -48,7 +48,6 @@ class AuthViewModel: ObservableObject {
         case .kakaoSignIn:
             Task {
                 let result = await socialUseCase.kakaoLogin()
-                print("result ㅋㅋ 🐛 \(result)")
                 switch result {
                 case .success(let token):
                     debugPrint("🟡 카카오에서 토큰 값 가져오기 성공 \(token) 🟡")

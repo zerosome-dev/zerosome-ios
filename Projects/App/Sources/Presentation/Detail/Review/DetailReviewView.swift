@@ -11,100 +11,82 @@ import DesignSystem
 
 struct DetailReviewView: View {
     
-    let data = [2 : ["content1", "content2", "content3"]]
-    let reviewCounting: Int?
+    @ObservedObject var viewModel: DetailMainViewModel
+    let rows = Array(repeating: GridItem(.flexible()), count: 5)
     var action: (() -> Void)?
     
     init(
-        reviewCounting: Int?,
+        viewModel: DetailMainViewModel,
         action: (() -> Void)? = nil
     
     ) {
-        self.reviewCounting = reviewCounting
+        self.viewModel = viewModel
         self.action = action
     }
     
     var body: some View {
         VStack(spacing: 0) {
-            if reviewCounting == 0 {
+            if ((viewModel.dataInfo?.reviewCnt ?? 0) == 0) {
                 CommonTitle(title: "아직 리뷰가 없어요", type: .solo)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 62)
                 NoneReviewView(action: action)
                     .padding(.bottom, 83)
             } else {
-                HStack {
-                    ZSText("리뷰 (reviewCounting)", fontType: .heading2)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    HStack(spacing: 0) {
-                        ZSText("더보기", fontType: .caption, color: Color.neutral700)
-                        ZerosomeAsset.ic_arrow_after
-                            .resizable()
-                            .frame(width: 16, height: 16)
+                VStack(spacing: 12) {
+                    HStack {
+                        ZSText("리뷰 \(viewModel.dataInfo?.reviewCnt ?? 0)", fontType: .heading2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        HStack(spacing: 0) {
+                            ZSText("더보기", fontType: .caption, color: Color.neutral700)
+                            ZerosomeAsset.ic_arrow_after
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                        }
                     }
-                }
-                .padding(.bottom, 12)
-                .onTapGesture {
-                    action?()
-                }
-                
-                ReviewScoreComponent(
-                    background: Color.neutral50,
-                    heightPadding: 18,
-                    radius: 8,
-                    review: "4.3",
-                    font: .heading2
-                )
-
-                    .padding(.bottom, 20)
-                
-                // TODO: - Carousel, component수정
-                VStack(spacing: 16) {
-                    HStack{
-                        StarComponent(rating: 4, size: 16)
-                        ZSText("4.7", fontType: .subtitle2, color: Color.neutral700)
-                        Spacer()
-                        ZSText("2024.06.05", fontType: .body4, color: Color.neutral400)
+                    .padding(.bottom, 12)
+                    .onTapGesture {
+                        action?()
                     }
                     
-                    ZSText("리뷰입니다리뷰는두줄까지노출합니다리뷰는두줄까지노출합니다리뷰는두줄까지노출합니다리뷰...", fontType: .body2, color: Color.neutral700)
-                        .lineLimit(2)
-                }
-                .padding(14)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.neutral100, lineWidth: 1)
+                    ReviewScoreComponent(
+                        background: Color.neutral50,
+                        heightPadding: 18,
+                        radius: 8,
+                        review: "\(viewModel.dataInfo?.rating ?? 0.0)",
+                        font: .heading2
+                    )
+                    .padding(.bottom, 8)
+                    
+                    LazyHGrid(rows: Array(rows.prefix(5)), spacing: 10) {
+                        ForEach(viewModel.dataInfo?.reviewThumbnailList ?? [], id: \.reviewId) { review in
+                            
+                            VStack(spacing: 16){
+                                HStack {
+                                    HStack(spacing: 4) {
+                                        StarComponent(rating: review.rating ?? 0.0, size: 16)
+                                        ZSText("\(review.rating ?? 0.0)", fontType: .subtitle2, color: .neutral700)
+                                    }
+                                    Spacer()
+                                    ZSText("\(review.regDate ?? .now)", fontType: .label2, color: Color.neutral400)
+                                }
+                                
+                                Text(review.reviewContents ?? "")
+                                    .lineLimit(2)
+                            }
+                            .padding(14)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.neutral100)
+                            }
+                        }
+                    }
                 }
             }
         }
         .padding(.horizontal, 22)
     }
-}
-
-struct ReviewScoreComponent: View {
-    let background: Color
-    let heightPadding: CGFloat
-    let radius: CGFloat
-    let review: String
-    let font: ZSFont
-    
-    var body: some View {
-        VStack(spacing:2) {
-            Text(review)
-                .applyFont(font: font)
-
-            StarComponent(rating: 4, size: 16)
-        }
-        .padding(.vertical, heightPadding)
-        .frame(maxWidth: .infinity)
-        .background(background)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-}
-
-#Preview {
-    DetailReviewView(reviewCounting: 1)
 }
 
 extension DetailReviewView {
@@ -114,3 +96,9 @@ extension DetailReviewView {
         return copy
     }
 }
+
+#Preview {
+    DetailReviewView(viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
+}
+
+

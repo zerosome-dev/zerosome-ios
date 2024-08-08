@@ -41,7 +41,7 @@ struct OnlineStoreDTO: Decodable {
     var url: String?
 }
 
-struct ReviewThumbnailDTO: Decodable {
+struct ReviewThumbnailDTO: Decodable, Hashable {
     var reviewId: Int?
     var rating: Double?
     var reviewContents: String?
