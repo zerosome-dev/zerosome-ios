@@ -16,7 +16,7 @@ final class AccountStorage {
     }
     var accessToken: String? {
         get {
-            guard let value = KeychainManager.shared.load(key: "accessToken"),
+            guard let value = KeychainManager.load(key: "accessToken"),
                   !value.isEmpty,
                   let token = String(data: value, encoding: String.Encoding.utf8) else {
                 return nil
@@ -26,10 +26,10 @@ final class AccountStorage {
         }
         set {
             if let value = newValue, let data = value.data(using: .utf8) {
-                KeychainManager.shared.save(key: "accessToken", data: data)
+                KeychainManager.save(key: "accessToken", data: data)
                 debugPrint("🔮 save accessToken : \(value)")
             } else {
-                KeychainManager.shared.delete(key: "accessToken")
+                KeychainManager.delete(key: "accessToken")
                 debugPrint("🔮 delete accessToken")
             }
         }
@@ -37,7 +37,7 @@ final class AccountStorage {
     
     var refreshToken: String? {
         get {
-            guard let value = KeychainManager.shared.load(key: "refreshToken"),
+            guard let value = KeychainManager.load(key: "refreshToken"),
                   !value.isEmpty,
                   let token = String(data: value, encoding: String.Encoding.utf8) else {
                 return nil
@@ -47,10 +47,10 @@ final class AccountStorage {
         }
         set {
             if let value = newValue, let data = value.data(using: .utf8) {
-                KeychainManager.shared.save(key: "refreshToken", data: data)
+                KeychainManager.save(key: "refreshToken", data: data)
                 debugPrint("🔮 save refreshToken : \(value)")
             } else {
-                KeychainManager.shared.delete(key: "refreshToken")
+                KeychainManager.delete(key: "refreshToken")
                 debugPrint("🔮 delete refreshToken")
             }
         }
@@ -58,7 +58,7 @@ final class AccountStorage {
     
     var kakaoAccessToken: String? {
         get {
-            guard let value = KeychainManager.shared.load(key: "kakaoAccessToken"),
+            guard let value = KeychainManager.load(key: "kakaoAccessToken"),
                   !value.isEmpty,
                   let token = String(data: value, encoding: String.Encoding.utf8) else {
                 return nil
@@ -68,10 +68,10 @@ final class AccountStorage {
         }
         set {
             if let value = newValue, let data = value.data(using: .utf8) {
-                KeychainManager.shared.save(key: "kakaoAccessToken", data: data)
+                KeychainManager.save(key: "kakaoAccessToken", data: data)
                 debugPrint("🔮 save kakaoAccessToken : \(value)")
             } else {
-                KeychainManager.shared.delete(key: "kakaoAccessToken")
+                KeychainManager.delete(key: "kakaoAccessToken")
                 debugPrint("🔮 delete kakaoAccessToken")
             }
         }

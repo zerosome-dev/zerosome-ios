@@ -21,7 +21,6 @@ struct HomeMainView: View {
     
     var body: some View {
         ScrollView {
-            
             VStack(spacing: 30) {
                 HomeCategoryTitleView(
                     tapData: $viewModel.tapData,
@@ -68,9 +67,10 @@ struct HomeMainView: View {
         }
         .scrollIndicators(.hidden)
         .ZSmainNaviTitle("ZEROSOME")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.send(action: .cafe)
-            viewModel.send(action: .tobeReleased)
+//            viewModel.send(action: .cafe)
+//            viewModel.send(action: .tobeReleased)
         }
     }
 }

@@ -11,6 +11,14 @@ import DesignSystem
 
 struct NoneReviewView: View {
     @EnvironmentObject var router: Router
+    var action: (() -> Void)?
+    
+    init(
+        action: (() -> Void)? = nil
+    
+    ) {
+        self.action = action
+    }
     
     var body: some View {
         VStack(spacing: 12) {
@@ -21,7 +29,7 @@ struct NoneReviewView: View {
                 .background(Color.neutral50)
                 .clipShape(RoundedRectangle(cornerRadius: 50))
                 .onTapGesture {
-                    print("리뷰 작성하러 가기 라우터 연결")
+                    action?()
                 }
         }
     }

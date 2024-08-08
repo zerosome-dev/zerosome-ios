@@ -96,6 +96,7 @@ final class ApiService {
                     return .failure(NetworkError.decode)
                 }
                 
+                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공 \(data)🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
                 return .success(data)
                 
             } catch {

@@ -10,7 +10,7 @@ import Foundation
 
 struct LoginResponseDTO: Decodable {
     var isMember: Bool?
-    var token: TokenResponseDTO
+    var token: TokenResponseDTO?
 }
 
 struct TokenResponseDTO: Decodable {

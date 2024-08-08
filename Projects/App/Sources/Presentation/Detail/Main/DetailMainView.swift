@@ -95,7 +95,7 @@ struct DetailMainView: View {
                     viewModel.send(action: .fetchReviewData)
                     guard let reviewEntity = viewModel.reviewEntity else { return }
                     print(reviewEntity)
-//                    router.navigateTo(.creatReview(reviewEntity))
+                    router.navigateTo(.creatReview(reviewEntity))
                 }
                 .padding(.horizontal, 22)
                 .zIndex(1)
@@ -138,8 +138,8 @@ struct DetailMainView: View {
                         DivideRectangle(height: 12, color: Color.neutral50)
                         DetailReviewView(reviewCounting: viewModel.dataInfo?.reviewCnt ?? 0)
                             .tap {
-                                guard let reviewEntity = viewModel.reviewEntity else { return }
                                 viewModel.send(action: .fetchReviewData)
+                                guard let reviewEntity = viewModel.reviewEntity else { return }
                                 router.navigateTo(.creatReview(reviewEntity))
                             }
                         DivideRectangle(height: 12, color: Color.neutral50)
@@ -150,8 +150,8 @@ struct DetailMainView: View {
             }
         }
         .onAppear {
-//            viewModel.productId = productId
-//            viewModel.send(action: .fetchData)
+            viewModel.productId = productId
+            viewModel.send(action: .fetchData)
         }
         .ZSNavigationBackButtonTitle(viewModel.dataInfo?.productName ?? "") {
             router.navigateBack()
