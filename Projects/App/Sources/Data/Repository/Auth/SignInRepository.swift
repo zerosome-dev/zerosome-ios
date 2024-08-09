@@ -72,4 +72,23 @@ final class AccountRepository: AccountRepositoryProtocol {
             return .failure(failure)
         }
     }
+    
+    func checkNickname(nickname: String) async -> Result<Bool, NetworkError> {
+        var parameters: [String:String] = ["nickname" : nickname]
+        
+        let response: Result<Bool, NetworkError> = await apiService.request(
+            httpMethod: .get,
+            endPoint: APIEndPoint.url(for: .checkNickname),
+            queryParameters: parameters
+        )
+        
+        switch response {
+        case .success(let success):
+            print("😡🍀🍀 닉네임 유효성 체크 확인 > 성공 ")
+            return .success(true)
+        case .failure(let failure):
+            print("😡😡 닉네임 유효성 체크 실패 > \(failure.localizedDescription)")
+            return .failure(.badRequest)
+        }
+    }
 }

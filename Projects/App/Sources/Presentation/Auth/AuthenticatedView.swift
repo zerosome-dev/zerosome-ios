@@ -30,7 +30,7 @@ struct AuthenticatedView: View {
                 TabbarMainView()
                     .environmentObject(viewModel)
             case .nickname:
-                NicknameView()
+                NicknameView(authViewModel: viewModel)
                     .environmentObject(viewModel)
             case .term:
                 TermView()

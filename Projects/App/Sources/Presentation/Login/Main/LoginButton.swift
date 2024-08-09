@@ -48,6 +48,15 @@ enum Login: String, CaseIterable {
             "Apple ID로 로그인"
         }
     }
+    
+    var type: String {
+        switch self {
+        case .kakao:
+            "KAKAO"
+        case .apple:
+            "APPLE"
+        }
+    }
 }
 
 struct LoginButton: View {

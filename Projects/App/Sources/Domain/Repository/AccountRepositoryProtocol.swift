@@ -11,5 +11,6 @@ import Foundation
 protocol AccountRepositoryProtocol {
     func postSignIn(token: String, socialType: String) async -> Result<LoginResponseDTO, NetworkError>
     func postSignUp(token: String, socialType: String, nickname: String, marketing: Bool) async -> Result<LoginResponseDTO, NetworkError>
+    func checkNickname(nickname: String) async -> Result<Bool, NetworkError>
 }
 
