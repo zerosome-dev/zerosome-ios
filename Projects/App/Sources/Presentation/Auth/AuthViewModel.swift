@@ -24,14 +24,15 @@ class AuthViewModel: ObservableObject {
     enum Action {
         case kakaoSignIn
         case appleSignIn
-        case kakaoSignUp
-        case appleSignUp
     }
     
     private let accountUseCase: AccountUseCase
     private let socialUseCase: SocialUsecase
-    @Published var authenticationState: AuthenticationState = .signIn
+    
+    @Published var authenticationState: AuthenticationState = .initial
     @Published var loginAlert: Bool = false
+    @Published var loginType: Login?
+    
     @EnvironmentObject var router: Router
     
     init (
@@ -42,7 +43,6 @@ class AuthViewModel: ObservableObject {
         self.socialUseCase = socialUseCase
     }
     
-    @MainActor
     func send(action: Action) {
         switch action {
         case .kakaoSignIn:
@@ -95,12 +95,6 @@ class AuthViewModel: ObservableObject {
                     debugPrint("🍏🍎 애플 로그인 완전 실패 \(failure.localizedDescription) 🍏🍎")
                 }
             }
-        case .kakaoSignUp:
-            print("카카오 사인업")
-            
-        case .appleSignUp:
-            print("애플 사인업")
-            
         }
     }
 }

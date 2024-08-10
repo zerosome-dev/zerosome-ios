@@ -5,23 +5,25 @@
 //  Created by 박서연 on 2024/06/20.
 //  Copyright © 2024 iOS. All rights reserved.
 //
+import Combine
 import DesignSystem
 import SwiftUI
-
-class NicknameViewModel: ObservableObject {
-    @Published var isValid: Bool = false
- 
-    func checkNickName(completion: @escaping (Bool) -> Void) {
-        // 닉네임 중복체크
-    }
-}
 
 struct NicknameView: View {
     @EnvironmentObject var router: Router
     @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject var viewModel: NicknameViewModel
     
-    @StateObject var viewModel = NicknameViewModel()
-    @State private var text: String = ""
+    init(authViewModel: AuthViewModel) {
+        _viewModel = StateObject(
+            wrappedValue: NicknameViewModel(
+                authViewModel: authViewModel,
+                accountUseCase: AccountUseCase(
+                    accountRepoProtocol: AccountRepository(
+                        apiService: ApiService())
+                )
+            ))
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -33,33 +35,38 @@ struct NicknameView: View {
             
             Spacer().frame(height: 24)
             
-            TextInput(text: $text)
+            TextInput(text: $viewModel.nickname)
                 .placeholder("닉네임을 입력해 주세요")
                 .maxCount(12)
-                .setError(
-                    // TODO: - 서버 통신 및 에러 문구 타이밍 의논
-                    viewModel.isValid
-                )
+                .overlay(alignment: .trailing) {
+                    ZerosomeAsset.ic_xmark
+                        .padding(.trailing, 12)
+                        .onTapGesture {
+                            viewModel.nickname = ""
+                            viewModel.isValid = false
+                        }
+                }
                 .padding(.bottom, 4)
             
-            if viewModel.isValid {
-                Text("사용 가능한 닉네임입니다.")
-                    .applyFont(font: .body4)
-                    .foregroundStyle(Color.positive)
-                    .padding(.leading, 12)
-            } else {
-                Text("이미 사용중인 닉네임입니다.")
-                    .applyFont(font: .body4)
-                    .foregroundStyle(Color.negative)
-                    .padding(.leading, 12)
-            }
-                
+            ZSText(viewModel.validationText(),
+                   fontType: .body1,
+                   color: viewModel.isValid
+                   ? Color.positive
+                   : Color.negative)
+            
             Spacer()
             
             CommonButton(title: "회원가입 완료", font: .subtitle1)
                 .enable(viewModel.isValid)
                 .tap {
-                    authViewModel.authenticationState = .signIn
+                    guard let type = authViewModel.loginType else { return }
+                    
+                    switch type {
+                    case .kakao:
+                        viewModel.send(action: .signUpApple)
+                    case .apple:
+                        viewModel.send(action: .signUpKakao)
+                    }
                 }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -70,10 +77,14 @@ struct NicknameView: View {
     }
 }
 
-//#Preview {
-//    NicknameView(authViewModel: AuthViewModel(
-//        authUseCase: SignInUseCase(
-//            signInRepoProtocol: SignInRepository()
-//        ))
-//    )
-//}
+#Preview {
+    NicknameView(authViewModel: AuthViewModel(
+        accountUseCase: AccountUseCase(
+            accountRepoProtocol: AccountRepository(
+                apiService: ApiService())
+        ),
+        socialUseCase: SocialUsecase(
+            socialRepoProtocol: SocialRepository()
+        )
+    ))
+}
