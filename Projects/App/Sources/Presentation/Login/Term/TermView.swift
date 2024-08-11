@@ -51,20 +51,9 @@ struct TermView: View {
                 DivideRectangle(height: 1, color: Color.neutral100)
                     .padding(.bottom, 3)
                 
-                SingleTermView(
-                    isChecked: $viewModel.isTermChecked,
-                    term: .term) { term in
-                }
-                
-                SingleTermView(
-                    isChecked: $viewModel.isPersonalChecked,
-                    term: .personalInfo) { term in
-                }
-                
-                SingleTermView(
-                    isChecked: $viewModel.isMarketingChecked,
-                    term: .marketing) { term in
-                }
+                SingleTermView(isChecked: $viewModel.isTermChecked, term: .term)
+                SingleTermView(isChecked: $viewModel.isPersonalChecked, term: .personalInfo)
+                SingleTermView(isChecked: $viewModel.isMarketingChecked, term: .marketing)
             }
             
             Spacer()

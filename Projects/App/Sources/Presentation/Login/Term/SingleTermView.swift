@@ -12,7 +12,17 @@ import DesignSystem
 struct SingleTermView: View {
     @Binding var isChecked: Bool
     var term: Term
-    var tapTitle: (Term) -> Void
+    var tapTitle: ((Term) -> Void)?
+    
+    init(
+        isChecked: Binding<Bool>,
+        term: Term,
+        tapTitle: ((Term) -> Void)? = nil
+    ) {
+        self._isChecked = isChecked
+        self.term = term
+        self.tapTitle = tapTitle
+    }
     
     var body: some View {
         HStack(spacing: 12) {
@@ -37,9 +47,17 @@ struct SingleTermView: View {
                 .applyFont(font: .body2)
                 .foregroundStyle(Color.neutral400)
                 .onTapGesture {
-                    tapTitle(term)
+                    tapTitle?(term)
                 }
         }
+    }
+}
+
+extension SingleTermView {
+    func tap (action: @escaping ((Term) -> Void)) -> Self {
+        var copy = self
+        copy.tapTitle = action
+        return copy
     }
 }
 

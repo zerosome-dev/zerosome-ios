@@ -32,7 +32,7 @@ class AuthViewModel: ObservableObject {
     @Published var authenticationState: AuthenticationState = .initial
     @Published var loginAlert: Bool = false
     @Published var loginType: Login?
-    
+    @Published var marketingAgreement: Bool = false
     @EnvironmentObject var router: Router
     
     init (
