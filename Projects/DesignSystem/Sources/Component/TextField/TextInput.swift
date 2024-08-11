@@ -40,7 +40,8 @@ public struct TextInput: View {
             .disableAutocorrection(true)
             .onReceive(text.wrappedValue.publisher.collect()) {
                 if let maxCount {
-                    let s = String($0.prefix(maxCount))
+                    var s = String($0.prefix(maxCount))
+                    s = s.filter { !$0.isWhitespace }
                     if text.wrappedValue != s && (maxCount != 0) {
                         text.wrappedValue = s
                     }

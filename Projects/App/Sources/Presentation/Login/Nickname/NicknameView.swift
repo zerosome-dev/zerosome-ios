@@ -48,7 +48,7 @@ struct NicknameView: View {
                 }
                 .padding(.bottom, 4)
             
-            ZSText(viewModel.validationText(),
+            ZSText(viewModel.nicknameErrorMessage.rawValue,
                    fontType: .body1,
                    color: viewModel.isValid
                    ? Color.positive
