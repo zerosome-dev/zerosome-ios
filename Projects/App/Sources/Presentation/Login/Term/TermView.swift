@@ -54,19 +54,16 @@ struct TermView: View {
                 SingleTermView(
                     isChecked: $viewModel.isTermChecked,
                     term: .term) { term in
-                    print("🎉 이용약관 check")
                 }
                 
                 SingleTermView(
                     isChecked: $viewModel.isPersonalChecked,
                     term: .personalInfo) { term in
-                    print("🎉 개인정보 check")
                 }
                 
                 SingleTermView(
                     isChecked: $viewModel.isMarketingChecked,
                     term: .marketing) { term in
-                    print("🎉 마케팅 check")
                 }
             }
             
