@@ -12,37 +12,55 @@ import DesignSystem
 struct SingleTermView: View {
     @Binding var isChecked: Bool
     var term: Term
-    var tapTitle: (Term) -> Void
+    var checkMarketing: (() -> Bool)?
+    var termPage: ((Term) -> Void)?
+    
+    init(
+        isChecked: Binding<Bool>,
+        term: Term,
+        checkMarketing: (() -> Bool)? = nil,
+        termPage: ((Term) -> Void)? = nil
+    ) {
+        self._isChecked = isChecked
+        self.term = term
+        self.checkMarketing = checkMarketing
+        self.termPage = termPage
+    }
     
     var body: some View {
-        HStack(spacing: 12) {
-            (
-                isChecked
-                ? ZerosomeAsset.ic_check_circle_primary
-                : ZerosomeAsset.ic_check_circle_gray
-            )
-            .resizable()
-            .frame(width: 24, height: 24)
+        HStack {
+            HStack(spacing: 12) {
+                (
+                    isChecked
+                    ? ZerosomeAsset.ic_check_circle_primary
+                    : ZerosomeAsset.ic_check_circle_gray
+                )
+                .resizable()
+                .frame(width: 24, height: 24)
+                
+                ZSText(term.title, fontType: .body1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             .onTapGesture {
                 isChecked.toggle()
             }
-                
-            Text(term.title)
-                .applyFont(font: .body1)
-                .foregroundStyle(Color.neutral800)
-                .frame(maxWidth: .infinity, alignment: .leading)
             
-            Spacer()
-            Text("보기")
-                .applyFont(font: .body2)
-                .foregroundStyle(Color.neutral400)
+            ZSText("보기", fontType: .body2, color: Color.neutral400)
                 .onTapGesture {
-                    tapTitle(term)
+                    termPage?(term)
                 }
         }
     }
 }
 
+extension SingleTermView {
+    func tap (action: @escaping ((Term) -> Void)) -> Self {
+        var copy = self
+        copy.termPage = action
+        return copy
+    }
+}
+
 #Preview {
-    SingleTermView(isChecked: .constant(true), term: .term, tapTitle: { _ in print("tapped")})
+    SingleTermView(isChecked: .constant(true), term: .term)
 }

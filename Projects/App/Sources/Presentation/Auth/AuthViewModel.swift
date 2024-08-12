@@ -32,6 +32,7 @@ class AuthViewModel: ObservableObject {
     @Published var authenticationState: AuthenticationState = .initial
     @Published var loginAlert: Bool = false
     @Published var loginType: Login?
+    @Published var marketingAgreement: Bool = false
     
     @EnvironmentObject var router: Router
     
@@ -56,13 +57,12 @@ class AuthViewModel: ObservableObject {
                     switch kakaoSignIn {
                     case .success(let success):
                         
-                        guard let _ = success.isMember else {
-                            debugPrint("🟡🔴 새로운 유저 > JWT 회원가입 필요함 > nickname으로 이동 🟡🔴")
+                        guard let isMember = success.isMember else {
                             self.authenticationState = .term
                             return
                         }
                         
-                        debugPrint("🟡 이미 회원가입 한 유저임, 로그인 성공! 🟡")
+                        debugPrint("🟡 \(isMember) 이미 회원가입 한 유저임, 로그인 성공! 🟡")
                         self.authenticationState = .signIn
                         
                     case .failure(let failure):

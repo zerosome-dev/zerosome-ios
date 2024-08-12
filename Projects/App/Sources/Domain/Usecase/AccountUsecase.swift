@@ -15,7 +15,6 @@ struct AccountUseCase {
         await accountRepoProtocol.postSignIn(token: token, socialType: socialType)
     }
     
-    
     func signUp(token: String, socialType: String, nickname: String, marketing: Bool) async -> Result<LoginResponseDTO, NetworkError> {
         await accountRepoProtocol.postSignUp(token: token, socialType: socialType, nickname: nickname, marketing: marketing)
     }

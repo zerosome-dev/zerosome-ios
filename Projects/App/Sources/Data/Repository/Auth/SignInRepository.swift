@@ -20,7 +20,7 @@ final class AccountRepository: AccountRepositoryProtocol {
     }
     
     func postSignIn(token: String, socialType: String) async -> Result<LoginResponseDTO, NetworkError> {
-        var parameters: [String : String] = ["socialType" : socialType]
+        let parameters: [String : String] = ["socialType" : socialType]
         let endPoint = APIEndPoint.url(for: .signIn)
         
         let response: Result<LoginResponseDTO, NetworkError> = await apiService.request(
@@ -32,32 +32,29 @@ final class AccountRepository: AccountRepositoryProtocol {
         
         switch response {
         case .success(let data):
-            AccountStorage.shared.accessToken = data.token?.accessToken
-            AccountStorage.shared.refreshToken = data.token?.refreshToken
-            
-//            guard let isMember = data.isMember else {
-//                print("🟢🔴 로그인 실패, 회원가입 진행 🟢🔴")
-//                return .success(data)
-//            }
-            print("🟢 로그인 성공 \(data) 🟢")
+//            AccountStorage.shared.accessToken = data.token?.accessToken
+//            AccountStorage.shared.refreshToken = data.token?.refreshToken
+            debugPrint("🟢 로그인 함수 성공 \(data) 🟢")
             return .success(data)
             
         case .failure(let failure):
-            print("🔴 Failure postSignIn > 로그인 실패 \(failure.localizedDescription)🔴")
+            debugPrint("🔴 Failure postSignIn > 로그인 실패 \(failure.localizedDescription)🔴")
             return .failure(failure)
         }
     }
     
     func postSignUp(token: String, socialType: String, nickname: String, marketing: Bool) async -> Result<LoginResponseDTO, NetworkError> {
-        AccountStorage.shared.accessToken = token
+        let parameters: [String:String] = ["socialType" : socialType]
+        let endPoint = APIEndPoint.url(for: .join)
         
         let response: Result<LoginResponseDTO, NetworkError> = await apiService.request(
             httpMethod: .post,
-            endPoint: APIEndPoint.url(for: .join),
+            endPoint: endPoint,
+            queryParameters: parameters,
             body: (
                 JoinRequest(
                     nickname: nickname,
-                    marketing: marketing
+                    agreement_marketing: marketing
                 )
             ),
             header: token
@@ -65,10 +62,16 @@ final class AccountRepository: AccountRepositoryProtocol {
         
         switch response {
         case .success(let success):
-            print("🟢 회원가입 성공 \(success) 🟢")
+            debugPrint("🟢 회원가입 성공 \(success) 🟢")
+            debugPrint("🟢 success.token?.accessToken \(success.token?.accessToken) 🟢")
+            debugPrint("🟢 success.token?.refreshToken \(success.token?.refreshToken) 🟢")
+                       
+            AccountStorage.shared.refreshToken = success.token?.refreshToken
+            AccountStorage.shared.accessToken = success.token?.accessToken
             return .success(success)
+                       
         case .failure(let failure):
-            print("🔴 회원가입 실패 \(failure.localizedDescription) 🔴")
+            debugPrint("🔴 회원가입 실패 \(failure.localizedDescription) 🔴")
             return .failure(failure)
         }
     }

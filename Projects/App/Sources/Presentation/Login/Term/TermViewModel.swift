@@ -38,7 +38,7 @@ final class TermViewModel: ObservableObject {
     init() {
         Publishers.CombineLatest3($isTermChecked, $isPersonalChecked, $isMarketingChecked)
             .sink { [weak self] term, personalInfo, marketing in
-                self?.isAllChecked = term && personalInfo || marketing
+                self?.isAllChecked = term && personalInfo
             }
             .store(in: &cancellables)
     }
