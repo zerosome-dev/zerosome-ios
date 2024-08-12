@@ -17,7 +17,9 @@ struct SocialUsecase {
         
         switch repository {
         case .success(let success):
-            print("🍀🍀🍀 카카오 토큰 가져와짐 \(success)")
+            AccountStorage.shared.accessToken = success
+            debugPrint("🟡🟡 카카오 토큰 가져와짐 \(success)")
+            debugPrint("🟡🟡🍀 AccountStorage.shared.accossToken \(AccountStorage.shared.accessToken ?? "🟡🟡🔴🍀")")
             return .success(success)
         case .failure(let failure):
             debugPrint("카카오 토큰 가져오기 실패 \(failure.localizedDescription)")

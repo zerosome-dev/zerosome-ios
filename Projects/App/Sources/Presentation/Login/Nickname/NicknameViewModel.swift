@@ -47,9 +47,27 @@ class NicknameViewModel: ObservableObject {
     func send(action: Action) {
         switch action {
         case .signUpKakao:
-            debugPrint("카카오 회원가입 진행")
-            authViewModel.authenticationState = .signIn
-
+            Task {
+                let result = await accountUseCase.signUp(
+                    token: AccountStorage.shared.accessToken ?? "",
+                    socialType: "KAKAO",
+                    nickname: nickname,
+                    marketing: authViewModel.marketingAgreement)
+                
+                DispatchQueue.main.async { [weak self] in
+                    switch result {
+                    case .success(let success):
+                        debugPrint("🟡🟢 KAKAO 회원가입 성공 🟡🟢")
+                        self?.authViewModel.authenticationState = .signIn
+                        
+                    case .failure(let failure):
+                        debugPrint("🟡🔴 KAKAO 회원가입 실패 \(failure.localizedDescription)🟡🔴")
+                        self?.authViewModel.authenticationState = .nickname
+                    }
+                }
+                
+            }
+            
         case .signUpApple:
             debugPrint("애플 회원가입 진행")
             authViewModel.authenticationState = .signIn

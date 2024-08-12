@@ -10,5 +10,5 @@ import Foundation
 
 struct JoinRequest: Encodable {
     let nickname: String
-    let marketing: Bool
+    let agreement_marketing: Bool
 }

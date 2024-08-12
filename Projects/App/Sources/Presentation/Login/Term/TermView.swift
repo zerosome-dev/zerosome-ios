@@ -54,6 +54,9 @@ struct TermView: View {
                 SingleTermView(isChecked: $viewModel.isTermChecked, term: .term)
                 SingleTermView(isChecked: $viewModel.isPersonalChecked, term: .personalInfo)
                 SingleTermView(isChecked: $viewModel.isMarketingChecked, term: .marketing)
+                    .tap { term in
+                        // 보기 > 사이트로 이동
+                    }
             }
             
             Spacer()
@@ -62,6 +65,7 @@ struct TermView: View {
                 .enable(viewModel.isAllChecked)
                 .tap {
                     authViewModel.authenticationState = .nickname
+                    authViewModel.marketingAgreement = viewModel.isMarketingChecked
                 }
         }
         .padding(.horizontal, 22)
