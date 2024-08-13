@@ -22,10 +22,23 @@ struct ZerosomeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RouterView {
-//                LoginMainView()
-                AuthenticatedView()
-//                TabbarMainView()
+            let apiService = ApiService()
+            let accountRepoProtocol = AccountRepository(apiService: apiService)
+            let accountUseCase = AccountUseCase(accountRepoProtocol: accountRepoProtocol)
+            
+            let socialRepoProtocol = SocialRepository(apiService: apiService)
+            let socialUseCase = SocialUsecase(socialRepoProtocol: socialRepoProtocol)
+            
+            RouterView(apiService: apiService) {
+                AuthenticatedView(
+                    viewModel: AuthViewModel(
+                        accountUseCase: accountUseCase,
+                        socialUseCase: socialUseCase
+                    ),
+                    accountUseCase: accountUseCase,
+                    socialUseCase: socialUseCase,
+                    apiService: apiService
+                )
             }
             .onOpenURL(perform: { url in
                 if AuthApi.isKakaoTalkLoginUrl(url) {

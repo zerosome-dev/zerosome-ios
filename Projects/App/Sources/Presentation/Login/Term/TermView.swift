@@ -13,9 +13,7 @@ import SwiftUI
 struct TermView: View {
     @EnvironmentObject var router: Router
     @EnvironmentObject var authViewModel: AuthViewModel
-    
     @StateObject var viewModel = TermViewModel()
-    @State private var isTermChecked: Bool = false
     
     var body: some View {
         VStack(alignment:.leading, spacing: 30) {
@@ -70,7 +68,7 @@ struct TermView: View {
         }
         .padding(.horizontal, 22)
         .ZSnavigationBackButton {
-            print("back")
+            authViewModel.authenticationState = .initial
         }
     }
 }

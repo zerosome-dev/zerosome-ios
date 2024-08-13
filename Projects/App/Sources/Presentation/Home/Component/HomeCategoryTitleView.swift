@@ -83,7 +83,8 @@ struct HomeCategoryTitleView: View {
                             }
                             
                         case .homeCafe(let data):
-                            if let type = productType {
+                            if let type = productType
+                            {
                                 let _: [HomeCafeResponseDTO] = type.getItems()
 
                                 ForEach(data.prefix(10), id: \.id) { data in

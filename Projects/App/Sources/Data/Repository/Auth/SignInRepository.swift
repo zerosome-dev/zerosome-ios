@@ -32,8 +32,6 @@ final class AccountRepository: AccountRepositoryProtocol {
         
         switch response {
         case .success(let data):
-//            AccountStorage.shared.accessToken = data.token?.accessToken
-//            AccountStorage.shared.refreshToken = data.token?.refreshToken
             debugPrint("🟢 로그인 함수 성공 \(data) 🟢")
             return .success(data)
             
@@ -63,9 +61,6 @@ final class AccountRepository: AccountRepositoryProtocol {
         switch response {
         case .success(let success):
             debugPrint("🟢 회원가입 성공 \(success) 🟢")
-            debugPrint("🟢 success.token?.accessToken \(success.token?.accessToken) 🟢")
-            debugPrint("🟢 success.token?.refreshToken \(success.token?.refreshToken) 🟢")
-                       
             AccountStorage.shared.refreshToken = success.token?.refreshToken
             AccountStorage.shared.accessToken = success.token?.accessToken
             return .success(success)
@@ -77,7 +72,7 @@ final class AccountRepository: AccountRepositoryProtocol {
     }
     
     func checkNickname(nickname: String) async -> Result<Bool, NetworkError> {
-        var parameters: [String:String] = ["nickname" : nickname]
+        let parameters: [String:String] = ["nickname" : nickname]
         
         let response: Result<Bool, NetworkError> = await apiService.request(
             httpMethod: .get,
@@ -88,7 +83,7 @@ final class AccountRepository: AccountRepositoryProtocol {
         switch response {
         case .success(let success):
             print("😡🍀🍀 닉네임 유효성 체크 확인 > 성공 ")
-            return .success(true)
+            return .success(success)
         case .failure(let failure):
             print("😡😡 닉네임 유효성 체크 실패 > \(failure.localizedDescription)")
             return .failure(.badRequest)

@@ -32,11 +32,9 @@ struct LoginMainView: View {
                                     switch type {
                                     case .apple:
                                         viewModel.loginType = .apple
-                                        print("😡😡😡 \(String(describing: viewModel.loginType))")
                                         viewModel.send(action: .appleSignIn)
                                     case .kakao:
                                         viewModel.loginType = .kakao
-                                        print("😡😡😡 \(String(describing: viewModel.loginType))")
                                         viewModel.send(action: .kakaoSignIn)
                                     }
                                 }

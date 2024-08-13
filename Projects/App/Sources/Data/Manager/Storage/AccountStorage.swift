@@ -14,6 +14,7 @@ final class AccountStorage {
     var isGuest: Bool {
         return accessToken?.isEmpty ?? true
     }
+    
     var accessToken: String? {
         get {
             guard let value = KeychainManager.load(key: "accessToken"),

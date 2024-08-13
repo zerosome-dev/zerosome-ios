@@ -11,8 +11,13 @@ import SwiftUI
 struct RouterView<Content: View>: View {
     @StateObject var router: Router = Router()
     private let content: Content
+    let apiService: ApiService
     
-    init(@ViewBuilder content: @escaping () -> Content) {
+    init(
+        apiService: ApiService,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.apiService = apiService
         self.content = content()
     }
     
@@ -24,7 +29,7 @@ struct RouterView<Content: View>: View {
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarBackButtonHidden()
             .navigationDestination(for: Router.Route.self) { route in
-                router.view(for: route)
+                router.view(for: route, with: apiService)
             }
         }
         .environmentObject(router)

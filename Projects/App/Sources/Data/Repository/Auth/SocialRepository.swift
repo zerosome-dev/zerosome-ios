@@ -12,7 +12,13 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 final class SocialRepository: SocialRepositoryProtocol {
-
+    
+    private let apiService: ApiService
+    
+    init(apiService: ApiService) {
+        self.apiService = apiService
+    }
+    
     @MainActor
     func kakaoSignIn() async -> Result<String, NetworkError> {
         let result = await trySignInWithKakoa()
@@ -23,19 +29,43 @@ final class SocialRepository: SocialRepositoryProtocol {
         
         return .success(result)
     }
-    
-    func appleSignIn() async -> (String, String) {
-        let loginManager = AppleLoginManager()
+
+    func appleSignIn(token: String, code: String) async -> Result<LoginResponseDTO, NetworkError> {
+        let parameters: [String:String] = [
+            "identityToken": token,
+            "authorizationCode": code,
+            "socialType": "APPLE"
+        ]
         
-        do {
-            let result = try await loginManager.login()
-            return result
-        } catch(let error) {
-            print(error.localizedDescription)
+        let endPoint = APIEndPoint.url(for: .signIn)
+        
+        let response: Result<LoginResponseDTO, NetworkError> = await apiService.request(
+            httpMethod: .post,
+            endPoint: endPoint,
+            queryParameters: parameters,
+            header: token)
+        
+        switch response {
+        case .success(let success):
+            debugPrint("🟢🍎🟢 애플 로그인 성공!! 🟢🍎🟢")
+            return .success(success)
+        case .failure(let failure):
+            debugPrint("🔴🍎🔴 애플 로그인 실패 \(failure.localizedDescription) 🔴🍎🔴")
+            return .failure(NetworkError.response)
         }
-        
-        return ("", "")
     }
+//    func appleSignIn() async -> (String, String) {
+//        let loginManager = AppleLoginManager()
+//        
+//        do {
+//            let result = try await loginManager.login()
+//            return result
+//        } catch(let error) {
+//            print(error.localizedDescription)
+//        }
+//        
+//        return ("", "")
+//    }
 }
 
 extension SocialRepository {

@@ -9,16 +9,10 @@
 import SwiftUI
 
 struct AuthenticatedView: View {
-    @StateObject var viewModel = AuthViewModel(
-        accountUseCase: AccountUseCase(
-            accountRepoProtocol: AccountRepository(
-                apiService: ApiService())
-        ),
-        socialUseCase: SocialUsecase(
-            socialRepoProtocol: SocialRepository(
-               )
-        )
-    )
+    @StateObject var viewModel: AuthViewModel
+    let accountUseCase: AccountUseCase
+    let socialUseCase: SocialUsecase
+    let apiService: ApiService
     
     var body: some View {
         VStack {
@@ -27,11 +21,16 @@ struct AuthenticatedView: View {
                 LoginMainView()
                     .environmentObject(viewModel)
             case .signIn:
-                TabbarMainView()
+                TabbarMainView(apiService: apiService)
                     .environmentObject(viewModel)
             case .nickname:
-                NicknameView(authViewModel: viewModel)
-                    .environmentObject(viewModel)
+                NicknameView(
+                    viewModel: NicknameViewModel(
+                        authViewModel: viewModel,
+                        accountUseCase: accountUseCase
+                    )
+                )
+                .environmentObject(viewModel)
             case .term:
                 TermView()
                     .environmentObject(viewModel)
@@ -41,9 +40,4 @@ struct AuthenticatedView: View {
             }
         }
     }
-}
-
-
-#Preview {
-    AuthenticatedView()
 }

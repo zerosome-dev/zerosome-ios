@@ -28,10 +28,10 @@ final class Router: ObservableObject {
     @Published var path: NavigationPath = NavigationPath()
     @Published var defaultView: Tabbar = .home
     
-    @ViewBuilder func view(for route: Route) -> some View {
+    @ViewBuilder func view(for route: Route, with apiService: ApiService) -> some View {
         switch route {
         case .tabView:
-            TabbarMainView()
+            TabbarMainView(apiService: apiService)
             
         case .tobeReleasedProduct(let releasedArray, let title, let subTitle):
             TobeReleasedProductView(title: title, subTitle: subTitle, data: releasedArray)

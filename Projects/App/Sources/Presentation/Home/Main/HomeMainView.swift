@@ -11,13 +11,11 @@ import DesignSystem
 
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
-    @StateObject private var viewModel = HomeMainViewModel(
-        homeUsecase: HomeUsecase(
-            homeRepoProtocol: HomeRepository(
-                apiService: ApiService()
-            )
-        )
-    )
+    @ObservedObject var viewModel: HomeMainViewModel
+    
+    init(viewModel: HomeMainViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         ScrollView {
@@ -69,12 +67,12 @@ struct HomeMainView: View {
         .ZSmainNaviTitle("ZEROSOME")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.send(action: .cafe)
-            viewModel.send(action: .tobeReleased)
+//            viewModel.send(action: .cafe)
+//            viewModel.send(action: .tobeReleased)
         }
     }
 }
 
 #Preview {
-    HomeMainView()
+    HomeMainView(viewModel: HomeMainViewModel(homeUsecase: HomeUsecase(homeRepoProtocol: HomeRepository(apiService: ApiService()))))
 }
