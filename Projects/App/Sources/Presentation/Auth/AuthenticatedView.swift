@@ -16,6 +16,7 @@ struct AuthenticatedView: View {
         ),
         socialUseCase: SocialUsecase(
             socialRepoProtocol: SocialRepository(
+                apiService: ApiService()
                )
         )
     )

@@ -87,7 +87,7 @@ struct NicknameView: View {
                 apiService: ApiService())
         ),
         socialUseCase: SocialUsecase(
-            socialRepoProtocol: SocialRepository()
+            socialRepoProtocol: SocialRepository(apiService: ApiService())
         )
     ))
 }

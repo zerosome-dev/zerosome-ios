@@ -27,7 +27,24 @@ struct SocialUsecase {
         }
     }
     
-    func appleLogin() async -> (String, String) {
-        return await socialRepoProtocol.appleSignIn()
+    func appleLogin() async -> Result<LoginResponseDTO, NetworkError> {
+        let appleLoginManager = AppleLoginManager()
+        do {
+            let (token, code) = try await appleLoginManager.login()
+            let response = await socialRepoProtocol.appleSignIn(token: token, code: code)
+            
+            switch response {
+            case .success(let success):
+                print("🟢🍏🟢 서버 <> 애플 로그인 성공 🟢🍏🟢")
+                return .success(success)
+            case .failure(let failure):
+                print("🔴🍎🔴 서버 <> 애플 로그인 실패 🔴🍎🔴")
+                return .failure(NetworkError.unknown)
+            }
+            
+        } catch(let error) {
+            print("🔴🍎🔴 애플 로그인 시도 실패 \(error.localizedDescription) 🔴🍎🔴")
+            return .failure(NetworkError.unknown)
+        }
     }
 }

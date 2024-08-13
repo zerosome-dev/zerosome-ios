@@ -10,5 +10,6 @@ import Foundation
 
 protocol SocialRepositoryProtocol {
     func kakaoSignIn() async -> Result<String, NetworkError>
-    func appleSignIn() async -> (String, String)
+//    func appleSignIn() async -> (String, String)
+    func appleSignIn(token: String, code: String) async -> Result<LoginResponseDTO, NetworkError>
 }

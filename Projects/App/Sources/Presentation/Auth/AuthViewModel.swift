@@ -78,21 +78,26 @@ class AuthViewModel: ObservableObject {
             
         case .appleSignIn:
             Task {
-                let result = await socialUseCase.appleLogin().0
-                let appleSignIn = await accountUseCase.signIn(token: result, socialType: "APPLE")
-                debugPrint("🍎🍎 apple auth code \(result)")
-                switch appleSignIn {
+                let result = await socialUseCase.appleLogin()
+                
+                switch result {
                 case .success(let success):
                     guard let _ = success.isMember else {
-                        debugPrint("🍏🍎 새로운 유저 > JWT 회원가입 필요함 > nickname으로 이동 🍏🍎")
+                        debugPrint("🍏🍎 새로운 유저의 애플 로그인 회원가입 진행 > term으로 이동 🍏🍎")
                         self.authenticationState = .term
                         return
                     }
                     
-                    debugPrint("🍏 이미 회원가입 한 유저임, 로그인 성공! 🍏")
-                    self.authenticationState = .signIn
+                    debugPrint("🍏🍏 유저의 애플 로그인 성공 > signIn으로 이동 🍏🍏")
+                    if let userToken = success.token { // 이미 회원가입을 한 유저였을 때
+                        AccountStorage.shared.accessToken = userToken.accessToken
+                        AccountStorage.shared.refreshToken = userToken.refreshToken
+                        self.authenticationState = .signIn
+                    }
+                    
                 case .failure(let failure):
-                    debugPrint("🍏🍎 애플 로그인 완전 실패 \(failure.localizedDescription) 🍏🍎")
+                    debugPrint("🍎🍎 애플 로그인 시도 함수 완전 실패\(failure.localizedDescription) 🍎🍎")
+                    self.authenticationState = .initial
                 }
             }
         }
