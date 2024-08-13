@@ -13,10 +13,14 @@ enum Tabbar: CaseIterable {
     case home, category, mypage
     
     @ViewBuilder
-    var view: some View {
+    func view(with apiService: ApiService) -> some View {
         switch self {
         case .home:
-            HomeMainView()
+            let homeRepoProtocol = HomeRepository(apiService: apiService)
+            let homeUseCase = HomeUsecase(homeRepoProtocol: homeRepoProtocol)
+            let viewModel = HomeMainViewModel(homeUsecase: homeUseCase)
+            
+            HomeMainView(viewModel: viewModel)
         case .category:
             CategoryMainView()
         case .mypage:

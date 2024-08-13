@@ -14,15 +14,8 @@ struct NicknameView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject var viewModel: NicknameViewModel
     
-    init(authViewModel: AuthViewModel) {
-        _viewModel = StateObject(
-            wrappedValue: NicknameViewModel(
-                authViewModel: authViewModel,
-                accountUseCase: AccountUseCase(
-                    accountRepoProtocol: AccountRepository(
-                        apiService: ApiService())
-                )
-            ))
+    init(viewModel: NicknameViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
@@ -63,9 +56,11 @@ struct NicknameView: View {
                     
                     switch type {
                     case .kakao:
-                        viewModel.send(action: .signUpKakao)
+//                        viewModel.send(action: .signUpKakao)
+                        authViewModel.authenticationState = .signIn
                     case .apple:
-                        viewModel.send(action: .signUpApple)
+                        authViewModel.authenticationState = .signIn
+//                        viewModel.send(action: .signUpApple)
                     }
                 }
         }
@@ -78,16 +73,4 @@ struct NicknameView: View {
             print("SY))) marketing!!!! \(authViewModel.marketingAgreement)")
         }
     }
-}
-
-#Preview {
-    NicknameView(authViewModel: AuthViewModel(
-        accountUseCase: AccountUseCase(
-            accountRepoProtocol: AccountRepository(
-                apiService: ApiService())
-        ),
-        socialUseCase: SocialUsecase(
-            socialRepoProtocol: SocialRepository(apiService: ApiService())
-        )
-    ))
 }

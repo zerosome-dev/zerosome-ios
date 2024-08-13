@@ -11,9 +11,10 @@ import DesignSystem
 
 struct ContentView: View {
     var body: some View {
-        RouterView {
-            TabbarMainView()
-        }
+//        RouterView {
+//            TabbarMainView()
+//        }
+        Text("ContentView")
     }
 }
 
