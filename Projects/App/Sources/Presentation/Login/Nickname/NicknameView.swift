@@ -59,8 +59,8 @@ struct NicknameView: View {
 //                        viewModel.send(action: .signUpKakao)
                         authViewModel.authenticationState = .signIn
                     case .apple:
-                        authViewModel.authenticationState = .signIn
-//                        viewModel.send(action: .signUpApple)
+//                        authViewModel.authenticationState = .signIn
+                        viewModel.send(action: .signUpApple)
                     }
                 }
         }
@@ -68,9 +68,6 @@ struct NicknameView: View {
         .padding(.horizontal, 22)
         .ZSnavigationBackButton {
             authViewModel.authenticationState = .term
-        }
-        .onAppear {
-            print("SY))) marketing!!!! \(authViewModel.marketingAgreement)")
         }
     }
 }

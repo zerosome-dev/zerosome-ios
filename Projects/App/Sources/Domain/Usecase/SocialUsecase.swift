@@ -29,13 +29,17 @@ struct SocialUsecase {
     
     func appleLogin() async -> Result<LoginResponseDTO, NetworkError> {
         let appleLoginManager = AppleLoginManager()
+        
         do {
             let (token, code) = try await appleLoginManager.login()
             let response = await socialRepoProtocol.appleSignIn(token: token, code: code)
             
             switch response {
             case .success(let success):
-                print("🟢🍏🟢 서버 <> 애플 로그인 성공 🟢🍏🟢")
+                print("🟢🍏🟢 서버 <> 애플 로그인 성공, token > accountStorage 저장 🟢🍏🟢")
+                print("🌟token \(token)")
+                AccountStorage.shared.accessToken = token
+                print("🌟AccountStorage.shared.accessToken \(AccountStorage.shared.accessToken)")
                 return .success(success)
             case .failure(let failure):
                 print("🔴🍎🔴 서버 <> 애플 로그인 실패 🔴🍎🔴")

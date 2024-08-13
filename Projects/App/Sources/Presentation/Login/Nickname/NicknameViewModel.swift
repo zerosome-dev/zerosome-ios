@@ -57,9 +57,8 @@ class NicknameViewModel: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     switch result {
                     case .success(let success):
-                        debugPrint("🟡🟢 KAKAO 회원가입 성공 🟡🟢")
+                        debugPrint("🟡🟢 KAKAO 회원가입 성공 \(success)🟡🟢")
                         self?.authViewModel.authenticationState = .signIn
-                        
                     case .failure(let failure):
                         debugPrint("🟡🔴 KAKAO 회원가입 실패 \(failure.localizedDescription)🟡🔴")
                         self?.authViewModel.authenticationState = .nickname
@@ -70,7 +69,24 @@ class NicknameViewModel: ObservableObject {
             
         case .signUpApple:
             debugPrint("애플 회원가입 진행")
-            authViewModel.authenticationState = .signIn
+            Task {
+                let result = await accountUseCase.signUp(
+                    token: AccountStorage.shared.accessToken ?? "",
+                    socialType: "APPLE",
+                    nickname: nickname,
+                    marketing: authViewModel.marketingAgreement)
+                
+                DispatchQueue.main.async { [weak self] in
+                    switch result {
+                    case .success(let success):
+                        debugPrint("🍏🍏🍏 APPLE 회원가입 성공 \(success) 🍏🍏🍏")
+                        self?.authViewModel.authenticationState = .signIn
+                    case .failure(let failure):
+                        debugPrint("🍎🍎🍎 APPLE 회원가입 실패 \(failure.localizedDescription) 🍎🍎🍎")
+                        self?.authViewModel.authenticationState = .nickname
+                    }
+                }
+            }
 
         case .checkNickname:
             Task {
@@ -121,4 +137,5 @@ extension NicknameViewModel {
             return false
         }
     }
+    
 }
