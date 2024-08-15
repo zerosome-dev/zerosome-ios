@@ -29,43 +29,20 @@ final class SocialRepository: SocialRepositoryProtocol {
         
         return .success(result)
     }
-
-    func appleSignIn(token: String, code: String) async -> Result<LoginResponseDTO, NetworkError> {
-        let parameters: [String:String] = [
-            "identityToken": token,
-            "authorizationCode": code,
-            "socialType": "APPLE"
-        ]
+    
+    func appleSignIn() async -> Result<String, NetworkError> {
+        let appleLoginManager = AppleLoginManager()
         
-        let endPoint = APIEndPoint.url(for: .signIn)
-        
-        let response: Result<LoginResponseDTO, NetworkError> = await apiService.request(
-            httpMethod: .post,
-            endPoint: endPoint,
-            queryParameters: parameters,
-            header: token)
-        
-        switch response {
-        case .success(let success):
-            debugPrint("🟢🍎🟢 애플 로그인 성공!! 🟢🍎🟢")
-            return .success(success)
-        case .failure(let failure):
-            debugPrint("🔴🍎🔴 애플 로그인 실패 \(failure.localizedDescription) 🔴🍎🔴")
-            return .failure(NetworkError.response)
+        do {
+            let (token, _) = try await appleLoginManager.login()
+            debugPrint("🟢🍏🟢 애플 로그인 시도 성공 🟢🍏🟢")
+            return .success(token)
+            
+        } catch(let error) {
+            debugPrint("🔴🍎🔴 애플 로그인 시도 실패 \(error.localizedDescription) 🔴🍎🔴")
+            return .failure(NetworkError.badRequest)
         }
     }
-//    func appleSignIn() async -> (String, String) {
-//        let loginManager = AppleLoginManager()
-//        
-//        do {
-//            let result = try await loginManager.login()
-//            return result
-//        } catch(let error) {
-//            print(error.localizedDescription)
-//        }
-//        
-//        return ("", "")
-//    }
 }
 
 extension SocialRepository {

@@ -56,8 +56,8 @@ struct NicknameView: View {
                     
                     switch type {
                     case .kakao:
-//                        viewModel.send(action: .signUpKakao)
-                        authViewModel.authenticationState = .signIn
+                        viewModel.send(action: .signUpKakao)
+//                        authViewModel.authenticationState = .signIn
                     case .apple:
 //                        authViewModel.authenticationState = .signIn
                         viewModel.send(action: .signUpApple)

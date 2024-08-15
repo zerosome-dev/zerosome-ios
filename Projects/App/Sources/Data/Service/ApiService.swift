@@ -84,13 +84,14 @@ final class ApiService {
             }
             
             print("😈😈 STATUS CODE \(statusCode) 😈😈")
-            let range = 200..<300
-            guard range.contains(statusCode) else {
-                return .failure(NetworkError.statusError)
-            }
+//            let range = 200..<300
+//            guard range.contains(statusCode) else {
+//                return .failure(NetworkError.statusError)
+//            }
             
             do {
                 let result = try JSONDecoder().decode(Response<T>.self, from: data)
+                print("🚨🚨 Network Data 🚨🚨 \(result)")
                 
                 guard let data = result.data else {
                     return .failure(NetworkError.decode)
@@ -98,7 +99,6 @@ final class ApiService {
                 
                 print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공 \(data)🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
                 return .success(data)
-                
             } catch {
                 print("🚨 Network Decode Error \(error.localizedDescription)")
                 return .failure(NetworkError.decode)
@@ -113,7 +113,6 @@ final class ApiService {
 extension ApiService {
     
     private func createHeaders(token: String) -> [String : String] {
-        
         return [
             "Authorization": "Bearer \(token)",
             "Content-Type": "application/json; charset=utf-8",
@@ -121,32 +120,3 @@ extension ApiService {
         ]
     }
 }
-
-/*
- func upload(
-     _ url: String,
-     httpMethod: ApiMethod,
-     data: Data,
-     needToken: Bool = false
- ) async throws -> Bool {
-     
-     guard let url = URL(string: url) else {
-         throw NetworkError.urlError
-     }
-     
-     debugPrint("🥦 Request Start")
-     debugPrint("🥦 url: \(url)")
-     
-     var request = URLRequest(url: url)
-     request.httpMethod = httpMethod.rawValue
-     request.allHTTPHeaderFields = createHeaders(needToken: needToken)
-     
-     let (responsData, response) = try await URLSession.shared.upload(for: request, from: data)
-     
-     guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-         throw NetworkError.statusError
-     }
-     
-     return true
- }
- */
