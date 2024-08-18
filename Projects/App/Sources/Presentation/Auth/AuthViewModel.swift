@@ -58,8 +58,6 @@ class AuthViewModel: ObservableObject {
                     
                     switch kakaoSignIn {
                     case .success(let success):
-                        
-                        // 회원이라면 > 로그인 진행
                         if let isMember = success.isMember, let token = success.token {
                             debugPrint("🟡 \(isMember) 로그인 성공 > 회원! 🟡")
                             AccountStorage.shared.accessToken = token.accessToken
@@ -72,7 +70,6 @@ class AuthViewModel: ObservableObject {
                         }
                     case .failure(let failure):
                         debugPrint("🟡🔴 카카오 로그인 완전 실패 \(failure.localizedDescription) 🟡🔴")
-                        
                         self.authenticationState = .initial
                     }
                 case .failure(let failure):
@@ -92,17 +89,16 @@ class AuthViewModel: ObservableObject {
                     
                     switch appleSignIn {
                     case .success(let success):
-                        guard let isMember = success.isMember else {
-                            debugPrint("🍏 이미 회원가입 한 유저임, 로그인 성공! 🍏")
-                            AccountStorage.shared.accessToken = success.token?.accessToken
-                            AccountStorage.shared.refreshToken = success.token?.refreshToken
+                        if let isMember = success.isMember, let token = success.token {
+                            debugPrint("🍏 \(isMember) 로그인 성공 > 회원! 🍏")
+                            AccountStorage.shared.accessToken = token.accessToken
+                            AccountStorage.shared.refreshToken = token.refreshToken
                             self.authenticationState = .signIn
                             return
+                        } else {
+                            debugPrint("🍏🔴 로그인 함수만 성공 > 비회원 > 회원가입 진행 🍏🔴")
+                            self.authenticationState = .term
                         }
-                        
-                        debugPrint("🍏🔴 \(isMember) 로그인 함수 성공 > 회원가입 필요 🍏🔴")
-                        self.authenticationState = .term
-                        
                     case .failure(let failure):
                         debugPrint("🔴🍎 apple sign in 함수 실패 \(failure.localizedDescription)🔴🍎")
                     }
