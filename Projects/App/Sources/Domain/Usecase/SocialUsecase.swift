@@ -17,9 +17,7 @@ struct SocialUsecase {
         
         switch repository {
         case .success(let success):
-            AccountStorage.shared.accessToken = success
-            debugPrint("🟡🟡 카카오 토큰 가져와짐 \(success)")
-            debugPrint("🟡🟡🍀 AccountStorage.shared.accossToken \(AccountStorage.shared.accessToken ?? "🟡🟡🔴🍀")")
+            AccountStorage.shared.kakaoToken = success
             return .success(success)
         case .failure(let failure):
             debugPrint("카카오 토큰 가져오기 실패 \(failure.localizedDescription)")
@@ -28,6 +26,16 @@ struct SocialUsecase {
     }
     
     func appleLogin() async -> Result<String, NetworkError> {
-        return await socialRepoProtocol.appleSignIn()
+        
+        let repository = await socialRepoProtocol.appleSignIn()
+        
+        switch repository {
+        case .success(let success):
+            AccountStorage.shared.appleToken = success
+            return .success(success)
+        case .failure(let failure):
+            debugPrint("애플 토큰 가져오기 실패 \(failure.localizedDescription)")
+            return .failure(NetworkError.badRequest)
+        }
     }
 }

@@ -47,9 +47,10 @@ class NicknameViewModel: ObservableObject {
     func send(action: Action) {
         switch action {
         case .signUpKakao:
+            debugPrint("카카오 회원가입 진행")
             Task {
                 let result = await accountUseCase.signUp(
-                    token: AccountStorage.shared.accessToken ?? "",
+                    token: KeyChain.read(key: StorageKey.kakaoToken) ?? "",
                     socialType: "KAKAO",
                     nickname: nickname,
                     marketing: authViewModel.marketingAgreement)
@@ -71,7 +72,7 @@ class NicknameViewModel: ObservableObject {
             debugPrint("애플 회원가입 진행")
             Task {
                 let result = await accountUseCase.signUp(
-                    token: AccountStorage.shared.accessToken ?? "",
+                    token: KeyChain.read(key: StorageKey.appleToken) ?? "",
                     socialType: "APPLE",
                     nickname: nickname,
                     marketing: authViewModel.marketingAgreement)
