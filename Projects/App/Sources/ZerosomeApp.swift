@@ -28,13 +28,11 @@ struct ZerosomeApp: App {
             
             let socialRepoProtocol = SocialRepository(apiService: apiService)
             let socialUseCase = SocialUsecase(socialRepoProtocol: socialRepoProtocol)
+            let authViewModel = AuthViewModel(accountUseCase: accountUseCase, socialUseCase: socialUseCase)
             
             RouterView(apiService: apiService) {
                 AuthenticatedView(
-                    viewModel: AuthViewModel(
-                        accountUseCase: accountUseCase,
-                        socialUseCase: socialUseCase
-                    ),
+                    viewModel: authViewModel,
                     accountUseCase: accountUseCase,
                     socialUseCase: socialUseCase,
                     apiService: apiService

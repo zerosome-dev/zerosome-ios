@@ -32,16 +32,12 @@ final class ApiService {
         var modifiedEndPoint = endPoint
         
         if let pathParameter = pathParameters {
-            print("⚙️ path 파라미터? ⚙️")
-            
             modifiedEndPoint = modifiedEndPoint + "/\(pathParameter)"
-            print("⚙️⚙️ modifiedEndPoint \(modifiedEndPoint) ⚙️⚙️")
         }
         
         guard var url = URL(string: modifiedEndPoint) else {
             return .failure(NetworkError.urlError)
         }
-        print("⚙️⚙️ URL \(modifiedEndPoint) ⚙️⚙️")
         
         if let parameters = queryParameters {
             guard let queryDictionary = try? parameters.toDictionary() else {
@@ -57,12 +53,15 @@ final class ApiService {
             url.append(queryItems: queryItems)
         }
         
+        debugPrint("🚨🚨 <<<EndPoint>>> \(modifiedEndPoint) 🚨🚨")
+        debugPrint("🚨🚨 <<<URL>>> \(url) 🚨🚨")
+        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
         
         if let header = header {
             urlRequest.allHTTPHeaderFields = createHeaders(token: header)
-            print("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
+            debugPrint("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
         }
         
         if let body = body {
@@ -71,27 +70,27 @@ final class ApiService {
             }
             
             urlRequest.httpBody = httpBody
-            print("🚨🚨 <<<HTTP BODY>>> \(body) 🚨🚨")
-            print("🚨🚨 <<<HTTP HTTPBODY>>> \(httpBody) 🚨🚨")
-            print("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
+            debugPrint("🚨🚨 <<<HTTP BODY>>> \(body) 🚨🚨")
+            debugPrint("🚨🚨 <<<HTTP HTTPBODY>>> \(httpBody) 🚨🚨")
+            debugPrint("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
         }
         
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            
+            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
                 return .failure(NetworkError.response)
             }
             
             print("😈😈 STATUS CODE \(statusCode) 😈😈")
-//            let range = 200..<300
+            let range = 200..<300
 //            guard range.contains(statusCode) else {
 //                return .failure(NetworkError.statusError)
 //            }
-            
+//            
             do {
                 let result = try JSONDecoder().decode(Response<T>.self, from: data)
-                print("🚨🚨 Network Data 🚨🚨 \(result)")
+                debugPrint("🚨🚨 <<<Network Data>>> 🚨🚨 \(result)")
                 
                 guard let data = result.data else {
                     return .failure(NetworkError.decode)
@@ -100,11 +99,11 @@ final class ApiService {
                 print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공 \(data)🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
                 return .success(data)
             } catch {
-                print("🚨 Network Decode Error \(error.localizedDescription)")
+                debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")
                 return .failure(NetworkError.decode)
             }
         } catch {
-            print("🚨 Network Error \(error.localizedDescription)")
+            debugPrint("🚨🚨 <<< Network Error >>> 🚨🚨 \(error.localizedDescription)")
             return .failure(NetworkError.apiError)
         }
     }

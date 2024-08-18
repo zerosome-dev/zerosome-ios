@@ -31,21 +31,23 @@ final class AccountRepository: AccountRepositoryProtocol {
         )
         
         switch response {
-        case .success(let data):
-            debugPrint("🟢 로그인 함수 성공 \(data) 🟢")
-            return .success(data)
-            
+        case .success(let success):
+            AccountStorage.shared.accessToken = success.token?.accessToken
+            AccountStorage.shared.refreshToken = success.token?.refreshToken
+            debugPrint("🟢 로그인 함수 성공 + 스토리지 저장 완료 \(success) 🟢")
+            return .success(success)
         case .failure(let failure):
             debugPrint("🔴 Failure postSignIn > 로그인 실패 \(failure.localizedDescription)🔴")
             return .failure(failure)
         }
     }
     
-    func postSignUp(token: String, socialType: String, nickname: String, marketing: Bool) async -> Result<LoginResponseDTO, NetworkError> {
+    func postSignUp(token: String, socialType: String, nickname: String, marketing: Bool) async -> Result<TokenResponseDTO, NetworkError> {
         let parameters: [String:String] = ["socialType" : socialType]
         let endPoint = APIEndPoint.url(for: .join)
         
-        let response: Result<LoginResponseDTO, NetworkError> = await apiService.request(
+        print("token???? \(token)")
+        let response: Result<TokenResponseDTO, NetworkError> = await apiService.request(
             httpMethod: .post,
             endPoint: endPoint,
             queryParameters: parameters,
@@ -61,8 +63,9 @@ final class AccountRepository: AccountRepositoryProtocol {
         switch response {
         case .success(let success):
             debugPrint("🟢 회원가입 성공 \(success) 🟢")
-            AccountStorage.shared.refreshToken = success.token?.refreshToken
-            AccountStorage.shared.accessToken = success.token?.accessToken
+            AccountStorage.shared.accessToken = success.accessToken
+            AccountStorage.shared.refreshToken = success.refreshToken
+            debugPrint("🟢 회원가입 성공 > AccountStorage 저장 완료 🟢")
             return .success(success)
                        
         case .failure(let failure):
@@ -82,7 +85,7 @@ final class AccountRepository: AccountRepositoryProtocol {
         
         switch response {
         case .success(let success):
-            print("😡🍀🍀 닉네임 유효성 체크 확인 > 성공 ")
+            print("🍀🍀 닉네임 유효성 체크 확인 > 성공 🍀🍀")
             return .success(success)
         case .failure(let failure):
             print("😡😡 닉네임 유효성 체크 실패 > \(failure.localizedDescription)")
