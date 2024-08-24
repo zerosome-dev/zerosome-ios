@@ -67,8 +67,8 @@ struct HomeMainView: View {
         .ZSmainNaviTitle("ZEROSOME")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-//            viewModel.send(action: .cafe)
-//            viewModel.send(action: .tobeReleased)
+            viewModel.send(action: .cafe)
+            viewModel.send(action: .tobeReleased)
         }
     }
 }

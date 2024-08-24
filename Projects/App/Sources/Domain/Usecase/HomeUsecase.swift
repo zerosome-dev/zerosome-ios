@@ -16,7 +16,7 @@ struct HomeUsecase {
         return await homeRepoProtocol.getBannerList()
     }
     
-    func tobeReleaseProduct() async -> Future<[HomeRolloutResponseDTO], NetworkError> {
+    func tobeReleaseProduct() async -> Future<[HomeRolloutResult], NetworkError> {
         return await homeRepoProtocol.tobeReleaseProduct()
     }
     

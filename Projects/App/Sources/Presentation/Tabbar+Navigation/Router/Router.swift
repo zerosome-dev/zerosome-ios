@@ -14,7 +14,7 @@ final class Router: ObservableObject {
         var id: Self { self }
 
         case tabView
-        case tobeReleasedProduct([HomeRolloutResponseDTO], String, String) // 홈 > 종류별 더보기
+        case tobeReleasedProduct([HomeRolloutResult], String, String) // 홈 > 종류별 더보기
         case categoryFilter(String, String?) 
         case detailMainView(Int)
         case reviewList

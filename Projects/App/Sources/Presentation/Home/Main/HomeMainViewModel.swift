@@ -17,7 +17,7 @@ class HomeMainViewModel: ObservableObject {
     }
     
     @Published var tapData: Int = 0
-    @Published var tobeReleased: [HomeRolloutResponseDTO] = []
+    @Published var tobeReleased: [HomeRolloutResult] = []
     @Published var homeCafe: [HomeCafeResponseDTO] = []
     
     private let homeUsecase: HomeUsecase

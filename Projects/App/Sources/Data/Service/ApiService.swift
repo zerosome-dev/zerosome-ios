@@ -77,7 +77,7 @@ final class ApiService {
         
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
+//            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
                 return .failure(NetworkError.response)
             }
@@ -90,13 +90,13 @@ final class ApiService {
 //            
             do {
                 let result = try JSONDecoder().decode(Response<T>.self, from: data)
-                debugPrint("🚨🚨 <<<Network Data>>> 🚨🚨 \(result)")
+//                debugPrint("🚨🚨 <<<Network Data>>> 🚨🚨 \(result)")
                 
                 guard let data = result.data else {
                     return .failure(NetworkError.decode)
                 }
                 
-                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공 \(data)🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
+                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
                 return .success(data)
             } catch {
                 debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")

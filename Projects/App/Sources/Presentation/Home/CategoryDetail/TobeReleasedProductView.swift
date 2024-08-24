@@ -14,7 +14,7 @@ struct TobeReleasedProductView: View {
     @EnvironmentObject var router: Router
     let title: String
     let subTitle: String
-    let data: [HomeRolloutResponseDTO]
+    let data: [HomeRolloutResult]
     let columns: [GridItem] = Array(
         repeating: .init(.flexible(),
                          spacing: 11,
