@@ -22,18 +22,47 @@ class CategoryViewModel: ObservableObject {
     @Published var sheetToggle: CategoryDetail? = nil
     @Published var tapData: String = ""
     
-    var valuePublisher = PassthroughSubject<String, Never>()
+    enum Action {
+        case getCategoryList
+    }
     
-    func updateSharedValue(newValue: String) {
-        category = newValue
-        valuePublisher.send(newValue)
+    private let categoryUseCase: CategoryUsecase
+    private var cancellables = Set<AnyCancellable>()
+    
+    init(
+        categoryUseCase: CategoryUsecase
+    ) {
+        self.categoryUseCase = categoryUseCase
+    }
+    
+    @Published var categoryList: [D1CategoryResult]?
+    
+    func send(action: Action) {
+        switch action {
+        case .getCategoryList:
+            Task {
+                await categoryUseCase.getCategoryList()
+                    .sink { completion in
+                        switch completion {
+                        case .finished:
+                            break
+                        case .failure(let failure):
+                            debugPrint("Failed action: CategoryList \(failure.localizedDescription)")
+                        }
+                    } receiveValue: { [weak self] data in
+                        print("💛💛💛💛💛 카테고리 목록!!!\(self?.categoryList) 💛💛💛💛💛")
+                        self?.categoryList = data
+                    }
+                    .store(in: &cancellables)
+                
+            }
+        }
     }
 }
 
 struct CategoryMainView: View {
     @EnvironmentObject var router: Router
-    @StateObject private var viewModel = CategoryViewModel()
-    
+    @ObservedObject var viewModel: CategoryViewModel
     @State private var tapData: String = ""
     
     var body: some View {
@@ -67,9 +96,12 @@ struct CategoryMainView: View {
         }
         .ZSnavigationTitle("카테고리")
         .scrollIndicators(.hidden)
+        .onAppear {
+            viewModel.send(action: .getCategoryList)
+        }
     }
 }
 
 #Preview {
-    CategoryMainView()
+    CategoryMainView(viewModel: CategoryViewModel(categoryUseCase: CategoryUsecase(categoryRepoProtocol: CategoryListRepository(apiService: ApiService()))))
 }

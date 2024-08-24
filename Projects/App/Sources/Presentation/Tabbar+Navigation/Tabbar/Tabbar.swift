@@ -19,10 +19,14 @@ enum Tabbar: CaseIterable {
             let homeRepoProtocol = HomeRepository(apiService: apiService)
             let homeUseCase = HomeUsecase(homeRepoProtocol: homeRepoProtocol)
             let viewModel = HomeMainViewModel(homeUsecase: homeUseCase)
-            
             HomeMainView(viewModel: viewModel)
+            
         case .category:
-            CategoryMainView()
+            let categoryRepoProtocol = CategoryListRepository(apiService: apiService)
+            let categoryUseCase = CategoryUsecase(categoryRepoProtocol: categoryRepoProtocol)
+            let viewModel = CategoryViewModel(categoryUseCase: categoryUseCase)
+            CategoryMainView(viewModel: viewModel)
+            
         case .mypage:
             MypageMainView()
         }
