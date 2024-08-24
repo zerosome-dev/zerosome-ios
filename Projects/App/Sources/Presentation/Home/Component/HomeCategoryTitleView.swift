@@ -10,8 +10,8 @@ import SwiftUI
 import DesignSystem
 
 enum HScrollProductType {
-    case tobeReleased([HomeRolloutResponseDTO])
-    case homeCafe([HomeCafeResponseDTO])
+    case tobeReleased([HomeRolloutResult])
+    case homeCafe([HomeCafeResult])
     
     func getItems<T: Decodable>() -> [T] {
         switch self {
@@ -85,12 +85,12 @@ struct HomeCategoryTitleView: View {
                         case .homeCafe(let data):
                             if let type = productType
                             {
-                                let _: [HomeCafeResponseDTO] = type.getItems()
+                                let _: [HomeCafeResult] = type.getItems()
 
                                 ForEach(data.prefix(10), id: \.id) { data in
                                     ProductPreviewComponent(data: data)
                                         .tap {
-                                            tapData = data.id ?? 0
+                                            tapData = data.id
                                             subAction?()
                                         }
                                 }

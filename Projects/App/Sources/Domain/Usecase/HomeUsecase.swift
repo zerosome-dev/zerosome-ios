@@ -20,7 +20,7 @@ struct HomeUsecase {
         return await homeRepoProtocol.tobeReleaseProduct()
     }
     
-    func homeCafe() async -> Future<[HomeCafeResponseDTO], NetworkError> {
+    func homeCafe() async -> Future<[HomeCafeResult], NetworkError> {
         return await homeRepoProtocol.homeCafe()
     }
 }

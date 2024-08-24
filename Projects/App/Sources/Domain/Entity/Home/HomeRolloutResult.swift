@@ -9,7 +9,6 @@
 import Foundation
 
 struct HomeRolloutResult: Equatable, Hashable, Identifiable {
-    let key = UUID().uuidString
     let id: Int
     let image: String
     let d1Category: String

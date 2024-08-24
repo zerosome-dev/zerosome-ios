@@ -24,21 +24,21 @@ struct ProductPreviewComponent<T: Decodable>: View {
     
     var body: some View {
         Group {
-            if let data = data as? HomeRolloutResponseDTO {
+            if let data = data as? HomeRolloutResult {
                 infoView(
-                    image: data.image ?? "",
-                    name: data.name ?? "",
-                    brand: data.d2Category ?? "",
+                    image: data.image,
+                    name: data.name,
+                    brand: data.d2Category,
                     star: 0,
                     reviewCnt: 0
                 )
-            } else if let data = data as? HomeCafeResponseDTO {
+            } else if let data = data as? HomeCafeResult {
                 infoView(
-                    image: data.image ?? "",
-                    name: data.name ?? "",
-                    brand: data.brand ?? "",
-                    star: data.review ?? 0,
-                    reviewCnt: data.reviewCnt ?? 0
+                    image: data.image,
+                    name: data.name,
+                    brand: data.brand,
+                    star: data.review,
+                    reviewCnt: data.reviewCnt
                 )
             } else if let data = data as? SimilarProductDTO {
                 infoView(
