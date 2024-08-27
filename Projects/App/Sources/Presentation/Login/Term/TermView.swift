@@ -50,10 +50,22 @@ struct TermView: View {
                     .padding(.bottom, 3)
                 
                 SingleTermView(isChecked: $viewModel.isTermChecked, term: .term)
+                    .tap { term in
+                        if let url = URL(string: term.url) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
                 SingleTermView(isChecked: $viewModel.isPersonalChecked, term: .personalInfo)
+                    .tap { term in
+                        if let url = URL(string: term.url) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
                 SingleTermView(isChecked: $viewModel.isMarketingChecked, term: .marketing)
                     .tap { term in
-                        // 보기 > 사이트로 이동
+                        if let url = URL(string: term.url) {
+                            UIApplication.shared.open(url)
+                        }
                     }
             }
             

@@ -13,14 +13,14 @@ enum HScrollProductType {
     case tobeReleased([HomeRolloutResult])
     case homeCafe([HomeCafeResult])
     
-    func getItems<T: Decodable>() -> [T] {
-        switch self {
-        case .tobeReleased(let items):
-            return items as? [T] ?? []
-        case .homeCafe(let items):
-            return items as? [T] ?? []
-        }
-    }
+//    func getItems<T: Decodable>() -> [T] {
+//        switch self {
+//        case .tobeReleased(let items):
+//            return items as? [T] ?? []
+//        case .homeCafe(let items):
+//            return items as? [T] ?? []
+//        }
+//    }
 }
 
 struct HomeCategoryTitleView: View {
@@ -30,14 +30,13 @@ struct HomeCategoryTitleView: View {
     let columns: [GridItem] = [.init(.flexible(), spacing: 10, alignment: .center)]
     
     enum TitleType {
-        case none
         case noneData
         case moreButton
     }
     
     let title: String
     let subTitle: String
-    let productType: HScrollProductType?
+    let productType: HScrollProductType
     let type: TitleType
     let paddingType: Bool?
     let d2Category: [String]?
@@ -46,7 +45,7 @@ struct HomeCategoryTitleView: View {
 
     init (
         tapData: Binding<Int>,
-        productType: HScrollProductType? = nil,
+        productType: HScrollProductType,
         title: String,
         subTitle: String,
         type: TitleType,
@@ -77,26 +76,23 @@ struct HomeCategoryTitleView: View {
                 ScrollView(.horizontal) {
                     HStack {
                         switch productType {
-                        case .tobeReleased(let data):
-                            if let type = productType {
-                                let _: [HomeRolloutResponseDTO] = type.getItems()
+                        case .tobeReleased(let tobeReleased):
+                            ForEach(tobeReleased.prefix(10), id: \.id) { data in
+                                ProductPreviewComponent(data: data)
+                                    .tap {
+                                        tapData = data.id
+                                        subAction?()
+                                    }
                             }
                             
                         case .homeCafe(let data):
-                            if let type = productType
-                            {
-                                let _: [HomeCafeResult] = type.getItems()
-
-                                ForEach(data.prefix(10), id: \.id) { data in
-                                    ProductPreviewComponent(data: data)
-                                        .tap {
-                                            tapData = data.id
-                                            subAction?()
-                                        }
-                                }
+                            ForEach(data.prefix(10), id: \.id) { data in
+                                ProductPreviewComponent(data: data)
+                                    .tap {
+                                        tapData = data.id
+                                        subAction?()
+                                    }
                             }
-                        case .none:
-                            EmptyView()
                         }
                     }
                 }

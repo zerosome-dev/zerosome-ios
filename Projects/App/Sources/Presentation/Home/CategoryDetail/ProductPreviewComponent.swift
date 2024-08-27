@@ -10,7 +10,7 @@ import SwiftUI
 import DesignSystem
 import Kingfisher
 
-struct ProductPreviewComponent<T: Decodable>: View {
+struct ProductPreviewComponent<T: Identifiable>: View {
     var action: (() -> Void)?
     let data: T
     

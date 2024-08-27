@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct D1CategoryResult: Identifiable, Decodable {
+struct D1CategoryResult: Identifiable, Hashable {
     let d1CategoryCode: String
     let d1CategoryName: String
     let d2Category: [D2CategoryResult]
@@ -18,7 +18,7 @@ struct D1CategoryResult: Identifiable, Decodable {
     }
 }
 
-struct D2CategoryResult: Identifiable, Decodable {
+struct D2CategoryResult: Identifiable, Hashable {
     let d2CategoryCode: String
     let d2CategoryName: String
     let d2CategoryImage: String

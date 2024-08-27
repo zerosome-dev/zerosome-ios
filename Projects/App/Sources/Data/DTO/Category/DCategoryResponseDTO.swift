@@ -8,6 +8,9 @@
 
 import Foundation
 
+// d1 : 카페/음료
+// d2 : 투썸플레이스..
+
 struct D1CategoryResponseDTO: Decodable {
     var d1CategoryCode: String?
     var d1CategoryName: String?

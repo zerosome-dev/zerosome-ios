@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct HomeCafeResult: Identifiable, Decodable {
+struct HomeCafeResult: Identifiable {
     let id: Int
     let image: String
     let d1CategoryId: String

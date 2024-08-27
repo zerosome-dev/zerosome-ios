@@ -20,13 +20,13 @@ struct SimiliarProductView: View {
             
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(viewModel.dataInfo?.similarProductList ?? [], id: \.productId) { datum in
-                        ProductPreviewComponent(data: datum)
-                            .tap {
-                                router.navigateTo(.detailMainView(datum.productId ?? 0))
-                            }
-                            .frame(maxWidth: 150)
-                    }
+//                    ForEach(viewModel.dataInfo?.similarProductList ?? [], id: \.productId) { datum in
+//                        ProductPreviewComponent(data: datum)
+//                            .tap {
+//                                router.navigateTo(.detailMainView(datum.productId ?? 0))
+//                            }
+//                            .frame(maxWidth: 150)
+//                    }
                 }
             }
             .scrollIndicators(.hidden)
