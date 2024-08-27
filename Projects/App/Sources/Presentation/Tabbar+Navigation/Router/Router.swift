@@ -14,8 +14,9 @@ final class Router: ObservableObject {
         var id: Self { self }
 
         case tabView
-        case tobeReleasedProduct([HomeRolloutResponseDTO], String, String) // 홈 > 종류별 더보기
-        case categoryFilter(String, String?) 
+        case tobeReleasedProduct([HomeRolloutResult], String, String) // 홈 > 종류별 더보기
+//        case categoryFilter(String, String?)
+        case categoryFilter(String, String, String) // d2CategoryCode
         case detailMainView(Int)
         case reviewList
         case creatReview(ReviewEntity) // proudct it, name, brand
@@ -36,12 +37,15 @@ final class Router: ObservableObject {
         case .tobeReleasedProduct(let releasedArray, let title, let subTitle):
             TobeReleasedProductView(title: title, subTitle: subTitle, data: releasedArray)
             
-        case .categoryFilter(let type, let tag):
-            if let tag = tag {
-                CategoryFilteredView(type: type, tag: tag)
-            } else {
-                CategoryFilteredView(type: type)
-            }
+//        case .categoryFilter(let type, let tag):
+//            if let tag = tag {
+//                CategoryFilteredView(type: type, tag: tag)
+//            } else {
+//                CategoryFilteredView(type: type)
+//            }
+        case .categoryFilter(let filteredTitle, let d2CategoryCode, let bindedFilter):
+//            CategoryFilteredView(type: d2CategoryCode)
+            EmptyView()
             
         case .detailMainView(let productId):
             

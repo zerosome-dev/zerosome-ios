@@ -22,6 +22,7 @@ struct HomeMainView: View {
             VStack(spacing: 30) {
                 HomeCategoryTitleView(
                     tapData: $viewModel.tapData,
+                    productType: .tobeReleased(viewModel.tobeReleased),
                     title: "출시 예정 신상품",
                     subTitle: "출시 예정 및 최신 상품을 확인해 보세요",
                     type: .noneData
@@ -43,24 +44,17 @@ struct HomeMainView: View {
                 HomeCategoryTitleView(
                     tapData: $viewModel.tapData,
                     productType: .homeCafe(viewModel.homeCafe),
-                    title: "생수/음료",
-                    subTitle: "제로로 걱정 없이 즐기는 상쾌한 한 모금",
-                    type: .moreButton
-                )
-                .tap { router.navigateTo(.categoryFilter("생수/음료", nil))}
-                .tapSub { router.navigateTo(.detailMainView(viewModel.tapData)) }
-                
-                DivideRectangle(height: 12, color: Color.neutral50)
-                
-                HomeCategoryTitleView(
-                    tapData: $viewModel.tapData,
-                    productType: .homeCafe(viewModel.homeCafe),
-                    title: "카페음료",
+                    title: "카페 음료",
                     subTitle: "카페에서 즐기는 제로",
                     type: .moreButton
                 )
-                .tap { router.navigateTo(.categoryFilter("카페음료", nil)) }
-                .tapSub { router.navigateTo(.detailMainView(viewModel.tapData)) }
+                .tap {
+                    guard let totalCode = viewModel.homeCafe.first?.d1CategoryId else { return }
+                    router.navigateTo(.categoryFilter("카페 음료", totalCode, "전체"))
+                }
+                .tapSub {
+                    router.navigateTo(.detailMainView(viewModel.tapData))
+                }
             }
         }
         .scrollIndicators(.hidden)

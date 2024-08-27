@@ -25,6 +25,17 @@ enum Term: CaseIterable{
             return "(선택) 마케팅 수신 동의"
         }
     }
+    
+    var url: String {
+        switch self {
+        case .term:
+            return "https://zerosome.imweb.me/?mode=policy"
+        case .personalInfo:
+            return "https://zerosome.imweb.me/?mode=privacy"
+        case .marketing:
+            return ""
+        }
+    }
 }
 
 final class TermViewModel: ObservableObject {

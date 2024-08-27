@@ -59,6 +59,9 @@ struct CategoryFilteredView: View {
 //                .padding(.horizontal, 22)
             }
         }
+        .onAppear {
+            print("type check!!!! \(type)🍄🍄🍄🍄🍄")
+        }
         .sheet(isPresented: $viewModel.updateToggle){
             UpdateBottomSheet(filterVM: viewModel)
                 .presentationDetents([.height(294)])

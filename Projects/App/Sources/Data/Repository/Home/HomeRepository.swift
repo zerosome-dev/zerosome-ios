@@ -31,16 +31,18 @@ class HomeRepository: HomeRepositoryProtocol {
         }
     }
     
-    func tobeReleaseProduct() -> Future<[HomeRolloutResponseDTO], NetworkError> {
+    func tobeReleaseProduct() -> Future<[HomeRolloutResult], NetworkError> {
         return Future { promise in
             Task {
                 let response: Result<[HomeRolloutResponseDTO], NetworkError> = await self.apiService.request(
                     httpMethod: .get,
                     endPoint: APIEndPoint.url(for: .tobeReleased)
                 )
+                
                 switch response {
                 case .success(let data):
-                    promise(.success(data))
+                    let mappedResults = data.map { HomeMapper.toRolloutResult(response: $0) }
+                    promise(.success(mappedResults))
                 case .failure(let error):
                     debugPrint("🏠🔴 tobeReleaseProduct failure \(error.localizedDescription)  🏠🔴")
                     promise(.failure(NetworkError.response))
@@ -49,7 +51,7 @@ class HomeRepository: HomeRepositoryProtocol {
         }
     }
     
-    func homeCafe() async -> Future<[HomeCafeResponseDTO], NetworkError> {
+    func homeCafe() async -> Future<[HomeCafeResult], NetworkError> {
         return Future { promise in
             Task {
                 let response: Result<[HomeCafeResponseDTO], NetworkError> = await self.apiService.request(
@@ -59,7 +61,8 @@ class HomeRepository: HomeRepositoryProtocol {
                 
                 switch response {
                 case .success(let data):
-                    promise(.success(data))
+                    let mappedResults = data.map { HomeMapper.toCafeResult(response: $0) }
+                    promise(.success(mappedResults))
                 case .failure(let error):
                     debugPrint("🏠🔴 homeCafe failure \(error.localizedDescription) 🏠🔴")
                     promise(.failure(NetworkError.response))

@@ -9,94 +9,49 @@
 import Foundation
 import Security
 
-final class KeychainManager {
-//    static let shared = KeychainManager()
+final class KeyChain {
     
-    static func save(key: String, data: Data) {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword as String,
-            kSecAttrAccount as String: key,
-            kSecValueData as String: data
+    class func create(key: String, token: String) {
+        let query: NSDictionary = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key,
+            kSecValueData: token.data(using: .utf8, allowLossyConversion: false) as Any
         ]
-
-        SecItemAdd(query as CFDictionary, nil)
+        SecItemDelete(query)
+        
+        let status = SecItemAdd(query, nil)
+        assert(status == noErr, "🔮 Failed to save KeyChain!")
     }
-
-    static func load(key: String) -> Data? {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key,
-            kSecReturnData as String: kCFBooleanTrue!,
-            kSecMatchLimit as String: kSecMatchLimitOne
+    
+    class func read(key: String) -> String? {
+        let query: NSDictionary = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key,
+            kSecReturnData: kCFBooleanTrue as Any,
+            kSecMatchLimit: kSecMatchLimitOne
         ]
-
+        
         var dataTypeRef: AnyObject?
-        let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
-        if status == noErr {
-            return dataTypeRef as? Data
+        let status = SecItemCopyMatching(query, &dataTypeRef)
+        
+        if status == errSecSuccess {
+            if let retrievedData: Data = dataTypeRef as? Data {
+                let value = String(data: retrievedData, encoding: String.Encoding.utf8)
+                return value
+            } else { return nil }
         } else {
+            print("🔮 Failed to read KeyChain!, Status Code = \(status)")
             return nil
         }
     }
-
-    static func delete(key: String) {
-        let query = [
-            kSecClass as String: kSecClassGenericPassword as String,
-            kSecAttrAccount as String: key
+    
+    class func delete(key: String) {
+        let query: NSDictionary = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key
         ]
-
-        SecItemDelete(query as CFDictionary)
+        let status = SecItemDelete(query)
+        assert(status == noErr, "🔮 Failed to delete KeyChain! Status code = \(status)")
     }
 }
 
-//protocol KeychainManagerProtocol {
-//    func save(key: String, data: Data)
-//    func load(key: String) -> Data?
-//    func delete(key: String)
-//}
-//
-//final class KeychainManager: KeychainManagerProtocol {
-//    
-//    static let shared = KeychainManager()
-//    
-//    enum KeychainError: Error {
-//        case noData
-//    }
-//    
-//    static func save(key: String, data: Data) {
-//        let query: [String: Any] = [
-//            kSecClass as String: kSecClassGenericPassword as String,
-//            kSecAttrAccount as String: key,
-//            kSecValueData as String: data
-//        ]
-//
-//        SecItemAdd(query as CFDictionary, nil)
-//    }
-//    
-//    static func load(key: String) -> Data? {
-//        let query = [
-//            kSecClass as String: kSecClassGenericPassword,
-//            kSecAttrAccount as String: key,
-//            kSecReturnData as String: kCFBooleanTrue!,
-//            kSecMatchLimit as String: kSecMatchLimitOne
-//        ] as [String: Any]
-//        
-//        var dataTypeRef: AnyObject? = nil
-//        let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
-//        
-//        if status == noErr {
-//            return dataTypeRef as? Data
-//        } else {
-//            return nil
-//        }
-//    }
-//    
-//    static func delete(key: String) {
-//        let query = [
-//            kSecClass as String: kSecClassGenericPassword as String,
-//            kSecAttrAccount as String: key
-//        ]
-//
-//        SecItemDelete(query as CFDictionary)
-//    }
-//}

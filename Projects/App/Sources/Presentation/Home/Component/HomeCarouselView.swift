@@ -19,10 +19,10 @@ struct HomeCarouselView: View {
     @StateObject private var vm = CarouselViewModel()
     @ObservedObject private var viewModel: HomeMainViewModel
     @EnvironmentObject var router: Router
-    let data: [HomeRolloutResponseDTO]
+    let data: [HomeRolloutResult]
     
     init(
-        data: [HomeRolloutResponseDTO],
+        data: [HomeRolloutResult],
         viewModel: HomeMainViewModel
     ) {
         self.data = data
@@ -49,7 +49,7 @@ struct HomeCarouselView: View {
                                 .fill(Color.neutral50)
                                 .frame(height: 216)
                                 .overlay {
-                                    KFImage(URL(string: data.image ?? ""))
+                                    KFImage(URL(string: data.image))
                                         .placeholder {
                                             ProgressView()
                                                 .tint(Color.primaryFF6972)
@@ -61,16 +61,16 @@ struct HomeCarouselView: View {
                             Spacer()
                             VStack(spacing: 6) {
                                 HStack(spacing: 8) {
-                                    ZSText(data.d1Category ?? "", fontType: .label1, color: Color.neutral500)
-                                    ZSText(data.d2Category ?? "", fontType: .label1, color: Color.neutral500)
+                                    ZSText(data.d1Category, fontType: .label1, color: Color.neutral500)
+                                    ZSText(data.d2Category, fontType: .label1, color: Color.neutral500)
                                 }
                                 
-                                ZSText(data.name ?? "", fontType: .subtitle1, color: .black)
+                                ZSText(data.name, fontType: .subtitle1, color: .black)
                                     .padding(.bottom, 9)
                                 
                                 HStack(spacing: 6) {
-                                    ForEach(data.salesStore ?? [], id: \.self) { store in
-                                        ZSText(store ?? "", fontType: .label2, color: Color.neutral700)
+                                    ForEach(data.salesStore, id: \.self) { store in
+                                        ZSText(store, fontType: .label2, color: Color.neutral700)
                                             .padding(.init(top: 3, leading: 6, bottom: 3, trailing: 6))
                                             .background(Color.neutral50)
                                             .clipShape(RoundedRectangle(cornerRadius: 4))
@@ -83,7 +83,7 @@ struct HomeCarouselView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
                     .onTapGesture {
-                        router.navigateTo(.detailMainView(data.id ?? 0))
+                        router.navigateTo(.detailMainView(data.id))
                     }
             } lastContent: {
                 launchImage()

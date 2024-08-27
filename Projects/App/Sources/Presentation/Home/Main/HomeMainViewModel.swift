@@ -17,8 +17,9 @@ class HomeMainViewModel: ObservableObject {
     }
     
     @Published var tapData: Int = 0
-    @Published var tobeReleased: [HomeRolloutResponseDTO] = []
-    @Published var homeCafe: [HomeCafeResponseDTO] = []
+    @Published var tobeReleased: [HomeRolloutResult] = []
+    @Published var homeCafe: [HomeCafeResult] = []
+    @Published var totalCode: String = ""
     
     private let homeUsecase: HomeUsecase
     private var cancellables = Set<AnyCancellable>()
@@ -42,8 +43,8 @@ class HomeMainViewModel: ObservableObject {
                         case .failure(let error):
                             debugPrint("🧪 \(error.localizedDescription)")
                         }
-                    }, receiveValue: { data in
-                        self.tobeReleased = data
+                    }, receiveValue: { [weak self] data in
+                        self?.tobeReleased = data
                     })
                     .store(in: &cancellables)
             }
@@ -59,8 +60,8 @@ class HomeMainViewModel: ObservableObject {
                         case .failure(let error):
                             debugPrint("🧪🧪 \(error.localizedDescription)")
                         }
-                    }, receiveValue: { data in
-                        self.homeCafe = data
+                    }, receiveValue: { [weak self] data in
+                        self?.homeCafe = data
                     })
                     .store(in: &cancellables)
             }

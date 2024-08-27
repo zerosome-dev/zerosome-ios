@@ -8,4 +8,18 @@
 
 import Foundation
 
-// Decoder 또는 옵셔널 Mapper 생성 
+struct ResultMapper<T: Decodable> {
+    static func toMap(_ result: Result<Data, NetworkError>) -> Result<T, NetworkError> {
+        switch result {
+        case .success(let success):
+            do {
+                let data = try JSONDecoder().decode(T.self, from: success)
+                return .success(data)
+            } catch {
+                return .failure(NetworkError.decode)
+            }
+        case .failure(let failure):
+            return .failure(NetworkError.decode)
+        }
+    }
+}
