@@ -12,7 +12,19 @@ import Combine
 struct CategoryUsecase {
     let categoryRepoProtocol: CategoryRepositoryProtocol
     
-    func getCategoryList() async -> Future<[D1CategoryResult], NetworkError> {
-        return await categoryRepoProtocol.getCategoryList()
+    func getCategoryList() -> Future<[D1CategoryResult], NetworkError> {
+        return categoryRepoProtocol.getCategoryList()
+    }
+    
+    func getD2CategoryList(d2CategoryCode: String) -> Future<[D2CategoryFilterResult], NetworkError> {
+        return categoryRepoProtocol.getD2CategoryList(d2CategoryCode: d2CategoryCode)
+    }
+    
+    func getBrandList() -> Future<[BrandFilterResult], NetworkError> {
+        return categoryRepoProtocol.getBrandList()
+    }
+    
+    func getZeroTagList() -> Future<[ZeroCategoryFilterResult], NetworkError> {
+        return categoryRepoProtocol.getZeroTagList()
     }
 }

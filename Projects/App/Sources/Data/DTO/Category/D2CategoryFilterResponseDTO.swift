@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct D2CategoryFilterResponseDTO {
+struct D2CategoryFilterResponseDTO: Decodable {
     var d2CategoryCode: String?
     var d2CategoryName: String?
     var noOptionYn: Bool?

@@ -29,6 +29,9 @@ struct APIEndPoint {
     
     enum Category: String {
         case list = "/api/app/v1/category/list"
+        case d2CategoryList = "/api/app/v1/filter/sub-category"
+        case brandList = "/api/app/v1/filter/brand"
+        case zeroTagList = "/api/app/v1/filter/zero-category"
     }
     
     enum Detail: String {
