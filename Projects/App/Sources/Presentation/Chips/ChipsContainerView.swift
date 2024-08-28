@@ -10,18 +10,18 @@ import SwiftUI
 
 public struct ChipsView: View {
     
-    let checkList: [String]
     let check: Bool
     let title: String
+    let tappedChips: [TappedChips]
     
     init(
-        checkList: [String],
         check: Bool,
-        title: String
+        title: String,
+        tappedChips: [TappedChips]
     ) {
-        self.checkList = checkList
         self.check = check
         self.title = title
+        self.tappedChips = tappedChips
     }
     
     public var body: some View {        
@@ -39,25 +39,22 @@ public struct ChipsView: View {
     }
 }
 
-public struct ChipsContainerView: View {
+struct ChipsContainerView<T: ChipRepresentable>: View {
 
-    @Binding var array: [String]
+    @Binding var tappedChips: [TappedChips]
     @State var totalHeight: CGFloat
     let verticalSpacing: CGFloat
     let horizontalSpacing: CGFloat
-    let types: [ZeroDrinkSampleData]
-    var sortedTypes: [ZeroDrinkSampleData] {
-        types.sorted(by: { $0.name < $1.name })
-    }
+    let types: [T]
     
     public init(
-        array: Binding<[String]>,
+        tappedChips: Binding<[TappedChips]>,
         totalHeight: CGFloat = .zero,
         verticalSpacing: CGFloat = 10,
         horizontalSpacing: CGFloat = 10,
-        types: [ZeroDrinkSampleData]
+        types: [T]
     ) {
-        self._array = array
+        self._tappedChips = tappedChips
         self.totalHeight = totalHeight
         self.verticalSpacing = verticalSpacing
         self.horizontalSpacing = horizontalSpacing
@@ -70,13 +67,13 @@ public struct ChipsContainerView: View {
         
         GeometryReader { geomety in
             ZStack(alignment: .topLeading) {
-                ForEach(sortedTypes, id: \.id) { type in
-                    ChipsView(checkList: array, check: returnResult(of: type.name), title: type.name)
+                ForEach(types, id: \.code) { type in
+                    ChipsView(check: checkCipsList(chip: TappedChips(name: type.name, code: type.code)), title: type.name, tappedChips: tappedChips)
                         .onTapGesture {
-                            toggleSelection(of: type.name)
+                            appendChips(name: type.name, code: type.code)
                         }
                         .alignmentGuide(.leading) { view in
-                            guard let last = sortedTypes.last else { return 0 }
+                            guard let last = types.last else { return 0 }
                             if abs(width - view.width) > geomety.size.width {
                                 width = 0
                                 height -= view.height
@@ -94,7 +91,7 @@ public struct ChipsContainerView: View {
                             return result
                         }
                         .alignmentGuide(.top) { _ in
-                            guard let last = sortedTypes.last else { return 0 }
+                            guard let last = types.last else { return 0 }
                             
                             let result = height
                             
@@ -116,17 +113,19 @@ public struct ChipsContainerView: View {
         }
         .frame(height: totalHeight)
     }
-    
-    private func toggleSelection(of index: String) {
-        if let existingIndex = array.firstIndex(of: index) {
-            array.remove(at: existingIndex)
+
+    private func appendChips(name: String, code: String) {
+        let chip = TappedChips(name: name, code: code)
+        
+        if let existedChip = tappedChips.firstIndex(of: chip) {
+            tappedChips.remove(at: existedChip)
         } else {
-            array.append(index)
+            tappedChips.append(chip)
         }
     }
     
-    private func returnResult(of index: String) -> Bool {
-        return array.contains(index) ? true : false
+    private func checkCipsList(chip: TappedChips) -> Bool {
+        return tappedChips.contains(chip) ? true : false
     }
 }
 
