@@ -9,7 +9,7 @@
 import Foundation
 
 class CategoryMapper {
-    static func toCategoryList(response: D1CategoryResponseDTO) -> D1CategoryResult {
+    static func toCategoryResult(response: D1CategoryResponseDTO) -> D1CategoryResult {
         return D1CategoryResult(
             d1CategoryCode: response.d1CategoryCode ?? "",
             d1CategoryName: response.d1CategoryName ?? "",
@@ -26,6 +26,28 @@ class CategoryMapper {
                     noOptionYn: dto.noOptionYn
                 )
             }
+        )
+    }
+    
+    static func toBrandResult(response: BrandFilterResponseDTO) -> BrandFilterResult {
+        return BrandFilterResult(
+            brandCode: response.brandCode ?? "",
+            brandName: response.brandName ?? ""
+        )
+    }
+    
+    static func toD2CategoryFilterResult(response: D2CategoryFilterResponseDTO) -> D2CategoryFilterResult {
+        return D2CategoryFilterResult(
+            d2CategoryCode: response.d2CategoryCode ?? "",
+            d2CategoryName: response.d2CategoryName ?? "",
+            noOptionYn: response.noOptionYn ?? false
+        )
+    }
+    
+    static func toZeoTagResult(response: ZeroCategoryFilterResponseDTO) -> ZeroCategoryFilterResult {
+        return ZeroCategoryFilterResult(
+            zeroCtgCode: response.zeroCtgCode ?? "",
+            zeroCtgName: response.zeroCtgName ?? ""
         )
     }
 }
