@@ -28,7 +28,10 @@ enum Tabbar: CaseIterable {
             CategoryMainView(viewModel: viewModel)
             
         case .mypage:
-            MypageMainView()
+            let mypageRepo = MypageRepository(apiService: apiService)
+            let mypageUsecase = MypageUsecase(mypageRepoProtocol: mypageRepo)
+            let viewModel = MypageViewModel(mypageUseCase: mypageUsecase)
+            MypageMainView(viewModel: viewModel)
         }
     }
     

@@ -13,3 +13,5 @@ struct Response<T: Decodable>: Decodable {
     let status: Bool
     let data: T?
 }
+
+struct NoneDecodeResponse: Decodable { }

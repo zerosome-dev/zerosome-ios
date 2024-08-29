@@ -82,7 +82,6 @@ extension CategoryViewModel {
             
         case .getBrandNameForCafe(let d1Category):
             self.brandFilter = d1Category.d2Category.filter { $0.d2CategoryName != "전체" }.map { $0.d2CategoryName }
-            print("🩵🩵🩵🩵brandFilterbrandFilter: \(self.brandFilter)🩵🩵🩵🩵")
         }
     }
 }

@@ -24,7 +24,6 @@ struct CategoryMainView: View {
                 .tapTitle { // 전체 필터로 이동
                     viewModel.send(action: .tapCategoryTitle(d1Category))
                     viewModel.send(action: .getBrandNameForCafe(d1Category))
-                    print("main 🏪🏪🏪 \(viewModel.entirCode)")
                     
                     router.navigateTo(.categoryFilter(
                         viewModel.filteredTitle,

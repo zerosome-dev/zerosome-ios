@@ -18,7 +18,6 @@ struct APIEndPoint {
         case join = "/api/v1/auth/join"
         case refreshToken = "/api/v1/auth/refresh"
         case logout = "/api/v1/auth/logout"
-        case revoke = "/api/v1/auth/reovke" // ??미정
     }
     
     enum Home: String {
@@ -33,6 +32,17 @@ struct APIEndPoint {
         case d2CategoryList = "/api/app/v1/filter/sub-category"
         case brandList = "/api/app/v1/filter/brand"
         case zeroTagList = "/api/app/v1/filter/zero-category"
+    }
+    
+    enum Review: String {
+        case changeNickname = "/api/app/v1/member/nickname"
+        case modifierReview = "/api/app/v1/member"
+        case deleteReview = "/api/app/v1/review"
+    }
+    
+    enum Mypage: String {
+        case userInfo = "/api/app/v1/member"
+        case userReviewList = "/api/app/v1/review/member"
     }
     
     enum Detail: String {
@@ -55,6 +65,16 @@ struct APIEndPoint {
     }
     
     static func url(for endPoint: Detail, with parameters: [String: Any]? = nil) -> String {
+        let base = baseURL + endPoint.rawValue
+        return build(url: base, parameters: parameters)
+    }
+    
+    static func url(for endPoint: Review, with parameters: [String: Any]? = nil) -> String {
+        let base = baseURL + endPoint.rawValue
+        return build(url: base, parameters: parameters)
+    }
+    
+    static func url(for endPoint: Mypage, with parameters: [String: Any]? = nil) -> String {
         let base = baseURL + endPoint.rawValue
         return build(url: base, parameters: parameters)
     }
