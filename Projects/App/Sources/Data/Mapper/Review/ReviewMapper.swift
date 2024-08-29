@@ -18,27 +18,27 @@ class ReviewMapper {
             nickname: response.nickname ?? "")
     }
     
-    static func toReviewOffsetResult(response: ReviewListOffsetPageResponseDTO) -> ReviewOffsetPageResult {
-        return ReviewOffsetPageResult(
-            content: (response.content).compactMap { dto in
-                        guard let reviewId = dto.reviewId,
-                              let rating = dto.rating,
-                              let reviewContents = dto.reviewContents,
-                              let regDate = dto.regDate,
-                              let nickname = dto.nickname else {
-                            return nil
-                        }
-                        return ReviewDetailResult(
-                            reviewId: reviewId,
-                            rating: rating,
-                            reviewContents: reviewContents,
-                            regDate: regDate,
-                            nickname: nickname
-                        )
-                    },
-            limit: response.limit ?? 0,
-            offset: response.offset ?? 0)
-    }
+//    static func toReviewOffsetResult(response: ReviewListOffsetPageResponseDTO) -> ReviewOffsetPageResult {
+//        return ReviewOffsetPageResult(
+//            content: (response.content).compactMap { dto in
+//                        guard let reviewId = dto.reviewId,
+//                              let rating = dto.rating,
+//                              let reviewContents = dto.reviewContents,
+//                              let regDate = dto.regDate,
+//                              let nickname = dto.nickname else {
+//                            return nil
+//                        }
+//                        return ReviewDetailResult(
+//                            reviewId: reviewId,
+//                            rating: rating,
+//                            reviewContents: reviewContents,
+//                            regDate: regDate,
+//                            nickname: nickname
+//                        )
+//                    },
+//            limit: response.limit ?? 0,
+//            offset: response.offset ?? 0)
+//    }
 }
 
 //MypageOffsetPageResult ReviewMyMemberResult ReviewDetailByMemberResult

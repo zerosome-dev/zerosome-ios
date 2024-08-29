@@ -23,7 +23,8 @@ final class FilterRepository: FilterRepositoryProtocol {
                 let response: Result<[D2CategoryFilterResponseDTO], NetworkError> = await self.apiService.request(
                     httpMethod: .get,
                     endPoint: APIEndPoint.url(for: .d2CategoryList),
-                    pathParameters: d2CategoryCode
+                    pathParameters: d2CategoryCode,
+                    header: AccountStorage.shared.accessToken ?? ""
                 )
                 
                 switch response {

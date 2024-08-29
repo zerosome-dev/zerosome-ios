@@ -10,6 +10,14 @@ import Foundation
 import Combine
 
 class CategoryFilteredViewModel: ObservableObject {
+    
+    enum Action {
+        case getD2CategoryList
+        case getBrandList
+        case getZeroTagList
+        case getFilterResult
+    }
+    
     @Published var updateToggle: Bool = false
     @Published var update: Update = .latest
     
@@ -23,10 +31,8 @@ class CategoryFilteredViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(
-//        category: String? = nil,
         filterUsecase: FilterUsecase
     ) {
-//        self.category = category
         self.filterUsecase = filterUsecase
     }
     
@@ -48,19 +54,16 @@ class CategoryFilteredViewModel: ObservableObject {
     
     // 필터 결과
     @Published var filteredProducts: [OffsetFilteredProductResult] = []
-    
-    enum Action {
-        case getD2CategoryList
-        case getBrandList
-        case getZeroTagList
-        case getFilterResult
-    }
+}
+
+extension CategoryFilteredViewModel {
     
     func send(action: Action) {
         switch action {
         case .getD2CategoryList:
             print("d2Category 리스트")
             filterUsecase.getD2CategoryList(d2CategoryCode: self.d2CategoryCode)
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
@@ -74,7 +77,6 @@ class CategoryFilteredViewModel: ObservableObject {
                 .store(in: &cancellables)
             
         case .getBrandList:
-            print("브랜드 리스트")
             filterUsecase.getBrandList()
                 .sink { completion in
                     switch completion {
@@ -89,7 +91,6 @@ class CategoryFilteredViewModel: ObservableObject {
                 .store(in: &cancellables)
             
         case .getZeroTagList:
-            print("제로테그 리스트")
             filterUsecase.getZeroTagList()
                 .sink { completion in
                     switch completion {
@@ -125,5 +126,4 @@ class CategoryFilteredViewModel: ObservableObject {
             .store(in: &cancellables)
         }
     }
-    
 }

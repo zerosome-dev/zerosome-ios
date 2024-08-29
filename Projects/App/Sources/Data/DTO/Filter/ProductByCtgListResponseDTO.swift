@@ -23,19 +23,3 @@ struct ProductByCtgResponseDTO: Decodable {
     var rating: Double?
     var reviewCnt: Int?
 }
-
-//struct CtgOffsetPageResponseDTO: Decodable {
-//    var content: [ProductByCtgResponseDTO]
-//    var limit: Int
-//    var offset: Int
-//}
-//
-//struct ProductByCtgResponseDTO: Decodable {
-//    var productId: Int
-//    var image: String?
-//    var brandName: String
-//    var productName: String
-//    var rating: Double?
-//    var reviewCnt: Int
-//}
-
