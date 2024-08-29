@@ -74,24 +74,24 @@ struct CategoryListView: View {
             guard let title = viewModel.category else { return "전체" }
             return title
         case .brand:
-            let count = viewModel.brand.count
-            let brand = viewModel.brand
-            let title = viewModel.brand.isEmpty ? "브랜드"
-            : count == 1 ? brand[0] : "\(brand[0]) 외 \(count)"
+            let count = viewModel.tappedBrandChips.count
+            let brand = viewModel.tappedBrandChips
+            let title = brand.isEmpty ? "브랜드"
+            : count == 1 ? brand[0].name : "\(brand[0].name) 외 \(count)"
             
             return title
         case .zeroTag:
-            let count = viewModel.zeroTag.count
-            let zeroTag = viewModel.zeroTag
+            let count = viewModel.tappedZeroTagChips.count
+            let zeroTag = viewModel.tappedZeroTagChips
             
-            let title = viewModel.zeroTag.isEmpty ? "제로태그"
-            : count == 1 ? zeroTag[0] : "\(zeroTag[0]) 외 \(count)"
+            let title = zeroTag.isEmpty ? "제로태그"
+            : count == 1 ? zeroTag[0].name : "\(zeroTag[0].name) 외 \(count)"
             
             return title
         }
     }
 }
 
-#Preview {
-    CategoryListView(viewModel: CategoryFilteredViewModel(category: ""))
-}
+//#Preview {
+//    CategoryListView(viewModel: CategoryFilteredViewModel(category: ""))
+//}

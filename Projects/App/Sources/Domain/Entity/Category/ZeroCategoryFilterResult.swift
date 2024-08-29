@@ -8,11 +8,19 @@
 
 import Foundation
 
-struct ZeroCategoryFilterResult: Identifiable {
+struct ZeroCategoryFilterResult: ChipRepresentable, Identifiable {
     var zeroCtgCode: String
     var zeroCtgName: String
     
     var id: String {
+        return zeroCtgCode
+    }
+    
+    var name: String {
+        return zeroCtgName
+    }
+    
+    var code: String {
         return zeroCtgCode
     }
 }

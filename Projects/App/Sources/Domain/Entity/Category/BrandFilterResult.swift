@@ -8,11 +8,19 @@
 
 import Foundation
 
-struct BrandFilterResult: Identifiable {
+struct BrandFilterResult: ChipRepresentable, Identifiable {
     var brandCode: String
     var brandName: String
     
     var id: String {
+        return brandCode
+    }
+    
+    var name: String {
+        return brandName
+    }
+    
+    var code: String {
         return brandCode
     }
 }

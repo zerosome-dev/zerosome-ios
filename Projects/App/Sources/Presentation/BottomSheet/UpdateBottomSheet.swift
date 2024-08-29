@@ -44,6 +44,6 @@ struct UpdateBottomSheet: View {
     }
 }
 
-#Preview {
-    UpdateBottomSheet(filterVM: CategoryFilteredViewModel())
-}
+//#Preview {
+//    UpdateBottomSheet(filterVM: CategoryFilteredViewModel())
+//}

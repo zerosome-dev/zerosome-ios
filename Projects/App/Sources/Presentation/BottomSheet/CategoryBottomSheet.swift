@@ -60,6 +60,6 @@ struct CategoryBottomSheet: View {
     }
 }
 
-#Preview {
-    CategoryBottomSheet(viewModel: CategoryFilteredViewModel())
-}
+//#Preview {
+//    CategoryBottomSheet(viewModel: CategoryFilteredViewModel())
+//}

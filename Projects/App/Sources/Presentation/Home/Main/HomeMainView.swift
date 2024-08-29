@@ -49,8 +49,8 @@ struct HomeMainView: View {
                     type: .moreButton
                 )
                 .tap {
-                    guard let totalCode = viewModel.homeCafe.first?.d1CategoryId else { return }
-                    router.navigateTo(.categoryFilter("카페 음료", totalCode, "전체"))
+//                    guard let totalCode = viewModel.homeCafe.first?.d1CategoryId else { return }
+//                    router.navigateTo(.categoryFilter("카페 음료", totalCode, "전체"))
                 }
                 .tapSub {
                     router.navigateTo(.detailMainView(viewModel.tapData))
