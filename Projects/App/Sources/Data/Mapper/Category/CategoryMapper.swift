@@ -28,28 +28,6 @@ class CategoryMapper {
             }
         )
     }
-    
-    static func toBrandResult(response: BrandFilterResponseDTO) -> BrandFilterResult {
-        return BrandFilterResult(
-            brandCode: response.brandCode ?? "",
-            brandName: response.brandName ?? ""
-        )
-    }
-    
-    static func toD2CategoryFilterResult(response: D2CategoryFilterResponseDTO) -> D2CategoryFilterResult {
-        return D2CategoryFilterResult(
-            d2CategoryCode: response.d2CategoryCode ?? "",
-            d2CategoryName: response.d2CategoryName ?? "",
-            noOptionYn: response.noOptionYn ?? false
-        )
-    }
-    
-    static func toZeoTagResult(response: ZeroCategoryFilterResponseDTO) -> ZeroCategoryFilterResult {
-        return ZeroCategoryFilterResult(
-            zeroCtgCode: response.zeroCtgCode ?? "",
-            zeroCtgName: response.zeroCtgName ?? ""
-        )
-    }
 }
 
 

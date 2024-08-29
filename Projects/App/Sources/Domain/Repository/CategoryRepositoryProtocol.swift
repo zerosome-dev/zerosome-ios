@@ -6,8 +6,8 @@
 //  Copyright © 2024 iOS. All rights reserved.
 //
 
-import Combine
 import SwiftUI
+import Combine
 
 protocol CategoryRepositoryProtocol {
     func getCategoryList() -> Future<[D1CategoryResult], NetworkError>

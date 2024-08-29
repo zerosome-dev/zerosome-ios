@@ -8,13 +8,8 @@
 
 import Foundation
 
-struct ProductByCtgListResponseDTO: Decodable {
-    var orderType: String?
-    var brandList: String?
-    var zeroCtgList: String?
-}
-
-struct CtgOffsetPageResponseDTO: Decodable {
+// 하위 카테고리별 상품 목록 조회
+struct OffsetPageResponseDTO: Decodable {
     var content: [ProductByCtgResponseDTO]?
     var limit: Int?
     var offset: Int?
@@ -28,3 +23,19 @@ struct ProductByCtgResponseDTO: Decodable {
     var rating: Double?
     var reviewCnt: Int?
 }
+
+//struct CtgOffsetPageResponseDTO: Decodable {
+//    var content: [ProductByCtgResponseDTO]
+//    var limit: Int
+//    var offset: Int
+//}
+//
+//struct ProductByCtgResponseDTO: Decodable {
+//    var productId: Int
+//    var image: String?
+//    var brandName: String
+//    var productName: String
+//    var rating: Double?
+//    var reviewCnt: Int
+//}
+

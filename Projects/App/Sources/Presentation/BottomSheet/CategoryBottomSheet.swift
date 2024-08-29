@@ -17,32 +17,41 @@ struct CategoryBottomSheet: View {
     
     var body: some View {
         VStack {
-            Text("생수/음료")
+            Text(viewModel.navigationTitle)
                 .applyFont(font: .heading2)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, 24)
             
             LazyVGrid(columns: columns, spacing: 20) {
-                ForEach(ZeroDrinkSampleData.drinkType, id: \.self) { type in
+                ForEach(viewModel.d2CategoryTest, id: \.id) { type in
                     VStack(spacing: 6) {
                         Rectangle()
                             .fill(Color.neutral50)
                             .frame(width: size, height: size)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                             .overlay {
-                                if viewModel.category == type {
+                                if let tappedChips = viewModel.tappedD2CategoryChips, tappedChips.name == type.name {
                                     RoundedRectangle(cornerRadius: 8)
                                         .stroke(Color.primaryFF6972)
                                 }
+                                
+//                                if viewModel.tappedD2CategoryChips == type {
+//                                    RoundedRectangle(cornerRadius: 8)
+//                                        .stroke(Color.primaryFF6972)
+//                                }
                             }
-                        Text(type)
+                        Text(type.name)
                             .foregroundStyle(Color.neutral900)
                             .applyFont(font: .body2)
                     }
                     .onTapGesture {
-                        type == viewModel.category 
-                            ? (viewModel.category = "")
-                            : (viewModel.category = type)
+                        guard var tappedChips = viewModel.tappedD2CategoryChips else { return }
+                        let tapped = TappedChips(name: type.name, code: type.code)
+                        viewModel.tappedD2CategoryChips = tapped
+                        
+//                        type == viewModel.category
+//                            ? (viewModel.category = "")
+//                            : (viewModel.category = type)
                     }
                 }
             }

@@ -14,17 +14,17 @@ struct CategoryFilteredView: View {
     @EnvironmentObject var router: Router
     @ObservedObject var viewModel: CategoryFilteredViewModel
     
-    let type: String
-    let tag: String?
+    let navigationTtile: String
+    let d2CategoryCode: String
     let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
     
     init(
-        type: String,
-        tag: String? = nil,
+        navigationTtile: String,
+        d2CategoryCode: String,
         viewModel: CategoryFilteredViewModel
     ) {
-        self.type = type
-        self.tag = tag
+        self.navigationTtile = navigationTtile
+        self.d2CategoryCode = d2CategoryCode
         self.viewModel = viewModel
     }
     
@@ -63,23 +63,24 @@ struct CategoryFilteredView: View {
         .onAppear {
 //            viewModel.send(action: .getZeroTagList)
 //            viewModel.send(action: .getBrandList)
+//            viewModel.send(action: .getD2CategoryList)
+            viewModel.send(action: .getFilterResult)
         }
         .sheet(isPresented: $viewModel.updateToggle) {
             UpdateBottomSheet(filterVM: viewModel)
                 .presentationDetents([.height(294)])
         }
-        .ZSNavigationBackButtonTitle("생수/음료") {
-            // TODO: - navititle 여기에 type 예정
+        .ZSNavigationBackButtonTitle(self.navigationTtile) {
             router.navigateBack()
         }
         .scrollIndicators(.hidden)
         .onAppear {
-            guard let catergoryTag = tag else { return }
-            viewModel.category = catergoryTag
+            viewModel.d2CategoryCode = d2CategoryCode
+            viewModel.navigationTitle = navigationTtile
         }
     }
 }
 
 #Preview {
-    CategoryFilteredView(type: "생수/음료", tag: "탄산수", viewModel: CategoryFilteredViewModel(filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))))
+    CategoryFilteredView(navigationTtile: "과자/아이스크림", d2CategoryCode: "CTG005", viewModel: CategoryFilteredViewModel(filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))))
 }
