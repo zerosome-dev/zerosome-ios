@@ -10,5 +10,5 @@ import Combine
 import SwiftUI
 
 protocol CategoryRepositoryProtocol {
-    func getCategoryList() async -> Future<[D1CategoryResult], NetworkError>
+    func getCategoryList() -> Future<[D1CategoryResult], NetworkError>
 }

@@ -19,23 +19,23 @@ struct BrandBottomSheet: View {
                 .padding(.vertical ,24)
             
             ScrollView {
-                ChipsContainerView(array: $viewModel.brand, types: ZeroDrinkSampleData.data)
+                ChipsContainerView(tappedChips: $viewModel.tappedBrandChips, types: viewModel.brandTest)
             }
             .scrollIndicators(.hidden)
             
             Spacer()
-            BottomSheetButton(enable: !viewModel.brand.isEmpty)
+            BottomSheetButton(enable: !viewModel.brandTest.isEmpty)
+                .tapResetAction {
+                    viewModel.brandTest = []
+                }
                 .tapApplyAction {
                     viewModel.sheetToggle = nil
-                }
-                .tapResetAction {
-                    viewModel.brand = []
                 }
         }
         .padding(.horizontal, 24)
     }
 }
 
-#Preview {
-    BrandBottomSheet(viewModel: CategoryFilteredViewModel())
-}
+//#Preview {
+//    BrandBottomSheet(viewModel: CategoryFilteredViewModel(categoryUseCase: CategoryUsecase(categoryRepoProtocol: CategoryListRepository(apiService: ApiService()))))
+//}

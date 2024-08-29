@@ -17,7 +17,7 @@ final class CategoryListRepository: CategoryRepositoryProtocol {
         self.apiService = apiService
     }
     
-    func getCategoryList() async -> Future<[D1CategoryResult], NetworkError> {
+    func getCategoryList() -> Future<[D1CategoryResult], NetworkError> {
         return Future { promise in
             Task {
                 let response: Result<[D1CategoryResponseDTO], NetworkError> = await self.apiService.request(
@@ -27,7 +27,7 @@ final class CategoryListRepository: CategoryRepositoryProtocol {
                 
                 switch response {
                 case .success(let data):
-                    let mappedResult = data.map { CategoryMapper.toCategoryList(response: $0) }
+                    let mappedResult = data.map { CategoryMapper.toCategoryResult(response: $0) }
                     promise(.success(mappedResult))
                 case .failure(let failure):
                     debugPrint("CategoryList failure \(failure.localizedDescription)")
@@ -36,5 +36,4 @@ final class CategoryListRepository: CategoryRepositoryProtocol {
             }
         }
     }
-    
 }

@@ -12,7 +12,7 @@ import Combine
 struct CategoryUsecase {
     let categoryRepoProtocol: CategoryRepositoryProtocol
     
-    func getCategoryList() async -> Future<[D1CategoryResult], NetworkError> {
-        return await categoryRepoProtocol.getCategoryList()
+    func getCategoryList() -> Future<[D1CategoryResult], NetworkError> {
+        return categoryRepoProtocol.getCategoryList()
     }
 }

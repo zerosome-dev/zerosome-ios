@@ -19,13 +19,13 @@ struct ZeroTagBottomSheet: View {
                 .padding(.vertical ,24)
             
             ScrollView {
-                ChipsContainerView(array: $viewModel.zeroTag, types: ZeroDrinkSampleData.data)
+                ChipsContainerView(tappedChips: $viewModel.tappedZeroTagChips, types: viewModel.zeroTagTest)
             }
             .scrollIndicators(.hidden)
             Spacer()
-            BottomSheetButton(enable: !viewModel.zeroTag.isEmpty)
+            BottomSheetButton(enable: !viewModel.tappedZeroTagChips.isEmpty)
                 .tapResetAction {
-                    viewModel.zeroTag = []
+                    viewModel.tappedZeroTagChips = []
                 }
                 .tapApplyAction {
                     viewModel.sheetToggle = nil
@@ -35,7 +35,7 @@ struct ZeroTagBottomSheet: View {
     }
 }
 
-#Preview {
-    ZeroTagBottomSheet(viewModel: CategoryFilteredViewModel())
-}
+//#Preview {
+//    ZeroTagBottomSheet(viewModel: CategoryFilteredViewModel())
+//}
 

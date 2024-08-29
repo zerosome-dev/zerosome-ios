@@ -12,7 +12,7 @@ import DesignSystem
 struct CategoryFilteredView: View {
     
     @EnvironmentObject var router: Router
-    @StateObject private var viewModel: CategoryFilteredViewModel
+    @ObservedObject var viewModel: CategoryFilteredViewModel
     
     let type: String
     let tag: String?
@@ -20,11 +20,12 @@ struct CategoryFilteredView: View {
     
     init(
         type: String,
-        tag: String? = nil
+        tag: String? = nil,
+        viewModel: CategoryFilteredViewModel
     ) {
         self.type = type
         self.tag = tag
-        _viewModel = StateObject(wrappedValue: CategoryFilteredViewModel(category: tag ?? "전체"))
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -60,9 +61,10 @@ struct CategoryFilteredView: View {
             }
         }
         .onAppear {
-            print("type check!!!! \(type)🍄🍄🍄🍄🍄")
+//            viewModel.send(action: .getZeroTagList)
+//            viewModel.send(action: .getBrandList)
         }
-        .sheet(isPresented: $viewModel.updateToggle){
+        .sheet(isPresented: $viewModel.updateToggle) {
             UpdateBottomSheet(filterVM: viewModel)
                 .presentationDetents([.height(294)])
         }
@@ -79,5 +81,5 @@ struct CategoryFilteredView: View {
 }
 
 #Preview {
-    CategoryFilteredView(type: "생수/음료", tag: "탄산수")
+    CategoryFilteredView(type: "생수/음료", tag: "탄산수", viewModel: CategoryFilteredViewModel(filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))))
 }
