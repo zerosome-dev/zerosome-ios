@@ -10,14 +10,17 @@ import SwiftUI
 import DesignSystem
 
 struct UserInfoView: View {
+    @ObservedObject var viewModel: MypageViewModel
     let reviewCount: Int = 1
     var nickname: (() -> Void)?
     var action: (() -> Void)?
     
     init(
+        viewModel: MypageViewModel,
         nickname: (() -> Void)? = nil,
         action: (() -> Void)? = nil
     ) {
+        self.viewModel = viewModel
         self.nickname = nickname
         self.action = action
     }
@@ -25,7 +28,7 @@ struct UserInfoView: View {
     var body: some View {
         VStack(spacing: 30) {
             HStack {
-                ZSText("닉네임닉네임닉네임닉네임", fontType: .subtitle1)
+                ZSText(viewModel.userInfo.nickname, fontType: .subtitle1)
                 Spacer()
                 ZSText("닉네임 변경", fontType: .body3, color: Color.neutral600)
                     .padding(.init(top: 6,leading: 10, bottom: 6, trailing: 10))
@@ -36,12 +39,12 @@ struct UserInfoView: View {
                     }
             }
             
-            Text(reviewCount == 0 ? "아직 작성한 리뷰가 없어요" : "작성한 리뷰 (reviewCount)")
+            Text(viewModel.userInfo.rivewCnt == 0 ? "아직 작성한 리뷰가 없어요" : "작성한 리뷰 (reviewCount)")
                 .applyFont(font: .subtitle2)
-                .foregroundStyle(reviewCount == 0 ? Color.neutral800 : Color.white)
+                .foregroundStyle(viewModel.userInfo.rivewCnt == 0 ? Color.neutral800 : Color.white)
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity)
-                .background(reviewCount == 0 ? Color.negative.opacity(0.1) : Color.primaryFF6972)
+                .background(viewModel.userInfo.rivewCnt == 0 ? Color.primaryFF6972.opacity(0.1) : Color.primaryFF6972)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .onTapGesture {
                     action?()
@@ -66,5 +69,5 @@ extension UserInfoView {
 }
 
 #Preview {
-    UserInfoView()
+    UserInfoView(viewModel: MypageViewModel(mypageUseCase: MypageUsecase(mypageRepoProtocol: MypageRepository(apiService: ApiService()))))
 }

@@ -196,6 +196,11 @@ final class ApiService {
             
             do {
                 let result = try JSONDecoder().decode(Response<T>.self, from: data)
+                
+                if T.self == Void.self {
+                    return .success(() as! T)
+                }
+                
                 debugPrint("🚨🚨 <<<Network Data>>> 🚨🚨 \(result)")
                 
                 guard let data = result.data else {

@@ -21,7 +21,7 @@ final class Router: ObservableObject {
         case creatReview(ReviewEntity) // proudct it, name, brand
         case mypageReviewList
         case myReivew
-        case mypgaeNickname
+        case mypgaeNickname(String) // nickname
         case report
     }
     
@@ -58,7 +58,7 @@ final class Router: ObservableObject {
         case .myReivew:
             MyReivewView()
         
-        case .mypgaeNickname:
+        case .mypgaeNickname(let nickname):
             ChangeNicknameView()
         
         case .report:
