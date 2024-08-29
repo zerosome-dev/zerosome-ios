@@ -61,10 +61,12 @@ struct CategoryFilteredView: View {
             }
         }
         .onAppear {
+            viewModel.d2CategoryCode = d2CategoryCode
+            viewModel.navigationTitle = navigationTtile
 //            viewModel.send(action: .getZeroTagList)
 //            viewModel.send(action: .getBrandList)
-//            viewModel.send(action: .getD2CategoryList)
-            viewModel.send(action: .getFilterResult)
+            viewModel.send(action: .getD2CategoryList)
+//            viewModel.send(action: .getFilterResult)
         }
         .sheet(isPresented: $viewModel.updateToggle) {
             UpdateBottomSheet(filterVM: viewModel)
@@ -74,10 +76,6 @@ struct CategoryFilteredView: View {
             router.navigateBack()
         }
         .scrollIndicators(.hidden)
-        .onAppear {
-            viewModel.d2CategoryCode = d2CategoryCode
-            viewModel.navigationTitle = navigationTtile
-        }
     }
 }
 

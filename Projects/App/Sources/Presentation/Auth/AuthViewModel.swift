@@ -29,7 +29,7 @@ class AuthViewModel: ObservableObject {
     private let accountUseCase: AccountUseCase
     private let socialUseCase: SocialUsecase
     
-    @Published var authenticationState: AuthenticationState = .initial
+    @Published var authenticationState: AuthenticationState = .signIn 
     @Published var loginAlert: Bool = false
     @Published var loginType: Login?
     @Published var marketingAgreement: Bool = false

@@ -17,7 +17,7 @@ struct ReviewDetailResponseDTO: Decodable {
 }
 
 struct ReviewListOffsetPageResponseDTO {
-    var content: [ReviewDetailResponseDTO]
+    var content: [ReviewDetailResponseDTO]?
     var limit: Int?
     var offset: Int?
 }

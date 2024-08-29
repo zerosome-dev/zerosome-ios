@@ -128,8 +128,3 @@ struct ChipsContainerView<T: ChipRepresentable>: View {
         return tappedChips.contains(chip) ? true : false
     }
 }
-
-//#Preview {
-////    ChipsContainerView(types: ZeroDrinkSampleData.data)
-//    ChipsContainerView(array: <#T##[String]#>, result: <#T##Bool#>, totalHeight: <#T##CGFloat#>, verticalSpacing: <#T##CGFloat#>, horizontalSpacing: <#T##CGFloat#>, types: <#T##[ZeroDrinkSampleData]#>)
-//}

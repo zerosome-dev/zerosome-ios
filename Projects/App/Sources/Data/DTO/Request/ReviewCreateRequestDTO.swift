@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct ReviewCreateRequestDTO: Decodable {
-    var productId: Int?
-    var rating: Double?
-    var contents: String?
+struct ReviewCreateRequest: Encodable {
+    var productId: Int
+    var rating: Double
+    var contents: String
 }

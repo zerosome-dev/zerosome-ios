@@ -91,7 +91,3 @@ struct CategoryListView: View {
         }
     }
 }
-
-//#Preview {
-//    CategoryListView(viewModel: CategoryFilteredViewModel(category: ""))
-//}
