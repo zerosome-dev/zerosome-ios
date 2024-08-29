@@ -48,11 +48,11 @@ struct CategoryListView: View {
                     }
                     .sheet(item: $viewModel.sheetToggle) { category in
                         switch category {
-                        case .brand:
-                            BrandBottomSheet(viewModel: viewModel)
-                                .presentationDetents([.height(540)])
                         case .category:
                             CategoryBottomSheet(viewModel: viewModel)
+                                .presentationDetents([.height(540)])
+                        case .brand:
+                            BrandBottomSheet(viewModel: viewModel)
                                 .presentationDetents([.height(540)])
                         case .zeroTag:
                             ZeroTagBottomSheet(viewModel: viewModel)

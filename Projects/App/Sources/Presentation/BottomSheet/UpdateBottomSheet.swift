@@ -15,6 +15,21 @@ enum Update: String, CaseIterable {
     case lowStar = "별점 낮은순"
     case highReview = "리뷰 많은순"
     case lowReview = "리뷰 적은순"
+    
+    var orderType: String {
+        switch self {
+        case .latest:
+            "RECENT"
+        case .highStar:
+            "REVIEWHIGHT"
+        case .lowStar:
+            "REVIEWLOW"
+        case .highReview:
+            "REVIEWMANY"
+        case .lowReview:
+            "REVIEWFEW"
+        }
+    }
 }
 
 struct UpdateBottomSheet: View {

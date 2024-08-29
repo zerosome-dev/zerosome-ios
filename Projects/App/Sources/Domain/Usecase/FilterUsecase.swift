@@ -23,4 +23,22 @@ struct FilterUsecase {
     func getZeroTagList() -> Future<[ZeroCategoryFilterResult], NetworkError> {
         return filterRepoProtocol.getZeroTagList()
     }
+    
+    func getFilterdProduct(
+        offset: Int?,
+        limit: Int?,
+        d1CategoryCode: String,
+        orderType: String?,
+        brandList: [String?],
+        zeroCtgList: [String?]
+    ) -> Future<[OffsetFilteredProductResult], NetworkError> {
+        return filterRepoProtocol.getFilterdProduct(
+            offset: offset,
+            limit: limit,
+            d1CategoryCode: d1CategoryCode,
+            orderType: orderType,
+            brandList: brandList,
+            zeroCtgList: zeroCtgList
+        )
+    }
 }

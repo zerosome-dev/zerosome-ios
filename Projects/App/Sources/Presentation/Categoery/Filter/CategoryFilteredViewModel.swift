@@ -31,7 +31,6 @@ class CategoryFilteredViewModel: ObservableObject {
     }
     
     // MARK: - 바텀시트 새로 8/28
-    @Published var d2CategoryTest: [D2CategoryFilterResult] = []
     @Published var zeroTagTest: [ZeroCategoryFilterResult] = []
     @Published var d2CategoryCode: String = ""
     @Published var tappedZeroTagChips: [TappedChips] = []
@@ -40,15 +39,40 @@ class CategoryFilteredViewModel: ObservableObject {
     @Published var brandTest: [BrandFilterResult] = []
     @Published var tappedBrandChips: [TappedChips] = []
     
+    // MARK: - 바텀시트 새로 8/29 - 카테고리
+    @Published var d2CategoryTest: [D2CategoryFilterResult] = []
+    @Published var tappedD2CategoryChips: TappedChips?
+    
+    // 넘어오는 데이터
+    @Published var navigationTitle: String = ""
+    
+    // 필터 결과
+    @Published var filteredProducts: [OffsetFilteredProductResult] = []
+    
     enum Action {
+        case getD2CategoryList
         case getBrandList
         case getZeroTagList
-        case getD2CategoryList
         case getFilterResult
     }
     
     func send(action: Action) {
         switch action {
+        case .getD2CategoryList:
+            print("d2Category 리스트")
+            filterUsecase.getD2CategoryList(d2CategoryCode: self.d2CategoryCode)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let failure):
+                        debugPrint("Get D2Category List for Filter Failed \(failure.localizedDescription)")
+                    }
+                } receiveValue: { [weak self] data in
+                    self?.d2CategoryTest = data
+                }
+                .store(in: &cancellables)
+            
         case .getBrandList:
             print("브랜드 리스트")
             filterUsecase.getBrandList()
@@ -78,26 +102,27 @@ class CategoryFilteredViewModel: ObservableObject {
                     self?.zeroTagTest = data
                 }
                 .store(in: &cancellables)
-
-            
-        case .getD2CategoryList:
-            print("d2Category 리스트")
-            filterUsecase.getD2CategoryList(d2CategoryCode: self.d2CategoryCode)
-                .sink { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let failure):
-                        debugPrint("Get D2Category List for Filter Failed \(failure.localizedDescription)")
-                    }
-                } receiveValue: { [weak self] data in
-                    self?.d2CategoryTest = data
-                }
-                .store(in: &cancellables)
-
             
         case .getFilterResult:
             print("필터 결과 리스트")
+            filterUsecase.getFilterdProduct(
+                offset: nil,
+                limit: nil,
+                d1CategoryCode: d2CategoryCode,
+                orderType: update.orderType,
+                brandList: tappedBrandChips.map({ $0.code }),
+                zeroCtgList: tappedZeroTagChips.map({ $0.code })
+            )
+            .sink { completion in
+                switch completion {
+                case .finished: break
+                case .failure(let failure):
+                    debugPrint("하위 카테고리별 상품 목록 조회 실패 > \(failure.localizedDescription)")
+                }
+            } receiveValue: { [weak self] data in
+                self?.filteredProducts = data
+            }
+            .store(in: &cancellables)
         }
     }
     

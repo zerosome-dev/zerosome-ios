@@ -28,7 +28,7 @@ final class FilterRepository: FilterRepositoryProtocol {
                 
                 switch response {
                 case .success(let data):
-                    let mappedResult = data.map { CategoryMapper.toD2CategoryFilterResult(response: $0) }
+                    let mappedResult = data.map { FilterMapper.toD2CategoryFilterResult(response: $0) }
                     promise(.success(mappedResult))
                 case .failure(let failure):
                     debugPrint("CategoryFilter Failure \(failure.localizedDescription)")
@@ -48,7 +48,7 @@ final class FilterRepository: FilterRepositoryProtocol {
                 
                 switch response {
                 case .success(let success):
-                    let mappedResult = success.map { CategoryMapper.toBrandResult(response: $0) }
+                    let mappedResult = success.map { FilterMapper.toBrandResult(response: $0) }
                     promise(.success(mappedResult))
                 case .failure(let failure):
                     debugPrint("Brand List Filter Failure \(failure.localizedDescription)")
@@ -69,10 +69,40 @@ final class FilterRepository: FilterRepositoryProtocol {
                 
                 switch response {
                 case .success(let success):
-                    let mappedResult = success.map { CategoryMapper.toZeoTagResult(response: $0) }
+                    let mappedResult = success.map { FilterMapper.toZeroTagResult(response: $0) }
                     promise(.success(mappedResult))
                 case .failure(let failure):
                     debugPrint("ZeroTag List Filter Failure \(failure.localizedDescription)")
+                    promise(.failure(NetworkError.response))
+                }
+            }
+        }
+    }    
+    
+    func getFilterdProduct(offset: Int?, limit: Int?, d1CategoryCode: String, orderType: String?, brandList: [String?], zeroCtgList: [String?]) -> Future<[OffsetFilteredProductResult], NetworkError> {
+        let parameters: [String : Int?] = ["offset" : offset ?? 0, "limit" : limit ?? 10]
+        
+        return Future { promise in
+            Task {
+                let response: Result<[OffsetPageResponseDTO], NetworkError> = await self.apiService.request(
+                    httpMethod: .post,
+                    endPoint: APIEndPoint.url(for: .filteredProduct),
+                    queryParameters: parameters,
+                    pathParameters: d1CategoryCode,
+                    body: ProductByCtgListRequest(
+                        orderType: orderType,
+                        brandList: brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
+                        zeroCtgList: zeroCtgList.compactMap({ $0 }).isEmpty ? nil : zeroCtgList.compactMap({ $0 })
+                    )
+                )
+                
+                switch response {
+                case .success(let success):
+                    print("성공????????🩵")
+                    let mappedResult = success.map { FilterMapper.toFilteredProductResult(response: $0) }
+                    promise(.success(mappedResult))
+                case .failure(let failure):
+                    debugPrint("Get Filtered ProudctList Failure \(failure.localizedDescription)")
                     promise(.failure(NetworkError.response))
                 }
             }
