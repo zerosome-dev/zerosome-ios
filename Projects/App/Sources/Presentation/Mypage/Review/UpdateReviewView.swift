@@ -74,7 +74,7 @@ struct UpdateReviewView: View {
             }
             .scrollIndicators(.hidden)
             .ZSNavigationBackButtonTitle("리뷰 수정") {
-                router.navigateTo(.myReivew)
+                router.navigateBack()
             }
         }
         .ZAlert(isShowing: $isAlert,

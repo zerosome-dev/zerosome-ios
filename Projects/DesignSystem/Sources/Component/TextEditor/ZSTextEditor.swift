@@ -12,15 +12,18 @@ public struct ZSTextEditor: View {
     @Binding public var content: String
     public let placeholder: String
     public let maxCount: Int
+    public let disable: Bool
     
     public init(
         content: Binding<String>,
         placeholder: String,
-        maxCount: Int
+        maxCount: Int,
+        disable: Bool = false
     ) {
         self._content = content
         self.placeholder = placeholder
         self.maxCount = maxCount
+        self.disable = disable
     }
     
     public var body: some View {
@@ -43,6 +46,7 @@ public struct ZSTextEditor: View {
                     .onReceive(content.publisher.collect(), perform: { input in
                         content = String(input.prefix(maxCount))
                     })
+                    .disabled(disable)
                 
                 ZSText("\(content.count)/\(maxCount)", fontType: .body4)
                     .frame(maxWidth: .infinity, alignment: .trailing)

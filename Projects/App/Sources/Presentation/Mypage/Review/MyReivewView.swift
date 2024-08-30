@@ -8,30 +8,38 @@
 
 import SwiftUI
 import DesignSystem
+import Kingfisher
 
+class MyReivewViewModel: ObservableObject {
+    @Published var review: ReviewDetailByMemberResult
+    @Published var isPresented: Bool = false
+    @Published var isAlert: Bool = false
+    
+    init(review: ReviewDetailByMemberResult) {
+        self.review = review
+    }
+}
 struct MyReivewView: View {
     
-    let data = SampleProduct.sampleProduct
-    @State private var text: String = ""
-    @State private var dynamicHeight: CGFloat = 100
-    @State private var starCounting: Int = 0
+    @EnvironmentObject var router: Router
+    @ObservedObject var viewModel: MyReivewViewModel
     @State private var isPresented: Bool = false
     @State private var isAlert: Bool = false
-    @EnvironmentObject var router: Router
     
     var body: some View {
         ScrollView {
             VStack(spacing: 30) {
-                Rectangle()
-                    .fill(Color.neutral100)
+                KFImage(URL(string: viewModel.review.productImage))
+                    .resizable()
                     .frame(width: 240, height: 240)
                     .padding(.top, 10)
                 
                 VStack(spacing: 6) {
-                    ZSText("[\(data.brand)]", fontType: .body2, color: Color.neutral500)
-                    ZSText(data.name, fontType: .subtitle1, color: Color.neutral900)
+                    ZSText(viewModel.review.brand, fontType: .body2, color: Color.neutral500)
+                    ZSText(viewModel.review.productName, fontType: .subtitle1, color: Color.neutral900)
                         .lineLimit(1)
-                } .padding(.horizontal, 22)
+                } 
+                .padding(.horizontal, 22)
                 
                 DivideRectangle(height: 1, color: Color.neutral100)
                 
@@ -41,25 +49,26 @@ struct MyReivewView: View {
                     
                     HStack(spacing: 2) {
                         ForEach(1...5, id: \.self) { index in
-                            (index <= starCounting ? ZerosomeAsset.ic_star_fill : ZerosomeAsset.ic_star_empty)
+                            (index <= Int(viewModel.review.rating) 
+                             ? ZerosomeAsset.ic_star_fill
+                             : ZerosomeAsset.ic_star_empty)
                                 .resizable()
                                 .frame(width: 36, height: 36)
                                 .onTapGesture {
-                                    starCounting = index
+                                    viewModel.review.rating = Double(index)
                                 }
                         }
                     }
                 }
                 
-                DynamicHeightTextEditor(text: $text, dynamicHeight: $dynamicHeight,
-                                        initialHeight: 100, radius: 10,
-                                        font: .body2, backgroundColor: Color.white,
-                                        fontColor: Color.neutral700,
-                                        placeholder: "리뷰를 남겨주세요",
-                                        placeholderColor: Color.neutral300).padding(.horizontal, 22)
+                ZSTextEditor(
+                    content: $viewModel.review.reviewContents,
+                    placeholder: "제품에 대한 의견을 자유롭게 남겨주세요",
+                    maxCount: 1000,
+                    disable: true
+                )
                 
-                
-                
+                .padding(.horizontal, 22)
             }
         }
         .scrollIndicators(.hidden)
@@ -68,16 +77,18 @@ struct MyReivewView: View {
         .ZSNavigationDoubleButton("내가 작성한 리뷰") {
             router.navigateBack()
         } rightAction: {
-            isPresented.toggle()
+            viewModel.isPresented.toggle()
         }
-        .ZAlert(isShowing: $isAlert,
-                type: .doubleButton(title: "리뷰를 삭제할까요?",
-                                    LButton: "닫기",
-                                    RButton: "삭제하기"),
-                leftAction: {
-            isAlert = false
+        .ZAlert(isShowing: $viewModel.isAlert,
+                type: .doubleButton(
+                    title: "리뷰를 삭제할까요?",
+                    LButton: "닫기",
+                    RButton: "삭제하기"
+                ),
+        leftAction: {
+            viewModel.isAlert = false
         }, rightAction: {
-            isAlert = false
+            viewModel.isAlert = false
             router.replaceNavigationStack(.mypageReviewList)
         })
     }
@@ -86,19 +97,25 @@ struct MyReivewView: View {
         MypagePopup()
             .tapRemove {
                 print("리뷰 삭제")
-                isPresented = false
-                isAlert = true
+                viewModel.isPresented = false
+                viewModel.isAlert = true
             }
             .tapUpdate {
                 print("리뷰 수정")
-                isPresented = false
+                viewModel.isPresented = false
                 router.navigateTo(.mypageReviewList)
             }
-            .opacity(isPresented ? 1 : 0)
+            .opacity(viewModel.isPresented ? 1 : 0)
             .offset(x: -22)
     }
 }
 
 #Preview {
-    MyReivewView()
+    MyReivewView(viewModel: MyReivewViewModel(review: ReviewDetailByMemberResult(reviewId: 12,
+                                                                                 rating: 3.7,
+                                                                                 reviewContents: "reviewContents",
+                                                                                 brand: "brand",
+                                                                                 productName: "productname",
+                                                                                 productImage: "image",
+                                                                                 regDate: "date")))
 }

@@ -63,9 +63,10 @@ struct CategoryFilteredView: View {
         .onAppear {
             viewModel.d2CategoryCode = d2CategoryCode
             viewModel.navigationTitle = navigationTtile
+            print("💥 \(viewModel.d2CategoryCode)")
+            viewModel.send(action: .getD2CategoryList)
 //            viewModel.send(action: .getZeroTagList)
 //            viewModel.send(action: .getBrandList)
-            viewModel.send(action: .getD2CategoryList)
 //            viewModel.send(action: .getFilterResult)
         }
         .sheet(isPresented: $viewModel.updateToggle) {

@@ -20,7 +20,7 @@ final class Router: ObservableObject {
         case reviewList
         case creatReview(ReviewEntity) // proudct it, name, brand
         case mypageReviewList
-        case myReivew
+        case myReivew(ReviewDetailByMemberResult)
         case mypgaeNickname(String) // nickname
         case report
     }
@@ -53,10 +53,14 @@ final class Router: ObservableObject {
             CreateReviewView(data: data)
         
         case .mypageReviewList:
-            MyReviewsListView()
+            let reviewRepo = ReviewRepository(apiService: apiService)
+            let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
+            let viewModel = MyReviewsListViewModel(reviewUsecase: reviewUsecase)
+            MyReviewsListView(viewModel: viewModel)
         
-        case .myReivew:
-            MyReivewView()
+        case .myReivew(let review):
+            let viewModel = MyReivewViewModel(review: review)
+            MyReivewView(viewModel: viewModel)
         
         case .mypgaeNickname(let nickname):
             ChangeNicknameView()

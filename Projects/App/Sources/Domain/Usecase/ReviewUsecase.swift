@@ -1,0 +1,20 @@
+//
+//  ReviewUsecase.swift
+//  App
+//
+//  Created by 박서연 on 2024/08/30.
+//  Copyright © 2024 iOS. All rights reserved.
+//
+
+import Combine
+
+struct ReviewUsecase {
+    
+    let reviewProtocol: ReviewRepositoryProtocol
+    
+    func getMyReviewList(offset: Int?, limit: Int?) -> Future<[MypageOffsetPageResult], NetworkError> {
+        return reviewProtocol.getMyReviewList(offset: offset, limit: limit)
+    }
+    
+    
+}

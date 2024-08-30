@@ -24,7 +24,7 @@ final class FilterRepository: FilterRepositoryProtocol {
                     httpMethod: .get,
                     endPoint: APIEndPoint.url(for: .d2CategoryList),
                     pathParameters: d2CategoryCode,
-                    header: AccountStorage.shared.accessToken ?? ""
+                    header: AccountStorage.shared.accessToken
                 )
                 
                 switch response {
