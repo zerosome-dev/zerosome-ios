@@ -49,6 +49,7 @@ struct UserInfoView: View {
                 .onTapGesture {
                     action?()
                 }
+                .disabled(viewModel.userInfo.rivewCnt == 0 ? true : false)
         }
         .padding(.horizontal, 22)
     }

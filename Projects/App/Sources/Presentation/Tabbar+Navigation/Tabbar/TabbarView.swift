@@ -14,27 +14,25 @@ struct TabbarView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        HStack {
+        VStack {
             HStack {
                 ForEach(Tabbar.allCases, id: \.self) { item in
-                    VStack(spacing: 5) {
+                    VStack(spacing: 3) {
                         (viewModel.selected == item ? item.image_fill : item.image_default)
-                            .frame(width: 24, height: 24)
-                        Text(item.title)
-                            .applyFont(font: .label1)
-                            .foregroundStyle(viewModel.selected == item ? Color.primaryFF6972 : Color.neutral400)
+                            .resizable()
+                            .frame(width: 22, height: 22)
+                        ZSText(item.title, fontType: .body4, color: viewModel.selected == item
+                               ? Color.primaryFF6972 : Color.neutral400)
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .contentShape(Rectangle())
-                    .padding(.bottom, 10)
                     .onTapGesture {
                         viewModel.selected = item
                     }
                 }
             }
-            .padding(.top, 10)
         }
-        .frame(height: 66) // 30
+        .padding(.top, 5)
         .background(Color.white)
         .shadow(color: .black.opacity(0.03), radius: 1, y: -2.0)
     }

@@ -23,26 +23,3 @@ struct ReviewOffsetPageResult {
     var offset: Int
 }
 
-// MARK: - 마이페이지 리뷰
-struct MypageOffsetPageResult {
-    var content: [ReviewMyMemberResult]
-    var limit: Int
-    var offset: Int
-}
-
-struct ReviewMyMemberResult {
-    var memberId: Int
-    var nickname: String
-    var reviewCnt: Int
-    var reviewList: [ReviewDetailByMemberResult]
-}
-
-struct ReviewDetailByMemberResult {
-    var reviewId: Int
-    var rating: Float
-    var reviewContesnt: String
-    var brand: String
-    var productName: String
-    var proudctImage: String
-    var regData: String
-}

@@ -9,22 +9,22 @@
 import Foundation
 
 // 마이페이지 > 유저 작성 리뷰 목록 조회 DTO
-struct MypageOffsetPageResponseDTO {
-    var content: [ReviewByMemberResponseDTO]?
+struct MypageOffsetPageResponseDTO: Decodable {
+    var content: ReviewByMemberResponseDTO?
     var limit: Int?
     var offset: Int?
 }
 
-struct ReviewByMemberResponseDTO {
+struct ReviewByMemberResponseDTO: Decodable {
     var memberId: Int?
     var nickname: String?
     var reviewCnt: Int?
     var reviewList: [ReviewDetailByMemberResponseDTO]?
 }
 
-struct ReviewDetailByMemberResponseDTO {
+struct ReviewDetailByMemberResponseDTO: Decodable {
     var reviewId: Int?
-    var rating: Float?
+    var rating: Double?
     var reviewContents: String?
     var brand: String?
     var productName: String?

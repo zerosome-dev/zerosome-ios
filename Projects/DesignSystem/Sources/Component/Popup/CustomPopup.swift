@@ -39,6 +39,9 @@ public struct ZeroAlertViewModifier: ViewModifier {
             ZStack {
                 Color.black.opacity(0.36)
                     .ignoresSafeArea()
+                    .onTapGesture {
+                        isShowing = false
+                    }
                 
                 switch type {
                 case .firstButton(let title, let button):

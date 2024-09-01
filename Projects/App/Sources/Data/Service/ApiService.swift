@@ -191,14 +191,17 @@ final class ApiService {
                 }
             } catch {
                 debugPrint("🚨🚨 <<<JSON Serialization Error>>> 🚨🚨 \(error.localizedDescription)")
-                return .failure(NetworkError.decode)
+//                return .failure(NetworkError.decode)
             }
             
             do {
                 let result = try JSONDecoder().decode(Response<T>.self, from: data)
                 
-                if T.self == Void.self {
-                    return .success(() as! T)
+                if T.self == NoneDecodeResponse.self {
+                    guard let nonData = result.data else {
+                        return .failure(NetworkError.response)
+                    }
+                    return .success(nonData)
                 }
                 
                 debugPrint("🚨🚨 <<<Network Data>>> 🚨🚨 \(result)")
@@ -213,6 +216,22 @@ final class ApiService {
                 debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")
                 return .failure(NetworkError.decode)
             }
+            
+            //            do {
+            //                let result = try JSONDecoder().decode(Response<T>.self, from: data)
+            //                guard let data = result.data else {
+            //                    return .failure(NetworkError.decode)
+            //                }
+            //                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
+            //                return .success(data)
+            //            } catch {
+            //                debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")
+            //                return .failure(NetworkError.decode)
+            //            }
+            //        } catch {
+            //            debugPrint("🚨🚨 <<< Network Error >>> 🚨🚨 \(error.localizedDescription)")
+            //            return .failure(NetworkError.apiError)
+            //        }
         } catch {
             debugPrint("🚨🚨 <<< Network Error >>> 🚨🚨 \(error.localizedDescription)")
             return .failure(NetworkError.apiError)
@@ -220,6 +239,77 @@ final class ApiService {
     }
 }
 
+
+extension ApiService {
+    func noneDecodeRequest (
+        httpMethod: ApiMethod,
+        endPoint: String,
+        header: String? = nil
+    ) async -> Result<Bool, NetworkError> {
+        
+        guard var url = URL(string: endPoint) else {
+            return .failure(NetworkError.urlError)
+        }
+        
+        debugPrint("🚨🚨 <<<URL>>> \(url) 🚨🚨")
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.rawValue
+        
+        if let header = header {
+            urlRequest.allHTTPHeaderFields = createHeaders(token: header)
+            debugPrint("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                return .failure(NetworkError.response)
+            }
+            
+            print("😈😈 STATUS CODE \(statusCode) 😈😈")
+            let range = 200..<300
+            guard range.contains(statusCode) else {
+                return .failure(NetworkError.statusError)
+            }
+
+//            do {
+//                let jsonObject = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+//                debugPrint("🚨🚨 <<<JSON Data>>> 🚨🚨 \(jsonObject)")
+//                
+//                if let jsonDict = jsonObject as? [String: Any],
+//                   let dataDict = jsonDict["data"] as? [String: Any],
+//                   let contentArray = dataDict["content"] as? [[String: Any]] {
+//                    for item in contentArray {
+//                        print("Item: \(item)")
+//                    }
+//                } else {
+//                    print("Content is empty or not a dictionary array.")
+//                }
+//            } catch {
+//                debugPrint("🚨🚨 <<<JSON Serialization Error>>> 🚨🚨 \(error.localizedDescription)")
+//            }
+            
+            do {
+                let result = try JSONDecoder().decode(Response<NoneDecodeResponse>.self, from: data)
+
+                guard let data = result.data else {
+                    print("🩵🩵🩵Decoding success > Data 결과 NULL > 성공🩵🩵🩵")
+                    return .success(true)
+                }
+                
+                return .failure(NetworkError.decode)
+            } catch {
+                debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")
+                return .failure(NetworkError.decode)
+            }
+        } catch {
+            debugPrint("🚨🚨 <<< Network Error >>> 🚨🚨 \(error.localizedDescription)")
+            return .failure(NetworkError.apiError)
+        }
+    }
+}
 extension ApiService {
     
     private func createHeaders(token: String) -> [String : String] {

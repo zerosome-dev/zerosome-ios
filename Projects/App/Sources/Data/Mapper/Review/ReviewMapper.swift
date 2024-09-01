@@ -18,27 +18,29 @@ class ReviewMapper {
             nickname: response.nickname ?? "")
     }
     
-//    static func toReviewOffsetResult(response: ReviewListOffsetPageResponseDTO) -> ReviewOffsetPageResult {
-//        return ReviewOffsetPageResult(
-//            content: (response.content).compactMap { dto in
-//                        guard let reviewId = dto.reviewId,
-//                              let rating = dto.rating,
-//                              let reviewContents = dto.reviewContents,
-//                              let regDate = dto.regDate,
-//                              let nickname = dto.nickname else {
-//                            return nil
-//                        }
-//                        return ReviewDetailResult(
-//                            reviewId: reviewId,
-//                            rating: rating,
-//                            reviewContents: reviewContents,
-//                            regDate: regDate,
-//                            nickname: nickname
-//                        )
-//                    },
-//            limit: response.limit ?? 0,
-//            offset: response.offset ?? 0)
-//    }
+    static func toMyReviewOffsetResult(response: MypageOffsetPageResponseDTO) -> MypageOffsetPageResult {
+        let content = response.content.map { dto in
+            ReviewByMemberResult(
+                memberId: dto.memberId ?? 0,
+                nickname: dto.nickname ?? "",
+                reviewCnt: dto.reviewCnt ?? 0,
+                reviewList: (dto.reviewList ?? []).compactMap { dto in
+                    ReviewDetailByMemberResult(
+                        reviewId: dto.reviewId ?? 0,
+                        rating: dto.rating ?? 0.0,
+                        reviewContents: dto.reviewContents ?? "",
+                        brand: dto.brand ?? "",
+                        productName: dto.productName ?? "",
+                        productImage: dto.productImage ?? "",
+                        regDate: dto.regDate ?? "")
+                }
+            )
+        } ?? ReviewByMemberResult(memberId: 0, nickname: "", reviewCnt: 0, reviewList: [])
+        
+        return MypageOffsetPageResult(
+            content: content,
+            limit: response.limit ?? 10,
+            offset: response.offset ?? 0
+        )
+    }
 }
-
-//MypageOffsetPageResult ReviewMyMemberResult ReviewDetailByMemberResult
