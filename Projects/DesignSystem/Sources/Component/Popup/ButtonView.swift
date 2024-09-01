@@ -50,14 +50,6 @@ public struct FirstButtonView: View {
     }
 }
 
-public extension FirstButtonView {
-    func tapButton(leftAction: @escaping (() -> Void)) -> Self {
-        var copy = self
-        copy.leftAction = leftAction
-        return copy
-    }
-}
-
 public struct DoubleButtonView: View {
     public let title: String
     public let LButton: String
@@ -100,15 +92,97 @@ public struct DoubleButtonView: View {
     }
 }
 
-public extension DoubleButtonView {
-    func tapLeft(leftAction: @escaping (() -> Void)) -> Self {
-        var copy = self
-        copy.leftAction = leftAction
-        return copy
+public struct ContentDButton: View {
+    public let title: String
+    public let LButton: String
+    public let RButton: String
+    public let leftAction: (() -> ())?
+    public let rightAction: (() -> ())?
+    public let content: String
+    
+    public init(title: String,
+         LButton: String,
+         RButton: String,
+         leftAction: (() -> Void)? = nil,
+         rightAction: (() -> Void)? = nil,
+         content: String
+    ) {
+        self.title = title
+        self.LButton = LButton
+        self.RButton = RButton
+        self.leftAction = leftAction
+        self.rightAction = rightAction
+        self.content = content
     }
-    func tapRight(rightAction: @escaping (() -> Void)) -> Self {
-        var copy = self
-        copy.rightAction = rightAction
-        return copy
+    
+    public var body: some View {
+        VStack(spacing: 16) {
+            ZSText(title, fontType: .heading2)
+                .padding(.top, 16)
+            
+            ZSText(content, fontType: .body2, color: Color.neutral800)
+                .multilineTextAlignment(.center)
+            
+            HStack(spacing: 12) {
+                ZSText(LButton, fontType: .subtitle1, color: Color.neutral600)
+                    .frame(maxWidth: .infinity)
+                    .onTapGesture { leftAction?() }
+                    .modifier(AlertModifier(
+                        backgroundColor: Color.neutral100,
+                        foregroundColor: Color.neutral500)
+                    )
+                
+                ZSText(RButton, fontType: .subtitle1, color: Color.white)
+                    .frame(maxWidth: .infinity)
+                    .onTapGesture { rightAction?() }
+                    .modifier(AlertModifier(
+                        backgroundColor: Color.primaryFF6972,
+                        foregroundColor: Color.white)
+                    )
+            }.padding(.top, 16)
+        }
+        .padding(16)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+}
+
+public struct SingleDButton: View {
+    public let title: String
+    public let LButton: String
+    public let content: String
+    public let leftAction: (() -> ())?
+    
+    public init(title: String,
+         LButton: String,
+         content: String,
+         leftAction: (() -> Void)? = nil
+    ) {
+        self.title = title
+        self.LButton = LButton
+        self.content = content
+        self.leftAction = leftAction
+    }
+    
+    public var body: some View {
+        VStack(spacing: 16) {
+            ZSText(title, fontType: .heading2)
+                .padding(.top, 16)
+            
+            ZSText(content, fontType: .body2, color: Color.neutral800)
+                .multilineTextAlignment(.center)
+            
+            ZSText(LButton, fontType: .subtitle1, color: Color.white)
+                .frame(maxWidth: .infinity)
+                .onTapGesture { leftAction?() }
+                .modifier(AlertModifier(
+                    backgroundColor: Color.primaryFF6972,
+                    foregroundColor: Color.white)
+                )
+                .padding(.top, 16)
+        }
+        .padding(16)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }

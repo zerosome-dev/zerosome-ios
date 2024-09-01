@@ -11,49 +11,43 @@ import SwiftUI
 
 struct MypageMainView: View {
     @EnvironmentObject var router: Router
-    @ObservedObject var viewModel: MypageViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
+    @ObservedObject var viewModel: MypageViewModel
+    @EnvironmentObject var popup: PopupAction
     
     var body: some View {
         ScrollView {
             UserInfoView(viewModel: viewModel)
-                .tapAction {
-                    router.navigateTo(.mypageReviewList)
-                }
-                .tapNickname {
-                    router.navigateTo(.mypgaeNickname(viewModel.userInfo.nickname))
-                }
+                .tapAction { router.navigateTo(.mypageReviewList) }
+                .tapNickname { router.navigateTo(.mypgaeNickname(viewModel.userInfo.nickname)) }
                 .padding(.init(top: 24,leading: 0,bottom: 30,trailing: 0))
             
             DivideRectangle(height: 12, color: Color.neutral50)
-            
             MypageInfoView()
             
             HStack {
                 MypageButton(title: "로그아웃")
                     .tap {
                         viewModel.send(.logout)
-                        viewModel.logoutResult = false
+//                        viewModel.logoutResult = false
                     }
                     .onReceive(viewModel.$logoutResult) { result in
-                        accountAction(result: result)
+                        accountAction(result: result, type: .failLogout)
                     }
     
                 MypageButton(title: "회원탈퇴")
                     .tap {
                         viewModel.send(.revoke)
-                        viewModel.logoutResult = false
+//                        viewModel.revokeResult = false
                     }
-                    .onReceive(viewModel.$revokeResult) { result in
-                        accountAction(result: result)
+                    .onReceive(viewModel.$revokeResult) { result in                   accountAction(result: result, type: .failRevoke)
                     }
             }
             .padding(.horizontal, 22)
-            
             Spacer()
         }
         .onAppear {
-//            viewModel.send(.getUserBasicInfo)
+            viewModel.send(.getUserBasicInfo)
         }
 
         .ZSnavigationTitle("마이페이지")
@@ -63,33 +57,19 @@ struct MypageMainView: View {
                 .tint(Color.primaryFF6972)
                 .opacity(viewModel.loading ? 1 : 0)
         }
-        .ZAlert(
-            isShowing: $viewModel.loginPopup, type: .firstButton(
-                title: "로그아웃에 실패했어요.",
-                button: "다시 시도해주세요"
-            ), leftAction:  {
-                viewModel.loginPopup = false
-            }
-        )
-        .ZAlert(
-            isShowing: $viewModel.revokePopup, type: .firstButton(
-                title: "회원탈퇴에 실패했어요.",
-                button: "다시 시도해주세요"
-            ), leftAction:  {
-                viewModel.revokePopup = false
-            }
-        )
     }
     
-    private func accountAction(result: Bool?) {
+    private func accountAction(result: Bool?, type: SinglePopup) {
         DispatchQueue.main.async {
             guard let toggle = result else { return }
+            
             if toggle {
                 authViewModel.authenticationState = .initial
-                debugPrint("revoke success")
+                debugPrint("success")
             } else {
-                viewModel.revokePopup = true
-                debugPrint("revoke fail")
+                debugPrint("fail")
+                popup.settingToggle(type: type)
+                popup.setToggle(for: type, true)
             }
         }
     }

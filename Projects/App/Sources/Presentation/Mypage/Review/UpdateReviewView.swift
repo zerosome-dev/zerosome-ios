@@ -61,28 +61,30 @@ struct UpdateReviewView: View {
                         }
                     }
                     
-                    DynamicHeightTextEditor(text: $text, dynamicHeight: $dynamicHeight,
-                                            initialHeight: 100, radius: 10,
-                                            font: .body2, backgroundColor: Color.white,
-                                            fontColor: Color.neutral700,
-                                            placeholder: "리뷰를 남겨주세요",
-                                            placeholderColor: Color.neutral300).padding(.horizontal, 22)
-                    
-                            
-                   
+                    DynamicHeightTextEditor(
+                        text: $text, dynamicHeight: $dynamicHeight,
+                        initialHeight: 100, radius: 10,
+                        font: .body2, backgroundColor: Color.white,
+                        fontColor: Color.neutral700,
+                        placeholder: "리뷰를 남겨주세요",
+                        placeholderColor: Color.neutral300
+                    )
+                    .padding(.horizontal, 22)
                 }
             }
             .scrollIndicators(.hidden)
             .ZSNavigationBackButtonTitle("리뷰 수정") {
                 router.navigateBack()
             }
+            .padding(.bottom, 52)
         }
-        .ZAlert(isShowing: $isAlert,
-                type: .firstButton(title: "수정이 완료되었어요!", button: "확인"),
-                rightAction:  {
-            isAlert = false
-            router.navigateTo(.reviewList)
-        })
+        // aler 수정 필요
+//        .ZAlert(isShowing: $isAlert,
+//                type: .singleButton(title: "수정이 완료되었어요!", button: "확인"),
+//                rightAction:  {
+//            isAlert = false
+//            router.navigateTo(.reviewList)
+//        })
     }
 }
 #Preview {
