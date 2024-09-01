@@ -12,6 +12,7 @@ import SwiftUI
 struct MypageMainView: View {
     @EnvironmentObject var router: Router
     @ObservedObject var viewModel: MypageViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
         ScrollView {
@@ -27,27 +28,69 @@ struct MypageMainView: View {
             DivideRectangle(height: 12, color: Color.neutral50)
             
             MypageInfoView()
-                .padding(.bottom, 20)
             
             HStack {
                 MypageButton(title: "로그아웃")
                     .tap {
                         viewModel.send(.logout)
+                        viewModel.logoutResult = false
+                    }
+                    .onReceive(viewModel.$logoutResult) { result in
+                        accountAction(result: result)
                     }
     
                 MypageButton(title: "회원탈퇴")
                     .tap {
                         viewModel.send(.revoke)
+                        viewModel.logoutResult = false
+                    }
+                    .onReceive(viewModel.$revokeResult) { result in
+                        accountAction(result: result)
                     }
             }
             .padding(.horizontal, 22)
             
             Spacer()
         }
+        .onAppear {
+//            viewModel.send(.getUserBasicInfo)
+        }
+
         .ZSnavigationTitle("마이페이지")
         .scrollIndicators(.hidden)
-        .onAppear {
-            viewModel.send(.getUserBasicInfo)
+        .overlay {
+            ProgressView()
+                .tint(Color.primaryFF6972)
+                .opacity(viewModel.loading ? 1 : 0)
+        }
+        .ZAlert(
+            isShowing: $viewModel.loginPopup, type: .firstButton(
+                title: "로그아웃에 실패했어요.",
+                button: "다시 시도해주세요"
+            ), leftAction:  {
+                viewModel.loginPopup = false
+            }
+        )
+        .ZAlert(
+            isShowing: $viewModel.revokePopup, type: .firstButton(
+                title: "회원탈퇴에 실패했어요.",
+                button: "다시 시도해주세요"
+            ), leftAction:  {
+                viewModel.revokePopup = false
+            }
+        )
+    }
+    
+    private func accountAction(result: Bool?) {
+        DispatchQueue.main.async {
+            guard let toggle = result else { return }
+            if toggle {
+                authViewModel.authenticationState = .initial
+                debugPrint("revoke success")
+            } else {
+                viewModel.revokePopup = true
+                debugPrint("revoke fail")
+            }
         }
     }
 }

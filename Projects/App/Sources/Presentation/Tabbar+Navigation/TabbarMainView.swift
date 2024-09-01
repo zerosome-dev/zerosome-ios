@@ -7,24 +7,25 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct TabbarMainView: View {
     @StateObject var viewModel = TabbarViewModel()
     let apiService: ApiService
     
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack(alignment: .bottom) {
             TabView(selection: $viewModel.selected) {
                 ForEach(Tabbar.allCases, id: \.self) { tab in
                     tab.view(with: apiService)
                 }
-                .toolbarBackground(.hidden, for: .tabBar)
             }
             TabbarView(viewModel: viewModel)
-//            .overlay(alignment: .bottom) {
-//                TabbarView(viewModel: viewModel)
-//                    .ignoresSafeArea(edges: .bottom)
-//            }
+                .background(ignoresSafeAreaEdges: .bottom)
         }
     }
+}
+
+#Preview {
+    TabbarMainView(apiService: ApiService())
 }

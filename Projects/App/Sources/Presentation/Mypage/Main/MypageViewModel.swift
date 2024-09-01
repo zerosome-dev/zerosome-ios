@@ -24,10 +24,12 @@ class MypageViewModel: ObservableObject {
         self.mypageUseCase = mypageUseCase
     }
     
-    @EnvironmentObject var authViewModel: AuthViewModel
     @Published var userInfo: MemberBasicInfoResult = .init(nickname: "", rivewCnt: 0)
-    @Published var logoutResult: Bool = false
-    @Published var revokeResult: Bool = false
+    @Published var logoutResult: Bool?
+    @Published var revokeResult: Bool?
+    @Published var loginPopup: Bool = false
+    @Published var revokePopup: Bool = false
+    @Published var loading: Bool = false
     
     func send(_ action: Action) {
         switch action {
@@ -49,28 +51,31 @@ class MypageViewModel: ObservableObject {
             
         case .logout:
             print("로그아웃")
+            self.loading = true
             mypageUseCase.logout()
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
                         break
                     case .failure(let failure):
-                        debugPrint("Failed to logout \(failure.localizedDescription)")
+                        debugPrint("Failed to logout...... \(failure.localizedDescription)")
                     }
                 } receiveValue: { result in
                     if result {
                         self.logoutResult = true
-                        self.authViewModel.authenticationState = .initial
                     } else {
                         self.logoutResult = false
                     }
                 }
                 .store(in: &cancellables)
-
+            self.loading = false
             
         case .revoke:
             print("회원탈퇴")
+            self.loading = true
             mypageUseCase.revoke()
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
@@ -81,13 +86,12 @@ class MypageViewModel: ObservableObject {
                 } receiveValue: { result in
                     if result {
                         self.revokeResult = true
-                        self.authViewModel.authenticationState = .initial
                     } else {
                         self.revokeResult = false
                     }
                 }
                 .store(in: &cancellables)
-
+            self.loading = false
         }
     }
     

@@ -16,6 +16,7 @@ class CategoryViewModel: ObservableObject {
         case tapCategoryTitle(D1CategoryResult)
         case tapD2CategoryItem(D1CategoryResult)
         case getBrandNameForCafe(D1CategoryResult)
+        case getEntireCode(D1CategoryResult)
     }
     
     @Published var isNutrients: Bool = false
@@ -74,14 +75,15 @@ extension CategoryViewModel {
                .store(in: &cancellables)
         case .tapCategoryTitle(let d1Category):
             self.filteredTitle = d1Category.d1CategoryName
-            self.entirCode = d1Category.d1CategoryCode
 
         case .tapD2CategoryItem(let d1Category):
             self.filteredTitle = d1Category.d1CategoryName
-            self.entirCode = d1Category.d1CategoryCode
             
         case .getBrandNameForCafe(let d1Category):
             self.brandFilter = d1Category.d2Category.filter { $0.d2CategoryName != "전체" }.map { $0.d2CategoryName }
+            
+        case .getEntireCode(let d1Category):
+            self.entirCode = d1Category.d2Category.filter{ $0.d2CategoryName == "전체" }.map{ $0.d2CategoryCode }.joined()
         }
     }
 }

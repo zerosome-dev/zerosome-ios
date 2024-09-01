@@ -24,10 +24,12 @@ struct CategoryMainView: View {
                 .tapTitle { // 전체 필터로 이동
                     viewModel.send(action: .tapCategoryTitle(d1Category))
                     viewModel.send(action: .getBrandNameForCafe(d1Category))
+                    viewModel.send(action: .getEntireCode(d1Category))
+                    guard let tapD2Category = viewModel.tapD2Category else { return }
                     
                     router.navigateTo(.categoryFilter(
                         viewModel.filteredTitle,
-                        viewModel.entirCode,
+                        tapD2Category.d2CategoryCode,
                         viewModel.brandFilter)
                     )
                 }
@@ -38,11 +40,12 @@ struct CategoryMainView: View {
                     guard let tapD2Category = viewModel.tapD2Category else { return }
                     router.navigateTo(.categoryFilter(
                         viewModel.filteredTitle,
-                        viewModel.entirCode,
+                        tapD2Category.d2CategoryCode,
                         viewModel.brandFilter)
                     )
                 }
             }
+            Spacer()
         }
         .padding(.horizontal, 22)
         .ZSnavigationTitle("카테고리")

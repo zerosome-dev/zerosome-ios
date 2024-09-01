@@ -22,12 +22,12 @@ public struct AlertModifier: ViewModifier {
     }
 }
 
-struct FirstButtonView: View {
-    let title: String
-    let button: String
-    var leftAction: (() -> Void)?
+public struct FirstButtonView: View {
+    public let title: String
+    public let button: String
+    public var leftAction: (() -> Void)?
     
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 32) {
             Text(title)
                 .frame(maxWidth: .infinity)
@@ -50,14 +50,22 @@ struct FirstButtonView: View {
     }
 }
 
-struct DoubleButtonView: View {
-    let title: String
-    let LButton: String
-    let RButton: String
-    var leftAction: (() -> Void)?
-    var rightAction: (() -> Void)?
+public extension FirstButtonView {
+    func tapButton(leftAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.leftAction = leftAction
+        return copy
+    }
+}
 
-    var body: some View {
+public struct DoubleButtonView: View {
+    public let title: String
+    public let LButton: String
+    public let RButton: String
+    public var leftAction: (() -> Void)?
+    public var rightAction: (() -> Void)?
+
+    public var body: some View {
         VStack(spacing: 32) {
             Text(title)
                 .applyFont(font: .heading2)
@@ -89,5 +97,18 @@ struct DoubleButtonView: View {
         .padding(.init(top: 32, leading: 16, bottom: 16, trailing: 16))
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+}
+
+public extension DoubleButtonView {
+    func tapLeft(leftAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.leftAction = leftAction
+        return copy
+    }
+    func tapRight(rightAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.rightAction = rightAction
+        return copy
     }
 }

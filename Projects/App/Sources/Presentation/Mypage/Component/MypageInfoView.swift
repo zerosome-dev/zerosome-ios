@@ -13,12 +13,13 @@ struct MypageInfoView: View {
     var body: some View {
         VStack {
             ForEach(MypageCenter.allCases, id: \.self) { center in
-                Text(center.rawValue)
-                    .applyFont(font: .body3)
-                    .foregroundStyle(Color.neutral300)
+                ZSText(center.rawValue, fontType: .body3, color: Color.neutral300)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 10)
                     .padding(.top, 20)
+                    .onTapGesture {
+                        print("center tapped")
+                    }
                 
                 ForEach(center.type, id: \.self) { type in
                     HStack {

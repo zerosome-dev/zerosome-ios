@@ -40,15 +40,20 @@ final class MypageRepository: MypageRepositoryProtocol {
     func logout() -> Future<Bool, NetworkError> {
         return Future { promise in
             Task {
-                let response: Result<NoneDecodeResponse, NetworkError> = await self.apiService.request(
-                    httpMethod: .delete,
+//                let response: Result<NoneDecodeResponse, NetworkError> = await self.apiService.request(
+//                    httpMethod: .post,
+//                    endPoint: APIEndPoint.url(for: .logout),
+//                    header: AccountStorage.shared.accessToken
+                let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
+                    httpMethod: .post,
                     endPoint: APIEndPoint.url(for: .logout),
                     header: AccountStorage.shared.accessToken
                 )
                 
                 switch response {
                 case .success(let success):
-                    promise(.success(true))
+                    debugPrint("Logout Repo success!!")
+                    promise(.success(success))
                 case .failure(let failure):
                     debugPrint("Failure to Logout!! \(failure.localizedDescription)")
                     promise(.failure(NetworkError.badRequest))
@@ -60,7 +65,7 @@ final class MypageRepository: MypageRepositoryProtocol {
     func revoke() -> Future<Bool, NetworkError> {
         return Future { promise in
             Task {
-                let response: Result<NoneDecodeResponse, NetworkError> = await self.apiService.request(
+                let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
                     httpMethod: .delete,
                     endPoint: APIEndPoint.url(for: .signIn),
                     header: AccountStorage.shared.accessToken
@@ -68,6 +73,7 @@ final class MypageRepository: MypageRepositoryProtocol {
                 
                 switch response {
                 case .success(let success):
+                    debugPrint("reovoke Repo success!!!")
                     promise(.success(true))
                 case .failure(let failure):
                     debugPrint("Failure to Revoke!! \(failure.localizedDescription)")
