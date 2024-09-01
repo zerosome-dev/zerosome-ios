@@ -34,8 +34,6 @@ class AuthViewModel: ObservableObject {
     @Published var loginType: Login?
     @Published var marketingAgreement: Bool = false
     
-    @EnvironmentObject var router: Router
-    
     init (
         accountUseCase: AccountUseCase,
         socialUseCase: SocialUsecase

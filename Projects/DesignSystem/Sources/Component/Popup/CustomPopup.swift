@@ -9,8 +9,10 @@
 import SwiftUI
 
 public enum AlertType {
-    case firstButton(title: String, button: String)
+    case singleButton(title: String, button: String)
     case doubleButton(title: String, LButton: String, RButton: String)
+    case contentSButton(title: String, LButton: String, content: String)
+    case contentDButton(title: String, LButton: String, RButton: String, content: String)
 }
 
 public struct ZeroAlertViewModifier: ViewModifier {
@@ -44,19 +46,41 @@ public struct ZeroAlertViewModifier: ViewModifier {
                     }
                 
                 switch type {
-                case .firstButton(let title, let button):
-                    FirstButtonView(title: title,
-                                    button: button,
-                                    leftAction: leftAction)
-                        .padding(.horizontal, 37)
+                case .singleButton(let title, let button):
+                    FirstButtonView(
+                        title: title,
+                        button: button,
+                        leftAction: leftAction
+                    )
+                    .padding(.horizontal, 37)
                         
                 case .doubleButton(let title, let LButton, let RButton):
-                    DoubleButtonView(title: title,
-                                     LButton: LButton,
-                                     RButton: RButton,
-                                     leftAction: leftAction,
-                                     rightAction: rightAction)
-                        .padding(.horizontal, 37)
+                    DoubleButtonView(
+                        title: title,
+                        LButton: LButton,
+                        RButton: RButton,
+                        leftAction: leftAction,
+                        rightAction: rightAction
+                    )
+                    .padding(.horizontal, 37)
+                    
+                case .contentDButton(let title, let LButton, let RButton, let content):
+                    ContentDButton(
+                        title: title,
+                        LButton: LButton,
+                        RButton: RButton,
+                        content: content
+                    )
+                    .padding(.horizontal, 37)
+                    
+                case .contentSButton(let title, let LButton, let content):
+                    SingleDButton(
+                        title: title,
+                        LButton: LButton,
+                        content: content,
+                        leftAction: leftAction
+                    )
+                    .padding(.horizontal, 37)
                 }
             }
             .opacity(isShowing ? 1 : 0)
