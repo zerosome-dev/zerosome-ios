@@ -28,7 +28,7 @@ final class Router: ObservableObject {
     @Published var path: NavigationPath = NavigationPath()
     @Published var defaultView: Tabbar = .home
     
-    @ViewBuilder func view(for route: Route, with apiService: ApiService) -> some View {
+    @ViewBuilder func view(for route: Route, with apiService: ApiService, toast: ToastAction) -> some View {
         switch route {
         case .tabView:
             TabbarMainView(apiService: apiService)
@@ -43,14 +43,17 @@ final class Router: ObservableObject {
             CategoryFilteredView(navigationTtile: filteredTitle, d2CategoryCode: d2CategoryCode, viewModel: viewModel)
 
         case .detailMainView(let productId):
-            
             DetailMainView(productId: productId)
         
         case .reviewList:
             ReviewListView()
         
         case .creatReview(let data):
-            CreateReviewView(data: data)
+            let reviewRepo = ReviewRepository(apiService: apiService)
+            let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
+            let viewModel = CreateReviewViewModel(reviewUsecase: reviewUsecase)
+//            let viewModel = MyReviewsListViewModel(reviewUsecase: reviewUsecase)
+            CreateReviewView(data: data, viewModel: viewModel)
         
         case .mypageReviewList:
             let reviewRepo = ReviewRepository(apiService: apiService)

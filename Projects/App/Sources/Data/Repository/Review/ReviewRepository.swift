@@ -39,4 +39,26 @@ final class ReviewRepository: ReviewRepositoryProtocol {
             }
         }
     }
+    
+    func postReview(review: ReviewCreateRequest) -> Future<Bool, NetworkError> {
+        return Future { promise in
+            Task {
+                let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
+                    httpMethod: .post,
+                    endPoint: APIEndPoint.url(for: .review),
+                    body: review,
+                    header: AccountStorage.shared.accessToken
+                )
+                
+                switch response {
+                case .success(let success):
+                    debugPrint("리뷰 등록 성공")
+                    promise(.success(success))
+                case .failure(let failure):
+                    debugPrint("리뷰 등록 실패")
+                    promise(.failure(NetworkError.badRequest))
+                }
+            }
+        }
+    }
 }

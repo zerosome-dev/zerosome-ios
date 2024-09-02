@@ -15,6 +15,7 @@ struct DetailMainView: View {
 
     let productId: Int
     @EnvironmentObject var router: Router
+    @EnvironmentObject var toast: ToastAction
     @StateObject private var viewModel = DetailMainViewModel(
         detailUseCase: DetailUsecase(
             detailRepoProtocol: DetailRepository(
@@ -36,6 +37,7 @@ struct DetailMainView: View {
                     print(reviewEntity)
                     router.navigateTo(.creatReview(reviewEntity))
                 }
+                .environmentObject(toast)
                 .padding(.horizontal, 22)
                 .zIndex(1)
             
@@ -79,6 +81,7 @@ struct DetailMainView: View {
                                 guard let reviewEntity = viewModel.reviewEntity else { return }
                                 router.navigateTo(.creatReview(reviewEntity))
                             }
+                        Text("리뷰 수 \(viewModel.dataInfo?.reviewCnt ?? 100)")
                         DivideRectangle(height: 12, color: Color.neutral50)
                             .opacity(viewModel.dataInfo?.reviewThumbnailList == nil ? 0 : 1)
                         SimiliarProductView(viewModel: viewModel)
@@ -86,11 +89,12 @@ struct DetailMainView: View {
                     }
                 }
             }
+            .padding(.bottom, 52)
         }
         .onAppear {
             viewModel.productId = productId
             viewModel.send(action: .fetchData)
-            viewModel.send(action: .tapNutrients)
+//            viewModel.send(action: .tapNutrients)
         }
         .ZSNavigationBackButtonTitle(viewModel.dataInfo?.productName ?? "") {
             router.navigateBack()
@@ -99,5 +103,6 @@ struct DetailMainView: View {
 }
 
 #Preview {
-    DetailMainView(productId: 167)
+    DetailMainView(productId: 207)
+        .environmentObject(ToastAction())
 }

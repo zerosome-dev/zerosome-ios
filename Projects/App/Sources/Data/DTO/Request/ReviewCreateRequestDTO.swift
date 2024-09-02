@@ -10,6 +10,6 @@ import Foundation
 
 struct ReviewCreateRequest: Encodable {
     var productId: Int
-    var rating: Double
+    var rating: Int
     var contents: String
 }

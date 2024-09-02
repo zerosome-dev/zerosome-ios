@@ -7,6 +7,96 @@
 //
 
 import SwiftUI
+import DesignSystem
+
+enum ToastCase {
+    case none
+    case reportToast
+    case modiftyNickname
+    case deleteReview
+    
+    var type: ToastType{
+        switch self {
+        case .none:
+            return .success
+        case .reportToast:
+            return .success
+        case .modiftyNickname:
+            return .success
+        case .deleteReview:
+            return .success
+        }
+    }
+    
+    var desc: String {
+        switch self {
+        case .none:
+            return ""
+        case .reportToast:
+            return "신고 접수가 완료되었습니다."
+        case .modiftyNickname:
+            return "닉네임이 변경되었어요"
+        case .deleteReview:
+            return "리뷰가 삭제되었습니다."
+        }
+    }
+}
+
+final class ToastAction: ObservableObject {
+    
+    @Published var toastToggle: ToastCase = .none
+    
+    @Published var noneToggle: Bool = false
+    @Published var reportToastToggle: Bool = false
+    @Published var modiftyNicknameToggle: Bool = false
+    @Published var deleteReviewToggle: Bool = false
+    
+    func settingToggle(type: ToastCase) {
+        self.toastToggle = type
+    }
+    
+    func setToggle(for type: ToastCase, _ value: Bool) {
+        switch type {
+        case .none:
+            self.noneToggle = value
+        case .reportToast:
+            self.reportToastToggle = value
+        case .modiftyNickname:
+            self.modiftyNicknameToggle = value
+        case .deleteReview:
+            self.deleteReviewToggle = value
+        }
+    }
+    
+    func binding(for type: ToastCase) -> Binding<Bool> {
+        switch type {
+        case .none:
+            return Binding(
+                get: { self.noneToggle },
+                set: { self.noneToggle = $0 }
+                
+            )
+        case .reportToast:
+            return Binding(
+                get: { self.reportToastToggle },
+                set: { self.reportToastToggle = $0 }
+                
+            )
+        case .modiftyNickname:
+            return Binding(
+                get: { self.modiftyNicknameToggle },
+                set: { self.modiftyNicknameToggle = $0 }
+                
+            )
+        case .deleteReview:
+            return Binding(
+                get: { self.deleteReviewToggle },
+                set: { self.deleteReviewToggle = $0 }
+                
+            )
+        }
+    }
+}
 
 final class PopupAction: ObservableObject {
     

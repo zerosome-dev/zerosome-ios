@@ -13,6 +13,8 @@ import KakaoSDKAuth
 @main
 struct ZerosomeApp: App {
     @UIApplicationDelegateAdaptor var delegate: AppDelegate
+    @StateObject var toast = ToastAction()
+    @StateObject var popup = PopupAction()
     
     init() {
         if let kakaoApiKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
@@ -38,6 +40,8 @@ struct ZerosomeApp: App {
                     apiService: apiService
                 )
             }
+            .environmentObject(toast)
+            .environmentObject(popup)
             .onOpenURL(perform: { url in
                 if AuthApi.isKakaoTalkLoginUrl(url) {
                     print(AuthController.handleOpenUrl(url: url))
