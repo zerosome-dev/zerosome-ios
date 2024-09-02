@@ -14,6 +14,7 @@ struct MypageMainView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @ObservedObject var viewModel: MypageViewModel
     @EnvironmentObject var popup: PopupAction
+    @EnvironmentObject var toast: ToastAction
     
     var body: some View {
         ScrollView {
@@ -40,14 +41,20 @@ struct MypageMainView: View {
                         viewModel.send(.revoke)
 //                        viewModel.revokeResult = false
                     }
-                    .onReceive(viewModel.$revokeResult) { result in                   accountAction(result: result, type: .failRevoke)
+                    .onReceive(viewModel.$revokeResult) { result in                   
+                        accountAction(result: result, type: .failRevoke)
                     }
             }
             .padding(.horizontal, 22)
+            Text("toast Message")
+                .onTapGesture {
+                    toast.settingToggle(type: .deleteReview)
+                    toast.setToggle(for: .deleteReview, true)
+                }
             Spacer()
         }
         .onAppear {
-            viewModel.send(.getUserBasicInfo)
+//            viewModel.send(.getUserBasicInfo)
         }
 
         .ZSnavigationTitle("마이페이지")

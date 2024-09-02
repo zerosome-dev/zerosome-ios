@@ -45,7 +45,7 @@ struct ReviewThumbnailDTO: Decodable, Hashable {
     var reviewId: Int?
     var rating: Double?
     var reviewContents: String?
-    var regDate: Date?
+    var regDate: String?
 }
 
 struct SimilarProductDTO: Decodable {

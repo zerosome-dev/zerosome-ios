@@ -19,92 +19,7 @@ enum ApiMethod: String {
 final class ApiService {
     
     init() { }
-    
-//    func request<T: Decodable> (
-//        httpMethod: ApiMethod,
-//        endPoint: String,
-//        queryParameters: Encodable? = nil,
-//        pathParameters: String? = nil,
-//        body: Encodable? = nil,
-//        header: String? = nil
-//    ) async -> Result<T, NetworkError> {
-//
-//        var modifiedEndPoint = endPoint
-//
-//        if let pathParameter = pathParameters {
-//            modifiedEndPoint += "/\(pathParameter)"
-//        }
-//
-//        guard var url = URL(string: modifiedEndPoint) else {
-//            return .failure(NetworkError.urlError)
-//        }
-//
-//        if let parameters = queryParameters {
-//            guard let queryDictionary = try? parameters.toDictionary() else {
-//                return .failure(NetworkError.queryError)
-//            }
-//
-//            var queryItems: [URLQueryItem] = []
-//            queryDictionary.forEach { key, value in
-//                queryItems.append(URLQueryItem(name: key, value: "\(value)"))
-//            }
-//
-//            url.append(queryItems: queryItems)
-//        }
-//
-//        debugPrint("🚨🚨 <<<EndPoint>>> \(modifiedEndPoint) 🚨🚨")
-//        debugPrint("🚨🚨 <<<URL>>> \(url) 🚨🚨")
-//
-//        var urlRequest = URLRequest(url: url)
-//        urlRequest.httpMethod = httpMethod.rawValue
-//
-//        if let header = header {
-//            urlRequest.allHTTPHeaderFields = createHeaders(token: header)
-//            debugPrint("🚨🚨 <<<HTTP HEADERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
-//        }
-//
-//        if let body = body {
-//            do {
-//                let httpBody = try JSONEncoder().encode(body)
-//                urlRequest.httpBody = httpBody
-//                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//                debugPrint("🚨🚨 <<<HTTP BODY>>> \(String(describing: try JSONSerialization.jsonObject(with: httpBody, options: []))) 🚨🚨")
-//            } catch {
-//                return .failure(NetworkError.encode)
-//            }
-//        }
-//
-//        do {
-//            let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-//                return .failure(NetworkError.response)
-//            }
-//
-//            print("😈😈 STATUS CODE \(statusCode) 😈😈")
-//            let range = 200..<300
-//            guard range.contains(statusCode) else {
-//                return .failure(NetworkError.statusError)
-//            }
-//
-//            do {
-//                let result = try JSONDecoder().decode(Response<T>.self, from: data)
-//                guard let data = result.data else {
-//                    return .failure(NetworkError.decode)
-//                }
-//                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
-//                return .success(data)
-//            } catch {
-//                debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")
-//                return .failure(NetworkError.decode)
-//            }
-//        } catch {
-//            debugPrint("🚨🚨 <<< Network Error >>> 🚨🚨 \(error.localizedDescription)")
-//            return .failure(NetworkError.apiError)
-//        }
-//    }
 
-    
     func request<T: Decodable> (
         httpMethod: ApiMethod,
         endPoint: String,
@@ -244,6 +159,7 @@ extension ApiService {
     func noneDecodeRequest (
         httpMethod: ApiMethod,
         endPoint: String,
+        body: Encodable? = nil,
         header: String? = nil
     ) async -> Result<Bool, NetworkError> {
         
@@ -259,6 +175,20 @@ extension ApiService {
         if let header = header {
             urlRequest.allHTTPHeaderFields = createHeaders(token: header)
             debugPrint("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
+        }
+        
+        if let body = body {
+            do {
+                let httpBody = try JSONEncoder().encode(body)
+                urlRequest.httpBody = httpBody
+                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                
+                debugPrint("🚨🚨 <<<HTTP BODY>>> \(body) 🚨🚨")
+                debugPrint("🚨🚨 <<<HTTP HTTPBODY>>> \(httpBody) 🚨🚨")
+                debugPrint("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
+            } catch {
+                return .failure(NetworkError.encode)
+            }
         }
         
         do {
@@ -320,3 +250,88 @@ extension ApiService {
         ]
     }
 }
+
+
+//    func request<T: Decodable> (
+//        httpMethod: ApiMethod,
+//        endPoint: String,
+//        queryParameters: Encodable? = nil,
+//        pathParameters: String? = nil,
+//        body: Encodable? = nil,
+//        header: String? = nil
+//    ) async -> Result<T, NetworkError> {
+//
+//        var modifiedEndPoint = endPoint
+//
+//        if let pathParameter = pathParameters {
+//            modifiedEndPoint += "/\(pathParameter)"
+//        }
+//
+//        guard var url = URL(string: modifiedEndPoint) else {
+//            return .failure(NetworkError.urlError)
+//        }
+//
+//        if let parameters = queryParameters {
+//            guard let queryDictionary = try? parameters.toDictionary() else {
+//                return .failure(NetworkError.queryError)
+//            }
+//
+//            var queryItems: [URLQueryItem] = []
+//            queryDictionary.forEach { key, value in
+//                queryItems.append(URLQueryItem(name: key, value: "\(value)"))
+//            }
+//
+//            url.append(queryItems: queryItems)
+//        }
+//
+//        debugPrint("🚨🚨 <<<EndPoint>>> \(modifiedEndPoint) 🚨🚨")
+//        debugPrint("🚨🚨 <<<URL>>> \(url) 🚨🚨")
+//
+//        var urlRequest = URLRequest(url: url)
+//        urlRequest.httpMethod = httpMethod.rawValue
+//
+//        if let header = header {
+//            urlRequest.allHTTPHeaderFields = createHeaders(token: header)
+//            debugPrint("🚨🚨 <<<HTTP HEADERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
+//        }
+//
+//        if let body = body {
+//            do {
+//                let httpBody = try JSONEncoder().encode(body)
+//                urlRequest.httpBody = httpBody
+//                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//                debugPrint("🚨🚨 <<<HTTP BODY>>> \(String(describing: try JSONSerialization.jsonObject(with: httpBody, options: []))) 🚨🚨")
+//            } catch {
+//                return .failure(NetworkError.encode)
+//            }
+//        }
+//
+//        do {
+//            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+//            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+//                return .failure(NetworkError.response)
+//            }
+//
+//            print("😈😈 STATUS CODE \(statusCode) 😈😈")
+//            let range = 200..<300
+//            guard range.contains(statusCode) else {
+//                return .failure(NetworkError.statusError)
+//            }
+//
+//            do {
+//                let result = try JSONDecoder().decode(Response<T>.self, from: data)
+//                guard let data = result.data else {
+//                    return .failure(NetworkError.decode)
+//                }
+//                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
+//                return .success(data)
+//            } catch {
+//                debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")
+//                return .failure(NetworkError.decode)
+//            }
+//        } catch {
+//            debugPrint("🚨🚨 <<< Network Error >>> 🚨🚨 \(error.localizedDescription)")
+//            return .failure(NetworkError.apiError)
+//        }
+//    }

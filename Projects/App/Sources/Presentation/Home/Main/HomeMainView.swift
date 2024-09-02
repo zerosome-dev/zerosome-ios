@@ -11,6 +11,7 @@ import DesignSystem
 
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
+    @EnvironmentObject var toast: ToastAction
     @ObservedObject var viewModel: HomeMainViewModel
     
     init(viewModel: HomeMainViewModel) {
@@ -36,6 +37,7 @@ struct HomeMainView: View {
                         )
                     )
                 }
+                .environmentObject(toast)
                 .padding(.top, 20)
                 
                 HomeCarouselView(data: viewModel.tobeReleased, viewModel: viewModel)
@@ -49,20 +51,27 @@ struct HomeMainView: View {
                     type: .moreButton
                 )
                 .tap {
+                    // 제목 tab -> 카페음료 전체 카테고리로 이동
+//
+//                    let temp = viewModel.homeCafe.filter { $0.d2CategoryId == "전체" }
+//                        .map { $0.d2CategoryId }.joined()
+//                    print("temp \(temp)")
 //                    guard let totalCode = viewModel.homeCafe.first?.d1CategoryId else { return }
 //                    router.navigateTo(.categoryFilter("카페 음료", totalCode, "전체"))
                 }
                 .tapSub {
+                    print("viewmodel.tapdata \(viewModel.tapData)")
                     router.navigateTo(.detailMainView(viewModel.tapData))
                 }
+                .environmentObject(toast)
             }
         }
         .scrollIndicators(.hidden)
         .ZSmainNaviTitle("ZEROSOME")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-//            viewModel.send(action: .cafe)
-//            viewModel.send(action: .tobeReleased)
+            viewModel.send(action: .cafe)
+            viewModel.send(action: .tobeReleased)
         }
     }
 }

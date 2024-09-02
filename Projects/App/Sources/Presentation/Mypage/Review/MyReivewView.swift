@@ -67,7 +67,6 @@ struct MyReivewView: View {
                     maxCount: 1000,
                     disable: true
                 )
-                
                 .padding(.horizontal, 22)
             }
         }
@@ -111,11 +110,15 @@ struct MyReivewView: View {
 }
 
 #Preview {
-    MyReivewView(viewModel: MyReivewViewModel(review: ReviewDetailByMemberResult(reviewId: 12,
-                                                                                 rating: 3.7,
-                                                                                 reviewContents: "reviewContents",
-                                                                                 brand: "brand",
-                                                                                 productName: "productname",
-                                                                                 productImage: "image",
-                                                                                 regDate: "date")))
+    MyReivewView(viewModel: MyReivewViewModel(
+        review: ReviewDetailByMemberResult(
+            reviewId: 12,
+            rating: 3.7,
+            reviewContents: "reviewContents",
+            brand: "brand",
+            productName: "productname",
+            productImage: "image",
+            regDate: "date")
+    )
+    )
 }

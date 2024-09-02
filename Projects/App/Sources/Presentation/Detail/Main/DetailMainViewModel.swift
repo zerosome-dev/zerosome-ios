@@ -73,14 +73,14 @@ class DetailMainViewModel: ObservableObject {
         case .fetchReviewData:
             guard let data = dataInfo else { return }
             
-            if reviewEntity == nil {
-                reviewEntity = ReviewEntity(
-                    name: data.productName ?? "",
-                    brand: data.brandName ?? "",
-                    productId: data.productId ?? 0,
-                    image: data.image ?? ""
-                )
-            }
+//            if reviewEntity == nil {
+//                reviewEntity = ReviewEntity(
+//                    name: data.productName ?? "",
+//                    brand: data.brandName ?? "",
+//                    productId: data.productId ?? 0.0,
+//                    image: data.image ?? ""
+//                )
+//            }
         }
     }
 }

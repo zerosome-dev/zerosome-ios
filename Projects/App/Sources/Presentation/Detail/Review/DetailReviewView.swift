@@ -69,7 +69,7 @@ struct DetailReviewView: View {
                                         ZSText("\(review.rating ?? 0.0)", fontType: .subtitle2, color: .neutral700)
                                     }
                                     Spacer()
-                                    ZSText("\(review.regDate ?? .now)", fontType: .label2, color: Color.neutral400)
+                                    ZSText("\(review.regDate ?? "")", fontType: .label2, color: Color.neutral400)
                                 }
                                 
                                 Text(review.reviewContents ?? "")

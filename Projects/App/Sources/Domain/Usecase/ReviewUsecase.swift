@@ -16,5 +16,8 @@ struct ReviewUsecase {
         return reviewProtocol.getMyReviewList(offset: offset, limit: limit)
     }
     
+    func postReview(review: ReviewCreateRequest) -> Future<Bool, NetworkError> {
+        return reviewProtocol.postReview(review: review)
+    }
     
 }
