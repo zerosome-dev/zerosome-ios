@@ -19,7 +19,7 @@ class DetailMainViewModel: ObservableObject {
         case fetchReviewData
     }
     
-    @Published var dataInfo: ProductDetailResponseDTO?
+    @Published var dataInfo: ProductDetailResponseResult?
     @Published var productId: Int = 0
     @Published var isNutrients: Bool = false
     @Published var reviewEntity: ReviewEntity?
@@ -55,32 +55,18 @@ class DetailMainViewModel: ObservableObject {
         case .tapNutrients:
             guard let data = dataInfo else { return }
             
-            if nutrientEnity.isEmpty {
-                nutrientEnity = [NutrientEntity]()
-                
-                data.nutrientList?.forEach({ [weak self] value in
-                    let newData = NutrientEntity(
-                        nutrientName: value.nutrientName ?? "",
-                        servings: value.servings ?? 0.0,
-                        amount: value.amount ?? 0.0,
-                        servingsStandard: value.servingsStandard ?? "",
-                        amountStandard: value.amountStandard ?? ""
-                    )
-                    self?.nutrientEnity.append(newData)
-                })
-            }
-            
+            data.nutrientList.forEach({ [weak self] value in
+                let newData = NutrientEntity(
+                    nutrientName: value.nutrientName,
+                    servings: value.servings,
+                    amount: value.amount,
+                    servingsStandard: value.servingsStandard,
+                    amountStandard: value.amountStandard
+                )
+                self?.nutrientEnity.append(newData)
+            })
         case .fetchReviewData:
             guard let data = dataInfo else { return }
-            
-//            if reviewEntity == nil {
-//                reviewEntity = ReviewEntity(
-//                    name: data.productName ?? "",
-//                    brand: data.brandName ?? "",
-//                    productId: data.productId ?? 0.0,
-//                    image: data.image ?? ""
-//                )
-//            }
         }
     }
 }

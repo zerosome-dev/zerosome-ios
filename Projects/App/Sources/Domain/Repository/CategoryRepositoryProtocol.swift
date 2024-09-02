@@ -6,7 +6,6 @@
 //  Copyright © 2024 iOS. All rights reserved.
 //
 
-import SwiftUI
 import Combine
 
 protocol CategoryRepositoryProtocol {
