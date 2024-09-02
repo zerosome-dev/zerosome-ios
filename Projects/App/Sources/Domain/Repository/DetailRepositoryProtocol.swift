@@ -9,5 +9,5 @@
 import Combine
 
 protocol DetailRepositoryProtocol {
-    func getProductDetail(_ productId: Int) async -> Future<ProductDetailResponseDTO ,NetworkError>
+    func getProductDetail(_ productId: Int) async -> Future<ProductDetailResponseResult ,NetworkError>
 }

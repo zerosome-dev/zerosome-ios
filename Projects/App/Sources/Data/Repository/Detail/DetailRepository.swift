@@ -16,7 +16,7 @@ class DetailRepository: DetailRepositoryProtocol {
         self.apiService = apiService
     }
     
-    func getProductDetail(_ productId: Int) async -> Future<ProductDetailResponseDTO, NetworkError> {
+    func getProductDetail(_ productId: Int) async -> Future<ProductDetailResponseResult, NetworkError> {
         return Future { promise in
             Task {
                 let response: Result<ProductDetailResponseDTO, NetworkError> = await self.apiService.request(
@@ -27,7 +27,8 @@ class DetailRepository: DetailRepositoryProtocol {
                 
                 switch response {
                 case .success(let data):
-                    promise(.success(data))
+                    let mappedResult = DetailMapper.toDetailResult(response: data)
+                    promise(.success(mappedResult))
                 case .failure(let failure):
                     print("🏪 제품 상세 실패 \(failure.localizedDescription)")
                     promise(.failure(NetworkError.badRequest))

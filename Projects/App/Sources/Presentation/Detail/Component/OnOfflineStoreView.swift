@@ -10,7 +10,7 @@ import SwiftUI
 import DesignSystem
 
 struct OnlineStoreView: View {
-    let onlineStore: [OnlineStoreDTO]
+    let onlineStore: [OnlineStoreResult]
     
     var body: some View {
         VStack {
@@ -20,7 +20,7 @@ struct OnlineStoreView: View {
             LazyVStack(spacing: 10) {
                 ForEach(onlineStore, id: \.storeCode) { store in
                     HStack {
-                        ZSText(store.storeName ?? "", fontType: .body2, color: Color.neutral600)
+                        ZSText(store.storeName, fontType: .body2, color: Color.neutral600)
                             .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 0))
                             
                         Spacer()
@@ -41,7 +41,7 @@ struct OnlineStoreView: View {
 }
 
 struct OffLineStoreView: View {
-    let offlineStore: [OfflineStoreDTO]
+    let offlineStore: [OfflineStoreResult]
     private let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     
     var body: some View {
@@ -52,7 +52,7 @@ struct OffLineStoreView: View {
         LazyVGrid(columns: columns, spacing: 10) {
             
             ForEach(offlineStore, id: \.storeCode) { value in
-                Text(value.storeName ?? "")
+                Text(value.storeName)
                     .applyFont(font: .body2)
                     .padding(.init(top: 8, leading: 16, bottom: 8, trailing: 16))
                     .foregroundStyle(Color.neutral600)
@@ -67,5 +67,5 @@ struct OffLineStoreView: View {
 }
 
 #Preview {
-    OnlineStoreView(onlineStore: [OnlineStoreDTO(storeCode: "123", storeName: "쿠팡", url: "dd")])
+    OnlineStoreView(onlineStore: [OnlineStoreResult(storeCode: "123", storeName: "쿠팡", url: "dd")])
 }

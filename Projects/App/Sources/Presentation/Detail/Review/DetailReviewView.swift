@@ -45,47 +45,29 @@ struct DetailReviewView: View {
                                 .frame(width: 16, height: 16)
                         }
                     }
-                    .padding(.bottom, 12)
+                    .padding(.init(top: 0, leading: 22, bottom: 12, trailing: 22))
                     .onTapGesture {
                         action?()
                     }
-                    
-                    ReviewScoreComponent(
-                        background: Color.neutral50,
-                        heightPadding: 18,
-                        radius: 8,
-                        review: "\(viewModel.dataInfo?.rating ?? 0.0)",
-                        font: .heading2
-                    )
-                    .padding(.bottom, 8)
-                    
-                    LazyHGrid(rows: Array(rows.prefix(5)), spacing: 10) {
-                        ForEach(viewModel.dataInfo?.reviewThumbnailList ?? [], id: \.reviewId) { review in
-                            
-                            VStack(spacing: 16){
-                                HStack {
-                                    HStack(spacing: 4) {
-                                        StarComponent(rating: review.rating ?? 0.0, size: 16)
-                                        ZSText("\(review.rating ?? 0.0)", fontType: .subtitle2, color: .neutral700)
-                                    }
-                                    Spacer()
-                                    ZSText("\(review.regDate ?? "")", fontType: .label2, color: Color.neutral400)
-                                }
-                                
-                                Text(review.reviewContents ?? "")
-                                    .lineLimit(2)
-                            }
-                            .padding(14)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.neutral100)
-                            }
-                        }
+
+                    VStack(spacing: 20) {
+                        ReviewScoreComponent(
+                            background: Color.neutral50,
+                            heightPadding: 18,
+                            radius: 8,
+                            review: "\(viewModel.dataInfo?.rating ?? 0.0)",
+                            font: .heading2
+                        )
+                        .padding(.horizontal, 22)
+                        
+                        ReviewCarouselView(
+                            data: viewModel.dataInfo?.reviewThumbnailList ?? [],
+                            viewModel: viewModel
+                        )
                     }
                 }
             }
         }
-        .padding(.horizontal, 22)
     }
 }
 

@@ -34,7 +34,6 @@ struct DetailMainView: View {
                 .tap {
                     viewModel.send(action: .fetchReviewData)
                     guard let reviewEntity = viewModel.reviewEntity else { return }
-                    print(reviewEntity)
                     router.navigateTo(.creatReview(reviewEntity))
                 }
                 .environmentObject(toast)
@@ -81,7 +80,8 @@ struct DetailMainView: View {
                                 guard let reviewEntity = viewModel.reviewEntity else { return }
                                 router.navigateTo(.creatReview(reviewEntity))
                             }
-                        Text("리뷰 수 \(viewModel.dataInfo?.reviewCnt ?? 100)")
+                            .frame(height: 246)
+                        
                         DivideRectangle(height: 12, color: Color.neutral50)
                             .opacity(viewModel.dataInfo?.reviewThumbnailList == nil ? 0 : 1)
                         SimiliarProductView(viewModel: viewModel)
@@ -94,7 +94,7 @@ struct DetailMainView: View {
         .onAppear {
             viewModel.productId = productId
             viewModel.send(action: .fetchData)
-//            viewModel.send(action: .tapNutrients)
+            viewModel.send(action: .tapNutrients)
         }
         .ZSNavigationBackButtonTitle(viewModel.dataInfo?.productName ?? "") {
             router.navigateBack()

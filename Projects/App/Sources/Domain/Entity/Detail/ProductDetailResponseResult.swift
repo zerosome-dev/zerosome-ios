@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct ProductDetailResponseResult: Decodable {
+struct ProductDetailResponseResult {
     var productId: Int
     var image: String
     var brandName: String
-    var productName: Strig
+    var productName: String
     var nutrientList: [NutrientByPdtResult]
     var offlineStoreList: [OfflineStoreResult]
     var onlineStoreList: [OnlineStoreResult]
@@ -22,7 +22,7 @@ struct ProductDetailResponseResult: Decodable {
     var similarProductList: [SimilarProductResult]
 }
 
-struct NutrientByPdtResult: Decodable, Hashable {
+struct NutrientByPdtResult: Hashable {
     var nutrientName: String
     var servings: Double
     var amount: Double
@@ -30,25 +30,29 @@ struct NutrientByPdtResult: Decodable, Hashable {
     var amountStandard: String
 }
 
-struct OfflineStoreResult: Decodable {
+struct OfflineStoreResult {
     var storeCode: String
     var storeName: String
 }
 
-struct OnlineStoreResult: Decodable {
+struct OnlineStoreResult {
     var storeCode: String
     var storeName: String
     var url: String
 }
 
-struct ReviewThumbnailResult: Decodable, Hashable {
+struct ReviewThumbnailResult: Identifiable, Hashable {
     var reviewId: Int
     var rating: Double
     var reviewContents: String
     var regDate: String
+    
+    var id: String {
+        return String(reviewId)
+    }
 }
 
-struct SimilarProductResult: Decodable {
+struct SimilarProductResult {
     var productId: Int
     var image: String
     var productName: String
