@@ -29,7 +29,6 @@ struct OfflineStoreView: View {
             }
             .padding(.horizontal, 22)
         }
-        .background(Color.blue)
     }
 }
 
@@ -56,7 +55,6 @@ struct OnlineStoreView: View {
                                     print("온라인 판매처 바로가기")
                                 }
                         }
-                        .background(Color.neutral50)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
