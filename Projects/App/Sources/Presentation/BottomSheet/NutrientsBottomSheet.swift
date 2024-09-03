@@ -9,9 +9,30 @@
 import SwiftUI
 import DesignSystem
 
+class NutrientsViewModel: ObservableObject {
+    enum Action {
+        case getcriterion
+    }
+    
+    @Published var criterion: NutrientByPdtResult?
+    @Published var nutrientList: [NutrientByPdtResult]?
+    @Published var filiteredNutrientList: [NutrientByPdtResult]?
+    
+    func send(_ action: Action) {
+        switch action {
+        case .getcriterion:
+            guard let nutrientList = self.nutrientList else { return }
+            criterion = nutrientList.first { $0.nutrientName == "기준 용량" }
+            
+            self.filiteredNutrientList = nutrientList.filter { $0.nutrientName != "기준 용량" }
+        }
+    }
+}
+
 public struct NutrientsBottomSheet: View {
     
     @ObservedObject var viewModel: DetailMainViewModel
+    @StateObject var nutrientsModel = NutrientsViewModel()
     
     public var body: some View {
         VStack {
@@ -23,7 +44,48 @@ public struct NutrientsBottomSheet: View {
             .imageAction { viewModel.isNutrients = false }
             .padding(.vertical, 24)
             
-            if viewModel.nutrientEnity.isEmpty {
+            if let nutrientList = nutrientsModel.filiteredNutrientList,
+               let criterion = nutrientsModel.criterion {
+                VStack(spacing: 6) {
+                    HStack {
+                        ZSText(
+                            "\(criterion.amount)\(criterion.amountUnit)당",
+                            fontType: .body2, color: .neutral600
+                        )
+                        
+                        Spacer()
+                        ZSText(
+                            "\(criterion.percentage)\(criterion.percentageUnit)",
+                            fontType: .body2, color: .neutral600
+                        )
+                    }
+                    .padding(14)
+                    .background(Color.neutral50)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    
+                    ScrollView {
+                        ForEach(nutrientList, id: \.id) { data in
+                            HStack{
+                                ZSText(data.nutrientName, fontType: .body2, color: Color.neutral600)
+                                Spacer()
+                                ZSText(
+                                    "\(data.amount)\(data.amountUnit)(\(data.percentage)\(data.percentageUnit))",
+                                    fontType: .body2,
+                                    color: Color.neutral600
+                                )
+                            }
+                            .padding(.vertical, 14)
+                            
+                            Rectangle()
+                                .fill(Color.neutral100)
+                                .frame(maxWidth: .infinity, maxHeight: 1)
+                                .opacity((data == nutrientList.last) ? 0 : 1)
+                        }
+
+                    }
+                    .scrollIndicators(.hidden)
+                }
+            } else {
                 VStack {
                     ProgressView()
                         .tint(.primaryFF6972)
@@ -32,44 +94,23 @@ public struct NutrientsBottomSheet: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 Spacer()
-            } else {
-                VStack(spacing: 6) {
-                    HStack {
-                        ZSText("100ml당", fontType: .body2, color: .neutral600)
-                        Spacer()
-                        ZSText("(어쩌구저쩌구)kcal", fontType: .body2, color: .neutral600)
-                    }
-                    .padding(14)
-                    .background(Color.neutral50)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    
-                    ScrollView {
-                        let count = viewModel.nutrientEnity.count
-                        
-                        ForEach(0..<count, id: \.self) { index in
-                            HStack{
-                                Text(viewModel.nutrientEnity[index].nutrientName)
-                                Spacer()
-                                Text("\(viewModel.nutrientEnity[index].amountStandard)g \(viewModel.nutrientEnity[index].servingsStandard)kcal")
-                            }
-                            .applyFont(font: .body2)
-                            .foregroundStyle(Color.neutral600)
-                            .padding(.vertical, 14)
-                            
-                            Rectangle()
-                                .fill(Color.neutral100)
-                                .frame(maxWidth: .infinity, maxHeight: 1)
-                                .opacity(count-1 == index ? 0 : 1)
-                        }
-                    }
-                    .scrollIndicators(.hidden)
-                }
             }
+        }
+        .onAppear {
+            guard let data = viewModel.dataInfo?.nutrientList else { return }
+            nutrientsModel.nutrientList = data
+            nutrientsModel.send(.getcriterion)
         }
         .padding(.horizontal, 24)
     }
 }
 
-//#Preview {
-//    NutrientsBottomSheet(viewModel: DetailMainViewModel())
-//}
+#Preview {
+    NutrientsBottomSheet(viewModel: DetailMainViewModel(
+        detailUseCase: DetailUsecase(
+            detailRepoProtocol: DetailRepository(
+                apiService: ApiService()
+            )
+        )
+    ))
+}

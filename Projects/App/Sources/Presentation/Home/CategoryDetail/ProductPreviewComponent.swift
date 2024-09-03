@@ -40,13 +40,13 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     star: data.review,
                     reviewCnt: data.reviewCnt
                 )
-            } else if let data = data as? SimilarProductDTO {
+            } else if let data = data as? SimilarProductResult {
                 infoView(
-                    image: data.image ?? "",
-                    name: data.productName ?? "",
-                    brand: data.brandName ?? "",
-                    star: Int(round(data.rating ?? 0.0)),
-                    reviewCnt: data.reviewCnt ?? 0
+                    image: data.image,
+                    name: data.productName,
+                    brand: data.brandName,
+                    star: Int(round(data.rating)),
+                    reviewCnt: data.reviewCnt
                 )
             }
         }

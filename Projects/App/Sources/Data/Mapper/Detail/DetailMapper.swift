@@ -18,10 +18,10 @@ class DetailMapper {
             nutrientList: (response.nutrientList ?? []).map({ dto in
                 NutrientByPdtResult(
                     nutrientName: dto.nutrientName ?? "",
-                    servings: dto.servings ?? 0.0,
+                    percentageUnit: dto.percentageUnit ?? "",
                     amount: dto.amount ?? 0.0,
-                    servingsStandard: dto.servingsStandard ?? "",
-                    amountStandard: dto.amountStandard ?? ""
+                    percentage: dto.percentage ?? 0.0,
+                    amountUnit: dto.amountUnit ?? ""
                 )
             }),
             offlineStoreList: (response.offlineStoreList ?? []).map({ dto in

@@ -15,14 +15,12 @@ class DetailMainViewModel: ObservableObject {
     
     enum Action {
         case fetchData
-        case tapNutrients
     }
     
     @Published var dataInfo: ProductDetailResponseResult?
     @Published var productId: Int = 0
     @Published var isNutrients: Bool = false
     @Published var reviewEntity: ReviewEntity?
-    @Published var nutrientEnity: [NutrientEntity] = []
     
     private let detailUseCase: DetailUsecase
     private var cancellables = Set<AnyCancellable>()
@@ -37,7 +35,7 @@ class DetailMainViewModel: ObservableObject {
         switch action {
         case .fetchData:
             Task {
-                await detailUseCase.getProductDetail(productId: productId)
+                detailUseCase.getProductDetail(productId: productId)
                     .receive(on: DispatchQueue.main)
                     .sink(receiveCompletion: { completion in
                         switch completion {
@@ -52,19 +50,6 @@ class DetailMainViewModel: ObservableObject {
                     })
                     .store(in: &cancellables)
             }
-        case .tapNutrients:
-            guard let data = dataInfo else { return }
-            
-            data.nutrientList.forEach({ [weak self] value in
-                let newData = NutrientEntity(
-                    nutrientName: value.nutrientName,
-                    servings: value.servings,
-                    amount: value.amount,
-                    servingsStandard: value.servingsStandard,
-                    amountStandard: value.amountStandard
-                )
-                self?.nutrientEnity.append(newData)
-            })
         }
     }
 }

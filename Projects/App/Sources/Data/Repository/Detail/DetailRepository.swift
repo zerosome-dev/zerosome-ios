@@ -16,7 +16,7 @@ class DetailRepository: DetailRepositoryProtocol {
         self.apiService = apiService
     }
     
-    func getProductDetail(_ productId: Int) async -> Future<ProductDetailResponseResult, NetworkError> {
+    func getProductDetail(_ productId: Int) -> Future<ProductDetailResponseResult, NetworkError> {
         return Future { promise in
             Task {
                 let response: Result<ProductDetailResponseDTO, NetworkError> = await self.apiService.request(
