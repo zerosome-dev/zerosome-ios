@@ -12,7 +12,7 @@ import Combine
 struct DetailUsecase {
     let detailRepoProtocol: DetailRepositoryProtocol
     
-    func getProductDetail(productId: Int) async -> Future<ProductDetailResponseResult, NetworkError> {
-        return await detailRepoProtocol.getProductDetail(productId)
+    func getProductDetail(productId: Int) -> Future<ProductDetailResponseResult, NetworkError> {
+        return detailRepoProtocol.getProductDetail(productId)
     }
 }

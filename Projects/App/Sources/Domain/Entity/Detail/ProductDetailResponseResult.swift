@@ -22,12 +22,14 @@ struct ProductDetailResponseResult {
     var similarProductList: [SimilarProductResult]
 }
 
-struct NutrientByPdtResult: Hashable {
+struct NutrientByPdtResult: Hashable, Identifiable {
     var nutrientName: String
-    var servings: Double
-    var amount: Double
-    var servingsStandard: String
-    var amountStandard: String
+    var percentageUnit: String
+    var amount: Float
+    var percentage: Float
+    var amountUnit: String
+    
+    var id = UUID().uuidString
 }
 
 struct OfflineStoreResult: Identifiable, Equatable {
@@ -56,11 +58,15 @@ struct ReviewThumbnailResult: Identifiable, Hashable {
     }
 }
 
-struct SimilarProductResult {
+struct SimilarProductResult: Identifiable {
     var productId: Int
     var image: String
     var productName: String
     var brandName: String
     var rating: Double
     var reviewCnt: Int
+    
+    var id: String {
+        return "\(productId)"
+    }
 }

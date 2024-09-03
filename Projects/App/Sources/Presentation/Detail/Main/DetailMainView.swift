@@ -91,7 +91,6 @@ struct DetailMainView: View {
         .onAppear {
             viewModel.productId = productId
             viewModel.send(action: .fetchData)
-            viewModel.send(action: .tapNutrients)
         }
         .ZSNavigationBackButtonTitle(viewModel.dataInfo?.productName ?? "") {
             router.navigateBack()

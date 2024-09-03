@@ -12,8 +12,8 @@ struct NutrientEntity: Decodable, Hashable, Identifiable {
     var id = UUID().uuidString
     
     var nutrientName: String
-    var servings: Double
+    var percentageUnit: String
     var amount: Double
-    var servingsStandard: String
-    var amountStandard: String
+    var percentage: Double
+    var amountUnit: String
 }

@@ -52,25 +52,28 @@ struct OnlineStoreView: View {
                             ZSText("바로가기", fontType: .body2, color: Color.neutral400)
                                 .padding(.init(top: 10, leading: 0, bottom: 10, trailing: 16))
                                 .onTapGesture {
-                                    print("온라인 판매처 바로가기")
+                                    if let url = URL(string: store.url) {
+                                        UIApplication.shared.open(url)
+                                    }
                                 }
+                                .opacity(store.url.isEmpty ? 0 : 1)
                         }
+                        .background(Color.neutral50)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
             }
         }
         .padding(.horizontal, 22)
-        .background(Color.blue)
     }
 }
 
 #Preview {
-//    OnlineStoreView(onlineStore: [OnlineStoreResult(storeCode: "123", storeName: "쿠팡", url: "dd")])
-    OfflineStoreView(offlineStore: [OfflineStoreResult(storeCode: "1212", storeName: "판매처dkrdkrdk"),
-                                    OfflineStoreResult(storeCode: "232", storeName: "판매처"),
-                                    OfflineStoreResult(storeCode: "11", storeName: "쿠팡"),
-                                    OfflineStoreResult(storeCode: "44", storeName: "이마트254"),
-                                    OfflineStoreResult(storeCode: "2", storeName: "어쩌구어자어ㅣ")
-                                   ])
+    OnlineStoreView(onlineStore: [OnlineStoreResult(storeCode: "123", storeName: "쿠팡", url: "")])
+//    OfflineStoreView(offlineStore: [OfflineStoreResult(storeCode: "1212", storeName: "판매처dkrdkrdk"),
+//                                    OfflineStoreResult(storeCode: "232", storeName: "판매처"),
+//                                    OfflineStoreResult(storeCode: "11", storeName: "쿠팡"),
+//                                    OfflineStoreResult(storeCode: "44", storeName: "이마트254"),
+//                                    OfflineStoreResult(storeCode: "2", storeName: "어쩌구어자어ㅣ")
+//                                   ])
 }
