@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 final class ReviewRepository: ReviewRepositoryProtocol {
-    
+
     private let apiService: ApiService
     
     init(apiService: ApiService) {
@@ -56,6 +56,29 @@ final class ReviewRepository: ReviewRepositoryProtocol {
                     promise(.success(success))
                 case .failure(let failure):
                     debugPrint("리뷰 등록 실패")
+                    promise(.failure(NetworkError.badRequest))
+                }
+            }
+        }
+    }
+    
+    func productReviewList(productId: String, offset: Int?, limit: Int?) -> Future<[ReviewDetailResult], NetworkError> {
+        let parameters: [String : Int?] = ["offset" : offset ?? 0, "limit" : limit ?? 10]
+
+        return Future { promise in
+            Task {
+                let response: Result<[ReviewDetailResponseDTO], NetworkError> = await self.apiService.request(
+                    httpMethod: .get,
+                    endPoint: APIEndPoint.url(for: .review),
+                    queryParameters: parameters,
+                    pathParameters: productId
+                )
+                
+                switch response {
+                case .success(let data):
+                    let mappedResult = data.map { ReviewMapper.toReviewDetailResult(response: $0) }
+                    promise(.success(mappedResult))
+                case .failure(let failure):
                     promise(.failure(NetworkError.badRequest))
                 }
             }

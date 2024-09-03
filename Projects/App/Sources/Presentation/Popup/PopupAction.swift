@@ -115,7 +115,10 @@ final class PopupAction: ObservableObject {
 
     func settingToggle(type: SinglePopup) {
         self.singleToggle = type
-        print(self.singleToggle)
+    }
+    
+    func settingToggle(type: DoublePopup) {
+        self.doubleToggle = type
     }
     
     func binding(for type: DoublePopup) -> Binding<Bool> {

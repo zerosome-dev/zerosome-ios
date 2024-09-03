@@ -20,4 +20,7 @@ struct ReviewUsecase {
         return reviewProtocol.postReview(review: review)
     }
     
+    func getProductReviewList(productId: String, offset: Int?, limit: Int?) -> Future<[ReviewDetailResult], NetworkError> {
+        return reviewProtocol.productReviewList(productId: productId, offset: offset, limit: limit)
+    }
 }

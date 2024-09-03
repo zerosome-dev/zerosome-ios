@@ -8,12 +8,17 @@
 
 import Foundation
 
-struct ReviewDetailResult {
+struct ReviewDetailResult: Identifiable, Hashable {
     var reviewId: Int
     var rating: Double
     var reviewContents: String
-    var regDate: Date
+    var regDate: String
     var nickname: String
+    var more: Bool = false
+    
+    var id: String {
+        return String(reviewId)
+    }
 }
 
 // 리뷰 목록 + 페이지네이션
