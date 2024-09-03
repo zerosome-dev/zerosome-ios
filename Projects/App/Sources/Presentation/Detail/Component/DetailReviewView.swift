@@ -14,14 +14,16 @@ struct DetailReviewView: View {
     @ObservedObject var viewModel: DetailMainViewModel
     let rows = Array(repeating: GridItem(.flexible()), count: 5)
     var action: (() -> Void)?
+    var titleAction: (() -> Void)?
     
     init(
         viewModel: DetailMainViewModel,
-        action: (() -> Void)? = nil
-    
+        action: (() -> Void)? = nil,
+        titleAction: (() -> Void)? = nil
     ) {
         self.viewModel = viewModel
         self.action = action
+        self.titleAction = titleAction
     }
     
     var body: some View {
@@ -30,6 +32,7 @@ struct DetailReviewView: View {
                 CommonTitle(title: "아직 리뷰가 없어요", type: .solo)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 62)
+                    .padding(.horizontal, 22)
                 NoneReviewView(action: action)
                     .padding(.bottom, 83)
             } else {
@@ -45,17 +48,17 @@ struct DetailReviewView: View {
                                 .frame(width: 16, height: 16)
                         }
                     }
-                    .padding(.init(top: 0, leading: 22, bottom: 12, trailing: 22))
                     .onTapGesture {
-                        action?()
+                        titleAction?()
                     }
+                    .padding(.init(top: 0, leading: 22, bottom: 12, trailing: 22))
+                    
 
                     VStack(spacing: 20) {
                         ReviewScoreComponent(
-                            background: Color.neutral50,
                             heightPadding: 18,
                             radius: 8,
-                            review: "\(viewModel.dataInfo?.rating ?? 0.0)",
+                            review: viewModel.dataInfo?.rating ?? 0.0,
                             font: .heading2
                         )
                         .padding(.horizontal, 22)
@@ -75,6 +78,12 @@ extension DetailReviewView {
     func tap(_ action: @escaping (() -> Void)) -> Self {
         var copy = self
         copy.action = action
+        return copy
+    }
+    
+    func tapTitle(_ action: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.titleAction = action
         return copy
     }
 }

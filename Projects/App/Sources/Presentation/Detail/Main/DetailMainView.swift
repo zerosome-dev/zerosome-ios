@@ -32,7 +32,6 @@ struct DetailMainView: View {
         ZStack(alignment: .bottom) {
             CommonButton(title: "리뷰 작성", font: .subtitle2)
                 .tap {
-                    viewModel.send(action: .fetchReviewData)
                     guard let reviewEntity = viewModel.reviewEntity else { return }
                     router.navigateTo(.creatReview(reviewEntity))
                 }
@@ -68,24 +67,22 @@ struct DetailMainView: View {
                         }
                         
                         DivideRectangle(height: 12, color: Color.neutral50)
-                        
-                        OffLineStoreView(offlineStore: viewModel.dataInfo?.offlineStoreList ?? [])
-                        OnlineStoreView(onlineStore: viewModel.dataInfo?.onlineStoreList ?? [])
-                        
-                        DivideRectangle(height: 12, color: Color.neutral50)
+                        onOfflineView()
                         DetailReviewView(viewModel: viewModel)
                             .tap {
-                                // 리뷰 작성하러 가기 버튼
-                                viewModel.send(action: .fetchReviewData)
                                 guard let reviewEntity = viewModel.reviewEntity else { return }
                                 router.navigateTo(.creatReview(reviewEntity))
+                            }
+                            .tapTitle {
+                                guard let productId = viewModel.dataInfo?.productId,
+                                let reviewEntity = viewModel.reviewEntity else { return }
+                                router.navigateTo(.reviewList("\(productId)", reviewEntity))
                             }
                             .frame(height: 246)
                         
                         DivideRectangle(height: 12, color: Color.neutral50)
                             .opacity(viewModel.dataInfo?.reviewThumbnailList == nil ? 0 : 1)
-                        SimiliarProductView(viewModel: viewModel)
-                            .opacity(viewModel.dataInfo?.reviewThumbnailList == nil ? 0 : 1)
+                        similarProduct()
                     }
                 }
             }
@@ -99,6 +96,30 @@ struct DetailMainView: View {
         .ZSNavigationBackButtonTitle(viewModel.dataInfo?.productName ?? "") {
             router.navigateBack()
         }.scrollIndicators(.hidden)
+    }
+    
+    @ViewBuilder
+    func onOfflineView() -> some View {
+        if let online = viewModel.dataInfo?.onlineStoreList, !online.isEmpty {
+            OnlineStoreView(onlineStore: online)
+        } else {
+            EmptyView()
+        }
+        
+        if let offline = viewModel.dataInfo?.offlineStoreList, !offline.isEmpty {
+            OfflineStoreView(offlineStore: offline)
+        } else {
+            EmptyView()
+        }
+    }
+    
+    @ViewBuilder
+    func similarProduct() -> some View {
+        if let similar = viewModel.dataInfo?.similarProductList, !similar.isEmpty {
+            SimiliarProductView(viewModel: viewModel)
+        } else {
+            EmptyView()
+        }
     }
 }
 

@@ -30,9 +30,13 @@ struct NutrientByPdtResult: Hashable {
     var amountStandard: String
 }
 
-struct OfflineStoreResult {
+struct OfflineStoreResult: Identifiable, Equatable {
     var storeCode: String
     var storeName: String
+    
+    var id: String {
+        return storeCode
+    }
 }
 
 struct OnlineStoreResult {

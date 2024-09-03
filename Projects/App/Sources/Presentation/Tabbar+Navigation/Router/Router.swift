@@ -17,7 +17,7 @@ final class Router: ObservableObject {
         case tobeReleasedProduct([HomeRolloutResult], String, String) // 홈 > 종류별 더보기
         case categoryFilter(String, String, [String]) // navigationTitle, d2CategoryCode, brandFilterforCafe
         case detailMainView(Int)
-        case reviewList
+        case reviewList(String, ReviewEntity)
         case creatReview(ReviewEntity) // proudct it, name, brand
         case mypageReviewList
         case myReivew(ReviewDetailByMemberResult)
@@ -45,8 +45,11 @@ final class Router: ObservableObject {
         case .detailMainView(let productId):
             DetailMainView(productId: productId)
         
-        case .reviewList:
-            ReviewListView()
+        case .reviewList(let productId, let reviewEntity):
+            let reviewRepo = ReviewRepository(apiService: apiService)
+            let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
+            let viewModel = ReviewListViewModel(reviewUsecase: reviewUsecase)
+            ReviewListView(viewModel: viewModel, productId: productId, reviewEntity: reviewEntity)
         
         case .creatReview(let data):
             let reviewRepo = ReviewRepository(apiService: apiService)

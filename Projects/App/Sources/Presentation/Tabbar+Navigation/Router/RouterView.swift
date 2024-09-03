@@ -56,9 +56,11 @@ struct RouterView<Content: View>: View {
                 LButton: popup.doubleToggle.left,
                 RButton: popup.doubleToggle.right
             ),
-            leftAction: { popup.setToggle(for: popup.singleToggle, false) },
-            rightAction: { popup.rightButtonTapped = true }
-            // rightButtonTapped를 통해서 environment로 뿌려진 팝업 상태 알고 rightAction 정의하기....
+            leftAction: { popup.setToggle(for: popup.doubleToggle, false) },
+            rightAction: {
+                popup.setToggle(for: popup.doubleToggle, false)
+                popup.rightButtonTapped.toggle()
+            }
         )
     }
 }

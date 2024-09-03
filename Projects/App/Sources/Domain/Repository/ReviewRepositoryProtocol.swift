@@ -11,4 +11,5 @@ import Combine
 protocol ReviewRepositoryProtocol {
     func getMyReviewList(offset: Int?, limit: Int?) -> Future<[MypageOffsetPageResult], NetworkError>
     func postReview(review: ReviewCreateRequest) -> Future<Bool, NetworkError>
+    func productReviewList(productId: String, offset: Int?, limit: Int?) -> Future<[ReviewDetailResult], NetworkError>
 }
