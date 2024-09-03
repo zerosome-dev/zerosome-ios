@@ -9,6 +9,15 @@
 import SwiftUI
 import DesignSystem
 
+struct SampleProduct {
+    let name: String
+    let brand: String
+    let content: String
+    
+    static let sampleProduct = SampleProduct(name: "파워에이드", brand: "노브랜드", content: "상품입니다상품입니다상품입니다상품입니다")
+}
+
+
 struct UpdateReviewView: View {
     
     let data = SampleProduct.sampleProduct

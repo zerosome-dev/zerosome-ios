@@ -10,18 +10,18 @@ import SwiftUI
 import DesignSystem
 
 struct ReviewScoreComponent: View {
-    let background: Color
+    let background: Color = Color.neutral50
     let heightPadding: CGFloat
     let radius: CGFloat
-    let review: String
+    let review: Double
     let font: ZSFont
     
     var body: some View {
         VStack(spacing:2) {
-            Text(review)
+            Text(String(format: "%.1f", review))
                 .applyFont(font: font)
 
-            StarComponent(rating: 4, size: 16)
+            StarComponent(rating: review, size: 16)
         }
         .padding(.vertical, heightPadding)
         .frame(maxWidth: .infinity)

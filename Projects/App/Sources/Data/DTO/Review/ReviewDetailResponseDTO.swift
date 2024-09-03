@@ -12,7 +12,7 @@ struct ReviewDetailResponseDTO: Decodable {
     var reviewId: Int?
     var rating: Double?
     var reviewContents: String?
-    var regDate: Date?
+    var regDate: String?
     var nickname: String?
 }
 

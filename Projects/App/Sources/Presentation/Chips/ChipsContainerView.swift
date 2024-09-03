@@ -12,12 +12,12 @@ public struct ChipsView: View {
     
     let check: Bool
     let title: String
-    let tappedChips: [TappedChips]
+    let tappedChips: [TappedChips]?
     
     init(
         check: Bool,
         title: String,
-        tappedChips: [TappedChips]
+        tappedChips: [TappedChips]? = nil
     ) {
         self.check = check
         self.title = title
@@ -36,6 +36,63 @@ public struct ChipsView: View {
                     .stroke(check ? Color.primaryFF6972
                             : Color.neutral200, lineWidth: 1)
             )
+    }
+}
+
+struct offLineChipView: View {
+    @State var totalHeight: CGFloat
+    let verticalSpacing: CGFloat
+    let horizontalSpacing: CGFloat
+    let data: [OfflineStoreResult]
+    
+    var body: some View {
+        var width = CGFloat.zero
+        var height = CGFloat.zero
+        
+        GeometryReader { geomety in
+            ZStack(alignment: .topLeading) {
+                ForEach(data, id: \.id) { type in
+                    ChipsView(check: false, title: type.storeName)
+                        .alignmentGuide(.leading) { view in
+                            guard let last = data.last else { return 0 }
+                            if abs(width - view.width) > geomety.size.width {
+                                width = 0
+                                height -= view.height
+                                height -= verticalSpacing
+                            }
+                            let result = width
+                            
+                            if type == last {
+                                width = 0
+                            } else {
+                                width -= view.width
+                                width -= horizontalSpacing
+                            }
+                            
+                            return result
+                        }
+                        .alignmentGuide(.top) { _ in
+                            guard let last = data.last else { return 0 }
+                            
+                            let result = height
+                            
+                            if type == last {
+                                height = 0
+                            }
+                            return result
+                        }
+                }
+            }
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .onAppear {
+                            self.totalHeight = geometry.size.height
+                        }
+                }
+            )
+        }
+        .frame(height: totalHeight)
     }
 }
 

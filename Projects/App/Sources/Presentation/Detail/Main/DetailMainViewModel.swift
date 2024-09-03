@@ -16,7 +16,6 @@ class DetailMainViewModel: ObservableObject {
     enum Action {
         case fetchData
         case tapNutrients
-        case fetchReviewData
     }
     
     @Published var dataInfo: ProductDetailResponseResult?
@@ -49,6 +48,7 @@ class DetailMainViewModel: ObservableObject {
                         }
                     }, receiveValue: { [weak self] data in
                         self?.dataInfo = data
+                        self?.reviewEntity = ReviewEntity(name: data.productName, brand: data.brandName, productId: data.productId, image: data.image)
                     })
                     .store(in: &cancellables)
             }
@@ -65,8 +65,6 @@ class DetailMainViewModel: ObservableObject {
                 )
                 self?.nutrientEnity.append(newData)
             })
-        case .fetchReviewData:
-            guard let data = dataInfo else { return }
         }
     }
 }
