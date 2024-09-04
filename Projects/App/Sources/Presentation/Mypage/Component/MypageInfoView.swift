@@ -9,46 +9,83 @@
 import SwiftUI
 import DesignSystem
 
+class MypageInfoViewModel: ObservableObject {
+    enum Action {
+        case serviceURL(Service)
+        case customURL(CustomCenter)
+    }
+    
+    func send(_ action: Action) {
+        switch action {
+        case .serviceURL(let url):
+            if let url = URL(string: url.url) {
+                UIApplication.shared.open(url)
+            }
+        case .customURL(let url):
+            if let url = URL(string: url.url) {
+                UIApplication.shared.open(url)
+            }
+        }
+    }
+}
+
 struct MypageInfoView: View {
+    @StateObject private var viewModel = MypageInfoViewModel()
+    
     var body: some View {
         VStack {
-            ForEach(MypageCenter.allCases, id: \.self) { center in
-                ZSText(center.rawValue, fontType: .body3, color: Color.neutral300)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, 10)
-                    .padding(.top, 20)
-                    .onTapGesture {
-                        print("center tapped")
-                    }
-                
-                ForEach(center.type, id: \.self) { type in
-                    HStack {
-                        Text(type)
-                            .applyFont(font: .body2)
-                            .foregroundStyle(Color.neutral900)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        Spacer()
-                        
-                        if type == MypageCenter.service.type.last! {
-                            Text("앱 버전1.201.23")
-                                .applyFont(font: .body2)
-                                .foregroundStyle(Color.neutral500)
-                        } else {
-                            ZerosomeAsset.ic_arrow_after
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        }
-                        
-                    }
-                    .onTapGesture {
-                        print("case 별로 이동 처리 추가 예정")
+            ZSText("고객센터", fontType: .body3, color: Color.neutral300)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 10)
+                .padding(.top, 20)
+            
+            ForEach(CustomCenter.allCases, id: \.self) { center in
+                HStack {
+                    ZSText(center.rawValue, fontType: .body3)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+                    ZerosomeAsset.ic_arrow_after
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+                .contentShape(Rectangle())
+                .padding(.bottom, 10)
+                .onTapGesture {
+                    viewModel.send(.customURL(center))
+                }
+            }
+            
+            DivideRectangle(height: 1, color: Color.neutral100)
+            
+            ZSText("서비스 이용", fontType: .body3, color: Color.neutral300)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 10)
+                .padding(.top, 20)
+            
+            ForEach(Service.allCases, id: \.self) { service in
+                HStack {
+                    ZSText(service.rawValue, fontType: .body3)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+                    if service == .appVersion {
+                        ZSText("v1.0", fontType: .body2, color: Color.neutral500)
+                    } else {
+                        ZerosomeAsset.ic_arrow_after
+                            .resizable()
+                            .frame(width: 24, height: 24)
                     }
                 }
+                .contentShape(Rectangle())
                 .padding(.bottom, 10)
-                DivideRectangle(height: 1, color: Color.neutral100)
+                .onTapGesture {
+                    viewModel.send(.serviceURL(service))
+                }
             }
         }
         .padding(.horizontal, 22)
     }
+}
+
+#Preview {
+    MypageInfoView()
 }
