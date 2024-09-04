@@ -14,7 +14,7 @@ class ReviewMapper {
             reviewId: response.reviewId ?? 0,
             rating: response.rating ?? 0.0,
             reviewContents: response.reviewContents ?? "",
-            regDate: response.regDate ?? .init(),
+            regDate: DateMapper.returnDate(response.regDate ?? ""),
             nickname: response.nickname ?? "")
     }
     
@@ -32,7 +32,8 @@ class ReviewMapper {
                         brand: dto.brand ?? "",
                         productName: dto.productName ?? "",
                         productImage: dto.productImage ?? "",
-                        regDate: dto.regDate ?? "")
+                        regDate: DateMapper.returnDate(dto.regDate ?? "")
+                    )
                 }
             )
         } ?? ReviewByMemberResult(memberId: 0, nickname: "", reviewCnt: 0, reviewList: [])

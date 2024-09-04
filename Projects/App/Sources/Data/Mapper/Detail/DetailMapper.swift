@@ -44,7 +44,7 @@ class DetailMapper {
                     reviewId: dto.reviewId ?? 0,
                     rating: dto.rating ?? 0.0,
                     reviewContents: dto.reviewContents ?? "",
-                    regDate: dto.regDate ?? ""
+                    regDate: DateMapper.returnDate(dto.regDate ?? "")
                 )
             }),
             similarProductList: (response.similarProductList ?? []).map({ dto in

@@ -66,7 +66,7 @@ struct ReviewCarouselView: View {
                                     ZSText("\(data.rating)", fontType: .body3, color: Color.neutral700)
                                 }
                                 Spacer()
-                                ZSText(vm.returnDate(data.regDate), fontType: .body4, color: Color.neutral400)
+                                ZSText(data.regDate, fontType: .body4, color: Color.neutral400)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             ZSText(data.reviewContents, fontType: .body2, color: Color.neutral700)
