@@ -9,26 +9,6 @@
 import SwiftUI
 import DesignSystem
 
-class MypageInfoViewModel: ObservableObject {
-    enum Action {
-        case serviceURL(Service)
-        case customURL(CustomCenter)
-    }
-    
-    func send(_ action: Action) {
-        switch action {
-        case .serviceURL(let url):
-            if let url = URL(string: url.url) {
-                UIApplication.shared.open(url)
-            }
-        case .customURL(let url):
-            if let url = URL(string: url.url) {
-                UIApplication.shared.open(url)
-            }
-        }
-    }
-}
-
 struct MypageInfoView: View {
     @StateObject private var viewModel = MypageInfoViewModel()
     @ObservedObject var vm: MypageViewModel

@@ -12,7 +12,7 @@ import SwiftUI
 enum CategoryDetail: String, CaseIterable, Identifiable {
     var id: Self { self }
     
-    case category = "전체" // Defalut를 전체로 설정
+    case category = "전체"
     case brand = "브랜드"
     case zeroTag = "제로태그"
 }

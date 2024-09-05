@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct CategoryMainView: View {
     @EnvironmentObject var router: Router
@@ -16,14 +17,11 @@ struct CategoryMainView: View {
         ScrollView {
             ForEach(viewModel.categoryList, id: \.id) { d1Category in
                 CategoryItemGridComponent(
-                    tapData: $viewModel.tapData,
                     tapD2Category: $viewModel.tapD2Category,
                     data: d1Category
                 )
-                // 화면 이동할 때 네비 타이틀(전체 카테고리 + 필터ID)
-                .tapTitle { // 전체 필터로 이동
+                .tapTitle {
                     viewModel.send(action: .tapCategoryTitle(d1Category))
-                    viewModel.send(action: .getBrandNameForCafe(d1Category))
                     viewModel.send(action: .getEntireCode(d1Category))
                     
                     router.navigateTo(.categoryFilter(
@@ -32,9 +30,7 @@ struct CategoryMainView: View {
                         d1Category.d1CategoryCode)
                     )
                 }
-                .tapItem { // 카테고리 아이템 탭했을 때
-                    // 각 d2카테고리의 필터뷰로 이동
-                    viewModel.send(action: .getBrandNameForCafe(d1Category))
+                .tapItem {
                     viewModel.send(action: .tapD2CategoryItem(d1Category))
                     guard let tapD2Category = viewModel.tapD2Category else { return }
                     router.navigateTo(.categoryFilter(
@@ -43,10 +39,14 @@ struct CategoryMainView: View {
                         d1Category.d1CategoryCode)
                     )
                 }
+                .padding(.horizontal, 22)
+                
+                DivideRectangle(height: 12, color: Color.neutral50)
+                    .padding(.vertical, 30)
+                    .opacity(d1Category == viewModel.categoryList.last ? 0 : 1)
             }
             Spacer()
         }
-        .padding(.horizontal, 22)
         .ZSnavigationTitle("카테고리")
         .scrollIndicators(.hidden)
         .onAppear {

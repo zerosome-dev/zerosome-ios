@@ -13,7 +13,6 @@ import Kingfisher
 struct CategoryItemGridComponent: View {
     
     @State private var showAllItems: Bool = false
-    @Binding public var tapData: Int?
     @Binding public var tapD2Category: D2CategoryResult?
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     var tapTitle: (() -> Void)?
@@ -28,13 +27,12 @@ struct CategoryItemGridComponent: View {
         }
     }
     
-    init(tapData: Binding<Int?>,
-         tapD2Category: Binding<D2CategoryResult?>,
-         data: D1CategoryResult,
-         tapTitle: (() -> Void)? = nil,
-         tapItem: (() -> Void)? = nil
+    init(
+        tapD2Category: Binding<D2CategoryResult?>,
+        data: D1CategoryResult,
+        tapTitle: (() -> Void)? = nil,
+        tapItem: (() -> Void)? = nil
     ) {
-        self._tapData = tapData
         self._tapD2Category = tapD2Category
         self.data = data
         self.tapTitle = tapTitle
