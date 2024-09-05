@@ -43,7 +43,10 @@ final class Router: ObservableObject {
             CategoryFilteredView(navigationTtile: filteredTitle, d2CategoryCode: d2CategoryCode, viewModel: viewModel, d1CategoryCode: d1CategoryCode)
 
         case .detailMainView(let productId):
-            DetailMainView(productId: productId)
+            let detailRepo = DetailRepository(apiService: apiService)
+            let detailUsecase = DetailUsecase(detailRepoProtocol: detailRepo)
+            let viewModel = DetailMainViewModel(detailUseCase: detailUsecase)
+            DetailMainView(productId: productId, viewModel: viewModel)
         
         case .reviewList(let productId, let reviewEntity):
             let reviewRepo = ReviewRepository(apiService: apiService)
@@ -55,7 +58,6 @@ final class Router: ObservableObject {
             let reviewRepo = ReviewRepository(apiService: apiService)
             let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
             let viewModel = CreateReviewViewModel(reviewUsecase: reviewUsecase)
-//            let viewModel = MyReviewsListViewModel(reviewUsecase: reviewUsecase)
             CreateReviewView(data: data, viewModel: viewModel)
         
         case .mypageReviewList:

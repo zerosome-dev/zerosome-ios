@@ -21,6 +21,7 @@ class DetailMainViewModel: ObservableObject {
     @Published var productId: Int = 0
     @Published var isNutrients: Bool = false
     @Published var reviewEntity: ReviewEntity?
+    @Published var similarList: [SimilarProductResult] = []
     
     private let detailUseCase: DetailUsecase
     private var cancellables = Set<AnyCancellable>()
@@ -46,6 +47,7 @@ class DetailMainViewModel: ObservableObject {
                         }
                     }, receiveValue: { [weak self] data in
                         self?.dataInfo = data
+                        self?.similarList = data.similarProductList
                         self?.reviewEntity = ReviewEntity(name: data.productName, brand: data.brandName, productId: data.productId, image: data.image)
                     })
                     .store(in: &cancellables)

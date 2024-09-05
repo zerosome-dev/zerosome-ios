@@ -4,6 +4,9 @@
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>kakaoplus</string>
+		<string>kakaolink</string>
+		<string>kakaotalk</string>
 		<string>kakaokompassauth</string>
 	</array>
 	<key>KAKAO_APP_KEY</key>

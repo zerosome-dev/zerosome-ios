@@ -65,15 +65,29 @@ public struct CarouselNextView<Data: Identifiable, Content: View, LastContent: V
                         .gesture(
                             DragGesture()
                                 .onEnded { value in
+//                                    let offsetX = value.translation.width
+//                                    
+//                                    if offsetX < -50 { // 오른쪽으로 스와이프
+//                                        currentIndex = min(currentIndex + 1, CGFloat(data.count))
+//                                    } else if offsetX > 50 { // 왼쪽으로 스와이프
+//                                        currentIndex = max(currentIndex - 1, 0)
+//                                    }
+//                                    
+//                                    withAnimation {
+//                                        currentOffset = -currentIndex * nextOffset
+//                                    }
                                     let offsetX = value.translation.width
+                                    let velocityX = value.velocity.width
                                     
-                                    if offsetX < -50 { // 오른쪽으로 스와이프
+                                    let swipeThreshold: CGFloat = velocityX > 1000 ? 20 : 50 // 속도에 따라 조건 조절
+                                    
+                                    if offsetX < -swipeThreshold {
                                         currentIndex = min(currentIndex + 1, CGFloat(data.count))
-                                    } else if offsetX > 50 { // 왼쪽으로 스와이프
+                                    } else if offsetX > swipeThreshold {
                                         currentIndex = max(currentIndex - 1, 0)
                                     }
                                     
-                                    withAnimation {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
                                         currentOffset = -currentIndex * nextOffset
                                     }
                                 }

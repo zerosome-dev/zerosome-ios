@@ -11,7 +11,6 @@ import DesignSystem
 
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
-    @EnvironmentObject var toast: ToastAction
     @ObservedObject var viewModel: HomeMainViewModel
     
     init(viewModel: HomeMainViewModel) {
@@ -37,7 +36,6 @@ struct HomeMainView: View {
                         )
                     )
                 }
-                .environmentObject(toast)
                 .padding(.top, 20)
                 
                 HomeCarouselView(data: viewModel.tobeReleased, viewModel: viewModel)
@@ -63,7 +61,6 @@ struct HomeMainView: View {
                     print("viewmodel.tapdata \(viewModel.tapData)")
                     router.navigateTo(.detailMainView(viewModel.tapData))
                 }
-                .environmentObject(toast)
             }
         }
         .scrollIndicators(.hidden)
@@ -78,4 +75,5 @@ struct HomeMainView: View {
 
 #Preview {
     HomeMainView(viewModel: HomeMainViewModel(homeUsecase: HomeUsecase(homeRepoProtocol: HomeRepository(apiService: ApiService()))))
+        .environmentObject(Router())
 }
