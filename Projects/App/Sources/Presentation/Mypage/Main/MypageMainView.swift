@@ -82,16 +82,36 @@ struct MypageMainView: View {
     }
 }
 
-enum MypageCenter: String, CaseIterable {
-    case customCenter = "고객센터"
-    case service = "서비스 이용"
+enum CustomCenter: String, CaseIterable {
+    case notice = "공지사항"
+    case faq = "FAQ"
+    case inquiry = "1:1 문의"
     
-    var type: [String] {
+    var url: String {
         switch self {
-        case .customCenter:
-            return ["공지사항", "FAQ", "1:1 문의"]
-        case .service:
-            return ["서비스 이용약관", "개인정보 처리방침", "앱 버전 정보"]
+        case .notice:
+            return "naver"
+        case .faq:
+            return "faq"
+        case .inquiry:
+            return "inquiry"
+        }
+    }
+}
+
+enum Service: String, CaseIterable {
+    case term = "서비스 이용약관"
+    case personalInfo = "개인정보 처리방침"
+    case appVersion = "앱 버전 정보"
+    
+    var url: String {
+        switch self {
+        case .term:
+            return "https://zerosome.imweb.me/?mode=policy"
+        case .personalInfo:
+            return "https://zerosome.imweb.me/19"
+        case .appVersion:
+            return "https://zerosome.imweb.me/20"
         }
     }
 }
