@@ -30,7 +30,6 @@ struct MypageMainView: View {
                 MypageButton(title: "로그아웃")
                     .tap {
                         viewModel.send(.logout)
-//                        viewModel.logoutResult = false
                     }
                     .onReceive(viewModel.$logoutResult) { result in
                         accountAction(result: result, type: .failLogout)
@@ -39,22 +38,16 @@ struct MypageMainView: View {
                 MypageButton(title: "회원탈퇴")
                     .tap {
                         viewModel.send(.revoke)
-//                        viewModel.revokeResult = false
                     }
                     .onReceive(viewModel.$revokeResult) { result in                   
                         accountAction(result: result, type: .failRevoke)
                     }
             }
             .padding(.horizontal, 22)
-            Text("toast Message")
-                .onTapGesture {
-                    toast.settingToggle(type: .deleteReview)
-                    toast.setToggle(for: .deleteReview, true)
-                }
             Spacer()
         }
         .onAppear {
-//            viewModel.send(.getUserBasicInfo)
+            viewModel.send(.getUserBasicInfo)
         }
 
         .ZSnavigationTitle("마이페이지")
