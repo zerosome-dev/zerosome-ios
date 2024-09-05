@@ -16,16 +16,19 @@ struct CategoryFilteredView: View {
     
     let navigationTtile: String
     let d2CategoryCode: String
+    let d1CategoryCode: String
     let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
     
     init(
         navigationTtile: String,
         d2CategoryCode: String,
-        viewModel: CategoryFilteredViewModel
+        viewModel: CategoryFilteredViewModel,
+        d1CategoryCode: String
     ) {
         self.navigationTtile = navigationTtile
         self.d2CategoryCode = d2CategoryCode
         self.viewModel = viewModel
+        self.d1CategoryCode = d1CategoryCode
     }
     
     var body: some View {
@@ -37,7 +40,7 @@ struct CategoryFilteredView: View {
                 DivideRectangle(height: 1, color: Color.neutral100)
                 
                 HStack {
-                    ZSText("(32)개의 상품", fontType: .body3, color: Color.neutral900)
+                    ZSText("\(viewModel.productList.count)개의 상품", fontType: .body3, color: Color.neutral900)
                     Spacer()
                     HStack(spacing: 2) {
                         Text("\(viewModel.update.rawValue)")
@@ -52,22 +55,22 @@ struct CategoryFilteredView: View {
                 .applyFont(font: .body3)
                 .padding(.horizontal, 22)
                 
-//                LazyVGrid(columns: columns) {
-//                    ForEach(0..<10, id: \.self) { index in
-//                        ProductPreviewComponent()
-//                    }
-//                }
-//                .padding(.horizontal, 22)
+                LazyVGrid(columns: columns) {
+                    ForEach(viewModel.productList, id: \.id) { product in
+                        ProductPreviewComponent(data: product)
+                    }
+                }
+                .padding(.horizontal, 22)
             }
         }
         .onAppear {
             viewModel.d2CategoryCode = d2CategoryCode
+            viewModel.d1CategoryCode = d1CategoryCode
             viewModel.navigationTitle = navigationTtile
-            print("💥 \(viewModel.d2CategoryCode)")
             viewModel.send(action: .getD2CategoryList)
-//            viewModel.send(action: .getZeroTagList)
-//            viewModel.send(action: .getBrandList)
-//            viewModel.send(action: .getFilterResult)
+            viewModel.send(action: .getZeroTagList)
+            viewModel.send(action: .getBrandList)
+            viewModel.send(action: .getFilterResult)
         }
         .sheet(isPresented: $viewModel.updateToggle) {
             UpdateBottomSheet(filterVM: viewModel)
@@ -81,5 +84,5 @@ struct CategoryFilteredView: View {
 }
 
 #Preview {
-    CategoryFilteredView(navigationTtile: "과자/아이스크림", d2CategoryCode: "CTG005", viewModel: CategoryFilteredViewModel(filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))))
+    CategoryFilteredView(navigationTtile: "과자/아이스크림", d2CategoryCode: "CTG001001", viewModel: CategoryFilteredViewModel(filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))), d1CategoryCode: "CTG002")
 }

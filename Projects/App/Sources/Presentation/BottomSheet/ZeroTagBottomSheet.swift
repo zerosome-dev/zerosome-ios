@@ -19,7 +19,7 @@ struct ZeroTagBottomSheet: View {
                 .padding(.vertical ,24)
             
             ScrollView {
-                ChipsContainerView(tappedChips: $viewModel.tappedZeroTagChips, types: viewModel.zeroTagTest)
+                ChipsContainerView(tappedChips: $viewModel.tappedZeroTagChips, types: viewModel.zeroTagList)
             }
             .scrollIndicators(.hidden)
             Spacer()

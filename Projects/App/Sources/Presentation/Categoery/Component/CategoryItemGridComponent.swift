@@ -69,8 +69,6 @@ struct CategoryItemGridComponent: View {
                                 size: size
                             )
                             .onTapGesture {
-                                // 카테고리 코드
-                                tapData = Int(data.d2CategoryCode)
                                 tapD2Category = data
                                 tapItem?()
                             }

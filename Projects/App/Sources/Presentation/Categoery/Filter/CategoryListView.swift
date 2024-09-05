@@ -71,7 +71,7 @@ struct CategoryListView: View {
     private func getTagTitle(_ tag: CategoryDetail) -> String {
         switch tag {
         case .category:
-            guard let title = viewModel.category else { return "전체" }
+            guard let title = viewModel.tappedD2CategoryChips?.name else { return "전체" }
             return title
         case .brand:
             let count = viewModel.tappedBrandChips.count

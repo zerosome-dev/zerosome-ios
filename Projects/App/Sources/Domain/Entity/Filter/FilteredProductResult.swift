@@ -14,11 +14,15 @@ struct OffsetFilteredProductResult {
     var offset: Int
 }
 
-struct FilteredProductResult {
+struct FilteredProductResult: Identifiable {
     var productId: Int
     var image: String
     var brandName: String
     var productName: String
     var rating: Double
     var reviewCnt: Int
+    
+    var id: String {
+        return "\(productId)"
+    }
 }

@@ -15,7 +15,7 @@ final class Router: ObservableObject {
 
         case tabView
         case tobeReleasedProduct([HomeRolloutResult], String, String) // 홈 > 종류별 더보기
-        case categoryFilter(String, String, [String]) // navigationTitle, d2CategoryCode, brandFilterforCafe
+        case categoryFilter(String, String, String) // navigationTitle, d2CategoryCode, d1categorydCode
         case detailMainView(Int)
         case reviewList(String, ReviewEntity)
         case creatReview(ReviewEntity) // proudct it, name, brand
@@ -36,11 +36,11 @@ final class Router: ObservableObject {
         case .tobeReleasedProduct(let releasedArray, let title, let subTitle):
             TobeReleasedProductView(title: title, subTitle: subTitle, data: releasedArray)
             
-        case .categoryFilter(let filteredTitle, let d2CategoryCode, let brandFilterForCafe):
+        case .categoryFilter(let filteredTitle, let d2CategoryCode, let d1CategoryCode):
             let filterRepo = FilterRepository(apiService: apiService)
             let filterUsecase = FilterUsecase(filterRepoProtocol: filterRepo)
             let viewModel = CategoryFilteredViewModel(filterUsecase: filterUsecase)
-            CategoryFilteredView(navigationTtile: filteredTitle, d2CategoryCode: d2CategoryCode, viewModel: viewModel)
+            CategoryFilteredView(navigationTtile: filteredTitle, d2CategoryCode: d2CategoryCode, viewModel: viewModel, d1CategoryCode: d1CategoryCode)
 
         case .detailMainView(let productId):
             DetailMainView(productId: productId)
