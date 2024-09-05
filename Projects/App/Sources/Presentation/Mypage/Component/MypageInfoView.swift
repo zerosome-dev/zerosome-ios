@@ -31,7 +31,7 @@ class MypageInfoViewModel: ObservableObject {
 
 struct MypageInfoView: View {
     @StateObject private var viewModel = MypageInfoViewModel()
-    
+    @ObservedObject var vm: MypageViewModel
     var body: some View {
         VStack {
             ZSText("고객센터", fontType: .body3, color: Color.neutral300)
@@ -51,7 +51,11 @@ struct MypageInfoView: View {
                 .contentShape(Rectangle())
                 .padding(.bottom, 10)
                 .onTapGesture {
-                    viewModel.send(.customURL(center))
+                    if center == .inquiry {
+                        vm.send(.linkKakao)
+                    } else {
+                        viewModel.send(.customURL(center))
+                    }
                 }
             }
             
@@ -86,6 +90,3 @@ struct MypageInfoView: View {
     }
 }
 
-#Preview {
-    MypageInfoView()
-}

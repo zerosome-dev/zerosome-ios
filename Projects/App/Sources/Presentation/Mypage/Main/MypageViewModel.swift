@@ -8,6 +8,7 @@
 
 import Combine
 import SwiftUI
+import KakaoSDKTalk
 
 class MypageViewModel: ObservableObject {
     
@@ -15,6 +16,7 @@ class MypageViewModel: ObservableObject {
         case getUserBasicInfo
         case logout
         case revoke
+        case linkKakao
     }
     
     private let mypageUseCase: MypageUsecase
@@ -92,6 +94,15 @@ class MypageViewModel: ObservableObject {
                 }
                 .store(in: &cancellables)
             self.loading = false
+            
+        case .linkKakao:
+            TalkApi.shared.chatChannel(channelPublicId: "") { error in
+                if let error = error {
+                    print("카카오톡 연결 실패 \(error.localizedDescription)")
+                } else {
+                    print("성공")
+                }
+            }
         }
     }
     

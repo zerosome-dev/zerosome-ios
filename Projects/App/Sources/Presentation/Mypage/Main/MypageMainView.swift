@@ -24,7 +24,7 @@ struct MypageMainView: View {
                 .padding(.init(top: 24,leading: 0,bottom: 30,trailing: 0))
             
             DivideRectangle(height: 12, color: Color.neutral50)
-            MypageInfoView()
+            MypageInfoView(vm: viewModel)
             
             HStack {
                 MypageButton(title: "로그아웃")

@@ -52,8 +52,8 @@ struct CategoryItemGridComponent: View {
                     .resizable()
                     .frame(width: 16, height: 16)
             }
+            .contentShape(Rectangle())
             .onTapGesture {
-                print("tap title 범위 체킹!")
                 tapTitle?()
             }
             
