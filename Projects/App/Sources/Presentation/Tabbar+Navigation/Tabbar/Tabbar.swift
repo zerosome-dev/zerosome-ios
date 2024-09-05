@@ -18,7 +18,9 @@ enum Tabbar: CaseIterable {
         case .home:
             let homeRepoProtocol = HomeRepository(apiService: apiService)
             let homeUseCase = HomeUsecase(homeRepoProtocol: homeRepoProtocol)
-            let viewModel = HomeMainViewModel(homeUsecase: homeUseCase)
+            let filterRepo = FilterRepository(apiService: apiService)
+            let filterUsecase = FilterUsecase(filterRepoProtocol: filterRepo)
+            let viewModel = HomeMainViewModel(homeUsecase: homeUseCase, filterUsecase: filterUsecase)
             HomeMainView(viewModel: viewModel)
             
         case .category:

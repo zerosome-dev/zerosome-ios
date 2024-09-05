@@ -137,7 +137,7 @@ struct HomeCarouselView: View {
                                                 .tint(Color.primaryFF6972)
                                         }
                                         .resizable()
-                                        .scaledToFit()
+                                        .scaledToFill()
                                 }
                             
                             Spacer()
