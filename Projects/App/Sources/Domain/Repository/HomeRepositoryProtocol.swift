@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 protocol HomeRepositoryProtocol {
-    func getBannerList() async -> Result<[HomeBannerResonseDTO], NetworkError>
-    func tobeReleaseProduct() async -> Future<[HomeRolloutResult], NetworkError>
-    func homeCafe() async -> Future<[HomeCafeResult], NetworkError>
+    func getBannerList() -> Future<[HomeBannerResonseDTO], NetworkError>
+    func tobeReleaseProduct() -> Future<[HomeRolloutResult], NetworkError>
+    func homeCafe() -> Future<[HomeCafeResult], NetworkError>
 }

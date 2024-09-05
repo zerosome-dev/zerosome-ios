@@ -16,19 +16,22 @@ class HomeRepository: HomeRepositoryProtocol {
         self.apiService = apiService
     }
     
-    func getBannerList() async -> Result<[HomeBannerResonseDTO], NetworkError> {
-        let response: Result<[HomeBannerResonseDTO], NetworkError> = await apiService.request(
-            httpMethod: .get,
-            endPoint: APIEndPoint.url(for: .banner) 
-        )
-        
-        switch response {
-        case .success(let success):
-            return .success(success)
-        case .failure(let error):
-            debugPrint("🏠 getBannerList error\(error.localizedDescription)")
-            return .failure(error)
+    func getBannerList() -> Future<[HomeBannerResonseDTO], NetworkError> {
+        return Future { promise in
+//            let response: Result<[HomeBannerResonseDTO], NetworkError> = await self.apiService.request(
+//                httpMethod: .get,
+//                endPoint: APIEndPoint.url(for: .banner)
+//            )
+//            
+//            switch response {
+//            case .success(let success):
+//                return .success(success)
+//            case .failure(let error):
+//                debugPrint("🏠 getBannerList error\(error.localizedDescription)")
+//                return .failure(error)
+//            }
         }
+        
     }
     
     func tobeReleaseProduct() -> Future<[HomeRolloutResult], NetworkError> {
@@ -51,7 +54,7 @@ class HomeRepository: HomeRepositoryProtocol {
         }
     }
     
-    func homeCafe() async -> Future<[HomeCafeResult], NetworkError> {
+    func homeCafe() -> Future<[HomeCafeResult], NetworkError> {
         return Future { promise in
             Task {
                 let response: Result<[HomeCafeResponseDTO], NetworkError> = await self.apiService.request(

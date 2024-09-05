@@ -12,15 +12,15 @@ import Combine
 struct HomeUsecase {
     let homeRepoProtocol: HomeRepositoryProtocol
     
-    func getBannerList() async  -> Result<[HomeBannerResonseDTO], NetworkError> {
-        return await homeRepoProtocol.getBannerList()
+//    func getBannerList()  -> Result<[HomeBannerResonseDTO], NetworkError> {
+//        return homeRepoProtocol.getBannerList()
+//    }
+    
+    func tobeReleaseProduct() -> Future<[HomeRolloutResult], NetworkError> {
+        return homeRepoProtocol.tobeReleaseProduct()
     }
     
-    func tobeReleaseProduct() async -> Future<[HomeRolloutResult], NetworkError> {
-        return await homeRepoProtocol.tobeReleaseProduct()
-    }
-    
-    func homeCafe() async -> Future<[HomeCafeResult], NetworkError> {
-        return await homeRepoProtocol.homeCafe()
+    func homeCafe() -> Future<[HomeCafeResult], NetworkError> {
+        return homeRepoProtocol.homeCafe()
     }
 }
