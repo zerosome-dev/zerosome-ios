@@ -80,16 +80,16 @@ final class FilterRepository: FilterRepositoryProtocol {
         }
     }    
     
-    func getFilterdProduct(offset: Int?, limit: Int?, d1CategoryCode: String, orderType: String?, brandList: [String?], zeroCtgList: [String?]) -> Future<[OffsetFilteredProductResult], NetworkError> {
+    func getFilterdProduct(offset: Int?, limit: Int?, d2CategoryCode: String, orderType: String?, brandList: [String?], zeroCtgList: [String?]) -> Future<OffsetFilteredProductResult, NetworkError> {
         let parameters: [String : Int?] = ["offset" : offset ?? 0, "limit" : limit ?? 10]
         
         return Future { promise in
             Task {
-                let response: Result<[OffsetPageResponseDTO], NetworkError> = await self.apiService.request(
+                let response: Result<OffsetPageResponseDTO, NetworkError> = await self.apiService.request(
                     httpMethod: .post,
                     endPoint: APIEndPoint.url(for: .filteredProduct),
                     queryParameters: parameters,
-                    pathParameters: d1CategoryCode,
+                    pathParameters: d2CategoryCode,
                     body: ProductByCtgListRequest(
                         orderType: orderType,
                         brandList: brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
@@ -99,14 +99,27 @@ final class FilterRepository: FilterRepositoryProtocol {
                 
                 switch response {
                 case .success(let success):
-                    print("성공????????🩵")
-                    let mappedResult = success.map { FilterMapper.toFilteredProductResult(response: $0) }
+                    let mappedResult = FilterMapper.toFilteredProductResult(response: success)
                     promise(.success(mappedResult))
                 case .failure(let failure):
-                    debugPrint("Get Filtered ProudctList Failure \(failure.localizedDescription)")
+                    debugPrint("Get Filtered ProudctList Failure \(failure.localizedDescription)🩵🩵🩵🩵🩵🩵")
                     promise(.failure(NetworkError.response))
                 }
             }
         }
     }
 }
+
+/*
+ let response = await self.apiService.testApi(
+     httpMethod: .post,
+     endPoint: APIEndPoint.url(for: .filteredProduct),
+     queryParameters: parameters,
+     pathParameters: d2CategoryCode,
+     body: ProductByCtgListRequest(
+         orderType: orderType,
+         brandList: brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
+         zeroCtgList: zeroCtgList.compactMap({ $0 }).isEmpty ? nil : zeroCtgList.compactMap({ $0 })
+     )
+ )
+ */

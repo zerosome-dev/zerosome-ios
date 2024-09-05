@@ -48,6 +48,13 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     star: Int(round(data.rating)),
                     reviewCnt: data.reviewCnt
                 )
+            } else if let data = data as? FilteredProductResult {
+                infoView(
+                    image: data.image,
+                    name: data.productName,
+                    brand: data.brandName,
+                    star: Int(round(data.rating)),
+                    reviewCnt: data.reviewCnt)
             }
         }
         .onTapGesture {

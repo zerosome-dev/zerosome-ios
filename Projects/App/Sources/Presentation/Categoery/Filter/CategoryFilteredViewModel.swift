@@ -53,7 +53,8 @@ class CategoryFilteredViewModel: ObservableObject {
     @Published var navigationTitle: String = ""
     
     // 필터 결과
-    @Published var filteredProducts: [OffsetFilteredProductResult] = []
+    @Published var filteredProducts: OffsetFilteredProductResult?
+    @Published var productList: [FilteredProductResult] = []
 }
 
 extension CategoryFilteredViewModel {
@@ -109,7 +110,7 @@ extension CategoryFilteredViewModel {
             filterUsecase.getFilterdProduct(
                 offset: nil,
                 limit: nil,
-                d1CategoryCode: d2CategoryCode,
+                d2CategoryCode: d2CategoryCode,
                 orderType: update.orderType,
                 brandList: tappedBrandChips.map({ $0.code }),
                 zeroCtgList: tappedZeroTagChips.map({ $0.code })
@@ -122,6 +123,7 @@ extension CategoryFilteredViewModel {
                 }
             } receiveValue: { [weak self] data in
                 self?.filteredProducts = data
+                self?.productList = data.content
             }
             .store(in: &cancellables)
         }

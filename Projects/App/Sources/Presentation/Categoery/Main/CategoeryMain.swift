@@ -29,7 +29,7 @@ struct CategoryMainView: View {
                     
                     router.navigateTo(.categoryFilter(
                         viewModel.filteredTitle,
-                        tapD2Category.d2CategoryCode,
+                        viewModel.entirCode,
                         viewModel.brandFilter)
                     )
                 }

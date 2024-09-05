@@ -70,9 +70,11 @@ struct CategoryItemGridComponent: View {
                             )
                             .onTapGesture {
                                 // 카테고리 코드
-                                tapData = Int(data.d2CategoryCode)
+//                                tapData = Int(data.d2CategoryCode)
                                 tapD2Category = data
                                 tapItem?()
+                                print("data tapD2Category \(data)")
+                                print("tapD2Category \(data.d2CategoryCode)")
                             }
                         }
                     }

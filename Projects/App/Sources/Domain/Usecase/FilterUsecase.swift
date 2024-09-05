@@ -27,15 +27,15 @@ struct FilterUsecase {
     func getFilterdProduct(
         offset: Int?,
         limit: Int?,
-        d1CategoryCode: String,
+        d2CategoryCode: String,
         orderType: String?,
         brandList: [String?],
         zeroCtgList: [String?]
-    ) -> Future<[OffsetFilteredProductResult], NetworkError> {
+    ) -> Future<OffsetFilteredProductResult, NetworkError> {
         return filterRepoProtocol.getFilterdProduct(
             offset: offset,
             limit: limit,
-            d1CategoryCode: d1CategoryCode,
+            d2CategoryCode: d2CategoryCode,
             orderType: orderType,
             brandList: brandList,
             zeroCtgList: zeroCtgList
