@@ -17,13 +17,13 @@ final class FilterRepository: FilterRepositoryProtocol {
         self.apiService = apiService
     }
     
-    func getD2CategoryList(d2CategoryCode: String) -> Future<[D2CategoryFilterResult], NetworkError> {
+    func getD2CategoryList(d1CategoryCode: String) -> Future<[D2CategoryFilterResult], NetworkError> {
         return Future { promise in
             Task {
                 let response: Result<[D2CategoryFilterResponseDTO], NetworkError> = await self.apiService.request(
                     httpMethod: .get,
                     endPoint: APIEndPoint.url(for: .d2CategoryList),
-                    pathParameters: d2CategoryCode,
+                    pathParameters: d1CategoryCode,
                     header: AccountStorage.shared.accessToken
                 )
                 

@@ -12,8 +12,8 @@ import Combine
 struct FilterUsecase {
     let filterRepoProtocol: FilterRepositoryProtocol
     
-    func getD2CategoryList(d2CategoryCode: String) -> Future<[D2CategoryFilterResult], NetworkError> {
-        return filterRepoProtocol.getD2CategoryList(d2CategoryCode: d2CategoryCode)
+    func getD1CategoryList(d1CategoryCode: String) -> Future<[D2CategoryFilterResult], NetworkError> {
+        return filterRepoProtocol.getD2CategoryList(d1CategoryCode: d1CategoryCode)
     }
     
     func getBrandList() -> Future<[BrandFilterResult], NetworkError> {

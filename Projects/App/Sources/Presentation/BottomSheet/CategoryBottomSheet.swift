@@ -23,7 +23,7 @@ struct CategoryBottomSheet: View {
                 .padding(.vertical, 24)
             
             LazyVGrid(columns: columns, spacing: 20) {
-                ForEach(viewModel.d2CategoryTest, id: \.id) { type in
+                ForEach(viewModel.d2CategoryList, id: \.id) { type in
                     VStack(spacing: 6) {
                         Rectangle()
                             .fill(Color.neutral50)
@@ -34,35 +34,24 @@ struct CategoryBottomSheet: View {
                                     RoundedRectangle(cornerRadius: 8)
                                         .stroke(Color.primaryFF6972)
                                 }
-                                
-//                                if viewModel.tappedD2CategoryChips == type {
-//                                    RoundedRectangle(cornerRadius: 8)
-//                                        .stroke(Color.primaryFF6972)
-//                                }
                             }
-                        Text(type.name)
-                            .foregroundStyle(Color.neutral900)
-                            .applyFont(font: .body2)
+                        ZSText(type.name, fontType: .body2)
+                            .lineLimit(1)
                     }
                     .onTapGesture {
-                        guard var tappedChips = viewModel.tappedD2CategoryChips else { return }
                         let tapped = TappedChips(name: type.name, code: type.code)
                         viewModel.tappedD2CategoryChips = tapped
-                        
-//                        type == viewModel.category
-//                            ? (viewModel.category = "")
-//                            : (viewModel.category = type)
                     }
                 }
             }
             
             Spacer()
-            BottomSheetButton(enable: ((viewModel.category?.isEmpty) != nil))
+            BottomSheetButton(enable: viewModel.tappedD2CategoryChips != nil)
                 .tapApplyAction {
                     viewModel.sheetToggle = nil
                 }
                 .tapResetAction {
-                    viewModel.category = ""
+                    viewModel.tappedD2CategoryChips = nil
                 }
         }
         .padding(.horizontal, 24)

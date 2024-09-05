@@ -162,11 +162,15 @@ struct ChipsContainerView<T: ChipRepresentable>: View {
             .background(
                 GeometryReader { geometry in
                     Color.clear
-                        .onAppear {
-                            self.totalHeight = geometry.size.height
-                        }
+                        .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
+//                        .onAppear {
+//                            self.totalHeight = geometry.size.height
+//                        }
                 }
             )
+            .onPreferenceChange(HeightPreferenceKey.self) { height in
+                self.totalHeight = height
+            }
         }
         .frame(height: totalHeight)
     }
@@ -183,5 +187,13 @@ struct ChipsContainerView<T: ChipRepresentable>: View {
     
     private func checkCipsList(chip: TappedChips) -> Bool {
         return tappedChips.contains(chip) ? true : false
+    }
+}
+
+struct HeightPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
     }
 }

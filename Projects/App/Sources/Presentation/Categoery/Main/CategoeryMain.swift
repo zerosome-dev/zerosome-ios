@@ -25,12 +25,11 @@ struct CategoryMainView: View {
                     viewModel.send(action: .tapCategoryTitle(d1Category))
                     viewModel.send(action: .getBrandNameForCafe(d1Category))
                     viewModel.send(action: .getEntireCode(d1Category))
-                    guard let tapD2Category = viewModel.tapD2Category else { return }
                     
                     router.navigateTo(.categoryFilter(
                         viewModel.filteredTitle,
                         viewModel.entirCode,
-                        viewModel.brandFilter)
+                        d1Category.d1CategoryCode)
                     )
                 }
                 .tapItem { // 카테고리 아이템 탭했을 때
@@ -41,7 +40,7 @@ struct CategoryMainView: View {
                     router.navigateTo(.categoryFilter(
                         viewModel.filteredTitle,
                         tapD2Category.d2CategoryCode,
-                        viewModel.brandFilter)
+                        d1Category.d1CategoryCode)
                     )
                 }
             }
