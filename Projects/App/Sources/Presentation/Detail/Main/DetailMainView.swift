@@ -16,16 +16,14 @@ struct DetailMainView: View {
     let productId: Int
     @EnvironmentObject var router: Router
     @EnvironmentObject var toast: ToastAction
-    @StateObject private var viewModel = DetailMainViewModel(
-        detailUseCase: DetailUsecase(
-            detailRepoProtocol: DetailRepository(
-                apiService: ApiService()
-            )
-        )
-    )
+    @ObservedObject var viewModel: DetailMainViewModel
     
-    init(productId: Int) {
+    init(
+        productId: Int,
+        viewModel: DetailMainViewModel
+    ) {
         self.productId = productId
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -123,6 +121,6 @@ struct DetailMainView: View {
 }
 
 #Preview {
-    DetailMainView(productId: 207)
+    DetailMainView(productId: 207, viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
         .environmentObject(ToastAction())
 }

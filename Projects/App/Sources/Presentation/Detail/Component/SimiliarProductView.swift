@@ -19,15 +19,28 @@ struct SimiliarProductView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             ScrollView(.horizontal) {
-                HStack {
-                    ForEach(viewModel.dataInfo?.similarProductList ?? [], id: \.productId) { data in
-                        ProductPreviewComponent(data: data)
-                            .tap {
-                                router.navigateTo(.detailMainView(data.productId))
-                            }
-                            .frame(maxWidth: 150)
+                if viewModel.similarList.count < 10 {
+                    HStack {
+                        ForEach(viewModel.similarList, id: \.productId) { data in
+                            ProductPreviewComponent(data: data)
+                                .tap {
+                                    router.navigateTo(.detailMainView(data.productId))
+                                }
+                                .frame(maxWidth: 150)
+                        }
+                    }
+                } else {
+                    HStack {
+                        ForEach(viewModel.similarList.prefix(10), id: \.productId) { data in
+                            ProductPreviewComponent(data: data)
+                                .tap {
+                                    router.navigateTo(.detailMainView(data.productId))
+                                }
+                                .frame(maxWidth: 150)
+                        }
                     }
                 }
+                
             }
             .scrollIndicators(.hidden)
         }
