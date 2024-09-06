@@ -62,6 +62,7 @@ class MypageViewModel: ObservableObject {
                         break
                     case .failure(let failure):
                         debugPrint("Failed to logout...... \(failure.localizedDescription)")
+                        self.logoutResult = false
                     }
                 } receiveValue: { result in
                     if result {
@@ -84,8 +85,10 @@ class MypageViewModel: ObservableObject {
                         break
                     case .failure(let failure):
                         debugPrint("Failed to revoke \(failure.localizedDescription)")
+                        self.revokeResult = false
                     }
                 } receiveValue: { result in
+                    print("💦 \(result)")
                     if result {
                         self.revokeResult = true
                     } else {

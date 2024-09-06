@@ -12,6 +12,8 @@ enum DoublePopup {
     case none
     case deleteReview
     case reportReview
+    case logout
+    case revoke
     
     var title: String {
         switch self {
@@ -21,6 +23,25 @@ enum DoublePopup {
             return "리뷰를 삭제할까요?"
         case .reportReview:
             return "신고할까요?"
+        case .revoke:
+            return "회원 탈퇴하시겠어요?"
+        case .logout:
+            return "로그아웃 하시겠어요?"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .none:
+            ""
+        case .deleteReview:
+            ""
+        case .reportReview:
+            ""
+        case .revoke:
+            "회원정보가 즉시 삭제되며, 복구가 불가합니다."
+        case .logout:
+            ""
         }
     }
     
@@ -32,6 +53,10 @@ enum DoublePopup {
             return "삭제하기"
         case .reportReview:
             return "신고하기"
+        case .revoke:
+            return "회원탈퇴"
+        case .logout:
+            return Choice.yes.rawValue
         }
     }
     
@@ -43,6 +68,10 @@ enum DoublePopup {
             return Choice.close.rawValue
         case .reportReview:
             return Choice.close.rawValue
+        case .revoke:
+            return Choice.no.rawValue
+        case .logout:
+            return Choice.no.rawValue
         }
     }
 }
@@ -53,6 +82,8 @@ enum SinglePopup {
     case failSignIn
     case failLogout
     case failRevoke
+    case successLogout
+    case successRevoke
     case modifyReview
     
     var title: String {
@@ -69,6 +100,10 @@ enum SinglePopup {
             return "회원탈퇴에 실패했어요"
         case .modifyReview:
             return "수정이 완료되었어요!"
+        case .successLogout:
+            return "로그아웃이 완료되었습니다."
+        case .successRevoke:
+            return "회원 탈퇴가 완료되었습니다."
         }
     }
     
@@ -85,6 +120,10 @@ enum SinglePopup {
         case .failRevoke:
             return Choice.retry.rawValue
         case .modifyReview:
+            return Choice.check.rawValue
+        case .successLogout:
+            return Choice.check.rawValue
+        case .successRevoke:
             return Choice.check.rawValue
         }
     }

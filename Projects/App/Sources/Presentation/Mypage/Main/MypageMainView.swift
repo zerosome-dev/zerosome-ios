@@ -39,7 +39,7 @@ struct MypageMainView: View {
                     .tap {
                         viewModel.send(.revoke)
                     }
-                    .onReceive(viewModel.$revokeResult) { result in                   
+                    .onReceive(viewModel.$revokeResult) { result in
                         accountAction(result: result, type: .failRevoke)
                     }
             }
@@ -64,8 +64,10 @@ struct MypageMainView: View {
             guard let toggle = result else { return }
             
             if toggle {
-                authViewModel.authenticationState = .initial
-                debugPrint("success")
+                withAnimation(.easeInOut) {
+                    debugPrint("success")
+                    authViewModel.authenticationState = .initial
+                }
             } else {
                 debugPrint("fail")
                 popup.settingToggle(type: type)
@@ -111,4 +113,5 @@ enum Service: String, CaseIterable {
 
 #Preview {
     MypageMainView(viewModel: MypageViewModel(mypageUseCase: MypageUsecase(mypageRepoProtocol: MypageRepository(apiService: ApiService()))))
+        .environmentObject(PopupAction())
 }

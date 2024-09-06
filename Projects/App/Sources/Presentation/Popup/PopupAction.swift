@@ -104,14 +104,19 @@ final class PopupAction: ObservableObject {
     @Published var doubleToggle: DoublePopup = .none
     
     @Published var none: Bool = false
+    @Published var revoke: Bool = false
+    @Published var logout: Bool = false
     @Published var deleteReview: Bool = false
     @Published var reportReview: Bool = false
     @Published var failLogin: Bool = false
     @Published var failSignIn: Bool = false
     @Published var failLogout: Bool = false
+    @Published var successLogout: Bool = false
     @Published var failRevoke: Bool = false
+    @Published var successRevoke: Bool = false
     @Published var modifyReview: Bool = false
     @Published var rightButtonTapped: Bool = false
+    @Published var rightButtonFlag: Bool = false
 
     func settingToggle(type: SinglePopup) {
         self.singleToggle = type
@@ -137,6 +142,16 @@ final class PopupAction: ObservableObject {
             return Binding(
                 get: { self.reportReview },
                 set: { self.reportReview = $0 }
+            )
+        case .revoke:
+            return Binding(
+                get: { self.revoke },
+                set: { self.revoke = $0 }
+            )
+        case .logout:
+            return Binding(
+                get: { self.logout },
+                set: { self.logout = $0 }
             )
         }
     }
@@ -173,6 +188,16 @@ final class PopupAction: ObservableObject {
                 get: { self.modifyReview },
                 set: { self.modifyReview = $0 }
             )
+        case .successLogout:
+            return Binding(
+                get: { self.successLogout },
+                set: { self.successLogout = $0 }
+            )
+        case .successRevoke:
+            return Binding(
+                get: { self.successRevoke },
+                set: { self.successRevoke = $0 }
+            )
         }
     }
     
@@ -184,6 +209,10 @@ final class PopupAction: ObservableObject {
             self.deleteReview = value
         case .reportReview:
             self.reportReview = value
+        case .revoke:
+            self.revoke = value
+        case .logout:
+            self.logout = value
         }
     }
     
@@ -201,6 +230,10 @@ final class PopupAction: ObservableObject {
             self.failRevoke = value
         case .modifyReview:
             self.modifyReview = value
+        case .successLogout:
+            self.successLogout = value
+        case .successRevoke:
+            self.successRevoke = value
         }
     }
 }
