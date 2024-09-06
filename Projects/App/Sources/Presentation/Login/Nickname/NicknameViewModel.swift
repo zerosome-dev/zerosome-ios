@@ -9,26 +9,14 @@
 import SwiftUI
 import Combine
 
-class NicknameViewModel: ObservableObject {
-    
-    @Published var isValid: Bool = false
-    @Published var nicknameErrorMessage: NicknameErrorCase = .none
-    @Published var nickname: String = "" {
-        didSet {
-            checkNickname()
-        }
-    }
-    
-    private let authViewModel: AuthViewModel
-    private let accountUseCase: AccountUseCase
-    private var cancellables = Set<AnyCancellable>()
+enum NicknameErrorCase: String {
+    case none = ""
+    case duplicated = "이미 사용중인 닉네임입니다."
+    case rangeError = "2자 ~ 12자 이내의 닉네임만 사용 가능합니다."
+    case success = "사용 가능한 닉네임입니다."
+}
 
-    enum NicknameErrorCase: String {
-        case none = ""
-        case duplicated = "이미 사용중인 닉네임입니다."
-        case rangeError = "2자 ~ 12자 이내의 닉네임만 사용 가능합니다."
-        case success = "사용 가능한 닉네임입니다."
-    }
+class NicknameViewModel: ObservableObject {
     
     enum Action {
         case signUpKakao
@@ -36,12 +24,24 @@ class NicknameViewModel: ObservableObject {
         case checkNickname
     }
     
+    private let authViewModel: AuthViewModel
+    private let accountUseCase: AccountUseCase
+    private var cancellables = Set<AnyCancellable>()
+    
     init(
         authViewModel: AuthViewModel,
         accountUseCase: AccountUseCase
     ) {
         self.authViewModel = authViewModel
         self.accountUseCase = accountUseCase
+    }
+    
+    @Published var isValid: Bool = false
+    @Published var nicknameErrorMessage: NicknameErrorCase = .none
+    @Published var nickname: String = "" {
+        didSet {
+            checkNickname()
+        }
     }
     
     func send(action: Action) {
@@ -97,9 +97,15 @@ class NicknameViewModel: ObservableObject {
                     switch result {
                     case .success(let success):
                         self?.isValid = success
+                        if success {
+                            self?.nicknameErrorMessage = .success
+                        } else {
+                            self?.nicknameErrorMessage = .duplicated
+                        }
                     case .failure(let failure):
                         debugPrint("nickname 중복 또는 실패 \(failure.localizedDescription)")
                         self?.isValid = false
+                        self?.nicknameErrorMessage = .duplicated
                     }
                 }
             }
@@ -138,5 +144,4 @@ extension NicknameViewModel {
             return false
         }
     }
-    
 }

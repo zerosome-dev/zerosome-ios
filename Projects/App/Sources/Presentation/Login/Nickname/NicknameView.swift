@@ -57,9 +57,7 @@ struct NicknameView: View {
                     switch type {
                     case .kakao:
                         viewModel.send(action: .signUpKakao)
-//                        authViewModel.authenticationState = .signIn
                     case .apple:
-//                        authViewModel.authenticationState = .signIn
                         viewModel.send(action: .signUpApple)
                     }
                 }
@@ -70,4 +68,8 @@ struct NicknameView: View {
             authViewModel.authenticationState = .term
         }
     }
+}
+
+#Preview {
+    NicknameView(viewModel: NicknameViewModel(authViewModel: AuthViewModel(accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService())), socialUseCase: SocialUsecase(socialRepoProtocol: SocialRepository(apiService: ApiService()))), accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService()))))
 }

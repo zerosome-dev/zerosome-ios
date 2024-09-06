@@ -71,7 +71,10 @@ final class Router: ObservableObject {
             MyReivewView(viewModel: viewModel)
         
         case .mypgaeNickname(let nickname):
-            ChangeNicknameView()
+            let accountRepo = AccountRepository(apiService: apiService)
+            let accountUsecase = AccountUseCase(accountRepoProtocol: accountRepo)
+            let viewModel = ChangeNicknameViewModel(accountUseCase: accountUsecase, initialNickname: nickname)
+            ChangeNicknameView(viewModel: viewModel, nickname: nickname)
         
         case .report:
             ReportMainView()

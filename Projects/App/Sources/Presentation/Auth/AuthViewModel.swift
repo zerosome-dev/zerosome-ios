@@ -29,7 +29,7 @@ class AuthViewModel: ObservableObject {
     private let accountUseCase: AccountUseCase
     private let socialUseCase: SocialUsecase
     
-    @Published var authenticationState: AuthenticationState = .signIn
+    @Published var authenticationState: AuthenticationState = .initial
     @Published var loginAlert: Bool = false
     @Published var loginType: Login?
     @Published var marketingAgreement: Bool = false
@@ -42,6 +42,7 @@ class AuthViewModel: ObservableObject {
         self.socialUseCase = socialUseCase
     }
     
+    @MainActor
     func send(action: Action) {
         switch action {
         case .kakaoSignIn:

@@ -12,6 +12,7 @@ struct SocialUsecase {
     
     let socialRepoProtocol: SocialRepositoryProtocol
     
+    @MainActor
     func kakaoLogin() async -> Result<String, NetworkError> {
         let repository = await socialRepoProtocol.kakaoSignIn()
         
@@ -25,6 +26,7 @@ struct SocialUsecase {
         }
     }
     
+    @MainActor
     func appleLogin() async -> Result<String, NetworkError> {
         
         let repository = await socialRepoProtocol.appleSignIn()
