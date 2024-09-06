@@ -10,6 +10,7 @@ import Foundation
 import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
+import Combine
 
 final class AccountRepository: AccountRepositoryProtocol {
     
@@ -92,4 +93,44 @@ final class AccountRepository: AccountRepositoryProtocol {
             return .failure(.badRequest)
         }
     }
+    
+    func putNickname(nickname: String) -> Future<Bool, NetworkError> {
+        let parameters: [String : String] = ["nickname" : nickname]
+        
+        return Future { promise in
+            Task {
+                let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
+                    httpMethod: .put,
+                    endPoint: APIEndPoint.url(for: .changeNickname),
+                    queryParameters: parameters,
+                    header: AccountStorage.shared.accessToken
+                )
+                
+                switch response {
+                case .success(let success):
+                    promise(.success(success))
+                case .failure(let failure):
+                    promise(.failure(.badRequest))
+                }
+            }
+        }
+    }
+    
 }
+/*
+ let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
+     httpMethod: .post,
+     endPoint: APIEndPoint.url(for: .logout),
+     header: AccountStorage.shared.accessToken
+ )
+ 
+ switch response {
+ case .success(let success):
+     debugPrint("Logout Repo success!!")
+     promise(.success(success))
+ case .failure(let failure):
+     debugPrint("Failure to Logout!! \(failure.localizedDescription)")
+     promise(.failure(NetworkError.badRequest))
+ }
+}
+ */

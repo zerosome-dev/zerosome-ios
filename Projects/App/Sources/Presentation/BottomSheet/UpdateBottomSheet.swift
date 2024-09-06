@@ -21,7 +21,7 @@ enum Update: String, CaseIterable {
         case .latest:
             "RECENT"
         case .highStar:
-            "REVIEWHIGHT"
+            "REVIEWHIGH"
         case .lowStar:
             "REVIEWLOW"
         case .highReview:
@@ -33,7 +33,7 @@ enum Update: String, CaseIterable {
 }
 
 struct UpdateBottomSheet: View {
-    @ObservedObject var filterVM: CategoryFilteredViewModel
+    @ObservedObject var viewModel: CategoryFilteredViewModel
     
     var body: some View {
         VStack {
@@ -43,13 +43,15 @@ struct UpdateBottomSheet: View {
                     ZerosomeAsset.ic_check_black
                         .resizable()
                         .frame(width: 24, height: 24)
-                        .opacity(filterVM.update == value ? 1 : 0)
+                        .opacity(viewModel.update == value ? 1 : 0)
                     
                     Spacer()
                 }
                 .onTapGesture {
-                    filterVM.update = value
-                    filterVM.updateToggle.toggle()
+                    viewModel.update = value
+                    viewModel.updateToggle.toggle()
+                    viewModel.offset = 0 
+                    viewModel.send(action: .getFilterResult)
                 }
                 .padding(.vertical, 12)
             }

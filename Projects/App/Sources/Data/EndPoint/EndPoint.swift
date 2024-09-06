@@ -18,6 +18,7 @@ struct APIEndPoint {
         case join = "/api/v1/auth/join"
         case refreshToken = "/api/v1/auth/refresh"
         case logout = "/api/v1/auth/logout"
+        case changeNickname = "/api/app/v1/member/nickname"
     }
     
     enum Home: String {
@@ -35,7 +36,6 @@ struct APIEndPoint {
     }
     
     enum Review: String {
-        case changeNickname = "/api/app/v1/member/nickname"
         case modifierReview = "/api/app/v1/member"
         case review = "/api/app/v1/review"
     }

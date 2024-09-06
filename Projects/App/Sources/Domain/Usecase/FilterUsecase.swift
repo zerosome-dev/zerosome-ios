@@ -16,8 +16,8 @@ struct FilterUsecase {
         return filterRepoProtocol.getD2CategoryList(d1CategoryCode: d1CategoryCode)
     }
     
-    func getBrandList() -> Future<[BrandFilterResult], NetworkError> {
-        return filterRepoProtocol.getBrandList()
+    func getBrandList(d2CategoryCode: String?) -> Future<[BrandFilterResult], NetworkError> {
+        return filterRepoProtocol.getBrandList(d2CategoryCode: d2CategoryCode)
     }
     
     func getZeroTagList() -> Future<[ZeroCategoryFilterResult], NetworkError> {
@@ -29,16 +29,16 @@ struct FilterUsecase {
         limit: Int?,
         d2CategoryCode: String,
         orderType: String?,
-        brandList: [String?],
-        zeroCtgList: [String?]
+        brandList: [String]? = [],
+        zeroCtgList: [String]? = []
     ) -> Future<OffsetFilteredProductResult, NetworkError> {
         return filterRepoProtocol.getFilterdProduct(
             offset: offset,
             limit: limit,
             d2CategoryCode: d2CategoryCode,
             orderType: orderType,
-            brandList: brandList,
-            zeroCtgList: zeroCtgList
+            brandList: brandList ?? [],
+            zeroCtgList: zeroCtgList ?? []
         )
     }
 }

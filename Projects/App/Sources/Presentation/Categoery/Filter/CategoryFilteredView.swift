@@ -55,25 +55,39 @@ struct CategoryFilteredView: View {
                 .applyFont(font: .body3)
                 .padding(.horizontal, 22)
                 
-                LazyVGrid(columns: columns) {
-                    ForEach(viewModel.productList, id: \.id) { product in
-                        ProductPreviewComponent(data: product)
+                if viewModel.productList.isEmpty {
+                    NoneFilterResultView()
+                } else {
+                    LazyVGrid(columns: columns) {
+                        ForEach(viewModel.productList, id: \.id) { product in
+                            ProductPreviewComponent(data: product)
+                        }
+                        
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .padding()
+                        } else if viewModel.hasMoreProducts {
+                            Color.clear
+                                .onAppear {
+                                    viewModel.send(action: .getFilterResult)
+                                }
+                        }
                     }
+                    .padding(.horizontal, 22)
                 }
-                .padding(.horizontal, 22)
             }
         }
         .onAppear {
             viewModel.d2CategoryCode = d2CategoryCode
             viewModel.d1CategoryCode = d1CategoryCode
-            viewModel.navigationTitle = navigationTtile
-            viewModel.send(action: .getD2CategoryList)
-            viewModel.send(action: .getZeroTagList)
+//            viewModel.navigationTitle = navigationTtile
+//            viewModel.send(action: .getD2CategoryList)
+//            viewModel.send(action: .getZeroTagList)
             viewModel.send(action: .getBrandList)
-            viewModel.send(action: .getFilterResult)
+//            viewModel.send(action: .getFilterResult)
         }
         .sheet(isPresented: $viewModel.updateToggle) {
-            UpdateBottomSheet(filterVM: viewModel)
+            UpdateBottomSheet(viewModel: viewModel)
                 .presentationDetents([.height(294)])
         }
         .ZSNavigationBackButtonTitle(self.navigationTtile) {
@@ -84,5 +98,5 @@ struct CategoryFilteredView: View {
 }
 
 #Preview {
-    CategoryFilteredView(navigationTtile: "과자/아이스크림", d2CategoryCode: "CTG001001", viewModel: CategoryFilteredViewModel(filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))), d1CategoryCode: "CTG002")
+    CategoryFilteredView(navigationTtile: "과자/아이스크림", d2CategoryCode: "CTG001001", viewModel: CategoryFilteredViewModel(initD2CategoryCode: "CTG001001", initD1CategoryCode: "CTG002", filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))), d1CategoryCode: "CTG002")
 }

@@ -11,6 +11,7 @@ import DesignSystem
 
 struct ChangeNicknameView: View {
     @ObservedObject var viewModel: ChangeNicknameViewModel
+    @EnvironmentObject var toast: ToastAction
     @EnvironmentObject var router: Router
     let nickname: String
     
@@ -49,18 +50,36 @@ struct ChangeNicknameView: View {
             Spacer()
             CommonButton(title: "닉네임 변경 완료", font: .subtitle1)
                 .enable(viewModel.isValid)
+                .tap {
+                    viewModel.send(.changeNickname)
+                }
+                .onReceive(viewModel.$changeNicknameResult) { temp in
+                    guard let result = temp else { return }
+                    if result {
+                        toast.settingToggle(type: .modiftyNickname)
+                        toast.setToggle(for: .modiftyNickname, true)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            router.navigateBack()
+                        }
+                    } else {
+                        toast.settingToggle(type: .failNickname)
+                        toast.setToggle(for: .failNickname, true)
+                    }
+                }
+        }
+        .onAppear {
+            viewModel.nickname = nickname
         }
         .padding(.horizontal, 22)
         .ZSNavigationBackButtonTitle("닉네임 변경") {
             router.navigateBack()
         }
-        .onAppear {
-            viewModel.nickname = nickname
-        }
+        
     }
 }
 
-#Preview {
-    ChangeNicknameView(viewModel: ChangeNicknameViewModel(accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService())), initialNickname: "닉네임"), nickname: "닉네임")
-}
+//#Preview {
+//    ChangeNicknameView(viewModel: ChangeNicknameViewModel(accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService())), initialNickname: "닉네임"), nickname: "닉네임")
+//}
 

@@ -19,7 +19,7 @@ struct ZeroTagBottomSheet: View {
                 .padding(.vertical ,24)
             
             ScrollView {
-                ChipsContainerView(tappedChips: $viewModel.tappedZeroTagChips, types: viewModel.zeroTagList)
+                ChipsContainerView(viewModel: viewModel, tappedChips: $viewModel.tappedZeroTagChips, types: viewModel.zeroTagList)
             }
             .scrollIndicators(.hidden)
             Spacer()
@@ -29,6 +29,9 @@ struct ZeroTagBottomSheet: View {
                 }
                 .tapApplyAction {
                     viewModel.sheetToggle = nil
+                    viewModel.offset = 0 // offset 초기화
+                    viewModel.send(action: .getFilterResult)
+                    print("zerotag 버튼 tapped")
                 }
         }
         .padding(.horizontal, 24)

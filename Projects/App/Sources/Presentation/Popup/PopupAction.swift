@@ -14,6 +14,7 @@ enum ToastCase {
     case reportToast
     case modiftyNickname
     case deleteReview
+    case failNickname
     
     var type: ToastType{
         switch self {
@@ -25,6 +26,8 @@ enum ToastCase {
             return .success
         case .deleteReview:
             return .success
+        case .failNickname:
+            return .warning
         }
     }
     
@@ -38,6 +41,8 @@ enum ToastCase {
             return "닉네임이 변경되었어요"
         case .deleteReview:
             return "리뷰가 삭제되었습니다."
+        case .failNickname:
+            return "다시 시도해주세요"
         }
     }
 }
@@ -50,6 +55,7 @@ final class ToastAction: ObservableObject {
     @Published var reportToastToggle: Bool = false
     @Published var modiftyNicknameToggle: Bool = false
     @Published var deleteReviewToggle: Bool = false
+    @Published var failNickname: Bool = false
     
     func settingToggle(type: ToastCase) {
         self.toastToggle = type
@@ -65,6 +71,8 @@ final class ToastAction: ObservableObject {
             self.modiftyNicknameToggle = value
         case .deleteReview:
             self.deleteReviewToggle = value
+        case .failNickname:
+            self.failNickname = value
         }
     }
     
@@ -74,25 +82,26 @@ final class ToastAction: ObservableObject {
             return Binding(
                 get: { self.noneToggle },
                 set: { self.noneToggle = $0 }
-                
             )
         case .reportToast:
             return Binding(
                 get: { self.reportToastToggle },
                 set: { self.reportToastToggle = $0 }
-                
             )
         case .modiftyNickname:
             return Binding(
                 get: { self.modiftyNicknameToggle },
                 set: { self.modiftyNicknameToggle = $0 }
-                
             )
         case .deleteReview:
             return Binding(
                 get: { self.deleteReviewToggle },
                 set: { self.deleteReviewToggle = $0 }
-                
+            )
+        case .failNickname:
+            return Binding(
+                get: { self.failNickname },
+                set: { self.failNickname = $0 }
             )
         }
     }

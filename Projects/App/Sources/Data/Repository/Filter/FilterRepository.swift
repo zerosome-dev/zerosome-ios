@@ -39,12 +39,14 @@ final class FilterRepository: FilterRepositoryProtocol {
         }
     }
     
-    func getBrandList() -> Future<[BrandFilterResult], NetworkError> {
+    func getBrandList(d2CategoryCode: String?) -> Future<[BrandFilterResult], NetworkError> {
+        let parameter: [String : String] = ["d2CategoryCode" : d2CategoryCode ?? ""]
         return Future { promise in
             Task {
                 let response: Result<[BrandFilterResponseDTO], NetworkError> = await self.apiService.request(
                     httpMethod: .get,
-                    endPoint: APIEndPoint.url(for: .brandList)
+                    endPoint: APIEndPoint.url(for: .brandList),
+                    queryParameters: parameter
                 )
                 
                 switch response {
@@ -80,7 +82,7 @@ final class FilterRepository: FilterRepositoryProtocol {
         }
     }    
     
-    func getFilterdProduct(offset: Int?, limit: Int?, d2CategoryCode: String, orderType: String?, brandList: [String?], zeroCtgList: [String?]) -> Future<OffsetFilteredProductResult, NetworkError> {
+    func getFilterdProduct(offset: Int?, limit: Int?, d2CategoryCode: String, orderType: String?, brandList: [String]?, zeroCtgList: [String]?) -> Future<OffsetFilteredProductResult, NetworkError> {
         let parameters: [String : Int?] = ["offset" : offset ?? 0, "limit" : limit ?? 10]
         
         return Future { promise in
@@ -92,8 +94,8 @@ final class FilterRepository: FilterRepositoryProtocol {
                     pathParameters: d2CategoryCode,
                     body: ProductByCtgListRequest(
                         orderType: orderType,
-                        brandList: brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
-                        zeroCtgList: zeroCtgList.compactMap({ $0 }).isEmpty ? nil : zeroCtgList.compactMap({ $0 })
+                        brandList: brandList ?? [], //brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
+                        zeroCtgList: zeroCtgList ?? [] //zeroCtgList.compactMap({ $0 }).isEmpty ? nil : zeroCtgList.compactMap({ $0 })
                     )
                 )
                 

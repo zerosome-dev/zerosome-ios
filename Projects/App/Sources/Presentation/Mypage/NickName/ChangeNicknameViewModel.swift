@@ -14,6 +14,7 @@ class ChangeNicknameViewModel: ObservableObject {
     
     enum Action {
         case checkNickname
+        case changeNickname
     }
     
     private let accountUseCase: AccountUseCase
@@ -21,10 +22,10 @@ class ChangeNicknameViewModel: ObservableObject {
     
     init(
         accountUseCase: AccountUseCase,
-        initialNickname: String // 외부에서 초기값 전달
+        initialNickname: String
     ) {
         self.accountUseCase = accountUseCase
-        self.nickname = initialNickname // 전달받은 값으로 nickname 설정
+        self.nickname = initialNickname 
     }
     
     @Published var nickname: String {
@@ -35,7 +36,9 @@ class ChangeNicknameViewModel: ObservableObject {
     
     @Published var isValid: Bool = false
     @Published var nicknameErrorMessage: NicknameErrorCase = .none
-
+    @Published var changeNicknameResult: Bool?
+    @Published var failureToast: Bool = false
+    
     func send(_ action: Action) {
         switch action {
         case .checkNickname:
@@ -58,6 +61,22 @@ class ChangeNicknameViewModel: ObservableObject {
                     }
                 }
             }
+            
+        case .changeNickname:
+            accountUseCase.putNickname(nickname: nickname)
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        self.failureToast = true
+                        debugPrint("닉네임 변경 실패 \(error.localizedDescription)")
+                    }
+                } receiveValue: { result in
+                    self.changeNicknameResult = true
+                }
+                .store(in: &cancellables)
         }
     }
     

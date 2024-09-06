@@ -19,7 +19,11 @@ struct BrandBottomSheet: View {
                 .padding(.vertical ,24)
             
             ScrollView {
-                ChipsContainerView(tappedChips: $viewModel.tappedBrandChips, types: viewModel.brandList)
+                ChipsContainerView(
+                    viewModel: viewModel,
+                    tappedChips: $viewModel.tappedBrandChips,
+                    types: viewModel.brandList
+                )
             }
             .frame(maxHeight: 362)
             .scrollIndicators(.hidden)
@@ -28,8 +32,13 @@ struct BrandBottomSheet: View {
             BottomSheetButton(enable: !viewModel.tappedBrandChips.isEmpty)
                 .tapResetAction {
                     viewModel.tappedBrandChips = []
+                    viewModel.offset = 0
+                    viewModel.send(action: .getFilterResult)
+                    viewModel.sheetToggle = nil
                 }
                 .tapApplyAction {
+                    viewModel.offset = 0
+                    viewModel.send(action: .getFilterResult)
                     viewModel.sheetToggle = nil
                 }
         }
