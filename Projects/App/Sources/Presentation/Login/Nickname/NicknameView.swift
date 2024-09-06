@@ -71,3 +71,7 @@ struct NicknameView: View {
         }
     }
 }
+
+#Preview {
+    NicknameView(viewModel: NicknameViewModel(authViewModel: AuthViewModel(accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService())), socialUseCase: SocialUsecase(socialRepoProtocol: SocialRepository(apiService: ApiService()))), accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService()))))
+}

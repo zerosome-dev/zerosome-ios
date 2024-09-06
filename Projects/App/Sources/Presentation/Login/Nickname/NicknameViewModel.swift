@@ -97,9 +97,15 @@ class NicknameViewModel: ObservableObject {
                     switch result {
                     case .success(let success):
                         self?.isValid = success
+                        if success {
+                            self?.nicknameErrorMessage = .success
+                        } else {
+                            self?.nicknameErrorMessage = .duplicated
+                        }
                     case .failure(let failure):
                         debugPrint("nickname 중복 또는 실패 \(failure.localizedDescription)")
                         self?.isValid = false
+                        self?.nicknameErrorMessage = .duplicated
                     }
                 }
             }
@@ -138,5 +144,4 @@ extension NicknameViewModel {
             return false
         }
     }
-    
 }
