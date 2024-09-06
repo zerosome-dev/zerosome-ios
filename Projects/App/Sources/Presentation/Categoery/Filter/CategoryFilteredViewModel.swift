@@ -108,7 +108,7 @@ extension CategoryFilteredViewModel {
                 .store(in: &cancellables)
             
         case .getBrandList:
-            filterUsecase.getBrandList()
+            filterUsecase.getBrandList(d2CategoryCode: self.d2CategoryCode)
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {

@@ -39,12 +39,14 @@ final class FilterRepository: FilterRepositoryProtocol {
         }
     }
     
-    func getBrandList() -> Future<[BrandFilterResult], NetworkError> {
+    func getBrandList(d2CategoryCode: String?) -> Future<[BrandFilterResult], NetworkError> {
+        let parameter: [String : String] = ["d2CategoryCode" : d2CategoryCode ?? ""]
         return Future { promise in
             Task {
                 let response: Result<[BrandFilterResponseDTO], NetworkError> = await self.apiService.request(
                     httpMethod: .get,
-                    endPoint: APIEndPoint.url(for: .brandList)
+                    endPoint: APIEndPoint.url(for: .brandList),
+                    queryParameters: parameter
                 )
                 
                 switch response {
