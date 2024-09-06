@@ -37,10 +37,33 @@ struct MypageMainView: View {
     
                 MypageButton(title: "회원탈퇴")
                     .tap {
-                        viewModel.send(.revoke)
+                        popup.settingToggle(type: .revoke)
+                        popup.setToggle(for: .revoke, true)
                     }
-                    .onReceive(viewModel.$revokeResult) { result in                   
-                        accountAction(result: result, type: .failRevoke)
+                    .onReceive(popup.$rightButtonFlag) { result in
+                        if result {
+                            viewModel.send(.revoke)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                guard let temp = viewModel.revokeResult else { return }
+                                if temp {
+                                    popup.settingToggle(type: .successRevoke)
+                                    popup.setToggle(for: .successRevoke, true)
+                                } else {
+                                    print("실패에욤...")
+                                    popup.settingToggle(type: .failRevoke)
+                                    popup.setToggle(for: .failRevoke, true)
+                                }
+                            }
+                            popup.rightButtonFlag = false
+                        }
+                    }
+                    .onReceive(popup.$successRevoke) { result in
+                        if result {
+                            withAnimation(.easeInOut) {
+                                authViewModel.authenticationState = .initial
+                            }
+                        }
                     }
             }
             .padding(.horizontal, 22)
@@ -58,14 +81,24 @@ struct MypageMainView: View {
                 .opacity(viewModel.loading ? 1 : 0)
         }
     }
+    /*
+     .tap {
+         viewModel.send(.revoke)
+     }
+     .onReceive(viewModel.$revokeResult) { result in
+         accountAction(result: result, type: .failRevoke)
+     }
+     */
     
     private func accountAction(result: Bool?, type: SinglePopup) {
         DispatchQueue.main.async {
             guard let toggle = result else { return }
             
             if toggle {
-                authViewModel.authenticationState = .initial
-                debugPrint("success")
+                withAnimation(.easeInOut) {
+                    debugPrint("success")
+                    authViewModel.authenticationState = .initial
+                }
             } else {
                 debugPrint("fail")
                 popup.settingToggle(type: type)
@@ -111,4 +144,5 @@ enum Service: String, CaseIterable {
 
 #Preview {
     MypageMainView(viewModel: MypageViewModel(mypageUseCase: MypageUsecase(mypageRepoProtocol: MypageRepository(apiService: ApiService()))))
+        .environmentObject(PopupAction())
 }
