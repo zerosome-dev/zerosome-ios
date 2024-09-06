@@ -80,7 +80,7 @@ final class FilterRepository: FilterRepositoryProtocol {
         }
     }    
     
-    func getFilterdProduct(offset: Int?, limit: Int?, d2CategoryCode: String, orderType: String?, brandList: [String?], zeroCtgList: [String?]) -> Future<OffsetFilteredProductResult, NetworkError> {
+    func getFilterdProduct(offset: Int?, limit: Int?, d2CategoryCode: String, orderType: String?, brandList: [String]?, zeroCtgList: [String]?) -> Future<OffsetFilteredProductResult, NetworkError> {
         let parameters: [String : Int?] = ["offset" : offset ?? 0, "limit" : limit ?? 10]
         
         return Future { promise in
@@ -92,8 +92,8 @@ final class FilterRepository: FilterRepositoryProtocol {
                     pathParameters: d2CategoryCode,
                     body: ProductByCtgListRequest(
                         orderType: orderType,
-                        brandList: brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
-                        zeroCtgList: zeroCtgList.compactMap({ $0 }).isEmpty ? nil : zeroCtgList.compactMap({ $0 })
+                        brandList: brandList ?? [], //brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
+                        zeroCtgList: zeroCtgList ?? [] //zeroCtgList.compactMap({ $0 }).isEmpty ? nil : zeroCtgList.compactMap({ $0 })
                     )
                 )
                 

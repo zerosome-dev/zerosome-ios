@@ -48,10 +48,20 @@ struct CategoryBottomSheet: View {
             Spacer()
             BottomSheetButton(enable: viewModel.tappedD2CategoryChips != nil)
                 .tapApplyAction {
+                    guard let code = viewModel.tappedD2CategoryChips else { return }
+                    
+                    viewModel.offset = 0
+                    viewModel.d2CategoryCode = code.id
+                    viewModel.send(action: .getFilterResult)
+                    
                     viewModel.sheetToggle = nil
                 }
                 .tapResetAction {
+                    viewModel.d2CategoryCode = viewModel.d2EntirCode
+                    viewModel.offset = 0
+                    viewModel.send(action: .getFilterResult)
                     viewModel.tappedD2CategoryChips = nil
+                    viewModel.sheetToggle = nil
                 }
         }
         .padding(.horizontal, 24)

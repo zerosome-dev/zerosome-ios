@@ -97,7 +97,7 @@ struct offLineChipView: View {
 }
 
 struct ChipsContainerView<T: ChipRepresentable>: View {
-
+    @ObservedObject var viewModel: CategoryFilteredViewModel
     @Binding var tappedChips: [TappedChips]
     @State var totalHeight: CGFloat
     let verticalSpacing: CGFloat
@@ -105,12 +105,14 @@ struct ChipsContainerView<T: ChipRepresentable>: View {
     let types: [T]
     
     public init(
+        viewModel: CategoryFilteredViewModel,
         tappedChips: Binding<[TappedChips]>,
         totalHeight: CGFloat = .zero,
         verticalSpacing: CGFloat = 10,
         horizontalSpacing: CGFloat = 10,
         types: [T]
     ) {
+        self.viewModel = viewModel
         self._tappedChips = tappedChips
         self.totalHeight = totalHeight
         self.verticalSpacing = verticalSpacing
@@ -128,6 +130,7 @@ struct ChipsContainerView<T: ChipRepresentable>: View {
                     ChipsView(check: checkCipsList(chip: TappedChips(name: type.name, code: type.code)), title: type.name, tappedChips: tappedChips)
                         .onTapGesture {
                             appendChips(name: type.name, code: type.code)
+                            viewModel.d2CategoryListFlag = viewModel.tappedD2CategoryChips
                         }
                         .alignmentGuide(.leading) { view in
                             guard let last = types.last else { return 0 }

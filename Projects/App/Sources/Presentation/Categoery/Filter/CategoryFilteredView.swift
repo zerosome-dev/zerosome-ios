@@ -55,22 +55,26 @@ struct CategoryFilteredView: View {
                 .applyFont(font: .body3)
                 .padding(.horizontal, 22)
                 
-                LazyVGrid(columns: columns) {
-                    ForEach(viewModel.productList, id: \.id) { product in
-                        ProductPreviewComponent(data: product)
+                if viewModel.productList.isEmpty {
+                    NoneFilterResultView()
+                } else {
+                    LazyVGrid(columns: columns) {
+                        ForEach(viewModel.productList, id: \.id) { product in
+                            ProductPreviewComponent(data: product)
+                        }
+                        
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .padding()
+                        } else if viewModel.hasMoreProducts {
+                            Color.clear
+                                .onAppear {
+                                    viewModel.send(action: .getFilterResult)
+                                }
+                        }
                     }
-                    
-                    if viewModel.isLoading {
-                        ProgressView()
-                            .padding()
-                    } else if viewModel.hasMoreProducts {
-                        Color.clear
-                            .onAppear {
-                                viewModel.fetchMoreProducts()
-                            }
-                    }
+                    .padding(.horizontal, 22)
                 }
-                .padding(.horizontal, 22)
             }
         }
         .onAppear {
@@ -80,10 +84,10 @@ struct CategoryFilteredView: View {
             viewModel.send(action: .getD2CategoryList)
             viewModel.send(action: .getZeroTagList)
             viewModel.send(action: .getBrandList)
-//            viewModel.send(action: .getFilterResult)
+            viewModel.send(action: .getFilterResult)
         }
         .sheet(isPresented: $viewModel.updateToggle) {
-            UpdateBottomSheet(filterVM: viewModel)
+            UpdateBottomSheet(viewModel: viewModel)
                 .presentationDetents([.height(294)])
         }
         .ZSNavigationBackButtonTitle(self.navigationTtile) {

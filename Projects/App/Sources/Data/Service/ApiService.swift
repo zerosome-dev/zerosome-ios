@@ -80,7 +80,7 @@ final class ApiService {
         
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
+            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
                 return .failure(NetworkError.response)
             }
@@ -94,18 +94,8 @@ final class ApiService {
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
                 debugPrint("🚨🚨 <<<JSON Data>>> 🚨🚨 \(jsonObject)")
-                
-//                if let jsonDict = jsonObject as? [String: Any],
-//                   let dataDict = jsonDict["data"] as? [String: Any],
-//                   let contentArray = dataDict["content"] as? [[String: Any]] {
-//                    for item in contentArray {
-//                        print("Item: \(item)")
-//                    }
-//                } else {
-//                    print("Content is empty or not a dictionary array.")
-//                }
             } catch {
-//                debugPrint("🚨🚨 <<<JSON Serialization Error>>> 🚨🚨 \(error.localizedDescription)")
+                debugPrint("🚨🚨 <<<JSON Serialization Error>>> 🚨🚨 \(error.localizedDescription)")
                 return .failure(NetworkError.decode)
             }
                         
@@ -114,6 +104,7 @@ final class ApiService {
                 guard let data = result.data else {
                     return .failure(NetworkError.decode)
                 }
+                debugPrint("🚨🚨 <<<Data>>> \(data)🚨🚨")
                 print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
                 return .success(data)
             } catch {
