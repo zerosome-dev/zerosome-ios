@@ -60,6 +60,7 @@ struct RouterView<Content: View>: View {
             rightAction: {
                 popup.setToggle(for: popup.doubleToggle, false)
                 popup.rightButtonFlag = true
+//                popup.rightButtonTapped.toggle()
             }
         )
     }

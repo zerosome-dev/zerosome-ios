@@ -46,7 +46,6 @@ class MypageViewModel: ObservableObject {
                         debugPrint("GetUserBasicInfo Failed \(failure.localizedDescription)")
                     }
                 } receiveValue: { [weak self] data in
-                    print("마이페이지 유저 인포 🩵 \(data)")
                     self?.userInfo = data
                 }
                 .store(in: &cancellables)
@@ -61,22 +60,17 @@ class MypageViewModel: ObservableObject {
                     case .finished:
                         break
                     case .failure(let failure):
-                        debugPrint("Failed to logout...... \(failure.localizedDescription)")
                         self.logoutResult = false
+                        debugPrint("Failed to logout...... \(failure.localizedDescription)")
                     }
                 } receiveValue: { result in
-                    if result {
-                        self.logoutResult = true
-                    } else {
-                        self.logoutResult = false
-                    }
+                    self.logoutResult = result
                 }
                 .store(in: &cancellables)
             self.loading = false
             
         case .revoke:
             print("회원탈퇴")
-            self.loading = true
             mypageUseCase.revoke()
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
@@ -84,19 +78,14 @@ class MypageViewModel: ObservableObject {
                     case .finished:
                         break
                     case .failure(let failure):
-                        debugPrint("Failed to revoke \(failure.localizedDescription)")
                         self.revokeResult = false
+                        debugPrint("Failed to revoke \(failure.localizedDescription)")
+                        break
                     }
                 } receiveValue: { result in
-                    print("💦 \(result)")
-                    if result {
-                        self.revokeResult = true
-                    } else {
-                        self.revokeResult = false
-                    }
+                    self.revokeResult = result
                 }
                 .store(in: &cancellables)
-            self.loading = false
             
         case .linkKakao:
             TalkApi.shared.chatChannel(channelPublicId: "_xacMRn") { error in
