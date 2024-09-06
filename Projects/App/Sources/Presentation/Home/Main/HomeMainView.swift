@@ -9,29 +9,6 @@
 import SwiftUI
 import DesignSystem
 
-enum MainData {
-    case released
-    case cafe
-    
-    var title: String {
-        switch self {
-        case .released:
-            return "출시 예정 신상품"
-        case .cafe:
-            return "지금 핫한 카페 음료"
-        }
-    }
-    
-    var subtitle: String {
-        switch self {
-        case .released:
-            return "출시 예정 및 최신 상품을 확인해 보세요"
-        case .cafe:
-            return "트렌디한 카페 음료를 지금 바로 확인해보세요"
-        }
-    }
-}
-
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
     @ObservedObject var viewModel: HomeMainViewModel
@@ -49,17 +26,21 @@ struct HomeMainView: View {
                         subTitle: MainData.released.subtitle
                     )
                     .tap {
-                        //                        router.navigateTo(
-                        //                        .tobeReleasedProduct(
-                        //                            viewModel.tobeReleased,
-                        //                            "출시 예정 신상품",
-                        //                            "새롭게 발매된 상품과 발매 예정 상품을 확인해보세요"
-                        //                        )
-                        //                    )
+                        router.navigateTo(
+                            .tobeReleasedProduct(
+                                viewModel.tobeReleased,
+                                MainData.released.title,
+                                MainData.released.subtitle
+                            )
+                        )
                     }
                     .padding(.horizontal, 22)
-                    HomeCarouselView(data: viewModel.tobeReleased, viewModel: viewModel)
-                        .frame(height: 327)
+                    
+                    HomeCarouselView(
+                        data: viewModel.tobeReleased,
+                        viewModel: viewModel
+                    )
+                    .frame(height: 327)
                 }
                 
                 VStack(spacing: 5) {
@@ -69,14 +50,19 @@ struct HomeMainView: View {
                     )
                     .tap {
                         print("전체")
-                        //                            let temp = viewModel.homeCafe.filter { $0.d2CategoryId == "전체" }
-                        //                            .map { $0.d2CategoryId }.joined()
-                        //                        print("temp \(temp)")
-                        //                        guard let totalCode = viewModel.homeCafe.first?.d1CategoryId else { return }
-                        //                        router.navigateTo(.categoryFilter("카페 음료", totalCode, "전체"))
+                        
+                        router.navigateTo(
+                            .categoryFilter(
+                                "카페음료",
+                                viewModel.cafeEntireCode,
+                                "전체"
+                            )
+                        )
                     }
+                    
                     HomeCategoryComponent(viewModel: viewModel)
                         .padding(.bottom, 15)
+                    
                     ScrollView(.horizontal) {
                         HStack {
                             if viewModel.filteredCafe.isEmpty {

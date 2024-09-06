@@ -39,7 +39,7 @@ struct UserInfoView: View {
                     }
             }
             
-            Text(viewModel.userInfo.rivewCnt == 0 ? "아직 작성한 리뷰가 없어요" : "작성한 리뷰 (reviewCount)")
+            Text(viewModel.userInfo.rivewCnt == 0 ? "아직 작성한 리뷰가 없어요" : "작성한 리뷰 (\(viewModel.userInfo.rivewCnt))")
                 .applyFont(font: .subtitle2)
                 .foregroundStyle(viewModel.userInfo.rivewCnt == 0 ? Color.neutral800 : Color.white)
                 .padding(.vertical, 16)
