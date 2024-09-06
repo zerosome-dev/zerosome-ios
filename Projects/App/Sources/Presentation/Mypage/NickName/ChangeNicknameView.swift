@@ -9,58 +9,58 @@
 import SwiftUI
 import DesignSystem
 
-class ChangeNicknameViewModel: ObservableObject {
-    @Published var nickname: String = ""
-    @Published var isValid: Bool = false
-    // init에서 원래 닉네음으로 초기화
-    
-    func checkNickName(completion: @escaping (Bool) -> Void) {
-        // 닉네임 중복체크
-    }
-}
-
 struct ChangeNicknameView: View {
-    @StateObject private var viewModel = ChangeNicknameViewModel()
+    @ObservedObject var viewModel: ChangeNicknameViewModel
+    @EnvironmentObject var router: Router
+    let nickname: String
     
     var body: some View {
         VStack {
-            ZSText("최소 2자 ~ 12자 이내의 닉네임을 입력해 주세요\n한글/영문/숫자/특수문자 모두 가능해요", fontType: .body2, color: Color.neutral500)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.init(top: 30,leading: 0,bottom: 43,trailing: 0))
+            ZSText(
+                "최소 2자 ~ 12자 이내의 닉네임을 입력해 주세요\n한글/영문/숫자/특수문자 모두 가능해요",
+                fontType: .body2,
+                color: Color.neutral500
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.init(top: 30,leading: 0,bottom: 43,trailing: 0))
             
             TextInput(text: $viewModel.nickname)
                 .placeholder("닉네임을 입력해 주세요")
                 .maxCount(12)
-                .setError(
-                    viewModel.isValid
-                )
                 .overlay(alignment: .trailing) {
-                    // TODO: - 이미지 변경
-                    Text("..")
-                        .offset(x: -22)
+                    ZerosomeAsset.ic_xmark
+                        .padding(.trailing, 12)
+                        .onTapGesture {
+                            viewModel.nickname = ""
+                            viewModel.isValid = false
+                        }
                 }
                 .padding(.bottom, 4)
             
-            if viewModel.isValid {
-                ZSText("사용 가능한 닉네임입니다.", fontType: .body4, color: Color.positive)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 12)
-            } else {
-                ZSText("이미 사용중인 닉네임입니다.", fontType: .body4, color: Color.negative)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 12)
-            }
+            ZSText(
+                viewModel.nicknameErrorMessage.rawValue,
+                fontType: .body1,
+                color: viewModel.isValid
+                ? Color.positive
+                : Color.negative
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
             Spacer()
             CommonButton(title: "닉네임 변경 완료", font: .subtitle1)
-                .enable(!viewModel.nickname.isEmpty)
+                .enable(viewModel.isValid)
         }
         .padding(.horizontal, 22)
         .ZSNavigationBackButtonTitle("닉네임 변경") {
-            print("닉네임 변경 취소")
+            router.navigateBack()
+        }
+        .onAppear {
+            viewModel.nickname = nickname
         }
     }
 }
 
 #Preview {
-    ChangeNicknameView()
+    ChangeNicknameView(viewModel: ChangeNicknameViewModel(accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService())), initialNickname: "닉네임"), nickname: "닉네임")
 }
+

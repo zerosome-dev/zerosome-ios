@@ -42,6 +42,7 @@ class AuthViewModel: ObservableObject {
         self.socialUseCase = socialUseCase
     }
     
+    @MainActor
     func send(action: Action) {
         switch action {
         case .kakaoSignIn:

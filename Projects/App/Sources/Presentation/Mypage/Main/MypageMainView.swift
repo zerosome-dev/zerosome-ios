@@ -50,7 +50,6 @@ struct MypageMainView: View {
                                     popup.settingToggle(type: .successRevoke)
                                     popup.setToggle(for: .successRevoke, true)
                                 } else {
-                                    print("실패에욤...")
                                     popup.settingToggle(type: .failRevoke)
                                     popup.setToggle(for: .failRevoke, true)
                                 }
