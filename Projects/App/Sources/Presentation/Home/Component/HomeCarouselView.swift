@@ -143,8 +143,8 @@ struct HomeCarouselView: View {
                             Spacer()
                             VStack(spacing: 6) {
                                 HStack(spacing: 8) {
-                                    ZSText(data.d1Category, fontType: .label1, color: Color.neutral500)
-                                    ZSText(data.d2Category, fontType: .label1, color: Color.neutral500)
+                                    ZSText("#\(data.d1Category)", fontType: .label1, color: Color.neutral500)
+                                    ZSText("#\(data.d2Category)", fontType: .label1, color: Color.neutral500)
                                 }
                                 
                                 ZSText(data.name, fontType: .subtitle1, color: .black)

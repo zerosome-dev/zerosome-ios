@@ -15,6 +15,7 @@ struct HomeRolloutResult: Equatable, Hashable, Identifiable {
     let d2Category: String
     let name: String
     let salesStore: [String]
+    let key = UUID().uuidString
     
     init(
         id: Int,

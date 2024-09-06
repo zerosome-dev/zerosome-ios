@@ -8,6 +8,7 @@
 
 import SwiftUI
 import DesignSystem
+import Kingfisher
 
 struct TobeReleasedProductView: View {
     
@@ -15,13 +16,7 @@ struct TobeReleasedProductView: View {
     let title: String
     let subTitle: String
     let data: [HomeRolloutResult]
-    let columns: [GridItem] = Array(
-        repeating: .init(.flexible(),
-                         spacing: 11,
-                         alignment: .center), count: 2
-    )
-    
-    let platform: [String] = ["출시예정", "온라인", "오프라인"]
+    let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
 
     var body: some View {
         ScrollView {
@@ -34,12 +29,12 @@ struct TobeReleasedProductView: View {
                 }
                 
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(data, id: \.id) { data in
+                    ForEach(data, id: \.key) { data in
                         VStack(alignment: .leading, spacing: 8) {
-                            Rectangle()
-                                .fill(Color.neutral50)
-                                .frame(maxWidth: .infinity)
+                            KFImage(URL(string: data.image))
+                                .resizable()
                                 .frame(height: 160)
+                                .scaledToFit()
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
                             VStack(alignment: .leading, spacing: 4) {
@@ -50,7 +45,7 @@ struct TobeReleasedProductView: View {
                                     .lineLimit(2)
                                 
                                 HStack {
-                                    ForEach(platform, id: \.self) { platform in
+                                    ForEach(data.salesStore, id: \.self) { platform in
                                         ZSText(platform, fontType: .label2, color: Color.neutral700)
                                             .padding(.init(top: 3,leading: 6,bottom: 3,trailing: 6))
                                             .background(Color.neutral50)
@@ -58,7 +53,10 @@ struct TobeReleasedProductView: View {
                                     }
                                 }
                             }
+                            
+                            Spacer()
                         }
+                        .frame(height: 259)
                     }
                 }
             }

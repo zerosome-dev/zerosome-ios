@@ -96,7 +96,7 @@ class MypageViewModel: ObservableObject {
             self.loading = false
             
         case .linkKakao:
-            TalkApi.shared.chatChannel(channelPublicId: "") { error in
+            TalkApi.shared.chatChannel(channelPublicId: "_xacMRn") { error in
                 if let error = error {
                     print("카카오톡 연결 실패 \(error.localizedDescription)")
                 } else {
