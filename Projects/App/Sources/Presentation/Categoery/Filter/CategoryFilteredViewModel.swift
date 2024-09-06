@@ -22,13 +22,18 @@ class CategoryFilteredViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(
+        initD2CategoryCode: String,
+        initD1CategoryCode: String,
         filterUsecase: FilterUsecase
     ) {
         self.filterUsecase = filterUsecase
+        self.d1CategoryCode = initD1CategoryCode
+        self.d2CategoryCode = initD2CategoryCode
+        loadInitialProducts()
     }
 
-    @Published var d2CategoryCode: String = ""
-    @Published var d1CategoryCode: String = ""
+    @Published var d2CategoryCode: String
+    @Published var d1CategoryCode: String
     @Published var navigationTitle: String = ""
     
     @Published var d2CategoryList: [D2CategoryFilterResult] = []
@@ -44,8 +49,62 @@ class CategoryFilteredViewModel: ObservableObject {
     @Published var updateToggle: Bool = false
     @Published var update: Update = .latest
     @Published var sheetToggle: CategoryDetail? = nil
+    
+    // 무한 스크롤 테스트
+    @Published var isLoading = false
+    @Published var hasMoreProducts = true // 더 불러올 데이터가 있는지 여부
+    
+    private var offset = 0
+    private let limit = 10
 }
 
+// MARK: - 무한 스크롤 테스트
+extension CategoryFilteredViewModel {
+    // 초기 로딩
+    func loadInitialProducts() {
+        offset = 0
+        hasMoreProducts = true
+        productList.removeAll()
+        fetchMoreProducts()
+    }
+    
+    func fetchMoreProducts() {
+            guard !isLoading && hasMoreProducts else { return }
+            
+            isLoading = true
+            
+            filterUsecase.getFilterdProduct(
+                offset: offset,
+                limit: limit,
+                d2CategoryCode: d2CategoryCode,
+                orderType: update.orderType,
+                brandList: tappedBrandChips.map({ $0.code }),
+                zeroCtgList: tappedZeroTagChips.map({ $0.code })
+            )
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch completion {
+                case .finished: break
+                case .failure(let failure):
+                    debugPrint("상품 목록 조회 실패 > \(failure.localizedDescription)")
+                    self.isLoading = false
+                }
+            } receiveValue: { [weak self] data in
+                guard let self = self else { return }
+                
+                // 더 이상의 데이터가 없는 경우
+                if data.content.isEmpty {
+                    self.hasMoreProducts = false
+                } else {
+                    self.productList.append(contentsOf: data.content)
+                    self.offset += 1 // offset을 증가시켜 다음 데이터 호출
+                }
+                
+                self.isLoading = false
+            }
+            .store(in: &cancellables)
+        }
+}
 extension CategoryFilteredViewModel {
     
     func send(action: Action) {

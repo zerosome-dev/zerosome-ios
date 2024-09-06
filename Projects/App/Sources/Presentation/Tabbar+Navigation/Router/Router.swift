@@ -39,7 +39,7 @@ final class Router: ObservableObject {
         case .categoryFilter(let filteredTitle, let d2CategoryCode, let d1CategoryCode):
             let filterRepo = FilterRepository(apiService: apiService)
             let filterUsecase = FilterUsecase(filterRepoProtocol: filterRepo)
-            let viewModel = CategoryFilteredViewModel(filterUsecase: filterUsecase)
+            let viewModel = CategoryFilteredViewModel(initD2CategoryCode: d2CategoryCode, initD1CategoryCode: d1CategoryCode, filterUsecase: filterUsecase)
             CategoryFilteredView(navigationTtile: filteredTitle, d2CategoryCode: d2CategoryCode, viewModel: viewModel, d1CategoryCode: d1CategoryCode)
 
         case .detailMainView(let productId):
