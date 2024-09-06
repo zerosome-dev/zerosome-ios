@@ -80,7 +80,7 @@ final class ApiService {
         
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
+//            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
                 return .failure(NetworkError.response)
             }
@@ -133,14 +133,37 @@ extension ApiService {
     func noneDecodeRequest (
         httpMethod: ApiMethod,
         endPoint: String,
+        queryParameters: Encodable? = nil,
+        pathParameters: String? = nil,
         body: Encodable? = nil,
         header: String? = nil
     ) async -> Result<Bool, NetworkError> {
         
-        guard let url = URL(string: endPoint) else {
+        var modifiedEndPoint = endPoint
+        
+        if let pathParameter = pathParameters {
+            modifiedEndPoint = modifiedEndPoint + "/\(pathParameter)"
+        }
+        
+        guard var url = URL(string: modifiedEndPoint) else {
             return .failure(NetworkError.urlError)
         }
         
+        if let parameters = queryParameters {
+            guard let queryDictionary = try? parameters.toDictionary() else {
+                return .failure(NetworkError.queryError)
+            }
+            
+            var queryItems: [URLQueryItem] = []
+            
+            queryDictionary.forEach({ key, value in
+                queryItems.append(URLQueryItem(name: key, value: "\(value)"))
+            })
+            
+            url.append(queryItems: queryItems)
+        }
+        
+        debugPrint("🚨🚨 <<<EndPoint>>> \(modifiedEndPoint) 🚨🚨")
         debugPrint("🚨🚨 <<<URL>>> \(url) 🚨🚨")
         
         var urlRequest = URLRequest(url: url)
@@ -167,7 +190,7 @@ extension ApiService {
         
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
+//            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
                 return .failure(NetworkError.response)
             }
@@ -222,116 +245,6 @@ extension ApiService {
             "Content-Type": "application/json; charset=utf-8",
             "Accept-Charset": "UTF-8"
         ]
-    }
-}
-
-extension ApiService {
-    
-    func testApi (
-        httpMethod: ApiMethod,
-        endPoint: String,
-        queryParameters: Encodable? = nil,
-        pathParameters: String? = nil,
-        body: Encodable? = nil,
-        header: String? = nil
-    ) async -> Result<OffsetPageResponseDTO, NetworkError> {
-        
-        var modifiedEndPoint = endPoint
-        
-        if let pathParameter = pathParameters {
-            modifiedEndPoint = modifiedEndPoint + "/\(pathParameter)"
-        }
-        
-        guard var url = URL(string: modifiedEndPoint) else {
-            return .failure(NetworkError.urlError)
-        }
-        
-        if let parameters = queryParameters {
-            guard let queryDictionary = try? parameters.toDictionary() else {
-                return .failure(NetworkError.queryError)
-            }
-            
-            var queryItems: [URLQueryItem] = []
-            
-            queryDictionary.forEach({ key, value in
-                queryItems.append(URLQueryItem(name: key, value: "\(value)"))
-            })
-            
-            url.append(queryItems: queryItems)
-        }
-        
-        debugPrint("🚨🚨 <<<EndPoint>>> \(modifiedEndPoint) 🚨🚨")
-        debugPrint("🚨🚨 <<<URL>>> \(url) 🚨🚨")
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = httpMethod.rawValue
-        
-        if let header = header {
-            urlRequest.allHTTPHeaderFields = createHeaders(token: header)
-            debugPrint("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
-        }
-        
-        if let body = body {
-            do {
-                let httpBody = try JSONEncoder().encode(body)
-                urlRequest.httpBody = httpBody
-                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                
-                debugPrint("🚨🚨 <<<HTTP BODY>>> \(body) 🚨🚨")
-                debugPrint("🚨🚨 <<<HTTP HTTPBODY>>> \(httpBody) 🚨🚨")
-                debugPrint("🚨🚨 <<<HTTP HEARDERFIELDS>>> \(String(describing: urlRequest.allHTTPHeaderFields)) 🚨🚨")
-            } catch {
-                return .failure(NetworkError.encode)
-            }
-        }
-        
-        do {
-            let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                return .failure(NetworkError.response)
-            }
-            
-            print("😈😈 STATUS CODE \(statusCode) 😈😈")
-            let range = 200..<300
-//            guard range.contains(statusCode) else {
-//                return .failure(NetworkError.statusError)
-//            }
-//
-            do {
-                let jsonObject = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-                debugPrint("🚨🚨 <<<JSON Data>>> 🚨🚨 \(jsonObject)")
-                
-//                if let jsonDict = jsonObject as? [String: Any],
-//                   let dataDict = jsonDict["data"] as? [String: Any],
-//                   let contentArray = dataDict["content"] as? [[String: Any]] {
-//                    for item in contentArray {
-//                        print("Item: \(item)")
-//                    }
-//                } else {
-//                    print("Content is empty or not a dictionary array.")
-//                }
-            } catch {
-//                debugPrint("🚨🚨 <<<JSON Serialization Error>>> 🚨🚨 \(error.localizedDescription)")
-                return .failure(NetworkError.decode)
-            }
-                        
-            do {
-                let result = try JSONDecoder().decode(Response<OffsetPageResponseDTO>.self, from: data)
-                guard let data = result.data else {
-                    return .failure(NetworkError.decode)
-                }
-                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
-                return .success(data)
-            } catch {
-                debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")
-                return .failure(NetworkError.decode)
-            }
-                    
-        } catch {
-            debugPrint("🚨🚨 <<< Network Error >>> 🚨🚨 \(error.localizedDescription)")
-            return .failure(NetworkError.apiError)
-        }
     }
 }
 

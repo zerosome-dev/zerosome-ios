@@ -11,7 +11,6 @@ import DesignSystem
 
 struct UserInfoView: View {
     @ObservedObject var viewModel: MypageViewModel
-    let reviewCount: Int = 1
     var nickname: (() -> Void)?
     var action: (() -> Void)?
     

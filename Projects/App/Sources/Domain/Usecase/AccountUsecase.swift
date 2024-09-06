@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 
 struct AccountUseCase {
     let accountRepoProtocol: AccountRepositoryProtocol
@@ -21,5 +22,9 @@ struct AccountUseCase {
     
     func checkNickname(nickname: String) async -> Result<Bool, NetworkError> {
         await accountRepoProtocol.checkNickname(nickname: nickname)
+    }
+    
+    func putNickname(nickname: String) -> Future<Bool, NetworkError> {
+        return accountRepoProtocol.putNickname(nickname: nickname)
     }
 }

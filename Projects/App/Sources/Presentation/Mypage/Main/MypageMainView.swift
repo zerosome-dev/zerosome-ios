@@ -12,9 +12,9 @@ import SwiftUI
 struct MypageMainView: View {
     @EnvironmentObject var router: Router
     @EnvironmentObject var authViewModel: AuthViewModel
-    @ObservedObject var viewModel: MypageViewModel
     @EnvironmentObject var popup: PopupAction
     @EnvironmentObject var toast: ToastAction
+    @ObservedObject var viewModel: MypageViewModel
     
     var body: some View {
         ScrollView {
@@ -80,14 +80,6 @@ struct MypageMainView: View {
                 .opacity(viewModel.loading ? 1 : 0)
         }
     }
-    /*
-     .tap {
-         viewModel.send(.revoke)
-     }
-     .onReceive(viewModel.$revokeResult) { result in
-         accountAction(result: result, type: .failRevoke)
-     }
-     */
     
     private func accountAction(result: Bool?, type: SinglePopup) {
         DispatchQueue.main.async {
