@@ -9,6 +9,7 @@
 import SwiftUI
 import Kingfisher
 import DesignSystem
+import Combine
 
 // 계정 상태 명시
 enum AuthenticationState {
@@ -24,15 +25,19 @@ class AuthViewModel: ObservableObject {
     enum Action {
         case kakaoSignIn
         case appleSignIn
+        case checkToken
+        case getUserBasicInfo
     }
     
     private let accountUseCase: AccountUseCase
     private let socialUseCase: SocialUsecase
+    private var cancellables = Set<AnyCancellable>()
     
-    @Published var authenticationState: AuthenticationState = .signIn
+    @Published var authenticationState: AuthenticationState = .initial
     @Published var loginAlert: Bool = false
     @Published var loginType: Login?
     @Published var marketingAgreement: Bool = false
+    @Published var tokenStatus: Bool = true
     
     init (
         accountUseCase: AccountUseCase,
@@ -45,6 +50,49 @@ class AuthViewModel: ObservableObject {
     @MainActor
     func send(action: Action) {
         switch action {
+        case .checkToken:
+            if let _ = AccountStorage.shared.accessToken {
+                // accessToken에 값이 있다면
+                accountUseCase.checkUserToken()
+                    .receive(on: DispatchQueue.main)
+                    .sink { completion in
+                        switch completion {
+                        case .finished:
+                            break
+                        case .failure(let error):
+                            self.tokenStatus = false
+                            print("\(error.localizedDescription)")
+                        }
+                    } receiveValue: { result in
+                        self.tokenStatus = true
+                    }
+                    .store(in: &cancellables)
+                
+                if tokenStatus {
+                    self.authenticationState = .signIn
+                } else {
+                    accountUseCase.checkRefreshToken()
+                        .receive(on: DispatchQueue.main)
+                        .sink { completion in
+                            switch completion {
+                            case .finished:
+                                break
+                            case .failure(let error):
+                                //refreshToken까지 실패 > 다시 로그인
+                                self.authenticationState = .initial
+                            }
+                        } receiveValue: { result in
+                            AccountStorage.shared.accessToken = result.accessToken
+                            AccountStorage.shared.refreshToken = result.refreshToken
+                        }
+                        .store(in: &cancellables)
+                }
+            } else {
+                self.authenticationState = .initial
+            }
+            
+        case .getUserBasicInfo:
+            print("dd")
         case .kakaoSignIn:
             KeyChain.create(key: "socialType", token: "KAKAO")
             

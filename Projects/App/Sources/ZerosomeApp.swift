@@ -41,6 +41,10 @@ struct ZerosomeApp: App {
                     socialUseCase: socialUseCase,
                     apiService: apiService
                 )
+                
+            }
+            .onAppear {
+                authViewModel.send(action: .checkToken)
             }
             .environmentObject(toast)
             .environmentObject(popup)

@@ -8,6 +8,11 @@
 
 import Foundation
 
-//final class AuthMapper {
-//    static func signInMapper(_ response: LoginResponseDTO) ->
-//}
+final class AuthMapper {
+    static func toRefreshToken(response: TokenResponseDTO) -> TokenResponseResult {
+        return TokenResponseResult(
+            accessToken: response.accessToken ?? "",
+            refreshToken: response.refreshToken ?? ""
+        )
+    }
+}

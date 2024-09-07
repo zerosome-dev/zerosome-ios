@@ -14,5 +14,7 @@ protocol AccountRepositoryProtocol {
     func postSignUp(token: String, socialType: String, nickname: String, marketing: Bool) async -> Result<TokenResponseDTO, NetworkError>
     func checkNickname(nickname: String) async -> Result<Bool, NetworkError>
     func putNickname(nickname: String) -> Future<Bool, NetworkError>
+    func checkUserToken() -> Future<MemberBasicInfoResult, NetworkError>
+    func refreshToken() -> Future<TokenResponseResult, NetworkError>
 }
 
