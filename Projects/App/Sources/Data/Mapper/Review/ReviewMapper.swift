@@ -29,7 +29,7 @@ class ReviewMapper {
                         reviewId: dto.reviewId ?? 0,
                         rating: dto.rating ?? 0.0,
                         reviewContents: dto.reviewContents ?? "",
-                        brand: dto.brand ?? "",
+                        brandName: dto.brandName ?? "",
                         productName: dto.productName ?? "",
                         productImage: dto.productImage ?? "",
                         regDate: DateMapper.returnDate(dto.regDate ?? "")

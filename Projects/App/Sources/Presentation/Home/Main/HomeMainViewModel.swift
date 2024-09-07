@@ -62,7 +62,7 @@ class HomeMainViewModel: ObservableObject {
                     self?.homeCafe = cafeData
                     self?.filteredCafe = cafeData
                     return self?.filterUsecase
-                        .getD1CategoryList(d1CategoryCode: cafeData.first?.d2CategoryId ?? "")
+                        .getD1CategoryList(d1CategoryCode: cafeData.first?.d1CategoryId ?? "")
                         .eraseToAnyPublisher() ??
                     Fail(error: NetworkError.response).eraseToAnyPublisher()
                 }

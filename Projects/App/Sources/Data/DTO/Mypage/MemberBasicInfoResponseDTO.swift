@@ -10,5 +10,5 @@ import Foundation
 
 struct MemberBasicInfoResponseDTO: Decodable {
     var nickname: String?
-    var rivewCnt: Int?
+    var reviewCnt: Int?
 }

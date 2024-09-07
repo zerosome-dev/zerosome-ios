@@ -86,7 +86,7 @@ final class ApiService {
             }
             
             print("😈😈 STATUS CODE \(statusCode) 😈😈")
-            let range = 200..<300
+//            let range = 200..<300
 //            guard range.contains(statusCode) else {
 //                return .failure(NetworkError.statusError)
 //            }
@@ -96,7 +96,7 @@ final class ApiService {
                 debugPrint("🚨🚨 <<<JSON Data>>> 🚨🚨 \(jsonObject)")
             } catch {
                 debugPrint("🚨🚨 <<<JSON Serialization Error>>> 🚨🚨 \(error.localizedDescription)")
-                return .failure(NetworkError.decode)
+//                return .failure(NetworkError.decode)
             }
                         
             do {
@@ -181,7 +181,7 @@ extension ApiService {
         
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
+            debugPrint("🚨🚨 <<<Response>>> \(response) 🚨🚨")
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
                 return .failure(NetworkError.response)
             }
@@ -212,7 +212,7 @@ extension ApiService {
             do {
                 let result = try JSONDecoder().decode(Response<NoneDecodeResponse>.self, from: data)
 
-                guard let data = result.data else {
+                guard result.data != nil else {
                     print("🩵🩵🩵Decoding success > Data 결과 NULL > 성공🩵🩵🩵")
                     return .success(true)
                 }

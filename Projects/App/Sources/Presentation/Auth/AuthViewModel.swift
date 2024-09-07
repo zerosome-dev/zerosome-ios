@@ -26,7 +26,6 @@ class AuthViewModel: ObservableObject {
         case kakaoSignIn
         case appleSignIn
         case checkToken
-        case getUserBasicInfo
     }
     
     private let accountUseCase: AccountUseCase
@@ -52,47 +51,40 @@ class AuthViewModel: ObservableObject {
         switch action {
         case .checkToken:
             if let _ = AccountStorage.shared.accessToken {
-                // accessToken에 값이 있다면
                 accountUseCase.checkUserToken()
                     .receive(on: DispatchQueue.main)
+                    .flatMap { _ -> AnyPublisher<TokenResponseResult, NetworkError> in
+                        // Access Token이 유효하면 바로 성공, 갱신할 필요 없음
+                        self.tokenStatus = true
+                        self.authenticationState = .signIn
+                        return Empty().eraseToAnyPublisher() // 아무 작업도 하지 않음
+                    }
+                    .catch { error -> AnyPublisher<TokenResponseResult, NetworkError> in
+                        // Access Token이 유효하지 않다면 Refresh Token을 체크
+                        self.tokenStatus = false
+                        return self.accountUseCase.checkRefreshToken().eraseToAnyPublisher() // Future -> AnyPublisher 변환
+                    }
+                    .receive(on: DispatchQueue.main) // 메인 스레드에서 결과를 받음
                     .sink { completion in
                         switch completion {
                         case .finished:
                             break
                         case .failure(let error):
-                            self.tokenStatus = false
-                            print("\(error.localizedDescription)")
+                            // Refresh Token도 실패 시 다시 로그인
+                            self.authenticationState = .initial
+                            print("토큰 갱신 실패: \(error.localizedDescription)")
                         }
                     } receiveValue: { result in
-                        self.tokenStatus = true
+                        // 토큰이 갱신되었으면 새로 저장
+                        AccountStorage.shared.accessToken = result.accessToken
+                        AccountStorage.shared.refreshToken = result.refreshToken
+                        self.authenticationState = .signIn
                     }
                     .store(in: &cancellables)
-                
-                if tokenStatus {
-                    self.authenticationState = .signIn
-                } else {
-                    accountUseCase.checkRefreshToken()
-                        .receive(on: DispatchQueue.main)
-                        .sink { completion in
-                            switch completion {
-                            case .finished:
-                                break
-                            case .failure(let error):
-                                //refreshToken까지 실패 > 다시 로그인
-                                self.authenticationState = .initial
-                            }
-                        } receiveValue: { result in
-                            AccountStorage.shared.accessToken = result.accessToken
-                            AccountStorage.shared.refreshToken = result.refreshToken
-                        }
-                        .store(in: &cancellables)
-                }
             } else {
                 self.authenticationState = .initial
             }
-            
-        case .getUserBasicInfo:
-            print("dd")
+        
         case .kakaoSignIn:
             KeyChain.create(key: "socialType", token: "KAKAO")
             

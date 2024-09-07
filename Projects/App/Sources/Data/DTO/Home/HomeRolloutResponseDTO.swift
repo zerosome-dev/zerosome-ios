@@ -15,4 +15,5 @@ struct HomeRolloutResponseDTO: Decodable { //, Identifiable, Hashable
     var d2Category: String?
     var name: String?
     var salesStore: [String?]?
+    var brand: String?
 }

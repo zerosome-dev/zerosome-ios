@@ -17,12 +17,12 @@ final class ReviewRepository: ReviewRepositoryProtocol {
         self.apiService = apiService
     }
     
-    func getMyReviewList(offset: Int?, limit: Int?) -> Future<[MypageOffsetPageResult], NetworkError> {
+    func getMyReviewList(offset: Int?, limit: Int?) -> Future<MypageOffsetPageResult, NetworkError> {
         let parameters: [String : Int?] = ["offset" : offset ?? 0, "limit" : limit ?? 10]
         
         return Future { promise in
             Task {
-                let response: Result<[MypageOffsetPageResponseDTO], NetworkError> = await self.apiService.request(
+                let response: Result<MypageOffsetPageResponseDTO, NetworkError> = await self.apiService.request(
                     httpMethod: .get,
                     endPoint: APIEndPoint.url(for: .userReviewList),
                     queryParameters: parameters,
@@ -30,7 +30,7 @@ final class ReviewRepository: ReviewRepositoryProtocol {
                 
                 switch response {
                 case .success(let data):
-                    let mappedResult = data.map { ReviewMapper.toMyReviewOffsetResult(response: $0) }
+                    let mappedResult = ReviewMapper.toMyReviewOffsetResult(response: data)//data.map { ReviewMapper.toMyReviewOffsetResult(response: $0) }
                     promise(.success(mappedResult))
                 case .failure(let failure):
                     debugPrint("ReviewRepo > Get user review list > failed \(failure.localizedDescription)")

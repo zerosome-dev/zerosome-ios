@@ -12,7 +12,7 @@ struct ReviewUsecase {
     
     let reviewProtocol: ReviewRepositoryProtocol
     
-    func getMyReviewList(offset: Int?, limit: Int?) -> Future<[MypageOffsetPageResult], NetworkError> {
+    func getMyReviewList(offset: Int?, limit: Int?) -> Future<MypageOffsetPageResult, NetworkError> {
         return reviewProtocol.getMyReviewList(offset: offset, limit: limit)
     }
     

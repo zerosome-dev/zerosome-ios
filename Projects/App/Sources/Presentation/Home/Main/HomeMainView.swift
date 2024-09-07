@@ -53,7 +53,7 @@ struct HomeMainView: View {
                             .categoryFilter(
                                 "카페음료",
                                 viewModel.cafeEntireCode,
-                                viewModel.homeCafe.first?.d2CategoryId ?? ""
+                                viewModel.homeCafe.first?.d1CategoryId ?? ""
                             )
                         )
                     }
@@ -90,6 +90,9 @@ struct HomeMainView: View {
         .onAppear {
             viewModel.send(action: .cafe)
             viewModel.send(action: .tobeReleased)
+        }
+        .onDisappear {
+            viewModel.tappedCafeCategory = ""
         }
     }
 }

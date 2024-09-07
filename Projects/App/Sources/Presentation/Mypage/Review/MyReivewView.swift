@@ -35,7 +35,7 @@ struct MyReivewView: View {
                     .padding(.top, 10)
                 
                 VStack(spacing: 6) {
-                    ZSText(viewModel.review.brand, fontType: .body2, color: Color.neutral500)
+                    ZSText(viewModel.review.brandName, fontType: .body2, color: Color.neutral500)
                     ZSText(viewModel.review.productName, fontType: .subtitle1, color: Color.neutral900)
                         .lineLimit(1)
                 } 
@@ -115,7 +115,7 @@ struct MyReivewView: View {
             reviewId: 12,
             rating: 3.7,
             reviewContents: "reviewContents",
-            brand: "brand",
+            brandName: "brand",
             productName: "productname",
             productImage: "image",
             regDate: "date")

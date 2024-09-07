@@ -10,5 +10,5 @@ import Foundation
 
 struct MemberBasicInfoResult {
     var nickname: String
-    var rivewCnt: Int
+    var reviewCnt: Int
 }

@@ -38,11 +38,12 @@ struct TobeReleasedProductView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
                             VStack(alignment: .leading, spacing: 4) {
-                                ZSText(data.d2Category, fontType: .body3, color: Color.neutral500)
+                                ZSText(data.brand, fontType: .body3, color: Color.neutral500)
                                     .lineLimit(1)
                                 
                                 ZSText(data.name, fontType: .subtitle2, color: Color.neutral900)
                                     .lineLimit(2)
+                                    .padding(.bottom, 4)
                                 
                                 HStack {
                                     ForEach(data.salesStore, id: \.self) { platform in

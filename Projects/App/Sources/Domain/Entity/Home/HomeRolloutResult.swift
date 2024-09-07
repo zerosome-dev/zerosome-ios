@@ -15,6 +15,7 @@ struct HomeRolloutResult: Equatable, Hashable, Identifiable {
     let d2Category: String
     let name: String
     let salesStore: [String]
+    let brand: String
     let key = UUID().uuidString
     
     init(
@@ -23,7 +24,8 @@ struct HomeRolloutResult: Equatable, Hashable, Identifiable {
         d1Category: String,
         d2Category: String,
         name: String,
-        salesStore: [String]
+        salesStore: [String],
+        brand: String
     ) {
         self.id = id
         self.image = image
@@ -31,5 +33,6 @@ struct HomeRolloutResult: Equatable, Hashable, Identifiable {
         self.d2Category = d2Category
         self.name = name
         self.salesStore = salesStore
+        self.brand = brand
     }
 }
