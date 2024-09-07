@@ -51,7 +51,6 @@ struct BottomSheetButton: View {
                 )
                 .onTapGesture {
                     if !enable { return }
-                    print("?????")
                     applyAction?()
                 }
         }

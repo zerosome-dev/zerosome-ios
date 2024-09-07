@@ -8,6 +8,7 @@
 
 import SwiftUI
 import DesignSystem
+import Kingfisher
 
 struct CategoryBottomSheet: View {
     
@@ -25,9 +26,10 @@ struct CategoryBottomSheet: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(viewModel.d2CategoryList, id: \.id) { type in
                     VStack(spacing: 6) {
-                        Rectangle()
-                            .fill(Color.neutral50)
+                        KFImage(URL(string: type.d2CategoryImage))
+                            .resizable()
                             .frame(width: size, height: size)
+                            .scaledToFit()
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                             .overlay {
                                 if let tappedChips = viewModel.tappedD2CategoryChips, tappedChips.name == type.name {
@@ -62,6 +64,9 @@ struct CategoryBottomSheet: View {
                     viewModel.send(action: .getFilterResult)
                     viewModel.tappedD2CategoryChips = nil
                     viewModel.sheetToggle = nil
+                }
+                .onAppear {
+                    print("💩 chips?? entir > \(viewModel.tappedD2CategoryChips)")
                 }
         }
         .padding(.horizontal, 24)

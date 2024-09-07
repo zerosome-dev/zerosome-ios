@@ -22,11 +22,16 @@ let dependencies = Dependencies(
             .remote(url: "https://github.com/airbnb/lottie-ios",
                     requirement: .upToNextMajor(from: "4.4.3")),
             .remote(url: "https://github.com/wontaeyoung/AutoHeightEditor",
-                    requirement: .upToNextMajor(from: "1.0.0"))
+                    requirement: .upToNextMajor(from: "1.0.0")),
+            .remote(url: "https://github.com/firebase/firebase-ios-sdk.git",
+                    requirement: .upToNextMajor(from: "10.0.0")),
+            .remote(url: "https://github.com/google/GoogleUtilities",
+                    requirement: .upToNextMajor(from: "7.13.2"))
         ]
     ),
 
     platforms: [.iOS]
 )
+//.remote(url: "https://github.com/google/GoogleUtilities.git", requirement: .exact("7.13.2"))
 
 

@@ -20,7 +20,8 @@ class FilterMapper {
         return D2CategoryFilterResult(
             d2CategoryCode: response.d2CategoryCode ?? "",
             d2CategoryName: response.d2CategoryName ?? "",
-            noOptionYn: response.noOptionYn ?? false
+            noOptionYn: response.noOptionYn ?? false,
+            d2CategoryImage: response.d2CategoryImage ?? ""
         )
     }
     

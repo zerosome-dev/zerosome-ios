@@ -10,8 +10,10 @@ import SwiftUI
 import KakaoSDKCommon
 import KakaoSDKAuth
 
+
 @main
 struct ZerosomeApp: App {
+    // @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @UIApplicationDelegateAdaptor var delegate: AppDelegate
     @StateObject var toast = ToastAction()
     @StateObject var popup = PopupAction()
