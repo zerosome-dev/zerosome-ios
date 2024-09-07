@@ -61,6 +61,9 @@ struct CategoryFilteredView: View {
                     LazyVGrid(columns: columns) {
                         ForEach(viewModel.productList, id: \.id) { product in
                             ProductPreviewComponent(data: product)
+                                .tap {
+                                    router.navigateTo(.detailMainView(product.productId))
+                                }
                         }
                         
                         if viewModel.isLoading {
@@ -80,11 +83,11 @@ struct CategoryFilteredView: View {
         .onAppear {
             viewModel.d2CategoryCode = d2CategoryCode
             viewModel.d1CategoryCode = d1CategoryCode
-//            viewModel.navigationTitle = navigationTtile
-//            viewModel.send(action: .getD2CategoryList)
-//            viewModel.send(action: .getZeroTagList)
+            viewModel.navigationTitle = navigationTtile
+            viewModel.send(action: .getD2CategoryList)
+            viewModel.send(action: .getZeroTagList)
             viewModel.send(action: .getBrandList)
-//            viewModel.send(action: .getFilterResult)
+            viewModel.send(action: .getFilterResult)
         }
         .sheet(isPresented: $viewModel.updateToggle) {
             UpdateBottomSheet(viewModel: viewModel)

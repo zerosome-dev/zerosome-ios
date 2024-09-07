@@ -49,13 +49,11 @@ struct HomeMainView: View {
                         subTitle: MainData.cafe.subtitle
                     )
                     .tap {
-                        print("전체")
-                        
                         router.navigateTo(
                             .categoryFilter(
                                 "카페음료",
                                 viewModel.cafeEntireCode,
-                                "전체"
+                                viewModel.homeCafe.first?.d2CategoryId ?? ""
                             )
                         )
                     }
@@ -76,8 +74,7 @@ struct HomeMainView: View {
                                 ForEach(viewModel.filteredCafe.prefix(10), id: \.id) { data in
                                     ProductPreviewComponent(data: data)
                                         .tap {
-                                            print("datadatatatatat")
-                                            viewModel.tapData = data.id
+                                            router.navigateTo(.detailMainView(data.id))
                                         }
                                 }
                             }

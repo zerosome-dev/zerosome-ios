@@ -32,3 +32,9 @@ let spmProject = Project.makeProject(
     name: "SPM",
     targets: spmTarget,
     isXconfigSet: true)
+/*
+ ,
+ .SPM.FirebaseCrashlytics,
+ .SPM.Analytics,
+ .SPM.GoogleUtilities
+ */

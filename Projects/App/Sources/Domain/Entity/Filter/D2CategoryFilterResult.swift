@@ -12,6 +12,7 @@ struct D2CategoryFilterResult: ChipRepresentable, Identifiable {
     var d2CategoryCode: String
     var d2CategoryName: String
     var noOptionYn: Bool
+    var d2CategoryImage: String
     
     var id: String {
         return d2CategoryCode

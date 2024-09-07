@@ -28,12 +28,10 @@ class HomeMainViewModel: ObservableObject {
         self.filterUsecase = filterUsecase
     }
     
-    @Published var tapData: Int = 0
     @Published var tobeReleased: [HomeRolloutResult] = []
     @Published var homeCafe: [HomeCafeResult] = []
     @Published var totalCode: String = ""
     @Published var tappedCafeCategory: String = ""
-    @Published var d1CategoryCode: String = ""
     @Published var cafeCategoryList: [D2CategoryFilterResult] = []
     @Published var filteredCafe: [HomeCafeResult] = []
     @Published var cafeEntireCode = ""
