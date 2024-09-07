@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBNqKiUDlbHFiNIlhAmAO3a4iRKjqb4CrM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>245629639567</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.App.zerosome-prography9</string>
+	<key>PROJECT_ID</key>
+	<string>zerosome-d4a70</string>
+	<key>STORAGE_BUCKET</key>
+	<string>zerosome-d4a70.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:245629639567:ios:2d9c7f5e1b6a6513c6c9fa</string>
+</dict>
+</plist>
