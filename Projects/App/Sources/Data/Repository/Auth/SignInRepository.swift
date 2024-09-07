@@ -110,12 +110,53 @@ final class AccountRepository: AccountRepositoryProtocol {
                 case .success(let success):
                     promise(.success(success))
                 case .failure(let failure):
+                    debugPrint("fail to put nickname \(failure.localizedDescription)")
                     promise(.failure(.badRequest))
                 }
             }
         }
     }
     
+    func checkUserToken() -> Future<MemberBasicInfoResult, NetworkError> {
+        return Future { promise in
+            Task {
+                let response: Result<MemberBasicInfoResponseDTO, NetworkError> = await self.apiService.request(
+                    httpMethod: .post,
+                    endPoint: APIEndPoint.url(for: .userInfo),
+                    header: AccountStorage.shared.accessToken
+                )
+                
+                switch response {
+                case .success(let success):
+                    let mappedResult = MypageMapper.toMemberBasicInfo(response: success)
+                    promise(.success(mappedResult))
+                case .failure(let failure):
+                    debugPrint("Mypage UserInfo failed \(failure.localizedDescription)")
+                    promise(.failure(NetworkError.badRequest))
+                }
+            }
+        }
+    }
+    
+    func refreshToken() -> Future<TokenResponseResult, NetworkError> {
+        return Future { promise in
+            Task {
+                let response: Result<TokenResponseDTO, NetworkError> = await self.apiService.request(
+                    httpMethod: .post, endPoint: APIEndPoint.url(for: .refreshToken),
+                    header: AccountStorage.shared.accessToken
+                )
+                
+                switch response {
+                case .success(let success):
+                    let mappedResult = AuthMapper.toRefreshToken(response: success)
+                    promise(.success(mappedResult))
+                case .failure(let failure):
+                    debugPrint("refresh failed \(failure.localizedDescription)")
+                    promise(.failure(NetworkError.refresh))
+                }
+            }
+        }
+    }
 }
 /*
  let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(

@@ -27,4 +27,12 @@ struct AccountUseCase {
     func putNickname(nickname: String) -> Future<Bool, NetworkError> {
         return accountRepoProtocol.putNickname(nickname: nickname)
     }
+    
+    func checkUserToken() -> Future<MemberBasicInfoResult, NetworkError> {
+        return accountRepoProtocol.checkUserToken()
+    }
+    
+    func checkRefreshToken() -> Future<TokenResponseResult, NetworkError> {
+        return accountRepoProtocol.refreshToken()
+    }
 }

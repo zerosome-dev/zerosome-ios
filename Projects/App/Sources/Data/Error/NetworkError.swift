@@ -18,5 +18,6 @@ enum NetworkError: Error {
     case queryError
     case encode
     case badRequest
+    case refresh
     case unknown
 }
