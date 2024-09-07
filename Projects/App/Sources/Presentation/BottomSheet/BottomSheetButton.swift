@@ -27,19 +27,12 @@ struct BottomSheetButton: View {
                 .frame(height: 52)
                 .frame(maxWidth: width)
                 .background(Color.neutral100)
-                .foregroundStyle(Color.neutral300)
+                .foregroundStyle(enable ? Color.neutral600 : Color.neutral300)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .onTapGesture {
                     resetAction?()
                 }
-            
-//            CommonButton(title: "적용", font: .subtitle1)
-//                .enable(enable)
-//                .tap {
-//                    applyAction?()
-//                    print("적용버튼탐")
-//                }
-//                .frame(maxWidth: width * 2)
+
             Text("적용")
                 .applyFont(font: .subtitle1)
                 .foregroundStyle(enable ? Color.white : Color.neutral300)

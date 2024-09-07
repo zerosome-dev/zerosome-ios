@@ -65,9 +65,6 @@ struct CategoryBottomSheet: View {
                     viewModel.tappedD2CategoryChips = nil
                     viewModel.sheetToggle = nil
                 }
-                .onAppear {
-                    print("💩 chips?? entir > \(viewModel.tappedD2CategoryChips)")
-                }
         }
         .padding(.horizontal, 24)
     }
