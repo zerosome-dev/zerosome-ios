@@ -28,6 +28,8 @@ class HomeMapper {
             d1Category: response.d1Category ?? "",
             d2Category: response.d2Category ?? "",
             name: response.name ?? "",
-            salesStore: (response.salesStore ?? []).compactMap { $0 })
+            salesStore: (response.salesStore ?? []).compactMap { $0 },
+            brand: response.brand ?? ""
+        )
     }
 }

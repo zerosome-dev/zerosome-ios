@@ -25,23 +25,39 @@ class MyReviewsListViewModel: ObservableObject {
     
     @Published var userReviewList: [ReviewDetailByMemberResult] = []
     @Published var reviewCnt: Int?
+    @Published var isLoading: Bool = false
+    @Published var hasMoreReviews: Bool = true
+    @Published var offset: Int = 0
+    @Published var limit: Int = 10
     
     func send(_ action: Action) {
         switch action {
         case .getMyReviewList:
-            print("유저 작성 리뷰 목록 조회하기")
+            guard !isLoading && hasMoreReviews else { return }
+            isLoading = true
             
-            reviewUsecase.getMyReviewList(offset: 0, limit: 10)
+            reviewUsecase.getMyReviewList(offset: offset, limit: limit)
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
                         break
                     case .failure(let failure):
+                        self.isLoading = false
+//                        self.hasMoreReviews = false
                         debugPrint("get mypage user review list is failed \(failure.localizedDescription)")
                     }
-                } receiveValue: { result in
-                    self.userReviewList = result.map({ $0.content }).flatMap({ $0.reviewList })
-                    self.reviewCnt = result.map { $0.content }.first.map { $0.reviewCnt } // 작성한 리뷰수
+                } receiveValue: { [weak self] result in
+//                    let reviewCnt = result.content.reviewCnt
+                    if result.content.reviewList.isEmpty {
+                        self?.hasMoreReviews = false
+                    } else {
+                        self?.userReviewList.append(contentsOf: result.content.reviewList)
+                        self?.reviewCnt = self?.userReviewList.count
+                        self?.offset += 1
+                    }
+                    
+                    self?.isLoading = false
                 }
                 .store(in: &cancellables)
         }
@@ -58,51 +74,34 @@ struct MyReviewsListView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.init(top: 10,leading: 22,bottom: 30,trailing: 22))
             
-            ForEach(viewModel.userReviewList, id: \.id) { data in
-                VStack(spacing: 0) {
-                    ZSText("\(data.regDate) 작성", fontType: .body3, color: Color.neutral400)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 11)
-                    
-                    HStack {
-                        KFImage(URL(string: data.productImage))
-                            .placeholder {
-                                Rectangle()
-                                    .fill(Color.neutral50)
-                                    .frame(width: 80, height: 80)
-                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                                    .overlay {
-                                        ProgressView().tint(Color.primaryFF6972)
-                                    }
-                            }
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
+            VStack(spacing: 0) {
+                ForEach(viewModel.userReviewList, id: \.id) { data in
+                    VStack(spacing: 0) {
+                        ZSText("\(data.regDate) 작성", fontType: .body3, color: Color.neutral400)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.bottom, 11)
                         
-                        VStack(spacing: 0) {
-                            ZSText(data.brand, fontType: .body3, color: Color.neutral500)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            ZSText(data.productName, fontType: .subtitle2)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Spacer()
-                            
-                            HStack(spacing: 4) {
-                                StarComponent(rating: data.rating, size: 16)
-                                ZSText("\(data.rating)", fontType: .label1, color: Color.neutral700)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
+                        productInfo(data: data)
+                        .onTapGesture {
+                            router.navigateTo(.myReivew(data))
                         }
-                        .padding(.vertical, -2)
                     }
-                    .onTapGesture {
-                        router.navigateTo(.myReivew(data))
-                    }
+                    .padding(.horizontal, 22)
+                    
+                    DivideRectangle(height: 1, color: Color.neutral50)
+                        .padding(.vertical, 30)
                 }
-                .padding(.horizontal, 22)
                 
-                DivideRectangle(height: 1, color: Color.neutral50)
-                    .padding(.vertical, 30)
-//                    .opacity(review == 4 ? 0 : 1)
+                if viewModel.isLoading {
+                    ProgressView()
+                        .tint(Color.primaryFF6972)
+                        .padding()
+                } else if viewModel.hasMoreReviews {
+                    Color.clear
+                        .onAppear {
+                            viewModel.send(.getMyReviewList)
+                        }
+                }
             }
         }
         .ZSNavigationBackButtonTitle("내가 작성한 리뷰") {
@@ -110,12 +109,42 @@ struct MyReviewsListView: View {
         }
         .scrollIndicators(.hidden)
         .onAppear {
-//            viewModel.send(.getMyReviewList)
+            viewModel.send(.getMyReviewList)
         }
     }
     
-    @ViewBuilder func productInfo() -> some View {
-        
+    @ViewBuilder func productInfo(data: ReviewDetailByMemberResult) -> some View {
+        HStack {
+            KFImage(URL(string: data.productImage))
+                .placeholder {
+                    Rectangle()
+                        .fill(Color.neutral50)
+                        .frame(width: 80, height: 80)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .overlay {
+                            ProgressView().tint(Color.primaryFF6972)
+                        }
+                }
+                .resizable()
+                .frame(width: 80, height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            
+            VStack(spacing: 0) {
+                ZSText("[\(data.brandName)]", fontType: .body3, color: Color.neutral500)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                ZSText(data.productName, fontType: .subtitle2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .lineLimit(1)
+                Spacer()
+                
+                HStack(spacing: 4) {
+                    StarComponent(rating: data.rating, size: 16)
+                    ZSText("\(data.rating)", fontType: .subtitle2, color: Color.neutral700)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .padding(.vertical, -2)
+        }
     }
 }
 

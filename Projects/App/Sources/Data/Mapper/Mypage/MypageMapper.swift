@@ -12,7 +12,7 @@ class MypageMapper {
     static func toMemberBasicInfo(response: MemberBasicInfoResponseDTO) -> MemberBasicInfoResult {
         return MemberBasicInfoResult(
             nickname: response.nickname ?? "",
-            rivewCnt: response.rivewCnt ?? 0
+            reviewCnt: response.reviewCnt ?? 0
         )
     }
 }

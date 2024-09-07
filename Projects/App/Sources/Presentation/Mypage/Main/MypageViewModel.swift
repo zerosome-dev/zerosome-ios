@@ -26,7 +26,7 @@ class MypageViewModel: ObservableObject {
         self.mypageUseCase = mypageUseCase
     }
     
-    @Published var userInfo: MemberBasicInfoResult = .init(nickname: "", rivewCnt: 0)
+    @Published var userInfo: MemberBasicInfoResult = .init(nickname: "", reviewCnt: 0)
     @Published var logoutResult: Bool?
     @Published var revokeResult: Bool?
     @Published var loginPopup: Bool = false
