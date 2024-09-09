@@ -13,7 +13,7 @@ let appTarget = Target.makeTarget(
     name: "App",
     platform: .iOS,
     product: .app,
-    organizationName: "zerosome-prography9",
+    organizationName: "zerosome-ios",
     deploymentTarget: .iOS(targetVersion: "16.0",
                            devices: [.iphone],
                            supportsMacDesignedForIOS: false),
