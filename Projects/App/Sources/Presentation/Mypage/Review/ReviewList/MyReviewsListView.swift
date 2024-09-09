@@ -28,11 +28,12 @@ struct MyReviewsListView: View {
                             .padding(.bottom, 11)
                         
                         productInfo(data: data)
-                        .onTapGesture {
-                            router.navigateTo(.myReivew(data))
-                        }
                     }
                     .padding(.horizontal, 22)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        router.navigateTo(.myReivew(data))
+                    }
                     
                     DivideRectangle(height: 1, color: Color.neutral50)
                         .padding(.vertical, 30)

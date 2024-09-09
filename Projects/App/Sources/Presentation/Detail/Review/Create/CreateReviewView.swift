@@ -8,7 +8,6 @@
 
 import SwiftUI
 import DesignSystem
-import Combine
 import Kingfisher
 
 struct CreateReviewView: View {
@@ -23,7 +22,6 @@ struct CreateReviewView: View {
         ZStack(alignment: .bottom) {
             CommonButton(title: "작성 완료", font: .subtitle1)
                 .enable(
-                    // TODO: -  Button 조건 수정
                     viewModel.starCounting >= 1
                 )
                 .tap {
@@ -97,6 +95,9 @@ struct CreateReviewView: View {
         }
         .onAppear {
             viewModel.reviewEntity = data
+        }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
         }
         .ZSnavigationBackButton {
             router.navigateBack()
