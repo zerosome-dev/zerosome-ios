@@ -89,7 +89,7 @@ final class ReviewRepository: ReviewRepositoryProtocol {
     func deleteReview(reviewId: Int) -> Future<Bool, NetworkError> {
         return Future { promise in
             Task {
-                let response: Result<NoneDecodeResponse, NetworkError> = await self.apiService.request(
+                let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
                     httpMethod: .delete,
                     endPoint: APIEndPoint.url(for: .reviewBase),
                     pathParameters: "\(reviewId)",
@@ -98,7 +98,8 @@ final class ReviewRepository: ReviewRepositoryProtocol {
                 
                 switch response {
                 case .success(let success):
-                    promise(.success(true))
+                    debugPrint("💩💩💩 success to delete review!!!!!\(success)")
+                    promise(.success(success))
                 case .failure(let failure):
                     debugPrint("delete review failed \(failure.localizedDescription)")
                     promise(.failure(.badRequest))
@@ -110,7 +111,7 @@ final class ReviewRepository: ReviewRepositoryProtocol {
     func modifyReview(reviewId: Int, modifyReview: ReviewModifyRequest) -> Future<Bool, NetworkError> {
         return Future { promise in
             Task {
-                let response: Result<NoneDecodeResponse, NetworkError> = await self.apiService.request(
+                let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
                     httpMethod: .put,
                     endPoint: APIEndPoint.url(for: .reviewBase),
                     pathParameters: "\(reviewId)",
@@ -120,7 +121,8 @@ final class ReviewRepository: ReviewRepositoryProtocol {
                 
                 switch response {
                 case .success(let success):
-                    promise(.success(true))
+                    debugPrint("💩💩 success to modify review!!!!\(success)")
+                    promise(.success(success))
                 case .failure(let failure):
                     debugPrint("delete review failed \(failure.localizedDescription)")
                     promise(.failure(.badRequest))
