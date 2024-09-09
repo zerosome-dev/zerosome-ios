@@ -28,7 +28,7 @@ class ReviewMapper {
                     ReviewDetailByMemberResult(
                         reviewId: dto.reviewId ?? 0,
                         rating: dto.rating ?? 0.0,
-                        reviewContents: dto.reviewContents ?? "",
+                        contents: dto.contents ?? "",
                         brandName: dto.brandName ?? "",
                         productName: dto.productName ?? "",
                         productImage: dto.productImage ?? "",
@@ -40,6 +40,25 @@ class ReviewMapper {
         
         return MypageOffsetPageResult(
             content: content,
+            limit: response.limit ?? 10,
+            offset: response.offset ?? 0
+        )
+    }
+    
+    static func toReviewList(response: ReviewListOffsetPageResponseDTO) -> ReviewOffsetPageResult {
+        
+        let content = response.content?.compactMap { dto in
+            ReviewDetailResult(
+                reviewId: dto.reviewId ?? 0,
+                rating: dto.rating ?? 0.0,
+                reviewContents: dto.reviewContents ?? "",
+                regDate: DateMapper.returnDate(dto.regDate ?? ""),
+                nickname: dto.nickname ?? ""
+            )
+        } //?? ReviewDetailResult(reviewId: 0, rating: 0.0, reviewContents: "", regDate: "", nickname: "")
+        
+        return ReviewOffsetPageResult(
+            content: (content ?? []),
             limit: response.limit ?? 10,
             offset: response.offset ?? 0
         )

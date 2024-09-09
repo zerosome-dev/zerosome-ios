@@ -28,7 +28,7 @@ struct ReviewByMemberResult: Identifiable {
 struct ReviewDetailByMemberResult: Hashable, Equatable, Identifiable {
     var reviewId: Int
     var rating: Double
-    var reviewContents: String
+    var contents: String
     var brandName: String
     var productName: String
     var productImage: String

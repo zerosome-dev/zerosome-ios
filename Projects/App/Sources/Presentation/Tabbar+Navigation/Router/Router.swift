@@ -67,8 +67,10 @@ final class Router: ObservableObject {
             MyReviewsListView(viewModel: viewModel)
         
         case .myReivew(let review):
-            let viewModel = MyReivewViewModel(review: review)
-            MyReivewView(viewModel: viewModel)
+            let reviewRepo = ReviewRepository(apiService: apiService)
+            let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
+            let viewModel = MyReivewViewModel(reviewUsecase: reviewUsecase)
+            MyReivewView(viewModel: viewModel, review: review)
         
         case .mypgaeNickname(let nickname):
             let accountRepo = AccountRepository(apiService: apiService)

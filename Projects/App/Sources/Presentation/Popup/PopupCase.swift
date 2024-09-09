@@ -85,6 +85,7 @@ enum SinglePopup {
     case successLogout
     case successRevoke
     case modifyReview
+    case failModifyReview
     
     var title: String {
         switch self {
@@ -104,6 +105,8 @@ enum SinglePopup {
             return "로그아웃이 완료되었습니다."
         case .successRevoke:
             return "회원 탈퇴가 완료되었습니다."
+        case .failModifyReview:
+            return "수정에 실패했어요"
         }
     }
     
@@ -125,6 +128,8 @@ enum SinglePopup {
             return Choice.check.rawValue
         case .successRevoke:
             return Choice.check.rawValue
+        case .failModifyReview:
+            return Choice.retry.rawValue
         }
     }
 }

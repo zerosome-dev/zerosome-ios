@@ -121,7 +121,7 @@ final class AccountRepository: AccountRepositoryProtocol {
         return Future { promise in
             Task {
                 let response: Result<MemberBasicInfoResponseDTO, NetworkError> = await self.apiService.request(
-                    httpMethod: .post,
+                    httpMethod: .get,
                     endPoint: APIEndPoint.url(for: .userInfo),
                     header: AccountStorage.shared.accessToken
                 )
