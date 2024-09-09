@@ -29,13 +29,7 @@ struct ReviewListView: View {
                 .zIndex(1)
                 
             ScrollView {
-                ReviewScoreComponent(
-                    heightPadding: 38,
-                    radius: 8,
-                    review: viewModel.averageReview ?? 0.0,
-                    font: .heading1
-                )
-                .padding(.init(top: 10, leading: 22, bottom: 30, trailing: 22))
+                totalStarView()
                 
                 LazyVStack(spacing: 0) {
                     ForEach($viewModel.reviewList, id: \.id) { $review in
@@ -69,7 +63,7 @@ struct ReviewListView: View {
                             if viewModel.isLoading {
                                 ProgressView()
                                     .padding()
-                            } else if viewModel.hasMoreRevieww {
+                            } else if viewModel.hasMoreReview {
                                 Color.clear
                                     .onAppear {
                                         viewModel.send(.getReviewList)
@@ -106,6 +100,30 @@ struct ReviewListView: View {
         }, rightAction:  {
             viewModel.reportToggle = false
         })
+    }
+    
+    @ViewBuilder
+    private func totalStarView() -> some View {
+        VStack(spacing:2) {
+            ZSText("\(viewModel.averageReview ?? 0.0)", fontType: .heading1)
+            StarComponent(rating: viewModel.averageReview, size: 16)
+        }
+        .padding(.vertical, 38)
+        .frame(maxWidth: .infinity)
+        .background(Color.neutral50)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .padding(.init(top: 10, leading: 22, bottom: 30, trailing: 22))
+    }
+    
+    @ViewBuilder
+    private func itemStarView(rating: Binding<Double>) -> some View {
+        HStack(spacing: 0) {
+            ForEach(0..<5, id: \.self) { index in
+                (index < Int(round(rating.wrappedValue)) ? ZerosomeAsset.ic_star_fill : ZerosomeAsset.ic_star_empty)
+                    .resizable()
+                    .frame(width: 16, height: 16)
+            }
+        }
     }
 }
 

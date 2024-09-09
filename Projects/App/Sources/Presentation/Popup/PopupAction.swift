@@ -124,6 +124,7 @@ final class PopupAction: ObservableObject {
     @Published var failRevoke: Bool = false
     @Published var successRevoke: Bool = false
     @Published var modifyReview: Bool = false
+    @Published var failModifyReview:Bool = false
     @Published var rightButtonTapped: Bool = false
     @Published var rightButtonFlag: Bool = false
 
@@ -207,6 +208,11 @@ final class PopupAction: ObservableObject {
                 get: { self.successRevoke },
                 set: { self.successRevoke = $0 }
             )
+        case .failModifyReview:
+            return Binding(
+                get: { self.failModifyReview },
+                set: { self.failModifyReview = $0 }
+            )
         }
     }
     
@@ -243,6 +249,8 @@ final class PopupAction: ObservableObject {
             self.successLogout = value
         case .successRevoke:
             self.successRevoke = value
+        case .failModifyReview:
+            self.failModifyReview = value
         }
     }
 }

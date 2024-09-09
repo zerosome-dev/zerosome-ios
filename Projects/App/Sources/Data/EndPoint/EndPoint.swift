@@ -36,8 +36,9 @@ struct APIEndPoint {
     }
     
     enum Review: String {
-        case modifierReview = "/api/app/v1/member"
+        case reviewBase = "/api/app/v1/review"
         case review = "/api/app/v1/review/list"
+//        case delete = "/api/app/v1/review"
     }
     
     enum Mypage: String {
