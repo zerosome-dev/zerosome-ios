@@ -66,20 +66,6 @@ class CategoryFilteredViewModel: ObservableObject {
     @Published var d2EntirCode: String = ""
 }
 
-// MARK: - 무한 스크롤 테스트
-extension CategoryFilteredViewModel {
-    // 초기 로딩
-    func loadInitialProducts() {
-        offset = 0
-        hasMoreProducts = true
-        productList.removeAll()
-        self.send(action: .getFilterResult)
-    }
-    
-//    func fetchMoreProducts() {
-//            
-//        }
-}
 extension CategoryFilteredViewModel {
     
     func send(action: Action) {
