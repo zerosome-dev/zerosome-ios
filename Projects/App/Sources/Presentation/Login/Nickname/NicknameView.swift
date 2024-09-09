@@ -67,6 +67,9 @@ struct NicknameView: View {
         .ZSnavigationBackButton {
             authViewModel.authenticationState = .term
         }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
     }
 }
 

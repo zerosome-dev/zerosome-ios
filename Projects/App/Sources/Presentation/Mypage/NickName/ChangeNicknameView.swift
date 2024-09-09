@@ -75,7 +75,9 @@ struct ChangeNicknameView: View {
         .ZSNavigationBackButtonTitle("닉네임 변경") {
             router.navigateBack()
         }
-        
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
     }
 }
 
