@@ -79,6 +79,7 @@ final class ReviewRepository: ReviewRepositoryProtocol {
                     let mappedResult = data.map { ReviewMapper.toReviewDetailResult(response: $0) }
                     promise(.success(mappedResult))
                 case .failure(let failure):
+                    debugPrint("fail to get product review list \(failure.localizedDescription)")
                     promise(.failure(NetworkError.badRequest))
                 }
             }

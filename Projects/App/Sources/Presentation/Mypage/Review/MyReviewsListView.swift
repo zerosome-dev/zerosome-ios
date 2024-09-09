@@ -44,11 +44,9 @@ class MyReviewsListViewModel: ObservableObject {
                         break
                     case .failure(let failure):
                         self.isLoading = false
-//                        self.hasMoreReviews = false
                         debugPrint("get mypage user review list is failed \(failure.localizedDescription)")
                     }
                 } receiveValue: { [weak self] result in
-//                    let reviewCnt = result.content.reviewCnt
                     if result.content.reviewList.isEmpty {
                         self?.hasMoreReviews = false
                     } else {

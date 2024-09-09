@@ -65,6 +65,16 @@ struct ReviewListView: View {
                                 .onTapGesture {
                                     viewModel.reportToggle = true
                                 }
+                            
+                            if viewModel.isLoading {
+                                ProgressView()
+                                    .padding()
+                            } else if viewModel.hasMoreRevieww {
+                                Color.clear
+                                    .onAppear {
+                                        viewModel.send(.getReviewList)
+                                    }
+                            }
                         }
                         .padding(.horizontal, 22)
                         
@@ -108,7 +118,7 @@ struct ReviewListView: View {
                 )
             )
         ),
-        productId: "207",
+        productId: "292",
         reviewEntity: .init(name: "", brand: "", productId: 0, image: "")
     )
 }
