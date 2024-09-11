@@ -9,12 +9,12 @@
 import SwiftUI
 import KakaoSDKCommon
 import KakaoSDKAuth
-
+import UIKit
+import FirebaseCore
 
 @main
 struct ZerosomeApp: App {
-    // @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @UIApplicationDelegateAdaptor var delegate: AppDelegate
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var toast = ToastAction()
     @StateObject var popup = PopupAction()
     

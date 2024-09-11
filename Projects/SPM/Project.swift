@@ -12,7 +12,7 @@ import ProjectDescriptionHelpers
 let spmTarget = Target.makeTarget(
     name: "SPM",
     platform: .iOS,
-    product: .framework,
+    product: .staticFramework,
     organizationName: "ios",
     deploymentTarget: .iOS(targetVersion: "16.0",
                            devices: [.iphone],
@@ -21,7 +21,8 @@ let spmTarget = Target.makeTarget(
                    .SPM.Kakao,
                    .SPM.KingFisher,
                    .SPM.Lottie,
-                   .SPM.AutoHeight],
+                   .SPM.AutoHeight,
+                   .SPM.FirebaseAnalytics],
     infoPlistPath: "Support/Info.plist",
     //    scripts: [.swiftLintPath], // -> lint 적용o
     scripts: [], // -> lint 적용x
