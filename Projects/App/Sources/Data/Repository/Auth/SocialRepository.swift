@@ -62,10 +62,21 @@ extension SocialRepository {
                     }
                 }
             } else {
-                print("🟡 카카오 로그인 서비스 사용 불가 🟡")
-                return nil
+                debugPrint("🟡 카카오 로그인 서비스 사용 불가 > 카카오 앱 없음 🟡")
+                return try await withCheckedThrowingContinuation { continuation in
+                    UserApi.shared.loginWithKakaoAccount { (oauthtoken, error) in
+                        if let error = error {
+                            print("🍀 error \(error.localizedDescription)")
+                            continuation.resume(throwing: error)
+                        } else if let oauthToken = oauthtoken {
+                            print("🍀 카카오 웹 토큰 \(oauthToken)")
+                            continuation.resume(returning: oauthToken.accessToken)
+                        }
+                    }
+                }
             }
         } catch {
+            debugPrint("🟡 카카오 로그인 서비스 완전 사용 불가 🟡")
             return nil
         }
     }
