@@ -9,23 +9,21 @@
 import Foundation
 import UIKit
 import DesignSystem
-//import FirebaseCore
+import FirebaseCore
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-//    func application(_ application: UIApplication,
-//                       didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//        FirebaseApp.configure()
-//
-//        return true
-//      }
-//
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
+    func application(_ application: UIApplication,
+                       didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
         DesignSystemFontFamily.registerAllCustomFonts()
-        
+        return true
+    }
+    
+//    func application(
+//        _ application: UIApplication,
+//        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+//    ) -> Bool {
 //        for family in UIFont.familyNames {
 //            let sName: String = family as String
 //            print("Font family: \(sName)")
@@ -34,8 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print("Font name: \(name as String)")
 //            }
 //        }
-        return true
-    }
+//        return true
+//    }
 
     // MARK: UISceneSession Lifecycle
 

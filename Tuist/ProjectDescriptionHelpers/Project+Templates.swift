@@ -23,10 +23,11 @@ public extension Project {
         // target -> app인 경우에만 Setting
         var setting: Settings?
         if isProductApp, isXconfigSet {
-            setting = Settings.settings(configurations: [
-                .debug(name: "Debug", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
-                .release(name: "Release", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
-            ], defaultSettings: .recommended)
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
+                                        configurations: [
+                                            .debug(name: "Debug", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
+                                            .release(name: "Release", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
+                                        ], defaultSettings: .recommended)
         } else {
             setting = .settings(base: [:],
                                 configurations: [.debug(name: .debug),
