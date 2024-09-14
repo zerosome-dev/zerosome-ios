@@ -16,7 +16,7 @@ final class Router: ObservableObject {
         case tabView
         case tobeReleasedProduct([HomeRolloutResult], String, String) // 홈 > 종류별 더보기
         case categoryFilter(String, String, String) // navigationTitle, d2CategoryCode, d1categorydCode
-        case detailMainView(Int)
+        case detailMainView(Int, String)
         case reviewList(String, ReviewEntity)
         case creatReview(ReviewEntity) // proudct it, name, brand
         case mypageReviewList
@@ -40,13 +40,13 @@ final class Router: ObservableObject {
             let filterRepo = FilterRepository(apiService: apiService)
             let filterUsecase = FilterUsecase(filterRepoProtocol: filterRepo)
             let viewModel = CategoryFilteredViewModel(initD2CategoryCode: d2CategoryCode, initD1CategoryCode: d1CategoryCode, filterUsecase: filterUsecase)
-            CategoryFilteredView(navigationTtile: filteredTitle, d2CategoryCode: d2CategoryCode, viewModel: viewModel, d1CategoryCode: d1CategoryCode)
+            CategoryFilteredView(viewModel: viewModel, navigationTtile: filteredTitle, d2CategoryCode: d2CategoryCode, d1CategoryCode: d1CategoryCode)
 
-        case .detailMainView(let productId):
+        case .detailMainView(let productId, let navigationTitle):
             let detailRepo = DetailRepository(apiService: apiService)
             let detailUsecase = DetailUsecase(detailRepoProtocol: detailRepo)
             let viewModel = DetailMainViewModel(detailUseCase: detailUsecase)
-            DetailMainView(productId: productId, viewModel: viewModel)
+            DetailMainView(navigationTitle: navigationTitle, productId: productId, viewModel: viewModel)
         
         case .reviewList(let productId, let reviewEntity):
             let reviewRepo = ReviewRepository(apiService: apiService)

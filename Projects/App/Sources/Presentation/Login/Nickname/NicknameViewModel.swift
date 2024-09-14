@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import FirebaseAnalytics
 
 enum NicknameErrorCase: String {
     case none = ""
@@ -60,6 +61,7 @@ class NicknameViewModel: ObservableObject {
                     case .success(let success):
                         debugPrint("🟡🟢 KAKAO 회원가입 성공 \(success)🟡🟢")
                         self?.authViewModel.authenticationState = .signIn
+                        LogAnalytics.logSignUp(method: "Kakao")
                     case .failure(let failure):
                         debugPrint("🟡🔴 KAKAO 회원가입 실패 \(failure.localizedDescription)🟡🔴")
                         self?.authViewModel.authenticationState = .nickname
@@ -82,6 +84,7 @@ class NicknameViewModel: ObservableObject {
                     case .success(let success):
                         debugPrint("🍏🍏🍏 APPLE 회원가입 성공 \(success) 🍏🍏🍏")
                         self?.authViewModel.authenticationState = .signIn
+                        LogAnalytics.logSignUp(method: "Apple")
                     case .failure(let failure):
                         debugPrint("🍎🍎🍎 APPLE 회원가입 실패 \(failure.localizedDescription) 🍎🍎🍎")
                         self?.authViewModel.authenticationState = .nickname

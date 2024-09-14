@@ -45,6 +45,7 @@ struct ZerosomeApp: App {
             }
             .onAppear {
                 authViewModel.send(action: .checkToken)
+                LogAnalytics.logStartApplication()
             }
             .environmentObject(toast)
             .environmentObject(popup)

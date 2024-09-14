@@ -10,6 +10,7 @@ import SwiftUI
 import DesignSystem
 import Combine
 import Kingfisher
+import FirebaseAnalytics
 
 class DetailMainViewModel: ObservableObject {
     
@@ -17,6 +18,7 @@ class DetailMainViewModel: ObservableObject {
         case fetchData
     }
     
+    @Published var navigationTitle: String = ""
     @Published var dataInfo: ProductDetailResponseResult?
     @Published var productId: Int = 0
     @Published var isNutrients: Bool = false
@@ -49,6 +51,9 @@ class DetailMainViewModel: ObservableObject {
                         self?.dataInfo = data
                         self?.similarList = data.similarProductList
                         self?.reviewEntity = ReviewEntity(name: data.productName, brand: data.brandName, productId: data.productId, image: data.image)
+                        
+                        LogAnalytics.logProductName(name: data.productName)
+                        LogAnalytics.logProductBrand(brand: data.brandName)
                     })
                     .store(in: &cancellables)
             }

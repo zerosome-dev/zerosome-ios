@@ -8,6 +8,7 @@
 
 import SwiftUI
 import DesignSystem
+import FirebaseAnalytics
 
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
@@ -49,6 +50,7 @@ struct HomeMainView: View {
                         subTitle: MainData.cafe.subtitle
                     )
                     .tap {
+                        LogAnalytics.logD1Category(category: "Cafe")
                         router.navigateTo(
                             .categoryFilter(
                                 "카페음료",
@@ -74,7 +76,8 @@ struct HomeMainView: View {
                                 ForEach(viewModel.filteredCafe.prefix(10), id: \.id) { data in
                                     ProductPreviewComponent(data: data)
                                         .tap {
-                                            router.navigateTo(.detailMainView(data.id))
+                                            router.navigateTo(.detailMainView(data.id, data.brand))
+                                            LogAnalytics.logD2Category(category: "\(data.brand)")
                                         }
                                 }
                             }
@@ -88,8 +91,8 @@ struct HomeMainView: View {
         .ZSmainNaviTitle("ZEROSOME")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.send(action: .cafe)
-            viewModel.send(action: .tobeReleased)
+//            viewModel.send(action: .cafe)
+//            viewModel.send(action: .tobeReleased)
         }
         .onDisappear {
             viewModel.tappedCafeCategory = ""

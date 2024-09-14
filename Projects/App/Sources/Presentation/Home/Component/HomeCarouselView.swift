@@ -127,18 +127,28 @@ struct HomeCarouselView: View {
                     .fill(.white)
                     .overlay {
                         VStack {
-                            Rectangle()
-                                .fill(Color.neutral50)
-                                .frame(height: 216)
-                                .overlay {
-                                    KFImage(URL(string: data.image))
-                                        .placeholder {
-                                            ProgressView()
-                                                .tint(Color.primaryFF6972)
-                                        }
-                                        .resizable()
-                                        .scaledToFill()
+//                            Rectangle()
+//                                .fill(Color.neutral50)
+//                                .frame(height: 216)
+//                                .overlay {
+//                                    KFImage(URL(string: data.image))
+//                                        .placeholder {
+//                                            ProgressView()
+//                                                .tint(Color.primaryFF6972)
+//                                        }
+//                                        .resizable()
+////                                        .frame(width: UIScreen.main.bounds.width - 75, height: 216)
+//                                        .frame(width: 216, height: 216)
+//                                        .scaledToFill()
+//                                }
+                            KFImage(URL(string: data.image))
+                                .placeholder {
+                                    ProgressView()
+                                        .tint(Color.primaryFF6972)
                                 }
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 216, height: 216)
                             
                             Spacer()
                             VStack(spacing: 6) {
@@ -165,7 +175,7 @@ struct HomeCarouselView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .black.opacity(0.1), radius: 10, y: 10)
                     .onTapGesture {
-                        router.navigateTo(.detailMainView(data.id))
+                        router.navigateTo(.detailMainView(data.id, MainData.released.title))
                     }
             } lastContent: {
                 launchImage()

@@ -8,6 +8,7 @@
 
 import SwiftUI
 import DesignSystem
+import FirebaseAnalytics
 
 struct CategoryMainView: View {
     @EnvironmentObject var router: Router
@@ -32,7 +33,9 @@ struct CategoryMainView: View {
                 }
                 .tapItem {
                     viewModel.send(action: .tapD2CategoryItem(d1Category))
+                    LogAnalytics.logProductD1Category(d1Category: d1Category.d1CategoryName)
                     guard let tapD2Category = viewModel.tapD2Category else { return }
+                    LogAnalytics.logProductD2Category(d2Category: tapD2Category.d2CategoryName)
                     router.navigateTo(.categoryFilter(
                         viewModel.filteredTitle,
                         tapD2Category.d2CategoryCode,

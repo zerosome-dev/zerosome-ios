@@ -8,28 +8,29 @@
 
 import SwiftUI
 import DesignSystem
+import FirebaseAnalytics
 
 struct CategoryFilteredView: View {
     
     @EnvironmentObject var router: Router
-    @ObservedObject var viewModel: CategoryFilteredViewModel
+    @StateObject var viewModel: CategoryFilteredViewModel
     
     let navigationTtile: String
     let d2CategoryCode: String
     let d1CategoryCode: String
     let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
     
-    init(
-        navigationTtile: String,
-        d2CategoryCode: String,
-        viewModel: CategoryFilteredViewModel,
-        d1CategoryCode: String
-    ) {
-        self.navigationTtile = navigationTtile
-        self.d2CategoryCode = d2CategoryCode
-        self.viewModel = viewModel
-        self.d1CategoryCode = d1CategoryCode
-    }
+//    init(
+//        navigationTtile: String,
+//        d2CategoryCode: String,
+//        viewModel: CategoryFilteredViewModel,
+//        d1CategoryCode: String
+//    ) {
+//        self.navigationTtile = navigationTtile
+//        self.d2CategoryCode = d2CategoryCode
+//        self.viewModel = viewModel
+//        self.d1CategoryCode = d1CategoryCode
+//    }
     
     var body: some View {
         ScrollView {
@@ -62,7 +63,10 @@ struct CategoryFilteredView: View {
                         ForEach(viewModel.productList, id: \.id) { product in
                             ProductPreviewComponent(data: product)
                                 .tap {
-                                    router.navigateTo(.detailMainView(product.productId))
+                                    let categoryName = viewModel.tappedD2CategoryChips?.name ?? ""
+                                    router.navigateTo(.detailMainView(product.productId, categoryName))
+                                    LogAnalytics.logProductD1Category(d1Category: navigationTtile)
+                                    LogAnalytics.logProductD2Category(d2Category: categoryName)
                                 }
                         }
                         
@@ -88,6 +92,9 @@ struct CategoryFilteredView: View {
             viewModel.send(action: .getZeroTagList)
             viewModel.send(action: .getBrandList)
             viewModel.send(action: .getFilterResult)
+//            print("💥💥💥 onappear")
+//            print("💥💥💥 onappear > d1category \(d1CategoryCode)")
+//            print("💥💥💥 onappear > d2Categorey \(d2CategoryCode)")
         }
         .sheet(isPresented: $viewModel.updateToggle) {
             UpdateBottomSheet(viewModel: viewModel)
@@ -101,5 +108,5 @@ struct CategoryFilteredView: View {
 }
 
 #Preview {
-    CategoryFilteredView(navigationTtile: "과자/아이스크림", d2CategoryCode: "CTG001001", viewModel: CategoryFilteredViewModel(initD2CategoryCode: "CTG001001", initD1CategoryCode: "CTG002", filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))), d1CategoryCode: "CTG002")
+    CategoryFilteredView(viewModel: CategoryFilteredViewModel(initD2CategoryCode: "CTG001001", initD1CategoryCode: "CTG002", filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))), navigationTtile: "과자/아이스크림", d2CategoryCode: "CTG001001", d1CategoryCode: "CTG002")
 }

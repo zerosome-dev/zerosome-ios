@@ -24,7 +24,7 @@ struct SimiliarProductView: View {
                         ForEach(viewModel.similarList, id: \.productId) { data in
                             ProductPreviewComponent(data: data)
                                 .tap {
-                                    router.navigateTo(.detailMainView(data.productId))
+                                    router.navigateTo(.detailMainView(data.productId, viewModel.navigationTitle))
                                 }
                                 .frame(maxWidth: 150)
                         }
@@ -34,7 +34,7 @@ struct SimiliarProductView: View {
                         ForEach(viewModel.similarList.prefix(10), id: \.productId) { data in
                             ProductPreviewComponent(data: data)
                                 .tap {
-                                    router.navigateTo(.detailMainView(data.productId))
+                                    router.navigateTo(.detailMainView(data.productId, viewModel.navigationTitle))
                                 }
                                 .frame(maxWidth: 150)
                         }

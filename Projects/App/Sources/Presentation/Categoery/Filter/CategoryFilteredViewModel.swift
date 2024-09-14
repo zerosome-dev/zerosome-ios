@@ -30,7 +30,6 @@ class CategoryFilteredViewModel: ObservableObject {
         self.filterUsecase = filterUsecase
         self.d1CategoryCode = initD1CategoryCode
         self.d2CategoryCode = initD2CategoryCode
-//        loadInitialProducts()
     }
 
     @Published var d2CategoryCode: String
@@ -75,6 +74,7 @@ extension CategoryFilteredViewModel {
             lastDismissedSheet = type
             
         case .getD2CategoryList:
+            print("💥 getd2func d1 \(self.d1CategoryCode)")
             filterUsecase.getD1CategoryList(d1CategoryCode: self.d1CategoryCode)
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
@@ -94,6 +94,7 @@ extension CategoryFilteredViewModel {
                 .store(in: &cancellables)
             
         case .getBrandList:
+            print("💥 getbrandfunc d1 \(self.d1CategoryCode)")
             filterUsecase.getBrandList(d2CategoryCode: self.d2CategoryCode)
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
@@ -109,6 +110,7 @@ extension CategoryFilteredViewModel {
                 .store(in: &cancellables)
             
         case .getZeroTagList:
+            print("💥 getzerotagfunc d1 \(self.d1CategoryCode)")
             filterUsecase.getZeroTagList()
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
@@ -124,12 +126,14 @@ extension CategoryFilteredViewModel {
                 .store(in: &cancellables)
             
         case .getFilterResult:
+            print("💥 getFilterResultfunc d1 \(self.d1CategoryCode)")
             if self.offset == 0  {
                 productList.removeAll()
                 hasMoreProducts = true
             }
             
             guard !isLoading && hasMoreProducts else { return }
+            print("💥💥 getfilterresult????")
             isLoading = true
             filterUsecase.getFilterdProduct(
                 offset: offset,
@@ -150,12 +154,14 @@ extension CategoryFilteredViewModel {
             } receiveValue: { [weak self] data in
                 guard let self = self else { return }
                 
-                // 더 이상의 데이터가 없는 경우
                 if data.content.isEmpty {
                     self.hasMoreProducts = false
+                    print("💥💥 isempty? > \(self.productList)")
                 } else {
                     self.productList.append(contentsOf: data.content)
-                    self.offset += 1 // offset을 증가시켜 다음 데이터 호출
+                    self.offset += 1
+                    print("💥💥 else...  > \(self.productList)")
+                    print("💥💥 else... offset > \(self.offset)")
                 }
                 
                 self.isLoading = false
