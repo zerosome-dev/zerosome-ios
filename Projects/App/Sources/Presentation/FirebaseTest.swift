@@ -14,7 +14,7 @@ struct FirebaseTest: View {
         Text("실험용")
             .onTapGesture {
                 print("test tapped")
-                Analytics.logEvent("test", parameters: nil)
+                Analytics.logEvent("SYTEST", parameters: nil)
             }
     }
 }

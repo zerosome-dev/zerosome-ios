@@ -13,18 +13,21 @@ import Kingfisher
 
 struct DetailMainView: View {
 
+    let navigationTitle: String
     let productId: Int
     @EnvironmentObject var router: Router
     @EnvironmentObject var toast: ToastAction
-    @ObservedObject var viewModel: DetailMainViewModel
+    @StateObject var viewModel: DetailMainViewModel
     
-    init(
-        productId: Int,
-        viewModel: DetailMainViewModel
-    ) {
-        self.productId = productId
-        self.viewModel = viewModel
-    }
+//    init(
+//        productId: Int,
+//        navigationTitle: String,
+//        viewModel: DetailMainViewModel
+//    ) {
+//        self.productId = productId
+//        self.navigationTitle = navigationTitle
+//        self.viewModel = viewModel
+//    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -89,8 +92,9 @@ struct DetailMainView: View {
         .onAppear {
             viewModel.productId = productId
             viewModel.send(action: .fetchData)
+            viewModel.navigationTitle = self.navigationTitle
         }
-        .ZSNavigationBackButtonTitle(viewModel.dataInfo?.productName ?? "") {
+        .ZSNavigationBackButtonTitle(self.navigationTitle) {
             router.navigateBack()
         }.scrollIndicators(.hidden)
     }
@@ -121,6 +125,6 @@ struct DetailMainView: View {
 }
 
 #Preview {
-    DetailMainView(productId: 207, viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
+    DetailMainView(navigationTitle: "음료", productId: 217, viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
         .environmentObject(ToastAction())
 }

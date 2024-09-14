@@ -59,7 +59,7 @@ struct TobeReleasedProductView: View {
                         }
                         .frame(height: 259)
                         .onTapGesture {
-                            router.navigateTo(.detailMainView(data.id))
+                            router.navigateTo(.detailMainView(data.id, title))
                         }
                     }
                 }

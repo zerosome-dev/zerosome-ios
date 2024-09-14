@@ -10,6 +10,7 @@ import SwiftUI
 import Kingfisher
 import DesignSystem
 import Combine
+import FirebaseAnalytics
 
 // 계정 상태 명시
 enum AuthenticationState {
@@ -32,7 +33,7 @@ class AuthViewModel: ObservableObject {
     private let socialUseCase: SocialUsecase
     private var cancellables = Set<AnyCancellable>()
     
-    @Published var authenticationState: AuthenticationState = .initial
+    @Published var authenticationState: AuthenticationState = .signIn
     @Published var loginAlert: Bool = false
     @Published var loginType: Login?
     @Published var marketingAgreement: Bool = false
@@ -54,31 +55,28 @@ class AuthViewModel: ObservableObject {
                 accountUseCase.checkUserToken()
                     .receive(on: DispatchQueue.main)
                     .flatMap { _ -> AnyPublisher<TokenResponseResult, NetworkError> in
-                        // Access Token이 유효하면 바로 성공, 갱신할 필요 없음
                         self.tokenStatus = true
                         self.authenticationState = .signIn
-                        return Empty().eraseToAnyPublisher() // 아무 작업도 하지 않음
+                        return Empty().eraseToAnyPublisher()
                     }
                     .catch { error -> AnyPublisher<TokenResponseResult, NetworkError> in
-                        // Access Token이 유효하지 않다면 Refresh Token을 체크
                         self.tokenStatus = false
-                        return self.accountUseCase.checkRefreshToken().eraseToAnyPublisher() // Future -> AnyPublisher 변환
+                        return self.accountUseCase.checkRefreshToken().eraseToAnyPublisher()
                     }
-                    .receive(on: DispatchQueue.main) // 메인 스레드에서 결과를 받음
+                    .receive(on: DispatchQueue.main)
                     .sink { completion in
                         switch completion {
                         case .finished:
                             break
                         case .failure(let error):
-                            // Refresh Token도 실패 시 다시 로그인
                             self.authenticationState = .initial
-                            print("토큰 갱신 실패: \(error.localizedDescription)")
+                            debugPrint("check token error \(error.localizedDescription)")
                         }
                     } receiveValue: { result in
-                        // 토큰이 갱신되었으면 새로 저장
                         AccountStorage.shared.accessToken = result.accessToken
                         AccountStorage.shared.refreshToken = result.refreshToken
                         self.authenticationState = .signIn
+                        LogAnalytics.logLogin(method: KeyChain.read(key: "socialType") ?? "")
                     }
                     .store(in: &cancellables)
             } else {
@@ -87,6 +85,7 @@ class AuthViewModel: ObservableObject {
         
         case .kakaoSignIn:
             KeyChain.create(key: "socialType", token: "KAKAO")
+            LogAnalytics.logSignUpBegin(method: "Kakao")
             
             Task {
                 let result = await socialUseCase.kakaoLogin()
@@ -119,6 +118,8 @@ class AuthViewModel: ObservableObject {
             
         case .appleSignIn:
             KeyChain.create(key: "socialType", token: "APPLE")
+            LogAnalytics.logSignUpBegin(method: "Apple")
+            
             Task {
                 let result = await socialUseCase.appleLogin()
                 
@@ -146,5 +147,59 @@ class AuthViewModel: ObservableObject {
                 }
             }
         }
+    }
+}
+
+struct LogAnalytics {
+    static func logStartApplication() {
+        Analytics.logEvent("Start", parameters: nil)
+    }
+    
+    static func logSignUpBegin(method: String) {
+        Analytics.logEvent("sign_up_beign", parameters: ["method" : method])
+    }
+    
+    static func logSignUp(method: String) {
+        Analytics.setUserProperty(method, forName: "signup_method")
+        Analytics.logEvent("sign_up", parameters: ["method" : method])
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd"
+        let currentDateString = dateFormatter.string(from: Date())
+        Analytics.setUserProperty(currentDateString, forName: "sign_up")
+    }
+    
+    static func logLogin(method: String) {
+        Analytics.logEvent("login", parameters: ["method" : method])
+    }
+    
+    static func logD1Category(category: String) {
+        Analytics.logEvent("Search_Category", parameters: ["item_first_category_name" : category])
+    }
+    
+    static func logD2Category(category: String) {
+        Analytics.logEvent("Search_Category", parameters: ["item_second_category_name" : category])
+    }
+    
+    static func logProductName(name: String) {
+        Analytics.logEvent("View_item", parameters: ["item_name" : name])
+    }
+    
+    static func logProductBrand(brand: String) {
+        Analytics.logEvent("View_item", parameters: ["item_brand" : brand])
+    }
+    
+    static func logProductD1Category(d1Category: String) {
+        Analytics.logEvent("View_item", parameters: ["item_first_category" : d1Category])
+    }
+    
+    static func logProductD2Category(d2Category: String) {
+        Analytics.logEvent("View_item", parameters: ["item_second_category" : d2Category])
+    }
+    
+    static func logOnlineSite(name: String, brand: String, webSite: String) {
+        Analytics.logEvent("Click_Website", parameters: ["item_name" : name])
+        Analytics.logEvent("Click_Website", parameters: ["item_brand" : brand])
+        Analytics.logEvent("Click_Website", parameters: ["Website_name" : webSite])
     }
 }

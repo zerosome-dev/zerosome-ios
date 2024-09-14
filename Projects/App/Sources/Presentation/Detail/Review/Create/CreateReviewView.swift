@@ -13,7 +13,7 @@ import Kingfisher
 struct CreateReviewView: View {
 
     let data: ReviewEntity
-    @ObservedObject var viewModel: CreateReviewViewModel
+    @StateObject var viewModel: CreateReviewViewModel
     @EnvironmentObject var router: Router
     @EnvironmentObject var toast: ToastAction
     @EnvironmentObject var popup: PopupAction
