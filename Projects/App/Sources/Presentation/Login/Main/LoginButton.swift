@@ -67,18 +67,16 @@ struct LoginButton: View {
     }
     
     var body: some View {
-        HStack(spacing: 0) {
-            type.image
-                .frame(width: 24, height: 24)
-            
-            Text(type.title)
-                .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .padding(.init(top: 15, leading: 15, bottom: 15, trailing: 0))
-        .applyFont(font: .subtitle1)
-        .foregroundStyle(type.titleColor)
-        .background(type.backgroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        ZSText(type.title, fontType: .subtitle1, color: type.titleColor)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 15)
+            .background(type.backgroundColor)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(alignment: .leading) {
+                type.image
+                    .frame(width: 24, height: 24)
+                    .padding(.leading, 16)
+            }
     }
 }
 
