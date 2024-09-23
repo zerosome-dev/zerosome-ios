@@ -43,10 +43,7 @@ struct CustomInfiniteBanner: View {
                                             currentIndex = 0
                                             currentOffset = 0
                                         }
-
                                     }
-                                    
-                                    print("currentIndex \(currentIndex)")
                                 }
                         )
                 }

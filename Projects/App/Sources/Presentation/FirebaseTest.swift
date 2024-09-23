@@ -13,7 +13,7 @@ struct FirebaseTest: View {
     var body: some View {
         Text("실험용")
             .onTapGesture {
-                print("test tapped")
+                debugPrint("test tapped")
                 Analytics.logEvent("SYTEST", parameters: nil)
             }
     }

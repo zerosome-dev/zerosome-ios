@@ -29,16 +29,10 @@ struct ZeroTagBottomSheet: View {
                 }
                 .tapApplyAction {
                     viewModel.sheetToggle = nil
-                    viewModel.offset = 0 // offset 초기화
+                    viewModel.offset = 0
                     viewModel.send(action: .getFilterResult)
-                    print("zerotag 버튼 tapped")
                 }
         }
         .padding(.horizontal, 24)
     }
 }
-
-//#Preview {
-//    ZeroTagBottomSheet(viewModel: CategoryFilteredViewModel())
-//}
-

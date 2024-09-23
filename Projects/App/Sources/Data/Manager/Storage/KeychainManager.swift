@@ -40,7 +40,7 @@ final class KeyChain {
                 return value
             } else { return nil }
         } else {
-            print("🔮 Failed to read KeyChain!, Status Code = \(status)")
+            debugPrint("🔮 Failed to read KeyChain!, Status Code = \(status)")
             return nil
         }
     }

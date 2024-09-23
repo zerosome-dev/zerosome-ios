@@ -50,11 +50,11 @@ struct CategoryListView: View {
                     .sheet(item: $viewModel.sheetToggle, onDismiss: {
                         switch viewModel.lastDismissedSheet {
                         case .category:
-                            print("💩category💩")
+                            debugPrint("💩category💩")
                         case .brand:
-                            print("💩brand💩")
+                            debugPrint("💩brand💩")
                         case .zeroTag:
-                            print("💩zeroTag💩")
+                            debugPrint("💩zeroTag💩")
                         case .none:
                             break
                         }
@@ -71,19 +71,6 @@ struct CategoryListView: View {
                                 .presentationDetents([.height(540)])
                         }
                     })
-//                    .sheet(item: $viewModel.sheetToggle) { category in
-//                        switch category {
-//                        case .category:
-//                            CategoryBottomSheet(viewModel: viewModel)
-//                                .presentationDetents([.height(540)])
-//                        case .brand:
-//                            BrandBottomSheet(viewModel: viewModel)
-//                                .presentationDetents([.height(540)])
-//                        case .zeroTag:
-//                            ZeroTagBottomSheet(viewModel: viewModel)
-//                                .presentationDetents([.height(540)])
-//                        }
-//                    }
                     .padding(.init(top: 6, leading: 12, bottom: 6, trailing: 12))
                     .background(Color.neutral50)
                     .clipShape(RoundedRectangle(cornerRadius: 6))

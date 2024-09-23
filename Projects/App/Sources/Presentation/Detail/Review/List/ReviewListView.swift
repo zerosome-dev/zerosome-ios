@@ -23,7 +23,6 @@ struct ReviewListView: View {
             CommonButton(title: "리뷰 작성", font: .subtitle1)
                 .tap {
                     router.navigateTo(.creatReview(reviewEntity))
-                    print("dd")
                 }
                 .padding(.horizontal, 22)
                 .zIndex(1)

@@ -40,10 +40,6 @@ final class MypageRepository: MypageRepositoryProtocol {
     func logout() -> Future<Bool, NetworkError> {
         return Future { promise in
             Task {
-//                let response: Result<NoneDecodeResponse, NetworkError> = await self.apiService.request(
-//                    httpMethod: .post,
-//                    endPoint: APIEndPoint.url(for: .logout),
-//                    header: AccountStorage.shared.accessToken
                 let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
                     httpMethod: .post,
                     endPoint: APIEndPoint.url(for: .logout),

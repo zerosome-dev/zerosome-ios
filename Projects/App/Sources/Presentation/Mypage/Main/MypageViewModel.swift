@@ -51,7 +51,6 @@ class MypageViewModel: ObservableObject {
                 .store(in: &cancellables)
             
         case .logout:
-            print("로그아웃")
             self.loading = true
             mypageUseCase.logout()
                 .receive(on: DispatchQueue.main)
@@ -70,7 +69,6 @@ class MypageViewModel: ObservableObject {
             self.loading = false
             
         case .revoke:
-            print("회원탈퇴")
             mypageUseCase.revoke()
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
@@ -90,9 +88,9 @@ class MypageViewModel: ObservableObject {
         case .linkKakao:
             TalkApi.shared.chatChannel(channelPublicId: "_xacMRn") { error in
                 if let error = error {
-                    print("카카오톡 연결 실패 \(error.localizedDescription)")
+                    debugPrint("카카오톡 연결 실패 \(error.localizedDescription)")
                 } else {
-                    print("성공")
+                    debugPrint("성공")
                 }
             }
         }
