@@ -34,12 +34,13 @@ final class AccountStorage {
         }
         
         set {
+            if let existingToken = KeyChain.read(key: StorageKey.accessToken), !existingToken.isEmpty {
+                KeyChain.delete(key: StorageKey.accessToken)
+            }
+            
             if let value = newValue {
                 KeyChain.create(key: StorageKey.accessToken, token: value)
                 debugPrint("🔮 save accessToken \(value)")
-            } else {
-                KeyChain.delete(key: StorageKey.accessToken)
-                debugPrint("🔮 delete accessToken")
             }
         }
     }
@@ -55,13 +56,21 @@ final class AccountStorage {
         }
         
         set {
+            if let existingToken = KeyChain.read(key: StorageKey.refreshToken), !existingToken.isEmpty {
+                KeyChain.delete(key: StorageKey.refreshToken)
+            }
+            
             if let value = newValue {
                 KeyChain.create(key: StorageKey.refreshToken, token: value)
                 debugPrint("🔮 save refreshToken \(value)")
-            } else {
-                KeyChain.delete(key: StorageKey.refreshToken)
-                debugPrint("🔮 delete refreshToken")
             }
+            
+            /*
+             else {
+                 KeyChain.delete(key: StorageKey.refreshToken)
+                 debugPrint("🔮 delete refreshToken")
+             }
+             */
         }
     }
     
@@ -70,19 +79,24 @@ final class AccountStorage {
             guard let token = KeyChain.read(key: StorageKey.kakaoToken), !token.isEmpty else {
                 return nil
             }
-            
-            debugPrint("🔮 get kakaoToken \(token)")
             return token
         }
         
         set {
+            if let existingToken = KeyChain.read(key: StorageKey.kakaoToken), !existingToken.isEmpty {
+                KeyChain.delete(key: StorageKey.kakaoToken)
+            }
+            
             if let value = newValue {
                 KeyChain.create(key: StorageKey.kakaoToken, token: value)
                 debugPrint("🔮 save kakaoToken \(value)")
-            } else {
+            }
+            /*
+             else {
                 KeyChain.delete(key: StorageKey.kakaoToken)
                 debugPrint("🔮 delete kakaoToken")
             }
+             */
         }
     }
     
@@ -97,13 +111,20 @@ final class AccountStorage {
         }
         
         set {
+            if let existingToken = KeyChain.read(key: StorageKey.appleToken), !existingToken.isEmpty {
+                KeyChain.delete(key: StorageKey.appleToken)
+            }
+            
             if let value = newValue {
                 KeyChain.create(key: StorageKey.appleToken, token: value)
                 debugPrint("🔮 save appleToken \(value)")
-            } else {
-                KeyChain.delete(key: StorageKey.appleToken)
-                debugPrint("🔮 delete appleToken")
             }
+            /*
+             else {
+                 KeyChain.delete(key: StorageKey.appleToken)
+                 debugPrint("🔮 delete appleToken")
+             }
+             */
         }
     }
     
