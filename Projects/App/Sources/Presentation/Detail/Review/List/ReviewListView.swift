@@ -105,7 +105,7 @@ struct ReviewListView: View {
     @ViewBuilder
     private func totalStarView() -> some View {
         VStack(spacing:2) {
-            ZSText("\(viewModel.averageReview ?? 0.0)", fontType: .heading1)
+            ZSText(String(format: "%.1f", viewModel.averageReview ?? 0.0), fontType: .heading1)
             StarComponent(rating: viewModel.averageReview, size: 16)
         }
         .padding(.vertical, 38)

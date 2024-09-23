@@ -22,8 +22,7 @@ struct ProductInfoView: View {
             
             HStack(spacing: 6) {
                 StarComponent(rating: viewModel.dataInfo?.rating ?? 0.0, size: 16)
-                
-                ZSText("\(viewModel.dataInfo?.rating ?? 0.0)", fontType: .subtitle1, color: Color.neutral900)
+                ZSText(String(format: "%.1f", viewModel.dataInfo?.rating ?? 0.0), fontType: .subtitle1, color: Color.neutral900)
                 
                 Rectangle()
                     .frame(width: 10,height: 1)

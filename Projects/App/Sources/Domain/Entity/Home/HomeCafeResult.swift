@@ -15,7 +15,7 @@ struct HomeCafeResult: Identifiable {
     let d2CategoryId: String
     let name: String
     let brand: String
-    let review: Int
+    let review: Double
     let reviewCnt: Int
     
     init(
@@ -25,7 +25,7 @@ struct HomeCafeResult: Identifiable {
         d2CategoryId: String,
         name: String,
         brand: String,
-        review: Int,
+        review: Double,
         reviewCnt: Int
     ) {
         self.id = id

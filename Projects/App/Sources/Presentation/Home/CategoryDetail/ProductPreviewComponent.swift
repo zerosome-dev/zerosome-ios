@@ -29,7 +29,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     image: data.image,
                     name: data.name,
                     brand: data.d2Category,
-                    star: 0,
+                    star: 0.0,
                     reviewCnt: 0
                 )
             } else if let data = data as? HomeCafeResult {
@@ -45,7 +45,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     image: data.image,
                     name: data.productName,
                     brand: data.brandName,
-                    star: Int(round(data.rating)),
+                    star: data.rating,
                     reviewCnt: data.reviewCnt
                 )
             } else if let data = data as? FilteredProductResult {
@@ -53,7 +53,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     image: data.image,
                     name: data.productName,
                     brand: data.brandName,
-                    star: Int(round(data.rating)),
+                    star: data.rating,
                     reviewCnt: data.reviewCnt)
             }
         }
@@ -63,7 +63,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
     }
     
     @ViewBuilder
-    func infoView(image: String, name: String, brand: String, star: Int, reviewCnt: Int) -> some View {
+    func infoView(image: String, name: String, brand: String, star: Double, reviewCnt: Int) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             KFImage(URL(string: image))
                 .placeholder {
@@ -87,7 +87,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     ZerosomeAsset.ic_star_fill
                         .resizable()
                         .frame(width: 16, height: 16)
-                    Text("\(star)")
+                    Text(String(format: "%.1f", star))
                     Text("(\(reviewCnt))")
                 }
                 .applyFont(font: .body3)
