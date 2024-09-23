@@ -15,6 +15,6 @@ struct HomeCafeResponseDTO: Decodable {
     var d2CategoryId: String?
     var name: String?
     var brand: String?
-    var review: Int?
+    var review: Double?
     var reviewCnt: Int?
 }

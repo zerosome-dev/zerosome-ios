@@ -126,14 +126,13 @@ extension CategoryFilteredViewModel {
                 .store(in: &cancellables)
             
         case .getFilterResult:
-            print("💥 getFilterResultfunc d1 \(self.d1CategoryCode)")
             if self.offset == 0  {
                 productList.removeAll()
                 hasMoreProducts = true
             }
             
             guard !isLoading && hasMoreProducts else { return }
-            print("💥💥 getfilterresult????")
+            
             isLoading = true
             filterUsecase.getFilterdProduct(
                 offset: offset,

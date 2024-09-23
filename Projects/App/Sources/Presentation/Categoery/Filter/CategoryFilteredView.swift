@@ -85,16 +85,16 @@ struct CategoryFilteredView: View {
             }
         }
         .onAppear {
-            viewModel.d2CategoryCode = d2CategoryCode
-            viewModel.d1CategoryCode = d1CategoryCode
-            viewModel.navigationTitle = navigationTtile
-            viewModel.send(action: .getD2CategoryList)
-            viewModel.send(action: .getZeroTagList)
-            viewModel.send(action: .getBrandList)
-            viewModel.send(action: .getFilterResult)
-//            print("💥💥💥 onappear")
-//            print("💥💥💥 onappear > d1category \(d1CategoryCode)")
-//            print("💥💥💥 onappear > d2Categorey \(d2CategoryCode)")
+            if viewModel.productList.isEmpty {
+                viewModel.d2CategoryCode = d2CategoryCode
+                viewModel.d1CategoryCode = d1CategoryCode
+                viewModel.navigationTitle = navigationTtile
+                viewModel.offset = 0
+                viewModel.send(action: .getD2CategoryList)
+                viewModel.send(action: .getZeroTagList)
+                viewModel.send(action: .getBrandList)
+                viewModel.send(action: .getFilterResult)
+            }
         }
         .sheet(isPresented: $viewModel.updateToggle) {
             UpdateBottomSheet(viewModel: viewModel)
