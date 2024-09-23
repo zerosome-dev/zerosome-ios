@@ -6,7 +6,6 @@
 //  Copyright © 2024 iOS. All rights reserved.
 //
 
-import Foundation
 import AuthenticationServices
 
 final class AppleLoginManager: NSObject {
