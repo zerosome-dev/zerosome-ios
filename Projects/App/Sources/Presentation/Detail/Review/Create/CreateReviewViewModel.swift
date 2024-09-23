@@ -31,11 +31,7 @@ class CreateReviewViewModel: ObservableObject {
     func send(_ action: Action) {
         switch action {
         case .postReview:
-            print("리뷰 등록")
-            
             guard let product = reviewEntity else { return }
-            print("리뷰 등록 💜")
-            
             self.review = ReviewCreateRequest(
                 productId: product.productId,
                 rating: starCounting,
@@ -43,22 +39,17 @@ class CreateReviewViewModel: ObservableObject {
             )
             
             guard let data = self.review else { return }
-            print("리뷰 등록💜💜")
             
             reviewUsecase.postReview(review: data)
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
-                        print("리뷰 등록💜💜💜")
                         break
                     case .failure(let failure):
-                        print("리뷰 등록💜💜💜💜")
                         debugPrint("post review failure \(failure.localizedDescription)")
                     }
                 } receiveValue: { result in
-                    print("리뷰 등록 성공")
-                    print("리뷰 등록💜💜💜💜💜💜💜")
                     result ? (self.reviewResult = true) : (self.reviewResult = false)
                 }
                 .store(in: &cancellables)

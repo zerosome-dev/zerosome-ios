@@ -51,7 +51,7 @@ struct ZerosomeApp: App {
             .environmentObject(popup)
             .onOpenURL(perform: { url in
                 if AuthApi.isKakaoTalkLoginUrl(url) {
-                    print(AuthController.handleOpenUrl(url: url))
+                    debugPrint(AuthController.handleOpenUrl(url: url))
                 }
             })
         }

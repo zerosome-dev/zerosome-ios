@@ -132,7 +132,6 @@ struct MyReivewView: View {
         } else {
             CommonButton(title: "수정 완료", font: .subtitle1)
                 .tap {
-                    print("수정중주줒우중")
                     viewModel.send(.modifyReview)
                 }
                 .zIndex(1)

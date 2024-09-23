@@ -86,11 +86,11 @@ final class ApiService {
             }
             
             print("😈😈 STATUS CODE \(statusCode) 😈😈")
-//            let range = 200..<300
-//            guard range.contains(statusCode) else {
-//                return .failure(NetworkError.statusError)
-//            }
-//            
+            let range = 200..<300
+            guard range.contains(statusCode) else {
+                return .failure(NetworkError.statusError)
+            }
+            
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
                 debugPrint("🚨🚨 <<<JSON Data>>> 🚨🚨 \(jsonObject)")
@@ -105,7 +105,6 @@ final class ApiService {
                     return .failure(NetworkError.decode)
                 }
                 debugPrint("🚨🚨 <<<Data>>> \(data)🚨🚨")
-                print("🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵성공🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵🩵")
                 return .success(data)
             } catch {
                 debugPrint("🚨🚨 <<<Network Decode Error>>> 🚨🚨 \(error.localizedDescription)")

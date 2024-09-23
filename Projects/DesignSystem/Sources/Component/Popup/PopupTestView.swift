@@ -41,10 +41,10 @@ struct PopupTestView: View {
         .ZAlert(isShowing: $isShowingD, type: .doubleButton(title: "안녕하세요",
                                                             LButton: "왼쪽",
                                                             RButton: "오른쪽")) {
-            print("왼쪽 버튼 tapped!")
+            debugPrint("왼쪽 버튼 tapped!")
             isShowingD.toggle()
         } rightAction: {
-            print("오른쪽 버튼 tapped!")
+            debugPrint("오른쪽 버튼 tapped!")
             isShowingD.toggle()
         }
 

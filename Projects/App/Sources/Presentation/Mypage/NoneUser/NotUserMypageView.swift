@@ -30,9 +30,9 @@ struct NotUserMypageView: View {
                         .onTapGesture {
                             switch type {
                             case .apple:
-                                print("apple Login")
+                                debugPrint("apple Login")
                             case .kakao:
-                                print("kakao Login")
+                                debugPrint("kakao Login")
                             }
                         }
                 }

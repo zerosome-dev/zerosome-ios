@@ -47,7 +47,6 @@ final class AccountRepository: AccountRepositoryProtocol {
         let parameters: [String:String] = ["socialType" : socialType]
         let endPoint = APIEndPoint.url(for: .join)
         
-        print("token???? \(token)")
         let response: Result<TokenResponseDTO, NetworkError> = await apiService.request(
             httpMethod: .post,
             endPoint: endPoint,
@@ -86,10 +85,10 @@ final class AccountRepository: AccountRepositoryProtocol {
         
         switch response {
         case .success(let success):
-            print("🍀🍀 닉네임 유효성 체크 확인 > 성공 🍀🍀")
+            debugPrint("🍀🍀 닉네임 유효성 체크 확인 > 성공 🍀🍀")
             return .success(success)
         case .failure(let failure):
-            print("😡😡 닉네임 유효성 체크 실패 > \(failure.localizedDescription)")
+            debugPrint("😡😡 닉네임 유효성 체크 실패 > \(failure.localizedDescription)")
             return .failure(.badRequest)
         }
     }
@@ -158,20 +157,3 @@ final class AccountRepository: AccountRepositoryProtocol {
         }
     }
 }
-/*
- let response: Result<Bool, NetworkError> = await self.apiService.noneDecodeRequest(
-     httpMethod: .post,
-     endPoint: APIEndPoint.url(for: .logout),
-     header: AccountStorage.shared.accessToken
- )
- 
- switch response {
- case .success(let success):
-     debugPrint("Logout Repo success!!")
-     promise(.success(success))
- case .failure(let failure):
-     debugPrint("Failure to Logout!! \(failure.localizedDescription)")
-     promise(.failure(NetworkError.badRequest))
- }
-}
- */

@@ -87,11 +87,9 @@ struct MypageMainView: View {
             
             if toggle {
                 withAnimation(.easeInOut) {
-                    debugPrint("success")
                     authViewModel.authenticationState = .initial
                 }
             } else {
-                debugPrint("fail")
                 popup.settingToggle(type: type)
                 popup.setToggle(for: type, true)
             }
@@ -101,15 +99,12 @@ struct MypageMainView: View {
 
 enum CustomCenter: String, CaseIterable {
     case notice = "공지사항"
-    case faq = "FAQ"
     case inquiry = "1:1 문의"
     
     var url: String {
         switch self {
         case .notice:
             return "naver"
-        case .faq:
-            return "faq"
         case .inquiry:
             return "inquiry"
         }

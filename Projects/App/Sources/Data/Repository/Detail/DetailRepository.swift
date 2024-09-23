@@ -30,7 +30,6 @@ class DetailRepository: DetailRepositoryProtocol {
                     let mappedResult = DetailMapper.toDetailResult(response: data)
                     promise(.success(mappedResult))
                 case .failure(let failure):
-                    print("🏪 제품 상세 실패 \(failure.localizedDescription)")
                     promise(.failure(NetworkError.badRequest))
                 }
             }
