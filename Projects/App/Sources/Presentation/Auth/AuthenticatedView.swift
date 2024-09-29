@@ -17,6 +17,11 @@ struct AuthenticatedView: View {
     var body: some View {
         VStack {
             switch viewModel.authenticationState {
+            case .splash:
+                AppSplashView()
+                    .onAppear {
+                        viewModel.send(action: .checkToken)
+                    }
             case .initial:
                 LoginMainView()
                     .environmentObject(viewModel)

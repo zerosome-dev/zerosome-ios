@@ -61,6 +61,7 @@ struct MypageMainView: View {
                         if result {
                             withAnimation(.easeInOut) {
                                 authViewModel.authenticationState = .initial
+                                AccountStorage.shared.reset()
                             }
                         }
                     }
@@ -71,7 +72,6 @@ struct MypageMainView: View {
         .onAppear {
             viewModel.send(.getUserBasicInfo)
         }
-
         .ZSnavigationTitle("마이페이지")
         .scrollIndicators(.hidden)
         .overlay {
@@ -80,7 +80,9 @@ struct MypageMainView: View {
                 .opacity(viewModel.loading ? 1 : 0)
         }
     }
-    
+}
+
+extension MypageMainView {
     private func accountAction(result: Bool?, type: SinglePopup) {
         DispatchQueue.main.async {
             guard let toggle = result else { return }
@@ -104,7 +106,7 @@ enum CustomCenter: String, CaseIterable {
     var url: String {
         switch self {
         case .notice:
-            return "naver"
+            return "https://zerosome.imweb.me/notice"
         case .inquiry:
             return "inquiry"
         }

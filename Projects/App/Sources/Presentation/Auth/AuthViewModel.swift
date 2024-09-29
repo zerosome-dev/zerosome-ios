@@ -14,6 +14,7 @@ import FirebaseAnalytics
 
 // 계정 상태 명시
 enum AuthenticationState {
+    case splash
     case initial
     case signIn
     case nickname
@@ -33,11 +34,12 @@ class AuthViewModel: ObservableObject {
     private let socialUseCase: SocialUsecase
     private var cancellables = Set<AnyCancellable>()
     
-    @Published var authenticationState: AuthenticationState = .signIn
+    @Published var authenticationState: AuthenticationState = .splash
     @Published var loginAlert: Bool = false
     @Published var loginType: Login?
     @Published var marketingAgreement: Bool = false
     @Published var tokenStatus: Bool = true
+    @Published var userInfo: MemberBasicInfoResult?
     
     init (
         accountUseCase: AccountUseCase,
@@ -54,9 +56,13 @@ class AuthViewModel: ObservableObject {
             if let _ = AccountStorage.shared.accessToken {
                 accountUseCase.checkUserToken()
                     .receive(on: DispatchQueue.main)
-                    .flatMap { _ -> AnyPublisher<TokenResponseResult, NetworkError> in
+                    .flatMap { value -> AnyPublisher<TokenResponseResult, NetworkError> in
+                        self.userInfo = value
                         self.tokenStatus = true
-                        self.authenticationState = .signIn
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            self.authenticationState = .signIn
+                        }
                         return Empty().eraseToAnyPublisher()
                     }
                     .catch { error -> AnyPublisher<TokenResponseResult, NetworkError> in
@@ -75,12 +81,16 @@ class AuthViewModel: ObservableObject {
                     } receiveValue: { result in
                         AccountStorage.shared.accessToken = result.accessToken
                         AccountStorage.shared.refreshToken = result.refreshToken
-                        self.authenticationState = .signIn
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            self.authenticationState = .signIn
+                        }
                         LogAnalytics.logLogin(method: KeyChain.read(key: "socialType") ?? "")
                     }
                     .store(in: &cancellables)
             } else {
-                self.authenticationState = .initial
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    self.authenticationState = .initial
+                }
             }
         
         case .kakaoSignIn:
