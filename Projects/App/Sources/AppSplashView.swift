@@ -9,7 +9,7 @@
 import SwiftUI
 import DesignSystem
 
-struct ContentView: View {
+struct AppSplashView: View {
     var body: some View {
         ZStack {
             Color.primaryFF6972
@@ -23,5 +23,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    AppSplashView()
 }

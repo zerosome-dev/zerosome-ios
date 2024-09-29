@@ -29,7 +29,7 @@ final class AccountStorage {
                 return nil
             }
             
-            debugPrint("🔮 get accessToken \(token)")
+            debugPrint("🔮 get accessToken")
             return token
         }
         
@@ -40,7 +40,7 @@ final class AccountStorage {
             
             if let value = newValue {
                 KeyChain.create(key: StorageKey.accessToken, token: value)
-                debugPrint("🔮 save accessToken \(value)")
+                debugPrint("🔮 save accessToken")
             }
         }
     }
@@ -51,7 +51,7 @@ final class AccountStorage {
                 return nil
             }
             
-            debugPrint("🔮 get refreshToken \(token)")
+            debugPrint("🔮 get refreshToken")
             return token
         }
         
@@ -89,7 +89,7 @@ final class AccountStorage {
             
             if let value = newValue {
                 KeyChain.create(key: StorageKey.kakaoToken, token: value)
-                debugPrint("🔮 save kakaoToken \(value)")
+                debugPrint("🔮 save kakaoToken")
             }
             /*
              else {
@@ -106,7 +106,7 @@ final class AccountStorage {
                 return nil
             }
             
-            debugPrint("🔮 get appleToken \(token)")
+            debugPrint("🔮 get appleToken")
             return token
         }
         
@@ -117,7 +117,7 @@ final class AccountStorage {
             
             if let value = newValue {
                 KeyChain.create(key: StorageKey.appleToken, token: value)
-                debugPrint("🔮 save appleToken \(value)")
+                debugPrint("🔮 save appleToken")
             }
             /*
              else {

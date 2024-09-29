@@ -61,6 +61,7 @@ struct MypageMainView: View {
                         if result {
                             withAnimation(.easeInOut) {
                                 authViewModel.authenticationState = .initial
+                                AccountStorage.shared.reset()
                             }
                         }
                     }
@@ -69,7 +70,7 @@ struct MypageMainView: View {
             Spacer()
         }
         .onAppear {
-//            viewModel.send(.getUserBasicInfo)
+            viewModel.send(.getUserBasicInfo)
         }
         .ZSnavigationTitle("마이페이지")
         .scrollIndicators(.hidden)
