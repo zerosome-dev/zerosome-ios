@@ -69,7 +69,7 @@ struct MypageMainView: View {
             Spacer()
         }
         .onAppear {
-            viewModel.send(.getUserBasicInfo)
+//            viewModel.send(.getUserBasicInfo)
         }
         .ZSnavigationTitle("마이페이지")
         .scrollIndicators(.hidden)

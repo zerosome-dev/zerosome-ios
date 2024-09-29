@@ -11,7 +11,14 @@ import DesignSystem
 
 struct ContentView: View {
     var body: some View {
-        Text("ContentView")
+        ZStack {
+            Color.primaryFF6972
+                .ignoresSafeArea()
+            
+            ZerosomeAsset.splash_logo
+                .resizable()
+                .frame(width: 150, height: 150)
+        }
     }
 }
 

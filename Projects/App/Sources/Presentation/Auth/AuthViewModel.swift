@@ -38,6 +38,7 @@ class AuthViewModel: ObservableObject {
     @Published var loginType: Login?
     @Published var marketingAgreement: Bool = false
     @Published var tokenStatus: Bool = true
+    @Published var userInfo: MemberBasicInfoResult?
     
     init (
         accountUseCase: AccountUseCase,
@@ -54,7 +55,9 @@ class AuthViewModel: ObservableObject {
             if let _ = AccountStorage.shared.accessToken {
                 accountUseCase.checkUserToken()
                     .receive(on: DispatchQueue.main)
-                    .flatMap { _ -> AnyPublisher<TokenResponseResult, NetworkError> in
+                    .flatMap { value -> AnyPublisher<TokenResponseResult, NetworkError> in
+                        self.userInfo = value
+                        print("💦💦💦value \(value)")
                         self.tokenStatus = true
                         self.authenticationState = .signIn
                         return Empty().eraseToAnyPublisher()

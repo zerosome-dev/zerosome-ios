@@ -11,6 +11,8 @@ import DesignSystem
 
 struct UserInfoView: View {
     @ObservedObject var viewModel: MypageViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     var nickname: (() -> Void)?
     var action: (() -> Void)?
     
@@ -27,7 +29,7 @@ struct UserInfoView: View {
     var body: some View {
         VStack(spacing: 30) {
             HStack {
-                ZSText(viewModel.userInfo.nickname, fontType: .subtitle1)
+                ZSText(authViewModel.userInfo?.nickname ?? viewModel.userInfo.nickname, fontType: .subtitle1)
                 Spacer()
                 ZSText("닉네임 변경", fontType: .body3, color: Color.neutral600)
                     .padding(.init(top: 6,leading: 10, bottom: 6, trailing: 10))
@@ -38,15 +40,16 @@ struct UserInfoView: View {
                     }
             }
             
-            ZSText((viewModel.userInfo.reviewCnt == 0
+            let reviewCnt = authViewModel.userInfo?.reviewCnt ?? viewModel.userInfo.reviewCnt
+            ZSText((reviewCnt == 0
                     ? "아직 작성한 리뷰가 없어요"
-                    : "작성한 리뷰 (\(viewModel.userInfo.reviewCnt))"),
+                    : "작성한 리뷰 (\(reviewCnt))"),
                    fontType: .subtitle2,
-                   color: viewModel.userInfo.reviewCnt == 0 ? Color.neutral800 : Color.white
+                   color: reviewCnt == 0 ? Color.neutral800 : Color.white
             )
             .padding(.vertical, 16)
             .frame(maxWidth: .infinity)
-            .background(viewModel.userInfo.reviewCnt == 0 ? Color.primaryFF6972.opacity(0.1) : Color.primaryFF6972)
+            .background(reviewCnt == 0 ? Color.primaryFF6972.opacity(0.1) : Color.primaryFF6972)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .onTapGesture {
                 action?()
