@@ -89,6 +89,7 @@ class MypageViewModel: ObservableObject {
             if let kakaoId = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_ID") {
                 TalkApi.shared.chatChannel(channelPublicId: "\(kakaoId)") { error in
                     if let error = error {
+                        debugPrint("kakao 문의하기 에러 발생 \(error.localizedDescription)")
                         if let email = Bundle.main.object(forInfoDictionaryKey: "REPRESENT_EMAIL"),
                            let url = URL(string: "mailto:\(email)") {
                             UIApplication.shared.open(url)
