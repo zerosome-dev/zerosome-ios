@@ -125,7 +125,7 @@ enum Service: String, CaseIterable {
         case .personalInfo:
             return "https://zerosome.imweb.me/19"
         case .appVersion:
-            return "https://zerosome.imweb.me/20"
+            return "1.0.0"
         }
     }
 }

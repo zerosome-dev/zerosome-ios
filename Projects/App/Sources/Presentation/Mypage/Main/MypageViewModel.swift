@@ -86,11 +86,16 @@ class MypageViewModel: ObservableObject {
                 .store(in: &cancellables)
             
         case .linkKakao:
-            TalkApi.shared.chatChannel(channelPublicId: "_xacMRn") { error in
-                if let error = error {
-                    debugPrint("카카오톡 연결 실패 \(error.localizedDescription)")
-                } else {
-                    debugPrint("성공")
+            if let kakaoId = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_ID") {
+                TalkApi.shared.chatChannel(channelPublicId: "\(kakaoId)") { error in
+                    if let error = error {
+                        if let email = Bundle.main.object(forInfoDictionaryKey: "REPRESENT_EMAIL"),
+                           let url = URL(string: "mailto:\(email)") {
+                            UIApplication.shared.open(url)
+                        }
+                    } else {
+                        debugPrint("성공")
+                    }
                 }
             }
         }
