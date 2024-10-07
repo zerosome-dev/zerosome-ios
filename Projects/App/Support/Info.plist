@@ -6,8 +6,6 @@
 	<false/>
 	<key>CFBundleDisplayName</key>
 	<string>제로섬</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>사용자 맞춤 서비스 제공을 위해 권한을 허용해 주세요.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaoplus</string>
@@ -17,6 +15,10 @@
 	</array>
 	<key>KAKAO_APP_KEY</key>
 	<string>$(KAKAO_APP_KEY)</string>
+	<key>KAKAO_APP_ID</key>
+	<string>$(KAKAO_APP_ID)</string>
+	<key>REPRESENT_EMAIL</key>
+	<string>$(REPRESENT_EMAIL)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
