@@ -24,6 +24,7 @@ class DetailMainViewModel: ObservableObject {
     @Published var isNutrients: Bool = false
     @Published var reviewEntity: ReviewEntity?
     @Published var similarList: [SimilarProductResult] = []
+    @Published var guestToggle: Bool = false
     
     private let detailUseCase: DetailUsecase
     private var cancellables = Set<AnyCancellable>()

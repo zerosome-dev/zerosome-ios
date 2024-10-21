@@ -41,8 +41,17 @@ struct LoginMainView: View {
                             }
                     }
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 20)
+                .padding(EdgeInsets(top: 0, leading: 24, bottom: 20, trailing: 24))
+                
+                VStack(spacing: 2) {
+                    ZSText("일단 둘러볼게요", fontType: .body2, color: .white)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    DivideRectangle(height: 1, color: .white)
+                        .frame(width: 88)
+                }
+                .onTapGesture {
+                    viewModel.authenticationState = .guest
+                }
             }
         }
     }
