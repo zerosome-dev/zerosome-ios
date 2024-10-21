@@ -42,6 +42,9 @@ struct AuthenticatedView: View {
             case .needToToken:
                 LoginMainView()
                     .environmentObject(viewModel)
+            case .guest:
+                TabbarMainView(apiService: apiService)
+                    .environmentObject(viewModel)
             }
         }
     }

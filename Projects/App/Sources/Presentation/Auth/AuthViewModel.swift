@@ -20,6 +20,7 @@ enum AuthenticationState {
     case nickname
     case term
     case needToToken
+    case guest
 }
 
 class AuthViewModel: ObservableObject {
