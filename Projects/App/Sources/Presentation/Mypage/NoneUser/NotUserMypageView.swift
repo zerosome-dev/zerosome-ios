@@ -10,6 +10,8 @@ import SwiftUI
 import DesignSystem
 
 struct NotUserMypageView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     var body: some View {
         VStack {
             Spacer()
@@ -22,9 +24,11 @@ struct NotUserMypageView: View {
                         .onTapGesture {
                             switch type {
                             case .apple:
-                                debugPrint("apple Login")
+                                authViewModel.loginType = .apple
+                                authViewModel.send(action: .appleSignIn)
                             case .kakao:
-                                debugPrint("kakao Login")
+                                authViewModel.loginType = .kakao
+                                authViewModel.send(action: .kakaoSignIn)
                             }
                         }
                 }

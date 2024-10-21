@@ -20,6 +20,7 @@ struct MypageMainView: View {
         if authViewModel.authenticationState == .guest {
             NotUserMypageView()
                 .ZSnavigationTitle("마이페이지")
+                .environmentObject(authViewModel)
         } else {
             ScrollView {
                 UserInfoView(viewModel: viewModel)
