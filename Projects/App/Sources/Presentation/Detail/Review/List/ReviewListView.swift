@@ -14,6 +14,7 @@ struct ReviewListView: View {
     
     @EnvironmentObject var router: Router
     @ObservedObject var viewModel: ReviewListViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     let productId: String
     let reviewEntity: ReviewEntity
     
@@ -22,7 +23,11 @@ struct ReviewListView: View {
             
             CommonButton(title: "리뷰 작성", font: .subtitle1)
                 .tap {
-                    router.navigateTo(.creatReview(reviewEntity))
+                    if authViewModel.authenticationState == .guest {
+                        viewModel.guestReview = true
+                    } else {
+                        router.navigateTo(.creatReview(reviewEntity))
+                    }
                 }
                 .padding(.horizontal, 22)
                 .zIndex(1)
@@ -56,7 +61,11 @@ struct ReviewListView: View {
                             
                             ZSText("신고", fontType: .body3, color: Color.neutral300)
                                 .onTapGesture {
-                                    viewModel.reportToggle = true
+                                    if authViewModel.authenticationState == .guest {
+                                        viewModel.guestReport = true
+                                    } else {
+                                        viewModel.reportToggle = true
+                                    }
                                 }
                             
                             if viewModel.isLoading {
@@ -99,6 +108,32 @@ struct ReviewListView: View {
         }, rightAction:  {
             viewModel.reportToggle = false
         })
+        .ZAlert(
+            isShowing: $viewModel.guestReview,
+            type: .doubleButton(
+                title: "리뷰 작성은 로그인이 필요해요.\n로그인 하시겠어요?",
+                LButton: "닫기",
+                RButton: "로그인하기"
+            ), leftAction: {
+                viewModel.guestReview = false
+            }) {
+                viewModel.guestReview = false
+                router.popToRoot()
+                authViewModel.authenticationState = .initial
+            }
+            .ZAlert(
+                isShowing: $viewModel.guestReport,
+                type: .doubleButton(
+                    title: "신고하기는 로그인이 필요해요.\n로그인 하시겠어요?",
+                    LButton: "닫기",
+                    RButton: "로그인하기"
+                ), leftAction: {
+                    viewModel.guestReport = false
+                }) {
+                    viewModel.guestReport = false
+                    router.popToRoot()
+                    authViewModel.authenticationState = .initial
+                }
     }
     
     @ViewBuilder

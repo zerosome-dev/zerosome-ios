@@ -77,6 +77,7 @@ struct HomeMainView: View {
                                     ProductPreviewComponent(data: data)
                                         .tap {
                                             router.navigateTo(.detailMainView(data.id, data.brand))
+                                                
                                             LogAnalytics.logD2Category(category: "\(data.brand)")
                                         }
                                 }

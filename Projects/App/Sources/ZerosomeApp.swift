@@ -47,6 +47,7 @@ struct ZerosomeApp: App {
             }
             .environmentObject(toast)
             .environmentObject(popup)
+            .environmentObject(authViewModel)
             .onOpenURL(perform: { url in
                 if AuthApi.isKakaoTalkLoginUrl(url) {
                     debugPrint(AuthController.handleOpenUrl(url: url))

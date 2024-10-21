@@ -17,67 +17,73 @@ struct MypageMainView: View {
     @ObservedObject var viewModel: MypageViewModel
     
     var body: some View {
-        ScrollView {
-            UserInfoView(viewModel: viewModel)
-                .tapAction { router.navigateTo(.mypageReviewList) }
-                .tapNickname { router.navigateTo(.mypgaeNickname(viewModel.userInfo.nickname)) }
-                .padding(.init(top: 24,leading: 0,bottom: 30,trailing: 0))
-            
-            DivideRectangle(height: 12, color: Color.neutral50)
-            MypageInfoView(vm: viewModel)
-            
-            HStack {
-                MypageButton(title: "로그아웃")
-                    .tap {
-                        viewModel.send(.logout)
-                    }
-                    .onReceive(viewModel.$logoutResult) { result in
-                        accountAction(result: result, type: .failLogout)
-                    }
-    
-                MypageButton(title: "회원탈퇴")
-                    .tap {
-                        popup.settingToggle(type: .revoke)
-                        popup.setToggle(for: .revoke, true)
-                    }
-                    .onReceive(popup.$rightButtonFlag) { result in
-                        if result {
-                            viewModel.send(.revoke)
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                guard let temp = viewModel.revokeResult else { return }
-                                if temp {
-                                    popup.settingToggle(type: .successRevoke)
-                                    popup.setToggle(for: .successRevoke, true)
-                                } else {
-                                    popup.settingToggle(type: .failRevoke)
-                                    popup.setToggle(for: .failRevoke, true)
+        if authViewModel.authenticationState == .guest {
+            NotUserMypageView()
+                .ZSnavigationTitle("마이페이지")
+        } else {
+            ScrollView {
+                UserInfoView(viewModel: viewModel)
+                    .tapAction { router.navigateTo(.mypageReviewList) }
+                    .tapNickname { router.navigateTo(.mypgaeNickname(viewModel.userInfo.nickname)) }
+                    .padding(.init(top: 24,leading: 0,bottom: 30,trailing: 0))
+                
+                DivideRectangle(height: 12, color: Color.neutral50)
+                MypageInfoView(vm: viewModel)
+                
+                HStack {
+                    MypageButton(title: "로그아웃")
+                        .tap {
+                            viewModel.send(.logout)
+                        }
+                        .onReceive(viewModel.$logoutResult) { result in
+                            accountAction(result: result, type: .failLogout)
+                        }
+                    
+                    MypageButton(title: "회원탈퇴")
+                        .tap {
+                            popup.settingToggle(type: .revoke)
+                            popup.setToggle(for: .revoke, true)
+                        }
+                        .onReceive(popup.$rightButtonFlag) { result in
+                            if result {
+                                viewModel.send(.revoke)
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    guard let temp = viewModel.revokeResult else { return }
+                                    if temp {
+                                        popup.settingToggle(type: .successRevoke)
+                                        popup.setToggle(for: .successRevoke, true)
+                                    } else {
+                                        popup.settingToggle(type: .failRevoke)
+                                        popup.setToggle(for: .failRevoke, true)
+                                    }
+                                }
+                                popup.rightButtonFlag = false
+                            }
+                        }
+                        .onReceive(popup.$successRevoke) { result in
+                            if result {
+                                withAnimation(.easeInOut) {
+                                    authViewModel.authenticationState = .initial
+                                    AccountStorage.shared.reset()
                                 }
                             }
-                            popup.rightButtonFlag = false
                         }
-                    }
-                    .onReceive(popup.$successRevoke) { result in
-                        if result {
-                            withAnimation(.easeInOut) {
-                                authViewModel.authenticationState = .initial
-                                AccountStorage.shared.reset()
-                            }
-                        }
-                    }
+                }
+                .padding(.horizontal, 22)
+                Spacer()
+                
             }
-            .padding(.horizontal, 22)
-            Spacer()
-        }
-        .onAppear {
-            viewModel.send(.getUserBasicInfo)
-        }
-        .ZSnavigationTitle("마이페이지")
-        .scrollIndicators(.hidden)
-        .overlay {
-            ProgressView()
-                .tint(Color.primaryFF6972)
-                .opacity(viewModel.loading ? 1 : 0)
+            .onAppear {
+                viewModel.send(.getUserBasicInfo)
+            }
+            .ZSnavigationTitle("마이페이지")
+            .scrollIndicators(.hidden)
+            .overlay {
+                ProgressView()
+                    .tint(Color.primaryFF6972)
+                    .opacity(viewModel.loading ? 1 : 0)
+            }
         }
     }
 }
