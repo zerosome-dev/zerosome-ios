@@ -17,6 +17,7 @@ struct DetailMainView: View {
     let productId: Int
     @EnvironmentObject var router: Router
     @EnvironmentObject var toast: ToastAction
+    @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject var viewModel: DetailMainViewModel
     
 //    init(
@@ -33,8 +34,12 @@ struct DetailMainView: View {
         ZStack(alignment: .bottom) {
             CommonButton(title: "리뷰 작성", font: .subtitle2)
                 .tap {
-                    guard let reviewEntity = viewModel.reviewEntity else { return }
-                    router.navigateTo(.creatReview(reviewEntity))
+                    if authViewModel.authenticationState == .guest {
+                        viewModel.guestToggle = true
+                    } else {
+                        guard let reviewEntity = viewModel.reviewEntity else { return }
+                        router.navigateTo(.creatReview(reviewEntity))
+                    }
                 }
                 .environmentObject(toast)
                 .padding(.horizontal, 22)
@@ -96,7 +101,19 @@ struct DetailMainView: View {
         }
         .ZSNavigationBackButtonTitle(self.navigationTitle) {
             router.navigateBack()
-        }.scrollIndicators(.hidden)
+        }
+        .scrollIndicators(.hidden)
+        .ZAlert(
+            isShowing: $viewModel.guestToggle,
+            type: .contentSButton(
+                title: "더 많은 콘텐츠가 기다리고 있어요",
+                LButton: "회원가입/로그인",
+                content: "로그인 후 모든 기능으르 이용해 보세요!"
+            ), leftAction:  {
+                viewModel.guestToggle = false
+                router.popToRoot()
+                authViewModel.authenticationState = .initial
+            })
     }
     
     @ViewBuilder
@@ -124,7 +141,7 @@ struct DetailMainView: View {
     }
 }
 
-#Preview {
-    DetailMainView(navigationTitle: "음료", productId: 217, viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
-        .environmentObject(ToastAction())
-}
+//#Preview {
+//    DetailMainView(navigationTitle: "음료", productId: 217, viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
+//        .environmentObject(ToastAction())
+//}

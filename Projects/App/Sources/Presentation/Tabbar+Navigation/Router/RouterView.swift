@@ -13,6 +13,8 @@ struct RouterView<Content: View>: View {
     @StateObject var router: Router = Router()
     @EnvironmentObject var toast: ToastAction
     @EnvironmentObject var popup: PopupAction
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     private let content: Content
     let apiService: ApiService
     
@@ -34,7 +36,7 @@ struct RouterView<Content: View>: View {
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarBackButtonHidden()
             .navigationDestination(for: Router.Route.self) { route in
-                router.view(for: route, with: apiService, toast: toast)
+                router.view(for: route, with: apiService, toast: toast, auth: authViewModel)
             }
         }
         .environmentObject(router)

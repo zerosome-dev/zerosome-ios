@@ -32,6 +32,7 @@ public struct FirstButtonView: View {
             Text(title)
                 .frame(maxWidth: .infinity)
                 .applyFont(font: .heading2)
+                .multilineTextAlignment(.center)
             
             Text(button)
                 .frame(maxWidth: .infinity)
@@ -62,6 +63,7 @@ public struct DoubleButtonView: View {
             Text(title)
                 .applyFont(font: .heading2)
                 .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
             
             HStack(spacing: 12) {
                 Text(LButton)
@@ -119,6 +121,7 @@ public struct ContentDButton: View {
         VStack(spacing: 16) {
             ZSText(title, fontType: .heading2)
                 .padding(.top, 16)
+                .multilineTextAlignment(.center)
             
             ZSText(content, fontType: .body2, color: Color.neutral800)
                 .multilineTextAlignment(.center)
@@ -168,6 +171,7 @@ public struct SingleDButton: View {
         VStack(spacing: 16) {
             ZSText(title, fontType: .heading2)
                 .padding(.top, 16)
+                .multilineTextAlignment(.center)
             
             ZSText(content, fontType: .body2, color: Color.neutral800)
                 .multilineTextAlignment(.center)

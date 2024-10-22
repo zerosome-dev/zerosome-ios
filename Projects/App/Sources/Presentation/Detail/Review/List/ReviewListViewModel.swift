@@ -23,6 +23,8 @@ class ReviewListViewModel: ObservableObject {
     @Published var limit: Int = 10
     @Published var isLoading: Bool = false
     @Published var hasMoreReview: Bool = true
+    @Published var guestReview: Bool = false
+    @Published var guestReport: Bool = false
     
     private let reviewUsecase: ReviewUsecase
     private var cancellables = Set<AnyCancellable>()

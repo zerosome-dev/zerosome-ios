@@ -28,7 +28,7 @@ final class Router: ObservableObject {
     @Published var path: NavigationPath = NavigationPath()
     @Published var defaultView: Tabbar = .home
     
-    @ViewBuilder func view(for route: Route, with apiService: ApiService, toast: ToastAction) -> some View {
+    @ViewBuilder func view(for route: Route, with apiService: ApiService, toast: ToastAction, auth: AuthViewModel) -> some View {
         switch route {
         case .tabView:
             TabbarMainView(apiService: apiService)
@@ -47,13 +47,15 @@ final class Router: ObservableObject {
             let detailUsecase = DetailUsecase(detailRepoProtocol: detailRepo)
             let viewModel = DetailMainViewModel(detailUseCase: detailUsecase)
             DetailMainView(navigationTitle: navigationTitle, productId: productId, viewModel: viewModel)
+                .environmentObject(auth)
         
         case .reviewList(let productId, let reviewEntity):
             let reviewRepo = ReviewRepository(apiService: apiService)
             let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
             let viewModel = ReviewListViewModel(reviewUsecase: reviewUsecase)
             ReviewListView(viewModel: viewModel, productId: productId, reviewEntity: reviewEntity)
-        
+                .environmentObject(auth)
+            
         case .creatReview(let data):
             let reviewRepo = ReviewRepository(apiService: apiService)
             let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
@@ -65,12 +67,14 @@ final class Router: ObservableObject {
             let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
             let viewModel = MyReviewsListViewModel(reviewUsecase: reviewUsecase)
             MyReviewsListView(viewModel: viewModel)
-        
+                .environmentObject(auth)
+            
         case .myReivew(let review):
             let reviewRepo = ReviewRepository(apiService: apiService)
             let reviewUsecase = ReviewUsecase(reviewProtocol: reviewRepo)
             let viewModel = MyReivewViewModel(reviewUsecase: reviewUsecase)
             MyReivewView(viewModel: viewModel, review: review)
+                .environmentObject(auth)
         
         case .mypgaeNickname(let nickname):
             let accountRepo = AccountRepository(apiService: apiService)
