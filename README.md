@@ -20,11 +20,11 @@ Firebase
 
 ---
 ### Skill Stack
-Development: SwiftUI + Tuist
-Architecture : Clean Architecture + MVVM
-► 현재 Tuist를 활용해 각 Layer 별 모듈화 작업중
+- Development: SwiftUI + Tuist
+- Architecture : Clean Architecture + MVVM
+- **✷ 현재 Tuist를 활용해 각 Layer 별 모듈화 작업중**
 
-### Architecture 선정 이유 (장점)
+### Architecture 선정 이유
 `의존성 관리`  
 역할별로 명확한 layer를 구분하여 각 layer는 독립적으로 동작하기 때문에 특정 기능을 수정하거나 추가할때도 다른 layer에 영향을 주지않고 관련된 부분만 수정하면 됨
 
@@ -41,7 +41,8 @@ DI를 통해 각 레이어는 프로토콜로(인터페이스) 소통하기 때�
 각 레이어의 책임을 명확하게 정의하고 역할을 분리하여 코드의 가독성을 높임
 새로운 팀원이 프로젝트에 합류했을 때 쉽게 이해할 수 있음
 
-![[제로섬 아키텍처.png]]
+<img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/%EC%A0%9C%EB%A1%9C%EC%84%AC%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png" >
+
 ### Layer 구현 내용
 `Application Layer`
 - AppDelegate, SceneDelegate 위치  
@@ -93,14 +94,10 @@ DI를 통해 각 레이어는 프로토콜로(인터페이스) 소통하기 때�
 ---
 ### App Images
 
-| `홈`               | `카테고리 검색`                     | `필터생성`            | `필터 항목-브랜드`       |
-| ----------------- | ----------------------------- | ----------------- | ----------------- |
-| ![[IMG_4855.png]] | ![[IMG_4856.png]]<br><br><br> | ![[IMG_4857.png]] | ![[IMG_4858.png]] |
+| `홈`                                                                                                                                 |                                                                             `카테고리 검색`                                                                                                                       |                                                                             `필터생성`                                                                                                                               | `필터상세`                                                                                                                               |                                                   `마이페이지`                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4855.PNG" width="143" height="300"> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4856.PNG" width="143" height="300"><br><br><br> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4857.PNG " width="143" height="300"> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4858.PNG " width="143" height="300"> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4863.PNG" width="143" height="300"> |
 
-|      `제품상세`       |      `영양정보`       |       `리뷰`        |     `작성 리뷰`      |
-| :---------------: | :---------------: | :---------------: | :---------------: |
-| ![[IMG_4859.png]] | ![[IMG_4860.png]] | ![[IMG_4861.png]] | ![[IMG_4862.png]] |
-
-|      `마이페이지`      |      `리뷰 작성`      |
-| :---------------: | :---------------: |
-| ![[IMG_4863.png]] | ![[IMG_4865.png]] |
+|                                                               `제품상세1`                                                               |                                                               `제품상세2`                                                               |                                                                `리뷰`                                                                 |                                                               `리뷰작성`                                                               |                                                     `작성리뷰`                                                                                                                               |
+| :---------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------ |
+| <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4859.PNG" width="143" height="300"> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4860.PNG" width="143" height="300"> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4861.PNG" width="143" height="300"> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4865.PNG" width="143" height="300"> | <img src="https://raw.githubusercontent.com/zerosome-dev/zerosome-ios/refs/heads/dev/images/IMG_4862.PNG " width="143" height="300"> |
