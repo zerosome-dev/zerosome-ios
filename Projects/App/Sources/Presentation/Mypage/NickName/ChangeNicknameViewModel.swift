@@ -30,7 +30,11 @@ class ChangeNicknameViewModel: ObservableObject {
     
     @Published var nickname: String {
         didSet {
-            checkNickname()
+            if isFirstInput {
+                isFirstInput = false
+            } else {
+                checkNickname()
+            }
         }
     }
     
@@ -38,6 +42,7 @@ class ChangeNicknameViewModel: ObservableObject {
     @Published var nicknameErrorMessage: NicknameErrorCase = .none
     @Published var changeNicknameResult: Bool?
     @Published var failureToast: Bool = false
+    private var isFirstInput: Bool = true
     
     func send(_ action: Action) {
         switch action {
