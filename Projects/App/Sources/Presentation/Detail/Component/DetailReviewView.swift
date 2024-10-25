@@ -33,7 +33,7 @@ struct DetailReviewView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 62)
                     .padding(.horizontal, 22)
-                NoneReviewView(action: action)
+                NoneReviewView(action: action, viewModel: viewModel)
                     .padding(.bottom, 83)
             } else {
                 VStack(spacing: 12) {
