@@ -22,7 +22,7 @@ struct CreateReviewView: View {
         ZStack(alignment: .bottom) {
             CommonButton(title: "작성 완료", font: .subtitle1)
                 .enable(
-                    viewModel.starCounting >= 1
+                    viewModel.starCounting != 0 && !viewModel.text.isEmpty
                 )
                 .tap {
                     viewModel.send(.postReview)
