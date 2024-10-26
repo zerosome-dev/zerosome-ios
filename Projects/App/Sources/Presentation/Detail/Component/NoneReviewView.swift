@@ -11,13 +11,16 @@ import DesignSystem
 
 struct NoneReviewView: View {
     @EnvironmentObject var router: Router
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @ObservedObject var viewModel: DetailMainViewModel
     var action: (() -> Void)?
     
     init(
-        action: (() -> Void)? = nil
-    
+        action: (() -> Void)? = nil,
+        viewModel: DetailMainViewModel
     ) {
         self.action = action
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -29,12 +32,17 @@ struct NoneReviewView: View {
                 .background(Color.neutral50)
                 .clipShape(RoundedRectangle(cornerRadius: 50))
                 .onTapGesture {
-                    action?()
+                    guard authViewModel.authenticationState == .guest else {
+                        action?()
+                        return
+                    }
+                    
+                    viewModel.guestToggle = true
                 }
         }
     }
 }
 
-#Preview {
-    NoneReviewView()
-}
+//#Preview {
+//    NoneReviewView()
+//}

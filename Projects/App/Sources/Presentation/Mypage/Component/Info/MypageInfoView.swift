@@ -52,7 +52,7 @@ struct MypageInfoView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                     if service == .appVersion {
-                        ZSText("v1.0", fontType: .body2, color: Color.neutral500)
+                        ZSText(service.url, fontType: .body2, color: Color.neutral500)
                     } else {
                         ZerosomeAsset.ic_arrow_after
                             .resizable()

@@ -81,7 +81,7 @@ struct ChangeNicknameView: View {
     }
 }
 
-//#Preview {
-//    ChangeNicknameView(viewModel: ChangeNicknameViewModel(accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService())), initialNickname: "닉네임"), nickname: "닉네임")
-//}
+#Preview {
+    ChangeNicknameView(viewModel: ChangeNicknameViewModel(accountUseCase: AccountUseCase(accountRepoProtocol: AccountRepository(apiService: ApiService())), initialNickname: ""), nickname: "")
+}
 

@@ -31,6 +31,7 @@ public struct CommonButton: View {
                     .foregroundStyle(isEnable ? Color.primaryFF6972 : Color.neutral100)
             )
             .onTapGesture {
+                guard isEnable else { return }
                 action?()
             }
     }
