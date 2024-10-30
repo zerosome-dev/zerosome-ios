@@ -21,11 +21,9 @@ let spmTarget = Target.makeTarget(
                    .SPM.Kakao,
                    .SPM.KingFisher,
                    .SPM.Lottie,
-                   .SPM.AutoHeight,
                    .SPM.FirebaseAnalytics],
     infoPlistPath: "Support/Info.plist",
-    //    scripts: [.swiftLintPath], // -> lint 적용o
-    scripts: [], // -> lint 적용x
+    scripts: [],
     isResources: false,
     hasTest: true)
 
@@ -33,9 +31,3 @@ let spmProject = Project.makeProject(
     name: "SPM",
     targets: spmTarget,
     isXconfigSet: true)
-/*
- ,
- .SPM.FirebaseCrashlytics,
- .SPM.Analytics,
- .SPM.GoogleUtilities
- */
