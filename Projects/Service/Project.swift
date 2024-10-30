@@ -19,8 +19,7 @@ let serviceTarget = Target.makeTarget(
                            supportsMacDesignedForIOS: false),
     dependencies: [],
     infoPlistPath: "Support/Info.plist",
-    //    scripts: [.swiftLintPath], // -> lint 적용o
-    scripts: [], // -> lint 적용x
+    scripts: [],
     isResources: true,
     hasTest: true)
 
