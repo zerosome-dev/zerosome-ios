@@ -16,6 +16,7 @@ struct CategoryMainView: View {
     
     var body: some View {
         ScrollView {
+            Spacer().frame(height: 20)
             ForEach(viewModel.categoryList, id: \.id) { d1Category in
                 CategoryItemGridComponent(
                     tapD2Category: $viewModel.tapD2Category,
@@ -48,6 +49,7 @@ struct CategoryMainView: View {
                     .padding(.vertical, 30)
                     .opacity(d1Category == viewModel.categoryList.last ? 0 : 1)
             }
+            Spacer()
         }
         .ZSnavigationTitle("카테고리")
         .scrollIndicators(.hidden)

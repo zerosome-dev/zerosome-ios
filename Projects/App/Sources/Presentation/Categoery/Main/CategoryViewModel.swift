@@ -48,7 +48,6 @@ extension CategoryViewModel {
                            debugPrint("Failed action: CategoryList \(failure.localizedDescription)")
                        }
                    } receiveValue: { [weak self] data in
-                       print("Received category list: \(data)")
                        self?.categoryList = data
                    }
                    .store(in: &cancellables)
