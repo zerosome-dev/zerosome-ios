@@ -31,9 +31,9 @@ enum Term: CaseIterable{
         case .term:
             return "https://zerosome.imweb.me/?mode=policy"
         case .personalInfo:
-            return "https://zerosome.imweb.me/?mode=privacy"
+            return "https://zerosome.imweb.me/19"
         case .marketing:
-            return ""
+            return "https://zerosome.imweb.me/20"
         }
     }
 }
@@ -49,7 +49,7 @@ final class TermViewModel: ObservableObject {
     init() {
         Publishers.CombineLatest3($isTermChecked, $isPersonalChecked, $isMarketingChecked)
             .sink { [weak self] term, personalInfo, marketing in
-                self?.isAllChecked = term && personalInfo
+                self?.isAllChecked = term && personalInfo && marketing
             }
             .store(in: &cancellables)
     }
@@ -64,5 +64,9 @@ final class TermViewModel: ObservableObject {
             isPersonalChecked = true
             isMarketingChecked = true
         }
+    }
+    
+    func validateToggle() -> Bool {
+        return isTermChecked && isPersonalChecked
     }
 }
