@@ -13,11 +13,12 @@ import Kingfisher
 struct TobeReleasedProductView: View {
     
     @EnvironmentObject var router: Router
+    private let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
     let title: String
     let subTitle: String
     let data: [HomeRolloutResult]
-    let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 11, alignment: .center), count: 2)
-
+    let photoWidth = (UIScreen.main.bounds.width - 66) / 2
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -33,8 +34,7 @@ struct TobeReleasedProductView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             KFImage(URL(string: data.image))
                                 .resizable()
-                                .frame(height: 160)
-                                .scaledToFit()
+                                .frame(width: photoWidth, height: photoWidth)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
                             VStack(alignment: .leading, spacing: 4) {
@@ -53,13 +53,12 @@ struct TobeReleasedProductView: View {
                                             .clipShape(RoundedRectangle(cornerRadius: 4))
                                     }
                                 }
+                                
+                                Spacer()
                             }
-                            
-                            Spacer()
-                        }
-                        .frame(height: 259)
-                        .onTapGesture {
-                            router.navigateTo(.detailMainView(data.id, title))
+                            .onTapGesture {
+                                router.navigateTo(.detailMainView(data.id, title))
+                            }
                         }
                     }
                 }

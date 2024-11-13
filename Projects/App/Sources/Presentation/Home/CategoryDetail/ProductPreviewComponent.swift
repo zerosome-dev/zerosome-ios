@@ -11,6 +11,7 @@ import DesignSystem
 import Kingfisher
 
 struct ProductPreviewComponent<T: Identifiable>: View {
+    private let photoWidth = (UIScreen.main.bounds.width - 66) / 2
     var action: (() -> Void)?
     let data: T
     
@@ -71,7 +72,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                         .tint(Color.primaryFF6972)
                 }
                 .resizable()
-                .frame(width: 150, height: 150)
+                .frame(width: photoWidth, height: photoWidth)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             
             VStack(alignment: .leading, spacing: 4) {
@@ -92,6 +93,8 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                 }
                 .applyFont(font: .body3)
                 .foregroundStyle(Color.neutral400)
+                
+                Spacer()
             }
         }
     }
