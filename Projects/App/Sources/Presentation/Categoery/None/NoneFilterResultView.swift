@@ -11,13 +11,17 @@ import DesignSystem
 
 struct NoneFilterResultView: View {
     var body: some View {
-        VStack(spacing: 10) {
-            ZSText("해당하는 상품이 없어요\n검색 조건을 변경해 보세요.", fontType: .subtitle1, color: Color.primaryFF6972)
-                .multilineTextAlignment(.center)
-            
-            ZerosomeAsset.ic_filter_empty
-                .resizable()
-                .frame(width: 64, height: 64)
+        VStack{
+            Spacer()
+            VStack(spacing: 10) {
+                ZSText("해당하는 상품이 없어요\n검색 조건을 변경해 보세요.", fontType: .subtitle1, color: Color.primaryFF6972)
+                    .multilineTextAlignment(.center)
+                
+                ZerosomeAsset.ic_filter_empty
+                    .resizable()
+                    .frame(width: 64, height: 64)
+            }
+            Spacer()
         }
     }
 }

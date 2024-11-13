@@ -48,16 +48,16 @@ enum Tabbar: CaseIterable {
         }
     }
     
-    var image_default: Image {
-        switch self {
-        case .home:
-            ZerosomeTab.ic_home
-        case .category:
-            ZerosomeTab.ic_category
-        case .mypage:
-            ZerosomeTab.ic_mypage
-        }
-    }
+//    var image_default: Image {
+//        switch self {
+//        case .home:
+//            ZerosomeTab.ic_home
+//        case .category:
+//            ZerosomeTab.ic_category
+//        case .mypage:
+//            ZerosomeTab.ic_mypage
+//        }
+//    }
     
     var image_fill: Image {
         switch self {

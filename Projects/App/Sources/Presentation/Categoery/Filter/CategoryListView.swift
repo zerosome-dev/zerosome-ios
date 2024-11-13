@@ -89,7 +89,7 @@ struct CategoryListView: View {
             let count = viewModel.tappedBrandChips.count
             let brand = viewModel.tappedBrandChips
             let title = brand.isEmpty ? "브랜드"
-            : count == 1 ? brand[0].name : "\(brand[0].name) 외 \(count)"
+            : count == 1 ? brand[0].name : "\(brand[0].name) 외 \(count-1)"
             
             return title
         case .zeroTag:
@@ -97,7 +97,7 @@ struct CategoryListView: View {
             let zeroTag = viewModel.tappedZeroTagChips
             
             let title = zeroTag.isEmpty ? "제로태그"
-            : count == 1 ? zeroTag[0].name : "\(zeroTag[0].name) 외 \(count)"
+            : count == 1 ? zeroTag[0].name : "\(zeroTag[0].name) 외 \(count-1)"
             
             return title
         }

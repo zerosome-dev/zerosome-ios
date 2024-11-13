@@ -40,7 +40,7 @@ struct CategoryItemGridComponent: View {
     }
     
     var body: some View {
-        VStack(spacing: 12 ){
+        VStack(spacing: 12){
             let size = (UIScreen.main.bounds.width - (17 * 3) - 44) / 4
             
             HStack {
@@ -75,11 +75,10 @@ struct CategoryItemGridComponent: View {
                 }
                 
                 if data.d2Category.count > 8 && !showAllItems {
-                    Text("전체 보기")
+                    ZSText("전체 보기", fontType: .body3)
                         .padding(.init(top: 6, leading: 10, bottom: 6, trailing: 10))
                         .background(Color.neutral50)
                         .clipShape(RoundedRectangle(cornerRadius: 30))
-                        .padding(.top, 18)
                         .onTapGesture {
                             showAllItems = true
                         }

@@ -11,6 +11,7 @@ import DesignSystem
 import Kingfisher
 
 struct ProductPreviewComponent<T: Identifiable>: View {
+    private let photoWidth = (UIScreen.main.bounds.width - 66) / 2
     var action: (() -> Void)?
     let data: T
     
@@ -71,9 +72,28 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                         .tint(Color.primaryFF6972)
                 }
                 .resizable()
-                .frame(width: 150, height: 150)
+                .frame(width: photoWidth, height: photoWidth)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             
+            
+            /*
+             회색 배경 추가
+             Rectangle()
+                 .fill(Color.neutral50)
+                 .frame(width: photoWidth, height: photoWidth)
+                 .overlay {
+                     KFImage(URL(string: image))
+                         .placeholder {
+                             ProgressView()
+                                 .tint(Color.primaryFF6972)
+                         }
+                         .resizable()
+                         .frame(width: photoWidth, height: photoWidth)
+                         .aspectRatio(contentMode: .fit)
+                 }
+                 .clipShape(RoundedRectangle(cornerRadius: 10))
+             
+             */
             VStack(alignment: .leading, spacing: 4) {
                 ZSText(brand, fontType: .body3, color: Color.neutral500)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -92,6 +112,8 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                 }
                 .applyFont(font: .body3)
                 .foregroundStyle(Color.neutral400)
+                
+                Spacer()
             }
         }
     }

@@ -72,7 +72,7 @@ struct TermView: View {
             Spacer()
             
             CommonButton(title: "다음", font: .subtitle1)
-                .enable(viewModel.isAllChecked)
+                .enable(viewModel.validateToggle())
                 .tap {
                     authViewModel.authenticationState = .nickname
                     authViewModel.marketingAgreement = viewModel.isMarketingChecked

@@ -57,6 +57,7 @@ class MypageViewModel: ObservableObject {
                 .sink { completion in
                     switch completion {
                     case .finished:
+                        AccountStorage.shared.clearAllTokens()
                         break
                     case .failure(let failure):
                         self.logoutResult = false
@@ -67,6 +68,7 @@ class MypageViewModel: ObservableObject {
                 }
                 .store(in: &cancellables)
             self.loading = false
+            
             
         case .revoke:
             mypageUseCase.revoke()

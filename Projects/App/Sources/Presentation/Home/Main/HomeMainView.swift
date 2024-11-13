@@ -12,11 +12,7 @@ import FirebaseAnalytics
 
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
-    @ObservedObject var viewModel: HomeMainViewModel
-    
-    init(viewModel: HomeMainViewModel) {
-        self.viewModel = viewModel
-    }
+    @StateObject var viewModel: HomeMainViewModel
     
     var body: some View {
         ScrollView {
@@ -84,6 +80,7 @@ struct HomeMainView: View {
                             }
                         }
                     }
+                    Spacer().frame(height: 40)
                 }
                 .padding(.horizontal, 22)
             }
@@ -96,7 +93,7 @@ struct HomeMainView: View {
             viewModel.send(action: .tobeReleased)
         }
         .onDisappear {
-            viewModel.tappedCafeCategory = ""
+//            viewModel.tappedCafeCategory = ""
         }
     }
 }
