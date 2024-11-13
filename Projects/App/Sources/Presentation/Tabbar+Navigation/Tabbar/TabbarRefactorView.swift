@@ -16,10 +16,10 @@ class refactorTab: ObservableObject {
 }
 
 struct TabbarRefactorView: View {    
-    @State private var selectedTab = 0
-    @State private var testToggle:Bool = false
-    @StateObject var testT = refactorTab()
     let apiService: ApiService
+    @StateObject var viewModel = TabbarViewModel()
+    @EnvironmentObject var popup: PopupAction
+    @EnvironmentObject var toast: ToastAction
     
     init(apiService: ApiService) {
         self.apiService = apiService
@@ -49,7 +49,7 @@ struct TabbarRefactorView: View {
     }
     
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $viewModel.selected) {
             let homeRepoProtocol = HomeRepository(apiService: apiService)
             let homeUseCase = HomeUsecase(homeRepoProtocol: homeRepoProtocol)
             let filterRepo = FilterRepository(apiService: apiService)
@@ -58,30 +58,30 @@ struct TabbarRefactorView: View {
             
             HomeMainView(viewModel: homeVM)
                 .tabItem {
-//                    Image(uiImage: resizeImage(ZerosomeTab.ic_home, targetSize: CGSize(width: 24, height: 34))!)
+                    Image(uiImage: resizeImage(ZerosomeTab.ic_home, targetSize: CGSize(width: 24, height: 34))!)
                     ZSText("홈", fontType: .body4)
                 }
-                .tag(0)
+                .tag(Tabbar.home)
             
             let categoryRepoProtocol = CategoryListRepository(apiService: apiService)
             let categoryUseCase = CategoryUsecase(categoryRepoProtocol: categoryRepoProtocol)
             let categoryVM = CategoryViewModel(categoryUseCase: categoryUseCase)
             CategoryMainView(viewModel: categoryVM)
                 .tabItem {
-//                    Image(uiImage: resizeImage(ZerosomeTab.ic_category, targetSize: CGSize(width: 24, height: 34))!)
+                    Image(uiImage: resizeImage(ZerosomeTab.ic_category, targetSize: CGSize(width: 24, height: 34))!)
                     ZSText("카테고리", fontType: .body4)
                 }
-                .tag(1)
+                .tag(Tabbar.category)
             
             let mypageRepo = MypageRepository(apiService: apiService)
             let mypageUsecase = MypageUsecase(mypageRepoProtocol: mypageRepo)
             let mypageVM = MypageViewModel(mypageUseCase: mypageUsecase)
             MypageMainView(viewModel: mypageVM)
                 .tabItem {
-//                    Image(uiImage: resizeImage(ZerosomeTab.ic_mypage, targetSize: CGSize(width: 24, height: 34))!)
+                    Image(uiImage: resizeImage(ZerosomeTab.ic_mypage, targetSize: CGSize(width: 24, height: 34))!)
                     ZSText("마이 페이지", fontType: .body4)
                 }
-                .tag(2)
+                .tag(Tabbar.mypage)
         }
     }
     

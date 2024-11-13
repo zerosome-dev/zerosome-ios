@@ -12,11 +12,7 @@ import FirebaseAnalytics
 
 struct HomeMainView: View {
     @EnvironmentObject var router: Router
-    @ObservedObject var viewModel: HomeMainViewModel
-    
-    init(viewModel: HomeMainViewModel) {
-        self.viewModel = viewModel
-    }
+    @StateObject var viewModel: HomeMainViewModel
     
     var body: some View {
         ScrollView {

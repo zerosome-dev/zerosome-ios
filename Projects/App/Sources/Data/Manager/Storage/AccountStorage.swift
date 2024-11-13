@@ -131,5 +131,15 @@ final class AccountStorage {
     func reset() {
         accessToken = nil
         refreshToken = nil
+        clearAllTokens()
+    }
+    
+    func clearAllTokens() {
+        KeyChain.delete(key: StorageKey.accessToken)
+        KeyChain.delete(key: StorageKey.refreshToken)
+        KeyChain.delete(key: StorageKey.kakaoToken)
+        KeyChain.delete(key: StorageKey.appleToken)
+        
+        debugPrint("🔮 All tokens cleared from Keychain")
     }
 }

@@ -26,7 +26,7 @@ struct AuthenticatedView: View {
                 LoginMainView()
                     .environmentObject(viewModel)
             case .signIn:
-                TabbarMainView(apiService: apiService)
+                TabbarRefactorView(apiService: apiService)
                     .environmentObject(viewModel)
             case .nickname:
                 NicknameView(
@@ -43,7 +43,7 @@ struct AuthenticatedView: View {
                 LoginMainView()
                     .environmentObject(viewModel)
             case .guest:
-                TabbarMainView(apiService: apiService)
+                TabbarRefactorView(apiService: apiService)
                     .environmentObject(viewModel)
             }
         }

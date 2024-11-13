@@ -12,7 +12,7 @@ import FirebaseAnalytics
 
 struct CategoryMainView: View {
     @EnvironmentObject var router: Router
-    @ObservedObject var viewModel: CategoryViewModel
+    @StateObject var viewModel: CategoryViewModel
     
     var body: some View {
         ScrollView {
@@ -48,7 +48,6 @@ struct CategoryMainView: View {
                     .padding(.vertical, 30)
                     .opacity(d1Category == viewModel.categoryList.last ? 0 : 1)
             }
-            Spacer()
         }
         .ZSnavigationTitle("카테고리")
         .scrollIndicators(.hidden)
@@ -58,6 +57,6 @@ struct CategoryMainView: View {
     }
 }
 
-#Preview {
-    CategoryMainView(viewModel: CategoryViewModel(categoryUseCase: CategoryUsecase(categoryRepoProtocol: CategoryListRepository(apiService: ApiService()))))
-}
+//#Preview {
+//    CategoryMainView(viewModel: CategoryViewModel(categoryUseCase: CategoryUsecase(categoryRepoProtocol: CategoryListRepository(apiService: ApiService()))))
+//}
