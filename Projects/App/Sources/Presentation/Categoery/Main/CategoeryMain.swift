@@ -57,6 +57,6 @@ struct CategoryMainView: View {
     }
 }
 
-//#Preview {
-//    CategoryMainView(viewModel: CategoryViewModel(categoryUseCase: CategoryUsecase(categoryRepoProtocol: CategoryListRepository(apiService: ApiService()))))
-//}
+#Preview {
+    CategoryMainView(viewModel: CategoryViewModel(categoryUseCase: CategoryUsecase(categoryRepoProtocol: CategoryListRepository(apiService: ApiService()))))
+}

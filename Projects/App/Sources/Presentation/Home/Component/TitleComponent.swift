@@ -75,7 +75,6 @@ struct HomeCategoryComponent: View {
                     .onTapGesture {
                         viewModel.tappedCafeCategory = category.d2CategoryName
                         viewModel.filteredCafe = viewModel.homeCafe.filter({ $0.brand == viewModel.tappedCafeCategory })
-                        
                     }
                 }
             }

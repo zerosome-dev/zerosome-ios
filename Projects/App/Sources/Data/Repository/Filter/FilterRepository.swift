@@ -111,17 +111,3 @@ final class FilterRepository: FilterRepositoryProtocol {
         }
     }
 }
-
-/*
- let response = await self.apiService.testApi(
-     httpMethod: .post,
-     endPoint: APIEndPoint.url(for: .filteredProduct),
-     queryParameters: parameters,
-     pathParameters: d2CategoryCode,
-     body: ProductByCtgListRequest(
-         orderType: orderType,
-         brandList: brandList.compactMap({ $0 }).isEmpty ? nil : brandList.compactMap({ $0 }),
-         zeroCtgList: zeroCtgList.compactMap({ $0 }).isEmpty ? nil : zeroCtgList.compactMap({ $0 })
-     )
- )
- */

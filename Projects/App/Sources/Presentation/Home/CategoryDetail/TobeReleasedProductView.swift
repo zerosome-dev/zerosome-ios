@@ -36,6 +36,24 @@ struct TobeReleasedProductView: View {
                                 .resizable()
                                 .frame(width: photoWidth, height: photoWidth)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                            
+                            /*
+                             회색 배경 추가
+                             Rectangle()
+                                 .fill(Color.neutral50)
+                                 .frame(width: photoWidth, height: photoWidth)
+                                 .overlay {
+                                     KFImage(URL(string: data.image))
+                                         .placeholder {
+                                             ProgressView()
+                                                 .tint(Color.primaryFF6972)
+                                         }
+                                         .resizable()
+                                         .frame(width: photoWidth, height: photoWidth)
+                                         .aspectRatio(contentMode: .fit)
+                                 }
+                                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                             */
 
                             VStack(alignment: .leading, spacing: 4) {
                                 ZSText(data.brand, fontType: .body3, color: Color.neutral500)

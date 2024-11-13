@@ -80,6 +80,7 @@ struct HomeMainView: View {
                             }
                         }
                     }
+                    Spacer().frame(height: 40)
                 }
                 .padding(.horizontal, 22)
             }
@@ -92,7 +93,7 @@ struct HomeMainView: View {
             viewModel.send(action: .tobeReleased)
         }
         .onDisappear {
-            viewModel.tappedCafeCategory = ""
+//            viewModel.tappedCafeCategory = ""
         }
     }
 }

@@ -80,6 +80,12 @@ class HomeMainViewModel: ObservableObject {
                         self?.cafeEntireCode = categoryData.filter { $0.noOptionYn }
                             .map { $0.d2CategoryCode }
                             .joined()
+                        
+                        if let tapped = self?.cafeCategoryList.first?.d2CategoryName, let total = self?.homeCafe {
+                            self?.tappedCafeCategory = tapped
+                            //viewModel.filteredCafe = viewModel.homeCafe.filter({ $0.brand == viewModel.tappedCafeCategory })
+                            self?.filteredCafe = total.filter({ $0.brand == tapped })
+                        }
                     })
                     .store(in: &cancellables)
             }
