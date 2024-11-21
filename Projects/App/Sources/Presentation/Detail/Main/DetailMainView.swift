@@ -118,16 +118,23 @@ struct DetailMainView: View {
     
     @ViewBuilder
     func onOfflineView() -> some View {
-        if let online = viewModel.dataInfo?.onlineStoreList, !online.isEmpty {
-            OnlineStoreView(onlineStore: online)
-        } else {
-            EmptyView()
-        }
-        
-        if let offline = viewModel.dataInfo?.offlineStoreList, !offline.isEmpty {
-            OfflineStoreView(offlineStore: offline)
-        } else {
-            EmptyView()
+        if let optionalBinding = viewModel.dataInfo {
+            let online = optionalBinding.onlineStoreList
+            let offlineStoreList = optionalBinding.offlineStoreList
+            
+            if !online.isEmpty, offlineStoreList.isEmpty {
+                OnlineStoreView(onlineStore: online)
+                DivideRectangle(height: 12, color: Color.neutral50)
+            } else if !online.isEmpty, !offlineStoreList.isEmpty {
+                OnlineStoreView(onlineStore: online)
+                OfflineStoreView(offlineStore: offlineStoreList)
+                DivideRectangle(height: 12, color: Color.neutral50)
+            } else if online.isEmpty, !offlineStoreList.isEmpty {
+                OfflineStoreView(offlineStore: offlineStoreList)
+                DivideRectangle(height: 12, color: Color.neutral50)
+            } else {
+                EmptyView()
+            }
         }
     }
     
