@@ -29,6 +29,7 @@ class AuthViewModel: ObservableObject {
         case kakaoSignIn
         case appleSignIn
         case checkToken
+        case countGuest
     }
     
     private let accountUseCase: AccountUseCase
@@ -42,6 +43,8 @@ class AuthViewModel: ObservableObject {
     @Published var tokenStatus: Bool = true
     @Published var userInfo: MemberBasicInfoResult?
     @Published var guestLogin: Bool = true
+    @Published var guestCount: Int = 0
+    @Published var guestCountAlert: Bool = false
     
     init (
         accountUseCase: AccountUseCase,
@@ -55,10 +58,13 @@ class AuthViewModel: ObservableObject {
     func send(action: Action) {
         switch action {
         case .checkToken:
+            print("❤️‍🔥\(AccountStorage.shared.accessToken ?? "")")
+            print("❤️‍🔥\(AccountStorage.shared.refreshToken ?? "")")
             if let _ = AccountStorage.shared.accessToken {
                 accountUseCase.checkUserToken()
                     .receive(on: DispatchQueue.main)
                     .flatMap { value -> AnyPublisher<TokenResponseResult, NetworkError> in
+                        print("value \(value)")
                         self.userInfo = value
                         self.tokenStatus = true
                         
@@ -83,6 +89,9 @@ class AuthViewModel: ObservableObject {
                     } receiveValue: { result in
                         AccountStorage.shared.accessToken = result.accessToken
                         AccountStorage.shared.refreshToken = result.refreshToken
+                        print("result \(result)")
+                        print("❤️‍🔥❤️‍🔥\(AccountStorage.shared.accessToken ?? "")")
+                        print("❤️‍🔥❤️‍🔥\(AccountStorage.shared.refreshToken ?? "")")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                             self.authenticationState = .signIn
                         }
@@ -110,9 +119,14 @@ class AuthViewModel: ObservableObject {
                     case .success(let success):
                         if let isMember = success.isMember, let token = success.token {
                             debugPrint("🟡 \(isMember) 로그인 성공 > 회원! 🟡")
+                            print("🩵token.access🩵 \(token.accessToken)")
+                            print("🩵token.refresh🩵 \(token.refreshToken)")
                             AccountStorage.shared.accessToken = token.accessToken
                             AccountStorage.shared.refreshToken = token.refreshToken
                             self.authenticationState = .signIn
+                            
+                            print("🩵\(AccountStorage.shared.accessToken ?? "")")
+                            print("🩵\(AccountStorage.shared.refreshToken ?? "")")
                             return
                         } else {
                             debugPrint("🟡 로그인 함수만 성공 > 비회원 > 회원가입 진행 🟡")
@@ -158,7 +172,15 @@ class AuthViewModel: ObservableObject {
                     debugPrint("🔴🍎🔴 애플 토큰 실패 \(failure.localizedDescription) 🔴🍎🔴")
                 }
             }
+        case .countGuest:
+            if guestCount == 3 {
+                guestCountAlert = true
+                return
+            } else {
+                self.guestCount += 1
+            }
         }
+    
     }
 }
 
