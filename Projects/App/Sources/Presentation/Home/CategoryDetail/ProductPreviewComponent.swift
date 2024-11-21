@@ -31,7 +31,8 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     name: data.name,
                     brand: data.d2Category,
                     star: 0.0,
-                    reviewCnt: 0
+                    reviewCnt: 0,
+                    photoWidth: 150
                 )
             } else if let data = data as? HomeCafeResult {
                 infoView(
@@ -39,7 +40,8 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     name: data.name,
                     brand: data.brand,
                     star: data.review,
-                    reviewCnt: data.reviewCnt
+                    reviewCnt: data.reviewCnt,
+                    photoWidth: 150
                 )
             } else if let data = data as? SimilarProductResult {
                 infoView(
@@ -47,7 +49,8 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     name: data.productName,
                     brand: data.brandName,
                     star: data.rating,
-                    reviewCnt: data.reviewCnt
+                    reviewCnt: data.reviewCnt,
+                    photoWidth: 140
                 )
             } else if let data = data as? FilteredProductResult {
                 infoView(
@@ -55,7 +58,9 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     name: data.productName,
                     brand: data.brandName,
                     star: data.rating,
-                    reviewCnt: data.reviewCnt)
+                    reviewCnt: data.reviewCnt,
+                    photoWidth: photoWidth
+                )
             }
         }
         .onTapGesture {
@@ -64,7 +69,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
     }
     
     @ViewBuilder
-    func infoView(image: String, name: String, brand: String, star: Double, reviewCnt: Int) -> some View {
+    func infoView(image: String, name: String, brand: String, star: Double, reviewCnt: Int, photoWidth: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             KFImage(URL(string: image))
                 .placeholder {
@@ -74,7 +79,6 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                 .resizable()
                 .frame(width: photoWidth, height: photoWidth)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-            
             
             /*
              회색 배경 추가
@@ -92,7 +96,6 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                          .aspectRatio(contentMode: .fit)
                  }
                  .clipShape(RoundedRectangle(cornerRadius: 10))
-             
              */
             VStack(alignment: .leading, spacing: 4) {
                 ZSText(brand, fontType: .body3, color: Color.neutral500)
@@ -115,6 +118,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                 
                 Spacer()
             }
+            .frame(width: photoWidth)
         }
     }
 }

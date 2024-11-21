@@ -51,7 +51,9 @@ struct LoginMainView: View {
                 }
                 .onTapGesture {
                     viewModel.authenticationState = .guest
+                    viewModel.guestLogin = false
                 }
+                .opacity(!viewModel.guestLogin ? 0 : 1)
             }
         }
     }

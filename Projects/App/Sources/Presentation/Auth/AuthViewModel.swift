@@ -41,6 +41,7 @@ class AuthViewModel: ObservableObject {
     @Published var marketingAgreement: Bool = false
     @Published var tokenStatus: Bool = true
     @Published var userInfo: MemberBasicInfoResult?
+    @Published var guestLogin: Bool = true
     
     init (
         accountUseCase: AccountUseCase,
