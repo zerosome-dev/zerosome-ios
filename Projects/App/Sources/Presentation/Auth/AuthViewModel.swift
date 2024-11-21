@@ -173,7 +173,7 @@ class AuthViewModel: ObservableObject {
                 }
             }
         case .countGuest:
-            if guestCount == 3 {
+            if guestCount == 3 && authenticationState == .guest {
                 guestCountAlert = true
                 return
             } else {
