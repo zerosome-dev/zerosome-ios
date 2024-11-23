@@ -37,24 +37,22 @@ extension CategoryViewModel {
     func send(action: Action) {
         switch action {
         case .getCategoryList:
-            categoryUseCase.getCategoryList()
-               .receive(on: DispatchQueue.main)
-               .sink { completion in
-                   switch completion {
-                   case .finished:
-                       break
-                   case .failure(let failure):
-                       debugPrint("Failed action: CategoryList \(failure.localizedDescription)")
+            if categoryList.isEmpty {
+                categoryUseCase.getCategoryList()
+                   .receive(on: DispatchQueue.main)
+                   .sink { completion in
+                       switch completion {
+                       case .finished:
+                           break
+                       case .failure(let failure):
+                           debugPrint("Failed action: CategoryList \(failure.localizedDescription)")
+                       }
+                   } receiveValue: { [weak self] data in
+                       self?.categoryList = data
                    }
-               } receiveValue: { [weak self] data in
-                   self?.categoryList = data
-//                        self?.entireCodeData = data.flatMap { d1CategoryResult in
-//                            d1CategoryResult.d2Category.filter { d2CategoryResult in
-//                                !d2CategoryResult.noOptionYn
-//                            }
-//                        } // [D1CategoryResult]
-               }
-               .store(in: &cancellables)
+                   .store(in: &cancellables)
+            }
+            
         case .tapCategoryTitle(let d1Category):
             self.filteredTitle = d1Category.d1CategoryName
 

@@ -35,11 +35,11 @@ class HomeMainViewModel: ObservableObject {
     @Published var cafeCategoryList: [D2CategoryFilterResult] = []
     @Published var filteredCafe: [HomeCafeResult] = []
     @Published var cafeEntireCode = ""
-   
+    
     func send(action: Action) {
         switch action {
         case .tobeReleased:
-            Task {
+            if tobeReleased.isEmpty {
                 homeUsecase.tobeReleaseProduct()
                     .receive(on: DispatchQueue.main)
                     .sink(receiveCompletion: { completion in
@@ -56,31 +56,39 @@ class HomeMainViewModel: ObservableObject {
             }
             
         case .cafe:
-            homeUsecase.homeCafe()
-                .receive(on: DispatchQueue.main)
-                .flatMap { [weak self] cafeData -> AnyPublisher<[D2CategoryFilterResult], NetworkError> in
-                    self?.homeCafe = cafeData
-                    self?.filteredCafe = cafeData
-                    return self?.filterUsecase
-                        .getD1CategoryList(d1CategoryCode: cafeData.first?.d1CategoryId ?? "")
-                        .eraseToAnyPublisher() ??
-                    Fail(error: NetworkError.response).eraseToAnyPublisher()
-                }
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        debugPrint("🧪🧪 \(error.localizedDescription)")
+            if homeCafe.isEmpty {
+                homeUsecase.homeCafe()
+                    .receive(on: DispatchQueue.main)
+                    .flatMap { [weak self] cafeData -> AnyPublisher<[D2CategoryFilterResult], NetworkError> in
+                        self?.homeCafe = cafeData
+                        self?.filteredCafe = cafeData
+                        return self?.filterUsecase
+                            .getD1CategoryList(d1CategoryCode: cafeData.first?.d1CategoryId ?? "")
+                            .eraseToAnyPublisher() ??
+                        Fail(error: NetworkError.response).eraseToAnyPublisher()
                     }
-                }, receiveValue: { [weak self] categoryData in
-                    self?.cafeCategoryList = categoryData.filter({ !$0.noOptionYn })
-                    self?.cafeEntireCode = categoryData.filter { $0.noOptionYn }
-                        .map { $0.d2CategoryCode }
-                        .joined()
-                })
-                .store(in: &cancellables)
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .finished:
+                            break
+                        case .failure(let error):
+                            debugPrint("🧪🧪 \(error.localizedDescription)")
+                        }
+                    }, receiveValue: { [weak self] categoryData in
+                        self?.cafeCategoryList = categoryData.filter({ !$0.noOptionYn })
+                        self?.cafeEntireCode = categoryData.filter { $0.noOptionYn }
+                            .map { $0.d2CategoryCode }
+                            .joined()
+                        
+                        if let tapped = self?.cafeCategoryList.first?.d2CategoryName, let total = self?.homeCafe {
+                            self?.tappedCafeCategory = tapped
+                            //viewModel.filteredCafe = viewModel.homeCafe.filter({ $0.brand == viewModel.tappedCafeCategory })
+                            self?.filteredCafe = total.filter({ $0.brand == tapped })
+                        }
+                    })
+                    .store(in: &cancellables)
+            }
         }
     }
     

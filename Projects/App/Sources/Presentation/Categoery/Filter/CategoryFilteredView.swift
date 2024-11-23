@@ -33,56 +33,60 @@ struct CategoryFilteredView: View {
 //    }
     
     var body: some View {
-        ScrollView {
-            VStack {
-                CategoryListView(viewModel: viewModel)
-                    .padding(.horizontal, 22)
-                    .padding(.bottom, 8)
-                DivideRectangle(height: 1, color: Color.neutral100)
-                
-                HStack {
-                    ZSText("\(viewModel.productList.count)개의 상품", fontType: .body3, color: Color.neutral900)
-                    Spacer()
-                    HStack(spacing: 2) {
-                        Text("\(viewModel.update.rawValue)")
-                        ZerosomeAsset.ic_arrow_bottom
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                    }
-                    .onTapGesture {
-                        viewModel.updateToggle.toggle()
-                    }
-                }
-                .applyFont(font: .body3)
-                .padding(.horizontal, 22)
-                
-                if viewModel.productList.isEmpty {
-                    NoneFilterResultView()
-                } else {
-                    LazyVGrid(columns: columns) {
-                        ForEach(viewModel.productList, id: \.id) { product in
-                            ProductPreviewComponent(data: product)
-                                .tap {
-                                    let categoryName = viewModel.tappedD2CategoryChips?.name ?? ""
-                                    router.navigateTo(.detailMainView(product.productId, categoryName))
-                                    LogAnalytics.logProductD1Category(d1Category: navigationTtile)
-                                    LogAnalytics.logProductD2Category(d2Category: categoryName)
-                                }
+        GeometryReader{ geo in
+            ScrollView {
+                VStack {
+                    CategoryListView(viewModel: viewModel)
+                        .padding(.horizontal, 22)
+                        .padding(.bottom, 8)
+                    DivideRectangle(height: 1, color: Color.neutral100)
+                    
+                    HStack {
+                        ZSText("\(viewModel.productList.count)개의 상품", fontType: .body3, color: Color.neutral900)
+                        Spacer()
+                        HStack(spacing: 2) {
+                            Text("\(viewModel.update.rawValue)")
+                            ZerosomeAsset.ic_arrow_bottom
+                                .resizable()
+                                .frame(width: 16, height: 16)
                         }
-                        
-                        if viewModel.isLoading {
-                            ProgressView()
-                                .padding()
-                        } else if viewModel.hasMoreProducts {
-                            Color.clear
-                                .onAppear {
-                                    viewModel.send(action: .getFilterResult)
-                                }
+                        .onTapGesture {
+                            viewModel.updateToggle.toggle()
                         }
                     }
+                    .applyFont(font: .body3)
                     .padding(.horizontal, 22)
+                    
+                    if viewModel.productList.isEmpty {
+                        NoneFilterResultView()
+                            .frame(height: max(geo.size.height - 153, 0))
+                    } else {
+                        LazyVGrid(columns: columns) {
+                            ForEach(viewModel.productList, id: \.id) { product in
+                                ProductPreviewComponent(data: product)
+                                    .tap {
+                                        let categoryName = viewModel.tappedD2CategoryChips?.name ?? ""
+                                        router.navigateTo(.detailMainView(product.productId, categoryName))
+                                        LogAnalytics.logProductD1Category(d1Category: navigationTtile)
+                                        LogAnalytics.logProductD2Category(d2Category: categoryName)
+                                    }
+                            }
+                            
+                            if viewModel.isLoading {
+                                ProgressView()
+                                    .padding()
+                            } else if viewModel.hasMoreProducts {
+                                Color.clear
+                                    .onAppear {
+                                        viewModel.send(action: .getFilterResult)
+                                    }
+                            }
+                        }
+                        .padding(.horizontal, 22)
+                    }
                 }
             }
+            .scrollIndicators(.hidden)
         }
         .onAppear {
             if viewModel.productList.isEmpty {
@@ -103,7 +107,6 @@ struct CategoryFilteredView: View {
         .ZSNavigationBackButtonTitle(self.navigationTtile) {
             router.navigateBack()
         }
-        .scrollIndicators(.hidden)
     }
 }
 

@@ -52,12 +52,16 @@ struct ReviewListView: View {
                             ZSText(review.reviewContents, fontType: .body2, color: Color.neutral700)
                                 .lineLimit(review.more ? nil : 3)
                                 .padding(.vertical, 12)
-
-                            ZSText(review.more ? "접기" : "더보기", fontType: .body2, color: Color.neutral700)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .onTapGesture {
-                                    review.more.toggle()
-                                }
+                               
+                            if review.reviewContents.count > 80 {
+                                ZSText(review.more ? "접기" : "더보기", fontType: .body2, color: Color.neutral700)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .onTapGesture {
+                                        review.more.toggle()
+                                    }
+                            } else {
+                                EmptyView()
+                            }
                             
                             ZSText("신고", fontType: .body3, color: Color.neutral300)
                                 .onTapGesture {
@@ -87,6 +91,7 @@ struct ReviewListView: View {
                     }
                 }
                 .zIndex(1)
+                .padding(.bottom, 40)
             }
         }
         .onAppear {

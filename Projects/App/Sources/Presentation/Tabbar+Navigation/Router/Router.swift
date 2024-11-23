@@ -31,7 +31,7 @@ final class Router: ObservableObject {
     @ViewBuilder func view(for route: Route, with apiService: ApiService, toast: ToastAction, auth: AuthViewModel) -> some View {
         switch route {
         case .tabView:
-            TabbarMainView(apiService: apiService)
+            TabbarRefactorView(apiService: apiService)
             
         case .tobeReleasedProduct(let releasedArray, let title, let subTitle):
             TobeReleasedProductView(title: title, subTitle: subTitle, data: releasedArray)

@@ -12,10 +12,11 @@ import FirebaseAnalytics
 
 struct CategoryMainView: View {
     @EnvironmentObject var router: Router
-    @ObservedObject var viewModel: CategoryViewModel
+    @StateObject var viewModel: CategoryViewModel
     
     var body: some View {
         ScrollView {
+            Spacer().frame(height: 20)
             ForEach(viewModel.categoryList, id: \.id) { d1Category in
                 CategoryItemGridComponent(
                     tapD2Category: $viewModel.tapD2Category,

@@ -29,6 +29,7 @@ class AuthViewModel: ObservableObject {
         case kakaoSignIn
         case appleSignIn
         case checkToken
+        case countGuest
     }
     
     private let accountUseCase: AccountUseCase
@@ -41,6 +42,9 @@ class AuthViewModel: ObservableObject {
     @Published var marketingAgreement: Bool = false
     @Published var tokenStatus: Bool = true
     @Published var userInfo: MemberBasicInfoResult?
+    @Published var guestLogin: Bool = true
+    @Published var guestCount: Int = 0
+    @Published var guestCountAlert: Bool = false
     
     init (
         accountUseCase: AccountUseCase,
@@ -58,6 +62,7 @@ class AuthViewModel: ObservableObject {
                 accountUseCase.checkUserToken()
                     .receive(on: DispatchQueue.main)
                     .flatMap { value -> AnyPublisher<TokenResponseResult, NetworkError> in
+                        print("value \(value)")
                         self.userInfo = value
                         self.tokenStatus = true
                         
@@ -157,7 +162,15 @@ class AuthViewModel: ObservableObject {
                     debugPrint("🔴🍎🔴 애플 토큰 실패 \(failure.localizedDescription) 🔴🍎🔴")
                 }
             }
+        case .countGuest:
+            if guestCount == 3 && authenticationState == .guest {
+                guestCountAlert = true
+                return
+            } else {
+                self.guestCount += 1
+            }
         }
+    
     }
 }
 

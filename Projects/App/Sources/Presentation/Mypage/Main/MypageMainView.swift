@@ -14,7 +14,7 @@ struct MypageMainView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var popup: PopupAction
     @EnvironmentObject var toast: ToastAction
-    @ObservedObject var viewModel: MypageViewModel
+    @StateObject var viewModel: MypageViewModel
     
     var body: some View {
         if authViewModel.authenticationState == .guest {
@@ -66,7 +66,6 @@ struct MypageMainView: View {
                             if result {
                                 withAnimation(.easeInOut) {
                                     authViewModel.authenticationState = .initial
-                                    AccountStorage.shared.reset()
                                 }
                             }
                         }
@@ -132,7 +131,7 @@ enum Service: String, CaseIterable {
         case .personalInfo:
             return "https://zerosome.imweb.me/19"
         case .appVersion:
-            return "1.0.2"
+            return "1.0.3"
         }
     }
 }
