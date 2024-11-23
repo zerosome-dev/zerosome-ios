@@ -42,7 +42,11 @@ public struct ZeroAlertViewModifier: ViewModifier {
                 Color.black.opacity(0.36)
                     .ignoresSafeArea()
                     .onTapGesture {
-                        isShowing = false
+                        if case .contentSButton(title: "더 많은 콘텐츠가 기다리고 있어요", LButton: "회원가입/로그인", content: "로그인 후 모든 기능을 이용해 보세요!") = type {
+                            return
+                        } else {
+                            isShowing = false
+                        }
                     }
                 
                 switch type {

@@ -98,22 +98,36 @@ struct DetailMainView: View {
             viewModel.productId = productId
             viewModel.send(action: .fetchData)
             viewModel.navigationTitle = self.navigationTitle
+            authViewModel.send(action: .countGuest)
         }
         .ZSNavigationBackButtonTitle(self.navigationTitle) {
             router.navigateBack()
         }
         .scrollIndicators(.hidden)
         .ZAlert(
-            isShowing: $viewModel.guestToggle,
+            isShowing: $authViewModel.guestCountAlert,
             type: .contentSButton(
                 title: "더 많은 콘텐츠가 기다리고 있어요",
                 LButton: "회원가입/로그인",
-                content: "로그인 후 모든 기능으르 이용해 보세요!"
-            ), leftAction:  {
-                viewModel.guestToggle = false
+                content: "로그인 후 모든 기능을 이용해 보세요!"),
+            leftAction: {
+                authViewModel.guestCountAlert = false
                 router.popToRoot()
                 authViewModel.authenticationState = .initial
             })
+        .ZAlert(
+            isShowing: $viewModel.guestToggle,
+            type: .doubleButton(
+                title: "리뷰 작성은 로그인이 필요해요.\n로그인 하시겠어요?",
+                LButton: "닫기",
+                RButton: "로그인하기"
+            ), leftAction: {
+                viewModel.guestToggle = false
+            }) {
+                viewModel.guestToggle = false
+                router.popToRoot()
+                authViewModel.authenticationState = .initial
+            }
     }
     
     @ViewBuilder

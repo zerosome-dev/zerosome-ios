@@ -12,7 +12,7 @@ import DesignSystem
 struct ZeroTagBottomSheet: View {
     @ObservedObject var viewModel: CategoryFilteredViewModel
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("제로태그")
                 .applyFont(font: .heading2)
                 .frame(maxWidth: .infinity, alignment: .leading)

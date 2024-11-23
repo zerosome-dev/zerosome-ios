@@ -82,7 +82,7 @@ public struct CarouselNextView<Data: Identifiable, Content: View, LastContent: V
                                     let swipeThreshold: CGFloat = velocityX > 1000 ? 20 : 50 // 속도에 따라 조건 조절
                                     
                                     if offsetX < -swipeThreshold {
-                                        currentIndex = min(currentIndex + 1, CGFloat(data.count))
+                                        currentIndex = min(currentIndex + 1, CGFloat(data.count-1))
                                     } else if offsetX > swipeThreshold {
                                         currentIndex = max(currentIndex - 1, 0)
                                     }

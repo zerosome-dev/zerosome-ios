@@ -141,8 +141,9 @@ final class AccountRepository: AccountRepositoryProtocol {
         return Future { promise in
             Task {
                 let response: Result<TokenResponseDTO, NetworkError> = await self.apiService.request(
-                    httpMethod: .post, endPoint: APIEndPoint.url(for: .refreshToken),
-                    header: AccountStorage.shared.accessToken
+                    httpMethod: .post,
+                    endPoint: APIEndPoint.url(for: .refreshToken),
+                    header: AccountStorage.shared.refreshToken
                 )
                 
                 switch response {

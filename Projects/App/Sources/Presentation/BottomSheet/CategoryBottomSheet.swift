@@ -17,7 +17,7 @@ struct CategoryBottomSheet: View {
     let size = (UIScreen.main.bounds.width - (17 * 3) - 44) / 4
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text(viewModel.navigationTitle)
                 .applyFont(font: .heading2)
                 .frame(maxWidth: .infinity, alignment: .leading)
