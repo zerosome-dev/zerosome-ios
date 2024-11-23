@@ -35,7 +35,7 @@ public struct NutrientsBottomSheet: View {
     @StateObject var nutrientsModel = NutrientsViewModel()
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             CommonTitle(
                 title: "제품 영양 정보",
                 type: .image,

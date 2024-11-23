@@ -7,16 +7,16 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct BrandBottomSheet: View {
     @ObservedObject var viewModel: CategoryFilteredViewModel
     
     var body: some View {
-        VStack {
-            Text("브랜드")
-                .applyFont(font: .heading2)
+        VStack(spacing: 0) {
+            ZSText("브랜드", fontType: .heading2, color: .neutral900)
+                .padding(.vertical, 24)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical ,24)
             
             ScrollView {
                 ChipsContainerView(
@@ -42,10 +42,13 @@ struct BrandBottomSheet: View {
                     viewModel.sheetToggle = nil
                 }
         }
+        .onAppear {
+            viewModel.send(action: .getBrandList)
+        }
         .padding(.horizontal, 24)
     }
 }
 
-//#Preview {
-//    BrandBottomSheet(viewModel: CategoryFilteredViewModel(categoryUseCase: CategoryUsecase(categoryRepoProtocol: CategoryListRepository(apiService: ApiService()))))
-//}
+#Preview {
+    BrandBottomSheet(viewModel: CategoryFilteredViewModel(initD2CategoryCode: "CTG001001", initD1CategoryCode: "CTG001", filterUsecase: FilterUsecase(filterRepoProtocol: FilterRepository(apiService: ApiService()))))
+}
