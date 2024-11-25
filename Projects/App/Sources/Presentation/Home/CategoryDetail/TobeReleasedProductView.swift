@@ -70,13 +70,12 @@ struct TobeReleasedProductView: View {
                                             .background(Color.neutral50)
                                             .clipShape(RoundedRectangle(cornerRadius: 4))
                                     }
-                                }
-                                
+                                }   
                                 Spacer()
                             }
-                            .onTapGesture {
-                                router.navigateTo(.detailMainView(data.id, title))
-                            }
+                        }
+                        .onTapGesture {
+                            router.navigateTo(.detailMainView(data.id, title))
                         }
                     }
                 }
