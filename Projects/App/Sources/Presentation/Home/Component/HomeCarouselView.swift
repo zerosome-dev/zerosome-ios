@@ -59,15 +59,14 @@ struct ReviewCarouselView: View {
                         VStack(spacing: 16) {
                             HStack {
                                 HStack(spacing: 4) {
-                                    StarComponent(
+                                    RoundedStarComponent(
                                         rating: data.rating,
                                         size: 16
                                     )
                                     ZSText("\(data.rating)", fontType: .body3, color: Color.neutral700)
                                 }
-                                Spacer()
                                 ZSText(data.regDate, fontType: .body4, color: Color.neutral400)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
                             }
                             ZSText(data.reviewContents, fontType: .body2, color: Color.neutral700)
                                 .frame(maxWidth: .infinity, alignment: .leading)

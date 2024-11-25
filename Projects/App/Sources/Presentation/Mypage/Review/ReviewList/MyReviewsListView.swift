@@ -85,7 +85,7 @@ struct MyReviewsListView: View {
                 Spacer()
                 
                 HStack(spacing: 4) {
-                    StarComponent(rating: data.rating, size: 16)
+                    RoundedStarComponent(rating: data.rating, size: 16)
                     ZSText("\(data.rating)", fontType: .subtitle2, color: Color.neutral700)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

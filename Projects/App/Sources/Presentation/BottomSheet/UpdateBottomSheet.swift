@@ -39,7 +39,7 @@ struct UpdateBottomSheet: View {
         VStack {
             ForEach(Update.allCases, id: \.self) { value in
                 HStack(spacing: 2) {
-                    Text(value.rawValue)
+                    ZSText(value.rawValue, fontType: .subtitle2, color: viewModel.update == value ? .neutral900 : .neutral500)
                     ZerosomeAsset.ic_check_black
                         .resizable()
                         .frame(width: 24, height: 24)

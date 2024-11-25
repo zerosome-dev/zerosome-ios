@@ -107,7 +107,7 @@ struct ProductPreviewComponent<T: Identifiable>: View {
                     .lineLimit(2)
                 
                 HStack(spacing: 2) {
-                    ZerosomeAsset.ic_star_fill
+                    ZerosomeAsset.ic_roundedStar_fill
                         .resizable()
                         .frame(width: 16, height: 16)
                     Text(String(format: "%.1f", star))

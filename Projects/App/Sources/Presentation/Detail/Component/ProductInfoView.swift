@@ -21,7 +21,7 @@ struct ProductInfoView: View {
             DivideRectangle(height: 1, color: Color.neutral100)
             
             HStack(spacing: 6) {
-                StarComponent(rating: viewModel.dataInfo?.rating ?? 0.0, size: 16)
+                RoundedStarComponent(rating: viewModel.dataInfo?.rating ?? 0.0, size: 16)
                 ZSText(String(format: "%.1f", viewModel.dataInfo?.rating ?? 0.0), fontType: .subtitle1, color: Color.neutral900)
                 
                 Rectangle()
