@@ -120,6 +120,8 @@ class AuthViewModel: ObservableObject {
                             return
                         } else {
                             debugPrint("🟡 로그인 함수만 성공 > 비회원 > 회원가입 진행 🟡")
+                            AccountStorage.shared.accessToken = success.token?.accessToken
+                            AccountStorage.shared.refreshToken = success.token?.refreshToken
                             self.authenticationState = .term
                         }
                     case .failure(let failure):
@@ -153,6 +155,8 @@ class AuthViewModel: ObservableObject {
                             return
                         } else {
                             debugPrint("🍏🔴 로그인 함수만 성공 > 비회원 > 회원가입 진행 🍏🔴")
+                            AccountStorage.shared.accessToken = success.token?.accessToken
+                            AccountStorage.shared.refreshToken = success.token?.refreshToken
                             self.authenticationState = .term
                         }
                     case .failure(let failure):

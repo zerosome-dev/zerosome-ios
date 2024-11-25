@@ -17,7 +17,7 @@ struct SocialUsecase {
         
         switch repository {
         case .success(let success):
-//            AccountStorage.shared.kakaoToken = success
+            AccountStorage.shared.kakaoToken = success
             return .success(success)
         case .failure(let failure):
             debugPrint("카카오 토큰 가져오기 실패 \(failure.localizedDescription)")
@@ -31,7 +31,7 @@ struct SocialUsecase {
         
         switch repository {
         case .success(let success):
-//            AccountStorage.shared.appleToken = success
+            AccountStorage.shared.appleToken = success
             return .success(success)
         case .failure(let failure):
             debugPrint("애플 토큰 가져오기 실패 \(failure.localizedDescription)")
