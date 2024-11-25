@@ -92,7 +92,7 @@ struct DetailMainView: View {
                     }
                 }
             }
-            .padding(.bottom, 52)
+            .padding(.bottom, 70)
         }
         .onAppear {
             viewModel.productId = productId
@@ -162,7 +162,7 @@ struct DetailMainView: View {
     }
 }
 
-//#Preview {
-//    DetailMainView(navigationTitle: "음료", productId: 217, viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
-//        .environmentObject(ToastAction())
-//}
+#Preview {
+    DetailMainView(navigationTitle: "음료", productId: 217, viewModel: DetailMainViewModel(detailUseCase: DetailUsecase(detailRepoProtocol: DetailRepository(apiService: ApiService()))))
+        .environmentObject(ToastAction())
+}

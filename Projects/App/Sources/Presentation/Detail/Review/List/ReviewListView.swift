@@ -45,7 +45,7 @@ struct ReviewListView: View {
                             }
                             
                             HStack(spacing: 4) {
-                                StarComponent(rating: review.rating, size: 16)
+                                RoundedStarComponent(rating: review.rating, size: 16)
                                 ZSText("\(review.rating)", fontType: .label1)
                             }
                             
@@ -145,24 +145,13 @@ struct ReviewListView: View {
     private func totalStarView() -> some View {
         VStack(spacing:2) {
             ZSText(String(format: "%.1f", viewModel.averageReview ?? 0.0), fontType: .heading1)
-            StarComponent(rating: viewModel.averageReview, size: 16)
+            RoundedStarComponent(rating: viewModel.averageReview, size: 18)
         }
         .padding(.vertical, 38)
         .frame(maxWidth: .infinity)
         .background(Color.neutral50)
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .padding(.init(top: 10, leading: 22, bottom: 30, trailing: 22))
-    }
-    
-    @ViewBuilder
-    private func itemStarView(rating: Binding<Double>) -> some View {
-        HStack(spacing: 0) {
-            ForEach(0..<5, id: \.self) { index in
-                (index < Int(round(rating.wrappedValue)) ? ZerosomeAsset.ic_star_fill : ZerosomeAsset.ic_star_empty)
-                    .resizable()
-                    .frame(width: 16, height: 16)
-            }
-        }
     }
 }
 

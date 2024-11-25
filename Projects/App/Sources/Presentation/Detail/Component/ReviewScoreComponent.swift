@@ -21,7 +21,7 @@ struct ReviewScoreComponent: View {
             Text(String(format: "%.1f", review))
                 .applyFont(font: font)
 
-            StarComponent(rating: review, size: 16)
+            RoundedStarComponent(rating: review, size: 16)
         }
         .padding(.vertical, heightPadding)
         .frame(maxWidth: .infinity)

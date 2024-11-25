@@ -12,6 +12,8 @@ public struct ZerosomeAsset {
     // start
     public static let ic_star_fill = DesignSystemAsset.Assets.icStarFill.swiftUIImage
     public static let ic_star_empty = DesignSystemAsset.Assets.icStarEmpty.swiftUIImage
+    public static let ic_roundedStar_fill = DesignSystemAsset.Assets.icRoundedStarFill.swiftUIImage
+    public static let ic_roundedStar_empty = DesignSystemAsset.Assets.icRoundedStarEmpty.swiftUIImage
     
     // system
     public static let zero_progress = DesignSystemAsset.Assets.progressGray.swiftUIImage

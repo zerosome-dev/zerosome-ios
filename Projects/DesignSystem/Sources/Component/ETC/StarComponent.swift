@@ -8,7 +8,31 @@
 
 import SwiftUI
 
-public struct StarComponent: View {
+//public struct StarComponent: View {
+//    public let rating: Double
+//    public let size: CGFloat
+//
+//    public init(
+//        rating: Double?,
+//        size: CGFloat
+//    ) {
+//        self.rating = rating ?? 0.0
+//        self.size = size
+//    }
+//    
+//    public var body: some View {
+//        HStack(spacing: 0) {
+//            let roundedRating = Int(round(rating))
+//            ForEach(0..<5, id: \.self) { index in
+//                (index < max(0, min(5, roundedRating)) ? ZerosomeAsset.ic_roundedStar_fill : ZerosomeAsset.ic_roundedStar_empty)
+//                    .resizable()
+//                    .frame(width: size, height: size)
+//            }
+//        }
+//    }
+//}
+
+public struct RoundedStarComponent: View {
     public let rating: Double
     public let size: CGFloat
 
@@ -24,7 +48,7 @@ public struct StarComponent: View {
         HStack(spacing: 0) {
             let roundedRating = Int(round(rating))
             ForEach(0..<5, id: \.self) { index in
-                (index < max(0, min(5, roundedRating)) ? ZerosomeAsset.ic_star_fill : ZerosomeAsset.ic_star_empty)
+                (index < max(0, min(5, roundedRating)) ? ZerosomeAsset.ic_roundedStar_fill : ZerosomeAsset.ic_roundedStar_empty)
                     .resizable()
                     .frame(width: size, height: size)
             }

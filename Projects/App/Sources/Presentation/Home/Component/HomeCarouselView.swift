@@ -59,7 +59,7 @@ struct ReviewCarouselView: View {
                         VStack(spacing: 16) {
                             HStack {
                                 HStack(spacing: 4) {
-                                    StarComponent(
+                                    RoundedStarComponent(
                                         rating: data.rating,
                                         size: 16
                                     )

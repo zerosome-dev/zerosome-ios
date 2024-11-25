@@ -29,7 +29,8 @@ struct UserInfoView: View {
     var body: some View {
         VStack(spacing: 30) {
             HStack {
-                ZSText(authViewModel.userInfo?.nickname ?? viewModel.userInfo.nickname, fontType: .subtitle1)
+                ZSText(viewModel.userInfo.nickname, fontType: .subtitle1)
+//                ZSText(authViewModel.userInfo?.nickname ?? viewModel.userInfo.nickname, fontType: .subtitle1)
                 Spacer()
                 ZSText("닉네임 변경", fontType: .body3, color: Color.neutral600)
                     .padding(.init(top: 6,leading: 10, bottom: 6, trailing: 10))
@@ -40,7 +41,7 @@ struct UserInfoView: View {
                     }
             }
             
-            let reviewCnt = authViewModel.userInfo?.reviewCnt ?? viewModel.userInfo.reviewCnt
+            let reviewCnt = viewModel.userInfo.reviewCnt //authViewModel.userInfo?.reviewCnt ?? viewModel.userInfo.reviewCnt
             ZSText((reviewCnt == 0
                     ? "아직 작성한 리뷰가 없어요"
                     : "작성한 리뷰 (\(reviewCnt))"),
