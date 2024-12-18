@@ -62,7 +62,7 @@ public extension Target {
             }
         }
         
-        let bundleID: String = "com.\(name).\(organizationName)"
+        let bundleID: String = "com.App.\(organizationName)"
         
         // 메인 타겟
         let mainTarget = Target(name: name,
