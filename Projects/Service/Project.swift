@@ -6,7 +6,7 @@
 //
 
 // MARK: - Service
-import ProjectDescription
+@preconcurrency import ProjectDescription
 import ProjectDescriptionHelpers
 
 let serviceTarget = Target.makeTarget(

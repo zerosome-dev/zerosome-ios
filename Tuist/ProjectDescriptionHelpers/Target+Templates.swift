@@ -31,10 +31,11 @@ public extension Target {
             /// entitlements 추가 시 해당 주석 지우고 generate 해주세요.
               entitlements = "\(name).entitlements"
             // 빌드 세팅 (xcconfig 있을경우)
-            setting = Settings.settings(configurations: [
-                .debug(name: "Debug", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
-                .release(name: "Release", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
-            ], defaultSettings: .recommended)
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
+                                        configurations: [
+                                            .debug(name: "Debug", xcconfig: .relativeToRoot("Projects/Zerosome-iOS/Resources/Config/Secrets.xcconfig")),
+                                            .release(name: "Release", xcconfig: .relativeToRoot("Projects/Zerosome-iOS/Resources/Config/Secrets.xcconfig")),
+                                        ], defaultSettings: .recommended)
         } else {
             // 빌드 세팅 (기본)
             setting = .settings(base: [:],

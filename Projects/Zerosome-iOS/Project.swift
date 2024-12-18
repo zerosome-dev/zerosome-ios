@@ -6,11 +6,11 @@
 //
 
 // MARK: - APP
-import ProjectDescription
+@preconcurrency import ProjectDescription
 import ProjectDescriptionHelpers
 
 let appTarget = Target.makeTarget(
-    name: "App",
+    name: "Zerosome-iOS",
     platform: .iOS,
     product: .app,
     organizationName: "zerosome-ios",
@@ -28,7 +28,7 @@ let appTarget = Target.makeTarget(
     hasTest: true)
 
 let appProject = Project.makeProject(
-    name: "App",
+    name: "Zerosome-iOS",
     targets: appTarget,
     isXconfigSet: true)
 

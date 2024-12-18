@@ -6,7 +6,7 @@
 //
 
 // MARK: - DesignSystem
-import ProjectDescription
+@preconcurrency import ProjectDescription
 import ProjectDescriptionHelpers
 
 let designSystemTarget = Target.makeTarget(

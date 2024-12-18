@@ -6,7 +6,7 @@
 //
 
 // MARK: - SPM
-import ProjectDescription
+@preconcurrency import ProjectDescription
 import ProjectDescriptionHelpers
 
 let spmTarget = Target.makeTarget(

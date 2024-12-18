@@ -6,7 +6,7 @@
 //
 
 // MARK: - Feature
-import ProjectDescription
+@preconcurrency import ProjectDescription
 import ProjectDescriptionHelpers
 
 let featureTarget = Target.makeTarget(
