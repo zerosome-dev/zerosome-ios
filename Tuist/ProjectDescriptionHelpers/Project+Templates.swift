@@ -25,8 +25,8 @@ public extension Project {
         if isProductApp, isXconfigSet {
             setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
                                         configurations: [
-                                            .debug(name: "Debug", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
-                                            .release(name: "Release", xcconfig: .relativeToRoot("Projects/App/Resources/Config/Secrets.xcconfig")),
+                                            .debug(name: "Debug", xcconfig: .relativeToRoot("Projects/Zerosome-iOS/Resources/Config/Secrets.xcconfig")),
+                                            .release(name: "Release", xcconfig: .relativeToRoot("Projects/Zerosome-iOS/Resources/Config/Secrets.xcconfig")),
                                         ], defaultSettings: .recommended)
         } else {
             setting = .settings(base: [:],
